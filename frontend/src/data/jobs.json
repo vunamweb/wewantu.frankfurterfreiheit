@@ -1,0 +1,442 @@
+[
+ {
+   "JOB_ID": "10001",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Mitte",
+   "CATEGORY": "A",
+   "REQUESTED": "14",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10002",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Pankow",
+   "CATEGORY": "D",
+   "REQUESTED": "20",
+   "MESSAGES": "3",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10003",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Neuköln",
+   "CATEGORY": "C",
+   "REQUESTED": "41",
+   "MESSAGES": "4",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10004",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Spandau",
+   "CATEGORY": "B",
+   "REQUESTED": "12",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10005",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Charlottenburg",
+   "CATEGORY": "A",
+   "REQUESTED": "9",
+   "MESSAGES": "5",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10001",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Mitte",
+   "CATEGORY": "A",
+   "REQUESTED": "14",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10002",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Pankow",
+   "CATEGORY": "D",
+   "REQUESTED": "20",
+   "MESSAGES": "3",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10003",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Neuköln",
+   "CATEGORY": "C",
+   "REQUESTED": "41",
+   "MESSAGES": "4",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10004",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Spandau",
+   "CATEGORY": "B",
+   "REQUESTED": "12",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10005",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Charlottenburg",
+   "CATEGORY": "A",
+   "REQUESTED": "9",
+   "MESSAGES": "5",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10001",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Mitte",
+   "CATEGORY": "A",
+   "REQUESTED": "14",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10002",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Pankow",
+   "CATEGORY": "D",
+   "REQUESTED": "20",
+   "MESSAGES": "3",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10003",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Neuköln",
+   "CATEGORY": "C",
+   "REQUESTED": "41",
+   "MESSAGES": "4",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10004",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Spandau",
+   "CATEGORY": "B",
+   "REQUESTED": "12",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10005",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Charlottenburg",
+   "CATEGORY": "A",
+   "REQUESTED": "9",
+   "MESSAGES": "5",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10001",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Mitte",
+   "CATEGORY": "A",
+   "REQUESTED": "14",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10002",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Pankow",
+   "CATEGORY": "D",
+   "REQUESTED": "20",
+   "MESSAGES": "3",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10003",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Neuköln",
+   "CATEGORY": "C",
+   "REQUESTED": "41",
+   "MESSAGES": "4",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10004",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Spandau",
+   "CATEGORY": "B",
+   "REQUESTED": "12",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10005",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Charlottenburg",
+   "CATEGORY": "A",
+   "REQUESTED": "9",
+   "MESSAGES": "5",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10001",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Mitte",
+   "CATEGORY": "A",
+   "REQUESTED": "14",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10002",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Pankow",
+   "CATEGORY": "D",
+   "REQUESTED": "20",
+   "MESSAGES": "3",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10003",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Neuköln",
+   "CATEGORY": "C",
+   "REQUESTED": "41",
+   "MESSAGES": "4",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10004",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Spandau",
+   "CATEGORY": "B",
+   "REQUESTED": "12",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10005",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Charlottenburg",
+   "CATEGORY": "A",
+   "REQUESTED": "9",
+   "MESSAGES": "5",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10001",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Mitte",
+   "CATEGORY": "A",
+   "REQUESTED": "14",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10002",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Pankow",
+   "CATEGORY": "D",
+   "REQUESTED": "20",
+   "MESSAGES": "3",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10003",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Neuköln",
+   "CATEGORY": "C",
+   "REQUESTED": "41",
+   "MESSAGES": "4",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10004",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Spandau",
+   "CATEGORY": "B",
+   "REQUESTED": "12",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10005",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Charlottenburg",
+   "CATEGORY": "A",
+   "REQUESTED": "9",
+   "MESSAGES": "5",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10001",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Mitte",
+   "CATEGORY": "A",
+   "REQUESTED": "14",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10002",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Pankow",
+   "CATEGORY": "D",
+   "REQUESTED": "20",
+   "MESSAGES": "3",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10003",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Neuköln",
+   "CATEGORY": "C",
+   "REQUESTED": "41",
+   "MESSAGES": "4",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10004",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Spandau",
+   "CATEGORY": "B",
+   "REQUESTED": "12",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10005",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Charlottenburg",
+   "CATEGORY": "A",
+   "REQUESTED": "9",
+   "MESSAGES": "5",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10001",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Mitte",
+   "CATEGORY": "A",
+   "REQUESTED": "14",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10002",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Pankow",
+   "CATEGORY": "D",
+   "REQUESTED": "20",
+   "MESSAGES": "3",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10003",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Neuköln",
+   "CATEGORY": "C",
+   "REQUESTED": "41",
+   "MESSAGES": "4",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10004",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Spandau",
+   "CATEGORY": "B",
+   "REQUESTED": "12",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10005",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Charlottenburg",
+   "CATEGORY": "A",
+   "REQUESTED": "9",
+   "MESSAGES": "5",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10001",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Mitte",
+   "CATEGORY": "A",
+   "REQUESTED": "14",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10002",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Pankow",
+   "CATEGORY": "D",
+   "REQUESTED": "20",
+   "MESSAGES": "3",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10003",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Neuköln",
+   "CATEGORY": "C",
+   "REQUESTED": "41",
+   "MESSAGES": "4",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10004",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Spandau",
+   "CATEGORY": "B",
+   "REQUESTED": "12",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10005",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Charlottenburg",
+   "CATEGORY": "A",
+   "REQUESTED": "9",
+   "MESSAGES": "5",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10001",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Mitte",
+   "CATEGORY": "A",
+   "REQUESTED": "14",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10002",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Pankow",
+   "CATEGORY": "D",
+   "REQUESTED": "20",
+   "MESSAGES": "3",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10003",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Neuköln",
+   "CATEGORY": "C",
+   "REQUESTED": "41",
+   "MESSAGES": "4",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10004",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Spandau",
+   "CATEGORY": "B",
+   "REQUESTED": "12",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10005",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Charlottenburg",
+   "CATEGORY": "A",
+   "REQUESTED": "9",
+   "MESSAGES": "5",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10001",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Mitte",
+   "CATEGORY": "A",
+   "REQUESTED": "14",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10002",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Pankow",
+   "CATEGORY": "D",
+   "REQUESTED": "20",
+   "MESSAGES": "3",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10003",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Neuköln",
+   "CATEGORY": "C",
+   "REQUESTED": "41",
+   "MESSAGES": "4",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10004",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Spandau",
+   "CATEGORY": "B",
+   "REQUESTED": "12",
+   "MESSAGES": "0",
+   "EDIT": ""
+ },
+ {
+   "JOB_ID": "10005",
+   "JOB_DESCRIPTION": "Bäckereifachverkäufer/in Berlin Charlottenburg",
+   "CATEGORY": "A",
+   "REQUESTED": "9",
+   "MESSAGES": "5",
+   "EDIT": ""
+ }
+]

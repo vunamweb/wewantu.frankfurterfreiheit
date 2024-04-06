@@ -1,0 +1,11 @@
+<svg id="HOME_Button" data-name="HOME Button" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="31.577" height="35.003" viewBox="0 0 31.577 35.003">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_7" data-name="Rectangle 7" width="31.577" height="35.003" fill="#e4e4e4"/>
+    </clipPath>
+  </defs>
+  <g id="Group_13" data-name="Group 13" clip-path="url(#clip-path)">
+    <path id="Path_21" data-name="Path 21" d="M25.711,14.078,25.094,17a13.185,13.185,0,1,1-3.476-2.489l.5-2.627a15.831,15.831,0,1,0,3.59,2.19" transform="translate(0 -7.132)" fill="#e4e4e4"/>
+    <path id="Path_22" data-name="Path 22" d="M38.622,0l-.951,4.963-.509,2.652-2.23,11.632q-.479,2.265-.587,3.182-.091-.711-.364-2.149t-.537-2.537L32.41,13.171H29.385l-1.066,4.572q-.24.951-.517,2.4t-.385,2.29q-.165-1.19-.612-3.2l-1.314-6.059h-3.15l2.992,12.085h3.861q1.058-4.753,1.2-5.423t.293-1.467q.149-.8.215-1.335.083.661.261,1.645t.26,1.314l1.157,5.266h3.86l3.328-15.78.6-2.867L41.772,0Z" transform="translate(-15.093)" fill="#e4e4e4"/>
+  </g>
+</svg>

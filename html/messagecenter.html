@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DASHBOARD</title>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+	crossorigin="anonymous">
+	<link rel="stylesheet" href="assets/css/style-das.css">
+    <link href="https://fonts.googleapis.com/css?family=Open%20Sans" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/helvetica-neue-55" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+</head>
+<body>
+    
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-wewantu">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 text-white min-vh-100">
+                    <a href="/" class="d-flex align-items-center pb-2 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <span class="fs-5 d-none d-sm-inline">
+                            <div class="row">
+                                <div class="col-md"><a href="/"><img src="assets/img/logo.svg"/></a></div>
+                                <div class="col-md name">WEWANTU</div>
+                            </div>
+                    </a>
+                    <hr>
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                        <li class="nav-item">
+                            <a href="dashboard.html" class="nav-link align-middle px-0">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">CURRENT ENQUIRIES</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="newjob.html" class="nav-link align-middle px-0">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">ADD NEW JOB</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="searchcenter.html" class="nav-link align-middle px-0">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">SEARCH CENTER</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="watchlist.html" class="nav-link align-middle px-0">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">WATCHLIST</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="messagecenter.html" class="nav-link align-middle px-0">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">MASSAGE CENTER</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link align-middle px-0">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">CREDITS</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="home.html#main_contact" class="nav-link align-middle px-0">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">USER ACCOUNT</span>
+                            </a>
+                        </li>
+                        <span class="line"></span>
+                        <li class="nav-item">
+                            <a href="home.html" class="nav-link align-middle px-0">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">WHAT’S WEWANTU</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="home.html" class="nav-link align-middle px-0">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">INVESTOR RELATIONS</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="home.html#main_werist" class="nav-link align-middle px-0">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">THE APP</span>
+                            </a>
+                        </li>
+                        <span class="line"></span>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link align-middle px-0">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">IMPRESSUM</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link align-middle px-0">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">DATENSCHUTZ</span>
+                            </a>
+                        </li>
+                        <hr><hr>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link align-middle px-0">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">© WEWANTU UG</span>
+                            </a>
+                        </li>
+                    </ul>
+                   
+                </div>
+            </div>
+            <div class="col py-3 right">
+                <div class="menu">
+                    <nav class="navbar navbar-expand-sm navbar-light">
+                        <div class="container-fluid ">
+                          <span class="navbar-brand hello">GOOD MORNING MR. WAYNE</span>
+                          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                          </button>
+                          <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto">
+                              <li class="nav-item">
+                                <a class="nav-link" href="#">CONTACT</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="#">LOGOUT</a>
+                              </li>			
+                            </ul>
+                            <div class="lang">
+                                <a href="#" class="active">DE</a>|<a href="#">EN</a>
+                            </div>		  
+                          </div>
+                        </div>
+                      </nav>
+                </div>
+                <div class="main_wewantu">
+                    <div class="container-fluid px-0 wewantu">
+                        <div class="row g-0">
+                            <div class="col-md-5 werist-l"></div>
+                            <div class="col-md-5 werist  center-block text-center">
+                                <div class="title">5 SEARCH QUERIES</div>
+                            </div>
+                            <div class="col-md werist-r"></div>                         
+                        </div>
+                        <div class="row g-0">
+                            <div class="col-md-6 werist-l"></div>
+                            <div class="col-md-3 werist  center-block text-center">
+                                <div class="title">12 MESSAGES</div>
+                            </div>
+                            <div class="col-md werist-r"></div>                         
+                        </div>
+                        <div class="row g-0">
+                            <div class="col-md-8 werist-l"></div>
+                            <div class="col-md-3 werist  center-block text-center">
+                                <div class="title">56 CREDITS</div>
+                            </div>
+                            <div class="col-md werist-r"></div>                         
+                        </div>
+                    </div>
+                </div>
+                <div class="addjob">
+                    <div class="container-fluid px-0">
+                        <div class="row">
+                            <div class="col-md"><a href="/"><img src="assets/img/plus.svg"/><span class="text">ADD NEW JOB</span></a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-mes">
+                    <div class="container-fluid px-0">
+                        <div class="row">
+                            <div class="col-md">
+                                
+                                <nav class="navbar navbar-expand-md navbar-light">
+                                <div class="container-fluid ">
+                                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                  </button>
+                                  
+                                  <div class="title">MASSAGE CENTER</div>
+                                  <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                                    <div class="search-container">
+                                        <form action="/">
+                                            <button type="submit"><i class="fa fa-search"></i></button>
+                                            <input type="text" name="search">
+                                        </form>
+                                    </div>
+                                    <ul class="navbar-nav ms-auto">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">VALUATION</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">KATEGORIE</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">DATE</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">MORE FILTER</a>
+                                        </li>			
+                                    </ul>  
+                                  </div>
+                                </div>
+                              </nav>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container ">
+                        <div class="row content">
+                            <div class="col-md-3 scroller mess-l" >
+                                <ul>
+                                    <li><a class="active">Bäckereifachverkäufer/in Berlin Mitte</a></li>
+                                    <li><a>Bäckereifachverkäufer/in Berlin Mitte</a></li>
+                                    <li><a>Bäckereifachverkäufer/in Berlin Mitte</a></li>
+                                    <li><a>Bäckereifachverkäufer/in Berlin Mitte</a></li>
+                                    <li><a>Bäckereifachverkäufer/in Berlin Mitte</a></li>
+                                    <li><a>Bäckereifachverkäufer/in Berlin Mitte</a></li>
+                                    <li><a>Bäckereifachverkäufer/in Berlin Mitte</a></li>
+                                    <li><a>Bäckereifachverkäufer/in Berlin Mitte</a></li>
+                                    <li><a>Bäckereifachverkäufer/in Berlin Mitte</a></li>
+                                    <li><a>Bäckereifachverkäufer/in Berlin Mitte</a></li>
+                                    <li><a>Bäckereifachverkäufer/in Berlin Mitte</a></li>
+                                    <li><a>Bäckereifachverkäufer/in Berlin Mitte</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4 scroller s-center">
+                                <ul>
+                                    <li>
+                                        <a>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <img src="assets/img/avatar.png" width="99%" class="avatar">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-md-8">ROBERT FOX</div>
+                                                        <div class="col-4">10:30 AM</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-10">Jemand musste Josef K. verleu…</div>
+                                                        <div class="col-2 bookmark-red"><i class="fa fa-bookmark"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <img src="assets/img/avatar.png" width="99%" class="avatar">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-md-8">ROBERT FOX</div>
+                                                        <div class="col-4">10:30 AM</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-10">Jemand musste Josef K. verleu…</div>
+                                                        <div class="col-2 bookmark-orange"><i class="fa fa-bookmark"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <img src="assets/img/avatar.png" width="99%" class="avatar">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-md-8">ROBERT FOX</div>
+                                                        <div class="col-4">10:30 AM</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-10">Jemand musste Josef K. verleu…</div>
+                                                        <div class="col-2 bookmark-green"><i class="fa fa-bookmark"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <img src="assets/img/avatar.png" width="99%" class="avatar">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-md-8">ROBERT FOX</div>
+                                                        <div class="col-4">10:30 AM</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-10">Jemand musste Josef K. verleu…</div>
+                                                        <div class="col-2 bookmark-green"><i class="fa fa-bookmark"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <img src="assets/img/avatar.png" width="99%" class="avatar">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-md-8">ROBERT FOX</div>
+                                                        <div class="col-4">10:30 AM</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-10">Jemand musste Josef K. verleu…</div>
+                                                        <div class="col-2 bookmark-green"><i class="fa fa-bookmark"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <img src="assets/img/avatar.png" width="99%" class="avatar">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-md-8">ROBERT FOX</div>
+                                                        <div class="col-4">10:30 AM</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-10">Jemand musste Josef K. verleu…</div>
+                                                        <div class="col-2 bookmark-green"><i class="fa fa-bookmark"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <img src="assets/img/avatar.png" width="99%" class="avatar">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-md-8">ROBERT FOX</div>
+                                                        <div class="col-4">10:30 AM</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-10">Jemand musste Josef K. verleu…</div>
+                                                        <div class="col-2 bookmark-green"><i class="fa fa-bookmark"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <img src="assets/img/avatar.png" width="99%" class="avatar">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-md-8">ROBERT FOX</div>
+                                                        <div class="col-4">10:30 AM</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-10">Jemand musste Josef K. verleu…</div>
+                                                        <div class="col-2 bookmark-green"><i class="fa fa-bookmark"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <img src="assets/img/avatar.png" width="99%" class="avatar">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-md-8">ROBERT FOX</div>
+                                                        <div class="col-4">10:30 AM</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-10">Jemand musste Josef K. verleu…</div>
+                                                        <div class="col-2 bookmark-green"><i class="fa fa-bookmark"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <img src="assets/img/avatar.png" width="99%" class="avatar">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-md-8">ROBERT FOX</div>
+                                                        <div class="col-4">10:30 AM</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-10">Jemand musste Josef K. verleu…</div>
+                                                        <div class="col-2 bookmark-green"><i class="fa fa-bookmark"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <img src="assets/img/avatar.png" width="99%" class="avatar">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-md-8">ROBERT FOX</div>
+                                                        <div class="col-4">10:30 AM</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-10">Jemand musste Josef K. verleu…</div>
+                                                        <div class="col-2 bookmark-green"><i class="fa fa-bookmark"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <img src="assets/img/avatar.png" width="99%" class="avatar">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-md-8">ROBERT FOX</div>
+                                                        <div class="col-4">10:30 AM</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-10">Jemand musste Josef K. verleu…</div>
+                                                        <div class="col-2 bookmark-green"><i class="fa fa-bookmark"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <img src="assets/img/avatar.png" width="99%" class="avatar">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-md-8">ROBERT FOX</div>
+                                                        <div class="col-4">10:30 AM</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-10">Jemand musste Josef K. verleu…</div>
+                                                        <div class="col-2 bookmark-green"><i class="fa fa-bookmark"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <img src="assets/img/avatar.png" width="99%" class="avatar">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-md-8">ROBERT FOX</div>
+                                                        <div class="col-4">10:30 AM</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-10">Jemand musste Josef K. verleu…</div>
+                                                        <div class="col-2 bookmark-green"><i class="fa fa-bookmark"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <img src="assets/img/avatar.png" width="99%" class="avatar">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-md-8">ROBERT FOX</div>
+                                                        <div class="col-4">10:30 AM</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-10">Jemand musste Josef K. verleu…</div>
+                                                        <div class="col-2 bookmark-green"><i class="fa fa-bookmark"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <img src="assets/img/avatar.png" width="99%" class="avatar">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-md-8">ROBERT FOX</div>
+                                                        <div class="col-4">10:30 AM</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-10">Jemand musste Josef K. verleu…</div>
+                                                        <div class="col-2 bookmark-green"><i class="fa fa-bookmark"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                                
+                            </div>
+                            <div class="col-md scroller rs-right">
+                                <div class="title">Bäckereifachverkäufer/in Berlin Mitte</div>
+                                <!--start content-->
+                                <div class="row content-m">
+                                    <div class="col-md"><b>MONIKA MEYER</b></div>
+                                    <div class="col-md" style="text-align: right;"><b>11/20/23 10:30 AM</b></div>
+                                </div>
+                                <p>
+                                    Dear Mateo,<br><br>
+
+Sounds good! I’ll take the Job! 
+Jemand musste Josef K. verleumdet haben, denn ohne dass er etwas Böses getan hätte, wurde er eines Morgens verhaftet. »Wie ein Hund!« sagte er, es war, als sollte die Scham ihn überleben. Als Gregor Samsa eines Morgens aus unruhigen Träumen erwachte, fand er sich in seinem Bett zu einem ungeheueren Ungeziefer verwandelt. Und es war ihnen wie ihrer Fahrt die Tochter als erste sich erhob und ihren jungen Körper dehnte. 
+
+<br><br>Best regards<br><br>
+Monika Meyer
+                                </p>
+                                <div class="row content-m">
+                                    <div class="col-md"><b>MONIKA MEYER</b></div>
+                                    <div class="col-md" style="text-align: right;"><b>11/20/23 10:30 AM</b></div>
+                                </div>
+                                <p>
+                                    Dear Mateo,<br><br>
+
+Sounds good! I’ll take the Job! 
+Jemand musste Josef K. verleumdet haben, denn ohne dass er etwas Böses getan hätte, wurde er eines Morgens verhaftet. »Wie ein Hund!« sagte er, es war, als sollte die Scham ihn überleben. Als Gregor Samsa eines Morgens aus unruhigen Träumen erwachte, fand er sich in seinem Bett zu einem ungeheueren Ungeziefer verwandelt. Und es war ihnen wie ihrer Fahrt die Tochter als erste sich erhob und ihren jungen Körper dehnte. 
+
+<br><br>Best regards<br><br>
+Monika Meyer
+                                </p>
+                                <div class="row content-m">
+                                    <div class="col-md"><b>MONIKA MEYER</b></div>
+                                    <div class="col-md" style="text-align: right;"><b>11/20/23 10:30 AM</b></div>
+                                </div>
+                                <p>
+                                    Dear Mateo,<br><br>
+
+Sounds good! I’ll take the Job! 
+Jemand musste Josef K. verleumdet haben, denn ohne dass er etwas Böses getan hätte, wurde er eines Morgens verhaftet. »Wie ein Hund!« sagte er, es war, als sollte die Scham ihn überleben. Als Gregor Samsa eines Morgens aus unruhigen Träumen erwachte, fand er sich in seinem Bett zu einem ungeheueren Ungeziefer verwandelt. Und es war ihnen wie ihrer Fahrt die Tochter als erste sich erhob und ihren jungen Körper dehnte. 
+
+<br><br>Best regards<br><br>
+Monika Meyer
+                                </p>
+                                <div class="row content-m">
+                                    <div class="col-md"><b>MONIKA MEYER</b></div>
+                                    <div class="col-md" style="text-align: right;"><b>11/20/23 10:30 AM</b></div>
+                                </div>
+                                <p>
+                                    Dear Mateo,<br><br>
+
+Sounds good! I’ll take the Job! 
+Jemand musste Josef K. verleumdet haben, denn ohne dass er etwas Böses getan hätte, wurde er eines Morgens verhaftet. »Wie ein Hund!« sagte er, es war, als sollte die Scham ihn überleben. Als Gregor Samsa eines Morgens aus unruhigen Träumen erwachte, fand er sich in seinem Bett zu einem ungeheueren Ungeziefer verwandelt. Und es war ihnen wie ihrer Fahrt die Tochter als erste sich erhob und ihren jungen Körper dehnte. 
+
+<br><br>Best regards<br><br>
+Monika Meyer
+                                </p>
+                                <!--start content-->
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+    
+</body>
+</html>

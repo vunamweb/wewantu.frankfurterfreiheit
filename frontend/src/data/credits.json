@@ -1,0 +1,32 @@
+[
+    {
+      "CREDITS_ID": "10001",
+      "AMOUNT": "1",
+      "PRICES": "30",
+      "DISCOUNT": ""
+    },
+    {
+     "CREDITS_ID": "10002",
+     "AMOUNT": "10",
+     "PRICES": "270",
+     "DISCOUNT": "Discount 30$"
+    },
+    {
+     "CREDITS_ID": "10003",
+     "AMOUNT": "20",
+     "PRICES": "540",
+     "DISCOUNT": "Discount 60$"
+   },
+   {
+    "CREDITS_ID": "10004",
+    "AMOUNT": "35",
+    "PRICES": "900",
+    "DISCOUNT": "Discount 150$"
+   },
+   {
+     "CREDITS_ID": "10005",
+     "AMOUNT": "50",
+     "PRICES": "1300",
+     "DISCOUNT": "Discount 200$"
+   }
+   ]

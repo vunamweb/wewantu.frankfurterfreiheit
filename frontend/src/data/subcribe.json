@@ -1,0 +1,20 @@
+[
+    {
+      "SUBCRIBE_ID": "10001",
+      "TYPE": "BASIC",
+      "PRICES": "270",
+      "LEAD": "10"
+    },
+    {
+     "SUBCRIBE_ID": "10002",
+     "TYPE": "PREMIUM",
+     "PRICES": "500",
+     "LEAD": "20"
+    },
+    {
+     "SUBCRIBE_ID": "10003",
+     "TYPE": "EXCLUSIV",
+     "PRICES": "900",
+     "LEAD": "35"
+    }
+]

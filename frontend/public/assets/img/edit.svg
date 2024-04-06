@@ -1,0 +1,14 @@
+<svg id="Group_210" data-name="Group 210" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16.414" height="15.498" viewBox="0 0 16.414 15.498">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_179" data-name="Rectangle 179" width="16.414" height="15.498" fill="#bfbdbd" stroke="#bfbdbd" stroke-width="0.1"/>
+    </clipPath>
+  </defs>
+  <g id="Group_209" data-name="Group 209" clip-path="url(#clip-path)">
+    <path id="Path_232" data-name="Path 232" d="M130.007,13a.446.446,0,0,1-.43-.565l1.044-3.765a1.228,1.228,0,0,1,.314-.539L138.6.471a1.607,1.607,0,0,1,2.273,0l1.222,1.222a1.609,1.609,0,0,1,0,2.273l-7.661,7.661a1.228,1.228,0,0,1-.539.314l-3.765,1.044a.444.444,0,0,1-.119.016M139.733.742A.86.86,0,0,0,139.12,1L131.46,8.656a.485.485,0,0,0-.124.213l-.9,3.262,3.261-.9a.485.485,0,0,0,.213-.124l7.661-7.661a.867.867,0,0,0,0-1.224L140.345,1a.86.86,0,0,0-.612-.254" transform="translate(-126.147 0)" fill="#bfbdbd" stroke="#bfbdbd" stroke-width="0.1"/>
+    <rect id="Rectangle_177" data-name="Rectangle 177" width="0.742" height="4.201" transform="matrix(0.707, -0.707, 0.707, 0.707, 11.305, 2.139)" fill="#bfbdbd" stroke="#bfbdbd" stroke-width="0.1"/>
+    <rect id="Rectangle_178" data-name="Rectangle 178" width="0.742" height="4.201" transform="matrix(0.707, -0.707, 0.707, 0.707, 4.825, 8.619)" fill="#bfbdbd" stroke="#bfbdbd" stroke-width="0.1"/>
+    <path id="Path_233" data-name="Path 233" d="M149.889,415.114,151,416.225l-1.434.534-.105-.105Z" transform="translate(-145.522 -404.176)" fill="#bfbdbd" stroke="#bfbdbd" stroke-width="0.1"/>
+    <path id="Path_234" data-name="Path 234" d="M11.6,94.058H1.768A1.77,1.77,0,0,1,0,92.291V82.454a1.77,1.77,0,0,1,1.768-1.768H8.045v.742H1.768A1.027,1.027,0,0,0,.742,82.454v9.837a1.027,1.027,0,0,0,1.026,1.026H11.6a1.027,1.027,0,0,0,1.026-1.026v-4.5h.742v4.5A1.77,1.77,0,0,1,11.6,94.058" transform="translate(0 -78.56)" fill="#bfbdbd" stroke="#bfbdbd" stroke-width="0.1"/>
+  </g>
+</svg>
