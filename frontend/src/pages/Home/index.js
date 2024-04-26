@@ -254,7 +254,7 @@ function Index(props) {
                                 <div className="row">
                                     <div className="col-md">
                                         <div className="md-form mb-0">
-                                            <input type="text" id="company" name="company" className="form-control" placeholder={t("name_company").toUpperCase()} />
+                                            <input type="text" id="company" name="company" className="form-control" placeholder={t("t_name_company").toUpperCase()} />
                                         </div>
                                     </div>
                                 </div>
@@ -276,7 +276,7 @@ function Index(props) {
                                 <div className="row">
                                     <div className="col-md">
                                         <div className="md-form">
-                                            <textarea type="text" id="messages" name="messages" rows="8" className="form-control md-textarea" placeholder={t("messages").toUpperCase()}></textarea>
+                                            <textarea type="text" id="messages" name="messages" rows="8" className="form-control md-textarea" placeholder={t("t_messages").toUpperCase()}></textarea>
                                         </div>
                                     </div>
                                 </div>

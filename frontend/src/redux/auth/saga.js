@@ -68,12 +68,10 @@ function* login({ payload: { username, password, history } }) {
  */
 function* logout({ payload: { history } }) {
     try {        
-        if(localStorage.getItem("session_secret")){      
-            yield call(new APIClient().delete,'logout');
             localStorage.removeItem("authUser");
-            localStorage.removeItem("session_secret");
+            localStorage.removeItem("session_secret");            
             yield put(logoutUserSuccess(true));
-        }
+            yield call(new APIClient().delete,'logout');
        
     } catch (error) { console.log(error);}
 }

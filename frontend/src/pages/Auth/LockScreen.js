@@ -23,7 +23,7 @@ function LockScreen(props) {
             password: 'test'
         },
         validationSchema: Yup.object({
-            password: Yup.string().required('Please Enter Your Password')
+            password: Yup.string().required(t('t_please_enter_your_password'))
         }),
         onSubmit: values => {
             console.log(values)
@@ -45,8 +45,8 @@ function LockScreen(props) {
                                 <img src={logolight} alt="" height="30" className="logo logo-light" />
                             </Link>
 
-                            <h4>{t('Lock screen')}</h4>
-                            <p className="text-muted mb-4">{t('Enter your password to unlock the screen!')}</p>
+                            <h4>{t('t_lock_screen')}</h4> Lock screen
+                            <p className="text-muted mb-4">{t('t_enter_your_password_to_unlock_thescreen!')}</p>
                             
                         </div>
 
@@ -55,12 +55,12 @@ function LockScreen(props) {
                                 <div className="p-3">
                                     <div className="user-thumb text-center mb-4">
                                         <img src={avatar1} className="rounded-circle img-thumbnail avatar-lg" alt="thumbnail" />
-                                        <h5 className="font-size-15 mt-3">{t('Patricia Smith')}</h5>
+                                        <h5 className="font-size-15 mt-3">{t('t_patricia_smith')}</h5>
                                     </div>
                                     <Form onSubmit={formik.handleSubmit}>
 
                                         <FormGroup className="mb-4">
-                                            <Label className="form-label">{t('Password')}</Label>
+                                            <Label className="form-label">{t('t_password')}</Label>
                                             <InputGroup className="mb-3 bg-soft-light input-group-lg rounded-lg">
                                                     <span className="input-group-text border-light text-muted">
                                                         <i className="ri-lock-2-line"></i>
@@ -93,8 +93,8 @@ function LockScreen(props) {
                         </Card>
 
                         <div className="mt-5 text-center">
-                            <p>{t('Not you')} ? {t('return')} <Link to="login" className="font-weight-medium text-primary"> {t('Signin')} </Link> </p>
-                            <p>© {new Date().getFullYear()} {t('Chatvia')}. {t('Crafted with')} <i className="mdi mdi-heart text-danger"></i> {t('by Themesbrand')}</p>
+                            <p>{t('t_not_you')} ? {t('t_return')} <Link to="login" className="font-weight-medium text-primary"> {t('t_signin')} </Link> </p>
+                            <p>© {new Date().getFullYear()} {t('t_chatvia')}. {t('t_crafted_with')} <i className="mdi mdi-heart text-danger"></i> {t('t_by_themesbrand')}</p>
                         </div>
                     </Col>
                 </Row>

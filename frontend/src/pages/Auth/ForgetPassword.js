@@ -62,8 +62,8 @@ const ForgetPassword = (props) => {
                             <div className="text-center mb-4">
                                 
 
-                                <h4>{t('Reset Password')}</h4>
-                                <p className="text-muted mb-4">{t('Reset Password.')}</p>
+                                <h4>{t('t_reset_password')}</h4>
+                                <p className="text-muted mb-4">{t('t_reset_password')}</p>
 
                             </div>
 
@@ -75,7 +75,7 @@ const ForgetPassword = (props) => {
                                         }
                                         {
                                             props.passwordResetStatus ? <Alert variant="success" className="text-center mb-4">{props.passwordResetStatus}</Alert>
-                                                : <Alert variant="success" className="text-center mb-4">{t('Enter your Email and instructions will be sent to you')}!</Alert>
+                                                : <Alert variant="success" className="text-center mb-4">{t('t_enter_your_email_and_instructions_will_be_sent_to_you')}!</Alert>
                                         }
                                         <Form onSubmit={formik.handleSubmit}>
 
@@ -99,7 +99,7 @@ const ForgetPassword = (props) => {
                                             </FormGroup>
 
                                             <div className="d-grid">
-                                                <Button color="primary" block className="waves-effect waves-light" type="submit">{t('Reset')}</Button>
+                                                <Button color="primary" block className="waves-effect waves-light" type="submit">{t('t_reset')}</Button>
                                             </div>
 
                                         </Form>

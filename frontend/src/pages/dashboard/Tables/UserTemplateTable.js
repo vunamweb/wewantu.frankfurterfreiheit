@@ -7,7 +7,8 @@ import { APIClient } from '../../../helpers/apiClient';
 
 
 
- function CategoryTable(props){
+ function UserTemplateTable(props){
+    const Data=props.UserTemplateData;
     const [form] = Form.useForm();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
@@ -42,7 +43,7 @@ import { APIClient } from '../../../helpers/apiClient';
             description: tableData[index].description,
         });
       };
-    const [tableData, setTableData] = useState(props.categoryData);
+    const [tableData, setTableData] = useState(Data);
     const handleSorting = (sortField, sortOrder) => {
         if (sortField) {
          const sorted = [...tableData].sort((a, b) => {
@@ -137,4 +138,4 @@ import { APIClient } from '../../../helpers/apiClient';
     )
  }
  
- export default CategoryTable;
+ export default UserTemplateTable;

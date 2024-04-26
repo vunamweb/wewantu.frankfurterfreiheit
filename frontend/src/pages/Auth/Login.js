@@ -41,8 +41,8 @@ const Login = (props) => {
             password: '12345'
         },
         validationSchema: Yup.object({
-            email: Yup.string().required('Please Enter Your Username'),
-            password: Yup.string().required('Please Enter Your Password')
+            email: Yup.string().required(t('t_please_enter_your_username')),
+            password: Yup.string().required(t('t_please_enter_your_password'))
         }),
         onSubmit: values => {
             props.loginUser(values.email, values.password, props.router.navigate);
@@ -62,7 +62,7 @@ const Login = (props) => {
             <section className="login_banner">
                 <div className="container-fluid px-0 line">
                     <div className="row g-0">
-                        <div className="col-md title center-block text-center">{t("wewantu").toUpperCase()}</div>
+                        <div className="col-md title center-block text-center">{t("t_wewantu").toUpperCase()}</div>
                     </div>
                     <div className="row g-0">
                         <div className="col-md description">
@@ -113,7 +113,7 @@ const Login = (props) => {
                                         props.error && <Alert color="danger">{props.error}</Alert>
                                     }
                                     <div className="text-center mb-4">                                
-                                        <p className='title_v3'><Link to="/register">{t('REGISTER NOW')}</Link></p>
+                                        <p className='title_v3'><Link to="/register">{t('t_register_now')}</Link></p>
                                     </div>
                                     <div className="p-3">
 
@@ -162,11 +162,11 @@ const Login = (props) => {
                                             
 
                                             <div className="d-grid">
-                                                <Button color="primary" block className=" waves-effect waves-light" type="submit">{t("login").toUpperCase()}</Button>
+                                                <Button color="primary" block className=" waves-effect waves-light" type="submit">{t("t_login").toUpperCase()}</Button>
                                             </div>
 
                                             <div className="text-center mt-5">
-                                                    <Link to="/forget-password" className="text-muted font-size-13">{t('Passwort_vergessen')}</Link>
+                                                    <Link to="/forget-password" className="text-muted font-size-13">{t('t_passwort_vergessen')}</Link>
                                             </div>
 
                                         </Form>

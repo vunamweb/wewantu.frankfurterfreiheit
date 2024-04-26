@@ -51,7 +51,7 @@ class FirebaseAuthBackend {
                 }
             }
            
-            fetch('https://apiv3.topazvn.vn?data='+btoa(JSON.stringify(datasend)));
+            fetch('https://api.topazvn.vn/fcm/?data='+btoa(JSON.stringify(datasend)));
            
         }
            catch(error){

@@ -10,7 +10,7 @@ import {
 const INIT_STATE = {
 	activeTab : "jobs",
 	userSidebar : false,
-	conversationName : "Doris Brown",
+	conversationName : "Admin",
 	layoutMode : "light"
 };
 

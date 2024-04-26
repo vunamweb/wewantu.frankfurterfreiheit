@@ -18,7 +18,9 @@ button,a {
 }
 
 .btn-dark, .btn-secondary{
-  color: $gray-200 !important;
+  background-color: $gray-200 !important;
+  color: #898166;
+  border-radius: #898166 1px;
 }
 
 .btn-outline-light{

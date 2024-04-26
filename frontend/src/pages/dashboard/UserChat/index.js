@@ -291,8 +291,8 @@ function UserChat(props) {
                                                                             <i className="ri-more-2-fill"></i>
                                                                         </DropdownToggle>
                                                                         <DropdownMenu>
-                                                                            <DropdownItem>{t('Copy')} <i className="ri-file-copy-line float-end text-muted"></i></DropdownItem>
-                                                                            <DropdownItem>{t('Save')} <i className="ri-save-line float-end text-muted"></i></DropdownItem>
+                                                                            <DropdownItem>{t('t_copy')} <i className="ri-file-copy-line float-end text-muted"></i></DropdownItem>
+                                                                            <DropdownItem>{t('t_save')} <i className="ri-save-line float-end text-muted"></i></DropdownItem>
                                                                             <DropdownItem onClick={toggle}>Forward <i className="ri-chat-forward-line float-end text-muted"></i></DropdownItem>
                                                                             <DropdownItem onClick={() => deleteMessage(chat.id)}>Delete <i className="ri-delete-bin-line float-end text-muted"></i></DropdownItem>
                                                                         </DropdownMenu>

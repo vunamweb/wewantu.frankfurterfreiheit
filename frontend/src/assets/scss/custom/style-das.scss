@@ -24,8 +24,9 @@
     .menuSearchCenter{
         .morning {
             .hello{
-                // font-weight: bold;
                 color: #898166 !important;
+                font-weight: bold;
+                text-decoration:solid 1px #898166;
             }
             
         }
@@ -286,8 +287,8 @@ textarea{
 }
 
 .w-title{
-    background-color: #898166;
-    color: #fff;
+    //background-color: #898166;
+    border-bottom: 2px solid #898166;
     padding-bottom: 10px;
     padding-top: 10px;
     margin-right: 10px;
@@ -556,4 +557,60 @@ textarea{
 }
 :where(.css-dev-only-do-not-override-42nv3w).ant-checkbox-wrapper {
     color: #BFBDBD !important;
+}
+
+.searchcenterselect{
+    background:none !important;
+    border: none !important;
+    .ant-select-selection-item{
+        color: #898166;
+        font-weight: bold;
+        text-decoration: solid 1px #898166;
+    }
+}
+.popup-infor{
+    margin: 0 7% 7% 0;
+}
+.name{
+    padding: 10% 10% 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+.write-msg{
+    padding-top: 30px;
+    border-bottom: 1.5px groove;
+    padding-bottom: 30px;
+    border-top: 1.5px groove;
+}
+
+.scroll-searchcenter{
+    width: -webkit-fill-available;
+    border-style: solid !important;
+    border-color: #BFBDBD !important;
+    border-width: 0.5px !important;
+}
+.details{
+    padding-top: 30px;
+    padding-bottom: 30px;
+    border-top: 1.5px groove;
+}
+.about{
+    border-left: 1.5px groove;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+.about-1{
+    border-left: 1.5px groove;
+}
+.popup-infor-1{
+    border-bottom: 1.5px groove;
+    padding-bottom: 2%;
+}
+.profile-search{
+    font-size: 11px;
+    font-weight: 600;
+}
+.button-search{
+    width: 100%;
+    margin: 5% 5% 5% 0;
 }

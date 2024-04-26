@@ -121,32 +121,32 @@ class Groups extends Component {
                                     </UncontrolledTooltip>
 
                         </div>
-                        <h4 className="mb-4">{t('Groups')}</h4>
+                        <h4 className="mb-4">{t('t_groups')}</h4>
 
                         {/* Start add group Modal */}
                         <Modal isOpen={this.state.modal} centered toggle={this.toggle}>
-                            <ModalHeader tag="h5" className="modal-title font-size-14" toggle={this.toggle}>{t('Create New Group')}</ModalHeader>
+                            <ModalHeader tag="h5" className="modal-title font-size-14" toggle={this.toggle}>{t('t_create_new_group')}</ModalHeader>
                             <ModalBody className="p-4">
                                 <Form>
                                     <div className="mb-4">
-                                        <Label className="form-label" htmlFor="addgroupname-input">{t('Group Name')}</Label>
+                                        <Label className="form-label" htmlFor="addgroupname-input">{t('t_group_name')}</Label>
                                         <Input type="text" className="form-control" id="addgroupname-input" value={this.state.groupName} onChange={(e) => this.handleChangeGroupName(e)} placeholder="Enter Group Name" />
                                     </div>
                                     <div className="mb-4">
-                                        <Label className="form-label">{t('Group Members')}</Label>
+                                        <Label className="form-label">{t('t_group_members')}</Label>
                                         <Alert isOpen={this.state.isOpenAlert} color="danger">
                                             {this.state.message}
                                         </Alert>
                                         <div className="mb-3">
                                             <Button color="light" size="sm" type="button" onClick={this.toggleCollapse}>
-                                                {t('Select Members')}
+                                                {t('t_select_members')}
                                             </Button>
                                         </div>
 
                                         <Collapse isOpen={this.state.isOpenCollapse} id="groupmembercollapse">
                                             <Card className="border">
                                                 <CardHeader>
-                                                    <h5 className="font-size-15 mb-0">{t('Contacts')}</h5>
+                                                    <h5 className="font-size-15 mb-0">{t('t_contacts')}</h5>
                                                 </CardHeader>
                                                 <CardBody className="p-2">
                                                     <SimpleBar style={{ maxHeight: "150px" }}>
@@ -166,7 +166,7 @@ class Groups extends Component {
                                 </Form>
                             </ModalBody>
                             <ModalFooter>
-                                <Button type="button" color="link" onClick={this.toggle}>{t('Close')}</Button>
+                                <Button type="button" color="link" onClick={this.toggle}>{t('t_close')}</Button>
                                 <Button type="button" color="primary" onClick={this.createGroup}>Create Group</Button>
                             </ModalFooter>
                         </Modal>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Nav, NavItem, NavLink } from "reactstrap";
 import classnames from "classnames";
 import { connect } from "react-redux";
-
+import { useTranslation } from 'react-i18next';
 import { setActiveTab } from "../../redux/actions";
 
 //Import Images
@@ -21,7 +21,7 @@ function LeftSidebarMenu(props) {
     const toggleTab = tab => {
         props.setActiveTab(tab)
     }
-
+    const { t } = useTranslation();
     const activeTab = props.activeTab;
     /* changes language according to clicked language menu item */
     
@@ -52,88 +52,83 @@ function LeftSidebarMenu(props) {
                     <Nav id='menu' className="nav-pills-searchcenter nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" role="tablist">
                         <NavItem id="jobs" className="nav-item">
                             <NavLink className={classnames({ active: activeTab === 'jobs' }) + " mb-2"} onClick={() => { toggleTab('jobs'); }}>
-                                CURRENT ENQUIRIES
+                                {t('t_current_enquiries').toUpperCase()}
                             </NavLink>
-                        </NavItem>
+                        </NavItem>{/**
                         <NavItem id="addnewjob">
                             <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'addnewjob' }) + " mb-2"} onClick={() => { toggleTab('addnewjob'); }}>
                             ADD NEW JOB
                             </NavLink>
-                        </NavItem>
+                        </NavItem> */}
                         
                         <NavItem id="addnewcategory">
                             <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'addnewcategory' }) + " mb-2"} onClick={() => { toggleTab('addnewcategory'); }}>
-                            ADD NEW CATEGORY
+                            {t('t_category').toUpperCase()}
                             </NavLink>
                         </NavItem>
                         <NavItem id="searchcenter">
                             <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'searchcenter' }) + " mb-2"} onClick={() => { toggleTab('searchcenter'); }}>
-                            SEARCH CENTER
+                            {t('t_search_center').toUpperCase()}
                             </NavLink>
                         </NavItem>
                         <NavItem id="watchlist">
                             <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'watchlist' }) + " mb-2"} onClick={() => { toggleTab('watchlist'); }}>
-                            WATCHLIST
+                            {t('t_watchlist').toUpperCase()}
                             </NavLink>
                         </NavItem>
                         <NavItem id="mess">
                             <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'mess' }) + " mb-2"} onClick={() => { toggleTab('mess'); }}>
-                            MASSAGE CENTER
+                             {t('t_massage_center').toUpperCase()}
                             </NavLink>
                         </NavItem>
                         <NavItem id="credits">
-                            <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'credits' }) + " mb-2"} onClick={() => { toggleTab('credits'); }}>
-                            CREDITS
-                            </NavLink>
-                        </NavItem>
-                        <NavItem id="subcribe">
-                            <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'subcribe' }) + " mb-2"} onClick={() => { toggleTab('subcribe'); }}>
-                            SUBCRIBE
+                            <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'credits' || activeTab === 'subcribe' } ) + " mb-2"} onClick={() => { toggleTab('credits'); }}>
+                            {t('t_credits').toUpperCase()}
                             </NavLink>
                         </NavItem>
                         <NavItem id="useraccount">
                             <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'useraccount' }) + " mb-2"} onClick={() => { toggleTab('useraccount'); }}>
-                            USER ACCOUNT
+                            {t('t_user_account').toUpperCase()}
                             </NavLink>
                         </NavItem>
                         <NavItem id="accountsetting">
                             <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'accountsetting' }) + " mb-2"} onClick={() => { toggleTab('accountsetting'); }}>
-                            ACCOUNT SETTING
+                            {t('t_account_settings').toUpperCase()}
                             </NavLink>
                         </NavItem>
                         <NavItem id="useradministration">
                             <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'useradministration' }) + " mb-2"} onClick={() => { toggleTab('useradministration'); }}>
-                            USER ADMINISTRATION
+                            {t('t_user_administration').toUpperCase()}
                             </NavLink>
                         </NavItem>
                         <NavItem id="payments">
                             <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'payments' }) + " mb-2"} onClick={() => { toggleTab('payments'); }}>
-                            PAYMENTS
+                            {t('t_payments').toUpperCase()}
                             </NavLink>
                         </NavItem>
                         <NavItem id="wewantu">
                             <NavLink href='/home#main_werist' id="pills-user-tab" className={classnames({ active: activeTab === 'wewantu' }) + " mb-2"} onClick={() => { toggleTab('wewantu'); }}>
-                            WHAT’S WEWANTU
+                            {t('t_whats_wewantu').toUpperCase()}
                             </NavLink>
                         </NavItem>
                         <NavItem id="investorrelations">
                             <NavLink href='/home#main_werist' id="pills-user-tab" className={classnames({ active: activeTab === 'investorrelations' }) + " mb-2"} onClick={() => { toggleTab('investorrelations'); }}>
-                            INVESTOR RELATIONS
+                            {t('t_user_account').toUpperCase()}
                             </NavLink>
                         </NavItem>
                         <NavItem id="theapp">
                             <NavLink href='/home#main_werist' id="pills-user-tab" className={classnames({ active: activeTab === 'theapp' }) + " mb-2"} onClick={() => { toggleTab('theapp'); }}>
-                            THE APP
+                            {t('t_the_app').toUpperCase()}
                             </NavLink>
                         </NavItem>
                         <NavItem id="impressum">
                             <NavLink href='/home#main_werist' id="pills-user-tab" className={classnames({ active: activeTab === 'impressum' }) + " mb-2"} onClick={() => { toggleTab('impressum'); }}>
-                            IMPRESSUM
+                            {t('imprint').toUpperCase()}
                             </NavLink>
                         </NavItem>
                         <NavItem id="datenschutz">
                             <NavLink href='/home#main_werist' id="pills-user-tab" className={classnames({ active: activeTab === 'datenschutz' }) + " mb-2"} onClick={() => { toggleTab('datenschutz'); }}>
-                            DATENSCHUTZ
+                            {t('data_protection').toUpperCase()}
                             </NavLink>
                         </NavItem>
                         <NavItem id="wewantuug">

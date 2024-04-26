@@ -39,32 +39,35 @@ function TopSidebarMenu(props) {
 
     return (
         <React.Fragment>
-            <div className="menuSearchCenter">
-            <div className="d-flex justify-content-between navbar navbar-expand-sm navbar-light breakline">
-                <div className="container-fluid ">
-                <div className='p-3 morning'><span className="navbar-brand hello">GOOD MORNING {admin.prename} {admin.lastname}</span></div>
-                <div className='d-flex'>
-                    <Nav className='navbar navbar-expand topbar'>
-                    
-                    <li className="nav-item">
-                        <NavLink>
-                            {t("contact").toUpperCase()}
-                        </NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink href="/logout">
-                        {t("logout").toUpperCase()}
-                        </NavLink>
-                    </li>
-                    
-                </Nav>
-                <div className="lang p-3">
-                    <Link onClick={() => changeLanguageAction('de')} className={(lng === 'German' ? 'active' : null)}>DE</Link>|<Link onClick={() => changeLanguageAction('en')} className={(lng === 'English' ? 'active' : null)}>EN</Link>
+            {admin && (
+                <div className="menuSearchCenter">
+                <div className="d-flex justify-content-between navbar navbar-expand-sm navbar-light breakline">
+                    <div className="container-fluid ">
+                    <div className='p-3 morning'><span className="navbar-brand hello">GOOD MORNING {(admin.prename).toUpperCase()} {(admin.lastname).toUpperCase()}</span></div>
+                    <div className='d-flex'>
+                        <Nav className='navbar navbar-expand topbar'>
+                        
+                        <li className="nav-item">
+                            <NavLink>
+                                {t("contact").toUpperCase()}
+                            </NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink href="/logout">
+                            {t("logout").toUpperCase()}
+                            </NavLink>
+                        </li>
+                        
+                    </Nav>
+                    <div className="lang p-3">
+                        <Link onClick={() => changeLanguageAction('de')} className={(lng === 'German' ? 'active' : null)}>DE</Link>|<Link onClick={() => changeLanguageAction('en')} className={(lng === 'English' ? 'active' : null)}>EN</Link>
+                    </div>
+                    </div>
+                    </div>
                 </div>
                 </div>
-                </div>
-            </div>
-            </div>
+            )}
+            
                     
         </React.Fragment>
     );

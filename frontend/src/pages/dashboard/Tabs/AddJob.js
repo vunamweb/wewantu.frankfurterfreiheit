@@ -1,8 +1,7 @@
-import React, { useEffect,useState } from 'react';
+import React from 'react';
 import { Form,Select,Input,Checkbox } from "antd";
-import { getLoggedInUser } from '../../../helpers/authUtils';
+import { getLoggedInUser,getProfessions,getdriver_licenses,getlanguages,getforeign_language,getjob } from '../../../helpers/authUtils';
 
-//i18n
 import { useTranslation } from 'react-i18next';
 import { APIClient } from '../../../helpers/apiClient';
 
@@ -10,16 +9,15 @@ const AddJob = (props) => {
     
     const { t } = useTranslation();
     const admin=getLoggedInUser()[0];
-    const [loadlang, setloadlang] = useState(true);
-    const [professions, setprofessions] = useState([]);
-    const [jobs, setjobs] = useState([]);
-    const [lang,setlang] = useState([]);
-    const [foreign_language,setforeign_language] = useState([]);
-    const [driver_licenses, setdriver_licenses] = useState([]);
     const [form] = Form.useForm();
-    
-    //const currentLang =  i18n.language;
-   
+    const professions =getProfessions();
+    const driver_licenses=getdriver_licenses();
+    const lang=getlanguages();
+    const foreign_language=getforeign_language();
+    const jobs=getjob();
+    const toggleTab = tab => {
+        //this.props.setActiveTab(tab)
+    }
     const onFinish = (values) => {
         let datapost={};
 
@@ -37,18 +35,19 @@ const AddJob = (props) => {
             //console.log(professions);
             new APIClient().put('job_search_profile',datapost)
             .then(val=>{
-               // console.log(val);
-               //alert('Edit successful')
-               let selectedOptionEdit = professions.find((option) => option.value === values.category);
+               let selectedOptionEdit = professions !== null && professions.find((option) => option.profession_id === datapost.profession_id);
                props.updateRowEdit({
+                    'job_search_profile_id':props.job_search_profile_id,
                     'job_id':values.job ? values.job :0,
                     'job_decription':values.job_decription ? values.job_decription  : '',
-                    'category':selectedOptionEdit.label
+                    'profession':selectedOptionEdit.profession
                 });
                 props.setIsModalOpen(false)
+                form.resetFields();
                 })
         }
         else{
+            
             datapost={
                 'user_id':admin.user_id,
                 'job_id':values.job ? values.job :0,
@@ -68,26 +67,26 @@ const AddJob = (props) => {
                 'plz_at_job_location':values.plz_at_job_location ? values.plz_at_job_location : '',
                 'language_id':values.language_id,
                 'foreign_language_id':values.foreign_language_id,
-                'driver_license_id':values.driver_license_id
+                'driver_license_id':values.driver_license_id,
+                'foreign_job_id':values.foreign_job_id
             }
             new APIClient().create('job_search_profile',datapost).then(val=>{
                 if(val.job_search_profile_id){
-                    //alert(val.job_search_profile_id)
-                    //form.resetFields();
-                    window.location.assign('/dashboard');
-                    const selectedOption = professions.find((option) => option.value === values.category);
-                    //console.log(selectedOption);
-                    console.log({
+                    let selectedOptionEdit = professions !== null && professions.find((option) => option.profession_id === datapost.profession_id);
+                    let newRow = {
                         'job_search_profile_id':val.job_search_profile_id,
                         'job_id':values.job ? values.job :0,
                         'job_decription':values.job_decription ? values.job_decription  : '',
-                        'category':selectedOption.label,
-                        'requested':0,
-                        'messages':0
-                    });
+                        'profession':selectedOptionEdit.profession,
+                        requested:0,
+                        messages:0,
+                    }
+                    props.AddRow(newRow)
+                    form.resetFields();
                 }
                     
             });
+            
         }
          
        
@@ -95,58 +94,6 @@ const AddJob = (props) => {
     
     const filterOption = (input, option) =>
   (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
-
-    useEffect(() => {
-
-        if(loadlang){
-            new APIClient().get('driver_licenses').then(res=>{
-                if(res){
-                    const driver_licensesData = res.map((item) => ({
-                        label: item.driver_license,
-                        value: item.driver_license_id
-                      }));
-                      setdriver_licenses(driver_licensesData);
-                }                    
-            });
-            new APIClient().get('professions').then(res=>{
-                if(res){
-                    const professionsData = res.map((item) => ({
-                        label: item.profession,
-                        value: item.profession_id
-                      }));
-                    setprofessions(professionsData);
-                    
-                } 
-            });
-            new APIClient().get('languages').then(res=>{
-                if(res){
-                    const languagesData = res.map((item) => ({
-                        label: item.language,
-                        value: item.language_id
-                      }));
-                    setlang(languagesData);
-                    
-                    setforeign_language(languagesData);
-                    
-                } 
-            });
-            
-            new APIClient().get('https://api.topazvn.vn/tmp/job.php?lng=en').then(res=>{
-                if(res){
-                    const jobsData = res.map((item) => ({
-                        label: item.name,
-                        value: item.id
-                      }));
-                    setjobs(jobsData);
-                } 
-            });
-            setloadlang(false);
-        }
-        
-        
-        
-            
-    },[loadlang]);
 
         if(props.action === 'edit'){
             //console.log(props.job_search_profile_id);
@@ -163,7 +110,8 @@ const AddJob = (props) => {
                     desired_weekly_hours:res.desired_weekly_hours,
                     language_id:res.language.language_id,
                     foreign_language_id:res.foreign_language_id,
-                    driver_license_id:res.driver_license.driver_license
+                    driver_license_id:res.driver_license.driver_license,
+                    foreign_job_id:res.foreign_job_id
                 })
                
                 
@@ -188,19 +136,19 @@ const AddJob = (props) => {
                         <div className="row g-3">
                             <div className="col-md-5">
                                 <Form.Item name="job_decription" rules={[{
-                                    required: false,
+                                    required: true,
                                     message: 'Enter proper job_decription.',
                                 }]}>
-                                    <Input className="form-control" placeholder={t('job_decription').toUpperCase()}/>
+                                    <Input className="form-control" placeholder={t('t_job_decription').toUpperCase()}/>
                                 </Form.Item>
                             </div>
                             <div className="col-md-1"></div>
                             <div className="col-md-3">
-                                <Form.Item name="job" rules={[{
-                                    required: false,
-                                    message: 'Enter proper job_decription.',
+                                <Form.Item name="foreign_job_id" rules={[{
+                                    required: true,
+                                    message: 'Enter proper foreign_job_id.',
                                 }]}>
-                                    <Input className="form-control" placeholder={t('jobid').toUpperCase()}/>
+                                    <Input className="form-control" placeholder={t('t_foreign_job_id').toUpperCase()}/>
                                 </Form.Item>
                             </div>
                             <div className="col-md-3">
@@ -213,8 +161,11 @@ const AddJob = (props) => {
                                             id="category"
                                             name="category"
                                             className="form-control"
-                                            placeholder={t('category').toUpperCase()}
-                                            options={professions}
+                                            placeholder={t('t_category').toUpperCase()}
+                                            options={professions !== null && professions.map((item) => ({
+                                                label: item.profession,
+                                                value: item.profession_id
+                                            }))}
                                     />
                                 </Form.Item>
 
@@ -233,9 +184,8 @@ const AddJob = (props) => {
                                         name="job"
                                         className="form-control"
                                         //placeholder={t('job').toUpperCase()}
-                                        placeholder="JOBS"
+                                        placeholder={t('t_jobs').toUpperCase()}
                                         filterOption={filterOption}
-                                        
                                         options={jobs}
                                     />
                                 </Form.Item>  
@@ -250,7 +200,7 @@ const AddJob = (props) => {
                                       
                                        id="language_id"
                                         className="form-control"
-                                        placeholder={t('language_id').toUpperCase()}
+                                        placeholder={t('t_language_id').toUpperCase()}
                                        
                                         options={lang}
                                     />
@@ -265,7 +215,7 @@ const AddJob = (props) => {
                                       
                                        id="foreign_language_id"
                                         className="form-control"
-                                        placeholder={t('foreign_language_id').toUpperCase()}
+                                        placeholder={t('t_foreign_language_id').toUpperCase()}
                                         
                                         options={foreign_language}
                                     />
@@ -293,9 +243,9 @@ const AddJob = (props) => {
                                        id="desired_weekly_hours"
                                         name="desired_weekly_hours"
                                         className="form-control"
-                                        placeholder={t('desired_weekly_hours').toUpperCase()}
+                                        placeholder={t('t_desired_weekly_hours').toUpperCase()}
                                     >
-                                    <option selected disabled value="">HOURS PER WEEK</option>
+                                    <option selected disabled value="">{t('t_hours_per_week')}</option>
                                     <option value='15'>0-15</option>
                                     <option value='21'>16-20</option>
                                     <option value='30'>21-30</option>
@@ -315,7 +265,7 @@ const AddJob = (props) => {
                                       
                                        id="driver_license_id"
                                         className="form-control"
-                                        placeholder={t('driver_license_id').toUpperCase()}
+                                        placeholder={t('t_driver_license_id').toUpperCase()}
                                         //placeholder="JOBS"
                                        // filterOption={filterOption}
                                         onChange={(value) => {
@@ -331,25 +281,25 @@ const AddJob = (props) => {
                             <div className="col-md-3">
                                 <div className="form-check">
                                 <Form.Item name="desired_work_at_weekend_id" valuePropName="checked" noStyle>
-                                    <Checkbox>{t('desired_work_at_weekend_id').toUpperCase()}</Checkbox>
+                                    <Checkbox>{t('t_desired_work_at_weekend_id').toUpperCase()}</Checkbox>
                                 </Form.Item>
                                     
                                 </div>
                                 <div className="form-check">
                                 <Form.Item name="desired_work_at_night_id" valuePropName="checked" noStyle>
-                                    <Checkbox>{t('desired_work_at_night_id').toUpperCase()}</Checkbox>
+                                    <Checkbox>{t('t_desired_work_at_night_id').toUpperCase()}</Checkbox>
                                 </Form.Item>
                                 </div>
                             </div>
                             <div className="col-md-3">
                                 <div className="form-check">
                                 <Form.Item name="nationwide" valuePropName="checked" noStyle>
-                                    <Checkbox>{t('nationwide').toUpperCase()}</Checkbox>
+                                    <Checkbox>{t('t_nationwide').toUpperCase()}</Checkbox>
                                 </Form.Item>
                                 </div>
                                 <div className="form-check">
                                 <Form.Item name="desired_work_at_home_id" valuePropName="checked" noStyle>
-                                    <Checkbox> {t('desired_work_at_home_id').toUpperCase()}</Checkbox>
+                                    <Checkbox> {t('t_desired_work_at_home_id').toUpperCase()}</Checkbox>
                                 </Form.Item>
                                 </div>
                             </div>
@@ -360,9 +310,9 @@ const AddJob = (props) => {
                             <div className="col-md-6"></div>
                             <div className="col-md-6">
                                 <div className="d-grid gap-2 login">
-                                    <button className="btn btn-primary form-control" id="addsearch" type="submit">{props.action === 'edit' ? 'EDIT & SEARCH' : 'ADD & SEARCH'}</button>
+                                    <button className="btn btn-primary form-control" id="addsearch" type="submit">{props.action === 'edit' ? t('edit_&_search').toUpperCase() : t('add_&_search').toUpperCase()}</button>
                                 </div>
-                                <span className=''>Based on this search, a job will cost lead X credits</span>
+                                <span className=''>{t('t_based_on_this_search_a_job_will_cost_lead_x_credits')}</span>
                             </div>
                         </div>
                     </Form>

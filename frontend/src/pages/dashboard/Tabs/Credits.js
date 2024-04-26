@@ -8,6 +8,8 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { APIClient } from '../../../helpers/apiClient';
 import CreditsDisplay from '../Tables/CreditsTable';
+import { setActiveTab } from "../../../redux/actions";
+import { connect} from "react-redux";
 const Credits = (props) => {
 
     const [loadlang, setloadlang] = useState(true);
@@ -18,6 +20,9 @@ const Credits = (props) => {
 
     
     const currentLang =  i18n.language;
+    const toggleTab = tab => {
+        props.setActiveTab(tab)
+    }
     const formik = useFormik({
 
         enableReinitialize: true,
@@ -81,10 +86,10 @@ const Credits = (props) => {
                             </p>
                             <div className="row">
                                 <div className="col-md-2">
-                                    <button className="btn btn-primary form-control" id="addcredit-grey" type="submit">ABONNEMENTS</button>
+                                    <button className="btn btn-primary form-control" id="addcredit-grey" type="submit" onClick={()=>{toggleTab('subcribe')}}>{t('t_subscribe').toUpperCase()}</button>
                                 </div>
                                 <div className="col-md-2">
-                                    <button className="btn btn-primary form-control" id="addcredit" type="submit">CREDIT-PAKETE</button>
+                                    <button className="btn btn-primary form-control" id="addcredit" type="submit">{t('t_credits').toUpperCase()}</button>
                                 </div>
                                 
                                 <div className="col-md-8"></div>
@@ -108,4 +113,12 @@ const Credits = (props) => {
 
 
 
-export default Credits;
+    const mapStatetoProps = state => {
+        return {
+            ...state.Layout
+        };
+    };
+    
+    export default connect(mapStatetoProps, {
+        setActiveTab
+    })(Credits);

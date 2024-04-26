@@ -28,9 +28,9 @@ const PayMents = (props) => {
             plz:''
         },
         validationSchema: Yup.object({
-            jobdecription: Yup.string().required('Enter proper jobdecription'),
-            jobid: Yup.string().required('Enter proper jobid'),
-            plz: Yup.string().required('Enter proper plz'),
+            jobdecription: Yup.string().required(t('t_enter_proper_jobdecription')),
+            jobid: Yup.string().required(t('t_enter_proper_jobid')),
+            plz: Yup.string().required(t('t_enter_proper_plz')),
         }),
         onSubmit: values => {
             console.log(values);
@@ -95,26 +95,26 @@ const PayMents = (props) => {
                         <div className='row payments-title'>BILLING ADDRESS</div>
                         <div className="col-md-4">
                             <div className="row line1">
-                                <input type="text" id="company" name="company" className="form-control" required placeholder="WAYNE ENTERPRISES" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
+                                <input type="text" id="company" name="company" className="form-control" required placeholder="WAYNE ENTERPRISES" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
                             </div>
                             <div className="row line1">
-                                <input type="text" id="company" name="company" className="form-control" required placeholder="BRUCE WAYNE" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
-                            </div>
-                        </div>
-                        <div className="col-md-4">
-                            <div className="row line1">
-                                <input type="text" id="company" name="company" className="form-control" required placeholder="WAYNE MANOR" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
-                            </div>
-                            <div className="row line1">
-                                <input type="text" id="company" name="company" className="form-control" required placeholder="SOMERSET / 10001 GOTHAM" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
+                                <input type="text" id="company" name="company" className="form-control" required placeholder="BRUCE WAYNE" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
                             </div>
                         </div>
                         <div className="col-md-4">
                             <div className="row line1">
-                                <input type="text" id="company" name="company" className="form-control" required placeholder="ACCOUNTING DEPARTMENT" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
+                                <input type="text" id="company" name="company" className="form-control" required placeholder="WAYNE MANOR" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
                             </div>
                             <div className="row line1">
-                                <input type="text" id="company" name="company" className="form-control" required placeholder="INVOICES@WAYNE.COM" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
+                                <input type="text" id="company" name="company" className="form-control" required placeholder="SOMERSET / 10001 GOTHAM" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
+                            </div>
+                        </div>
+                        <div className="col-md-4">
+                            <div className="row line1">
+                                <input type="text" id="company" name="company" className="form-control" required placeholder="ACCOUNTING DEPARTMENT" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
+                            </div>
+                            <div className="row line1">
+                                <input type="text" id="company" name="company" className="form-control" required placeholder="INVOICES@WAYNE.COM" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
                             </div>
                         </div>
                         </div>

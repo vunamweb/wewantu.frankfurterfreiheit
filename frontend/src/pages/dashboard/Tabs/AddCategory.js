@@ -1,40 +1,18 @@
 import React, { Component } from 'react';
-
+import { getProfessions } from '../../../helpers/authUtils';
 import { connect } from "react-redux";
 import CategoryTable from '../Tables/CategoryTable';
-import { APIClient } from '../../../helpers/apiClient';
 import { setActiveTab } from "../../../redux/actions";
-import { getLoggedInUser } from '../../../helpers/authUtils';
 class AddCategory extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: false,
+            loading: true,
             categoryData: [],
             limit: 5,
           };
     }
-    async componentDidMount() {
-        try{
-            if(getLoggedInUser().length >0){
-                const admin=getLoggedInUser()[0];
-                //let jobdata= await new APIClient().get('user/'+admin.user_id+'/job_search_profiles');
-                let categoryData= await new APIClient().get('professions');
-
-                if(categoryData){
-                    this.setState({loading:true,
-                        categoryData:categoryData})
-                }
-                
-            }
-            
-                
-        }
-        catch{
-
-        }
-        
-    }
+    
 
     
     
@@ -42,8 +20,9 @@ class AddCategory extends Component {
     render() {
         document.title = "CATEGORY | WEWANTU"
        
-       const {loading,categoryData} = this.state;
-       
+       const {loading} = this.state;
+       //const categoryData =JSON.parse(localStorage.professions);
+       const categoryData =getProfessions();
         return (
             <>
             {!loading && (<div className="loader"></div>)}
@@ -56,8 +35,8 @@ class AddCategory extends Component {
                         <span className="title">CATEGORY </span>
                     </div>
                     <div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{position:'relative',height:'600px'}}>
-                    {categoryData.length > 0 && (
-                        <CategoryTable categoryData={this.state.categoryData} />
+                    {categoryData !== null > 0 && (
+                        <CategoryTable categoryData={categoryData} />
                         
                         )}
                     </div>

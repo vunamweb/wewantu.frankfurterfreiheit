@@ -46,10 +46,10 @@ function ImageList(props) {
                                             <i className="ri-more-fill"></i>
                                         </DropdownToggle>
                                         <DropdownMenu className="dropdown-menu-end">
-                                            <DropdownItem>{t('Copy')} <i className="ri-file-copy-line float-end text-muted"></i></DropdownItem>
-                                            <DropdownItem>{t('Save')} <i className="ri-save-line float-end text-muted"></i></DropdownItem>
-                                            <DropdownItem>{t('Forward')} <i className="ri-chat-forward-line float-end text-muted"></i></DropdownItem>
-                                            <DropdownItem>{t('Delete')} <i className="ri-delete-bin-line float-end text-muted"></i></DropdownItem>
+                                            <DropdownItem>{t('t_copy')} <i className="ri-file-copy-line float-end text-muted"></i></DropdownItem>
+                                            <DropdownItem>{t('t_save')} <i className="ri-save-line float-end text-muted"></i></DropdownItem>
+                                            <DropdownItem>{t('t_forward')} <i className="ri-chat-forward-line float-end text-muted"></i></DropdownItem>
+                                            <DropdownItem>{t('t_delete')} <i className="ri-delete-bin-line float-end text-muted"></i></DropdownItem>
                                         </DropdownMenu>
                                     </UncontrolledDropdown>
                                 </ul>

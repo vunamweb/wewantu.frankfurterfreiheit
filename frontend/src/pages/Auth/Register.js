@@ -154,7 +154,7 @@ const Register = (props) => {
                                                     id="company"
                                                     name="company"
                                                     className="form-control"
-                                                    placeholder={t('Company').toUpperCase()}
+                                                    placeholder={t('t_company').toUpperCase()}
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
                                                     value={formik.values.company}
@@ -174,7 +174,7 @@ const Register = (props) => {
                                                     id="street"
                                                     name="street"
                                                     className="form-control"
-                                                    placeholder={t('Street').toUpperCase()}
+                                                    placeholder={t('t_street').toUpperCase()}
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
                                                     value={formik.values.street}
@@ -192,7 +192,7 @@ const Register = (props) => {
                                                     id="no"
                                                     name="no"
                                                     className="form-control"
-                                                    placeholder={t('No').toUpperCase()}
+                                                    placeholder={t('t_no').toUpperCase()}
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
                                                     value={formik.values.no}
@@ -212,7 +212,7 @@ const Register = (props) => {
                                                     id="zip"
                                                     name="zip"
                                                     className="form-control"
-                                                    placeholder={t('Zip').toUpperCase()}
+                                                    placeholder={t('t_zip').toUpperCase()}
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
                                                     value={formik.values.zip}
@@ -230,7 +230,7 @@ const Register = (props) => {
                                                     id="city"
                                                     name="city"
                                                     className="form-control"
-                                                    placeholder={t('City').toUpperCase()}
+                                                    placeholder={t('t_city').toUpperCase()}
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
                                                     value={formik.values.city}
@@ -250,7 +250,7 @@ const Register = (props) => {
                                                     id="state"
                                                     name="state"
                                                     className="form-control"
-                                                    placeholder={t('State').toUpperCase()}
+                                                    placeholder={t('t_state').toUpperCase()}
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
                                                     value={formik.values.state}
@@ -268,7 +268,7 @@ const Register = (props) => {
                                                         id="country"
                                                         name="country"
                                                         className="form-control"
-                                                        placeholder={t('Country').toUpperCase()}
+                                                        placeholder={t('t_country').toUpperCase()}
                                                         onChange={formik.handleChange}
                                                         onBlur={formik.handleBlur}
                                                         value={formik.values.country}
@@ -314,7 +314,7 @@ const Register = (props) => {
                                                         id="salutation"
                                                         name="salutation"
                                                         className="form-control"
-                                                        placeholder={t('Salutation').toUpperCase()}
+                                                        placeholder={t('t_salutation').toUpperCase()}
                                                         onChange={formik.handleChange}
                                                         onBlur={formik.handleBlur}
                                                         value={formik.values.salutation}
@@ -336,7 +336,7 @@ const Register = (props) => {
                                                         id="titel"
                                                         name="titel"
                                                         className="form-control"
-                                                        placeholder={t('Titel').toUpperCase()}
+                                                        placeholder={t('t_titel').toUpperCase()}
                                                         onChange={formik.handleChange}
                                                         onBlur={formik.handleBlur}
                                                         value={formik.values.titel}
@@ -360,7 +360,7 @@ const Register = (props) => {
                                                     id="prename"
                                                     name="prename"
                                                     className="form-control"
-                                                    placeholder={t('prename').toUpperCase()}
+                                                    placeholder={t('t_prename').toUpperCase()}
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
                                                     value={formik.values.prename}
@@ -380,7 +380,7 @@ const Register = (props) => {
                                                     id="lastname"
                                                     name="lastname"
                                                     className="form-control"
-                                                    placeholder={t('Lastname').toUpperCase()}
+                                                    placeholder={t('t_lastname').toUpperCase()}
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
                                                     value={formik.values.lastname}
@@ -400,7 +400,7 @@ const Register = (props) => {
                                                     id="mail"
                                                     name="mail"
                                                     className="form-control"
-                                                    placeholder={t('mail').toUpperCase()}
+                                                    placeholder={t('t_mail').toUpperCase()}
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
                                                     value={formik.values.mail}
@@ -421,7 +421,7 @@ const Register = (props) => {
                                                     id="mobile_phone_number"
                                                     name="mobile_phone_number"
                                                     className="form-control"
-                                                    placeholder={t('Phone').toUpperCase()}
+                                                    placeholder={t('t_phone').toUpperCase()}
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
                                                     value={formik.values.mobile_phone_number}
@@ -442,7 +442,7 @@ const Register = (props) => {
                                                     id="username"
                                                     name="username"
                                                     className="form-control"
-                                                    placeholder={t('Username').toUpperCase()}
+                                                    placeholder={t('t_username').toUpperCase()}
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
                                                     value={formik.values.username}
@@ -463,7 +463,7 @@ const Register = (props) => {
                                                     id="password"
                                                     name="password"
                                                     className="form-control"
-                                                    placeholder={t('Password').toUpperCase()}
+                                                    placeholder={t('t_password').toUpperCase()}
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
                                                     value={formik.values.password}
@@ -477,7 +477,7 @@ const Register = (props) => {
                                         </div>
                                     </div>
                                     <div className="d-grid gap-2 login">
-                                        <Button color="primary" block className=" waves-effect waves-light" type="submit">{t('Register').toUpperCase()}
+                                        <Button color="primary" block className=" waves-effect waves-light" type="submit">{t('t_register').toUpperCase()}
                                 </Button>
                                 <div className="col-md">
                                 
@@ -532,16 +532,16 @@ const Register = (props) => {
                             <div className="col-md-10">
                                 <div className="title_v3">GET IN TOUCH WITH US:</div>
                                 <div className="row">
-                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="COMPANY NAME*" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
+                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="COMPANY NAME*" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md"><input type="text" id="name" name="name" className="form-control" required placeholder="NAME*" oninvalid="this.setCustomValidity('Please enter NAME')" oninput="setCustomValidity('')" /></div>
+                                    <div className="col-md"><input type="text" id="name" name="name" className="form-control" required placeholder="NAME*" onInvalid="this.setCustomValidity('Please enter NAME')" oninput="setCustomValidity('')" /></div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md"><input type="email" id="email" name="email" className="form-control" required placeholder="E-MAIL*" oninvalid="this.setCustomValidity('Please enter E-MAIL')" oninput="setCustomValidity('')" /></div>
+                                    <div className="col-md"><input type="email" id="email" name="email" className="form-control" required placeholder="E-MAIL*" onInvalid="this.setCustomValidity('Please enter E-MAIL')" oninput="setCustomValidity('')" /></div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md"><input type="tel" id="phone" name="phone" className="form-control" required pattern="^\d{4}\d{3}\d{4}$" placeholder="TELEPHONE*" oninvalid="this.setCustomValidity('Please enter TELEPHONE')" oninput="setCustomValidity('')" /></div>
+                                    <div className="col-md"><input type="tel" id="phone" name="phone" className="form-control" required pattern="^\d{4}\d{3}\d{4}$" placeholder="TELEPHONE*" onInvalid="this.setCustomValidity('Please enter TELEPHONE')" oninput="setCustomValidity('')" /></div>
                                 </div>
                                 <div className="d-grid gap-2">
                                     <button id="getinfo" className="btn btn-primary form-control" type="submit">SEND</button>

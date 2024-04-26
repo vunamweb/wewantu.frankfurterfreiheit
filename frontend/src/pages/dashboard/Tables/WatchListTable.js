@@ -2,7 +2,7 @@ import React from 'react'
 import JsonData from '../../../data/watchlist.json'
 import { FaRegStar } from "react-icons/fa";
 import { Button } from 'reactstrap';
- function JsonDataDisplay(){
+ function WatchListTable(){
     const DisplayData=JsonData.map(
         (info)=>{
             return(                
@@ -46,4 +46,4 @@ import { Button } from 'reactstrap';
     )
  }
  
- export default JsonDataDisplay;
+ export default WatchListTable;

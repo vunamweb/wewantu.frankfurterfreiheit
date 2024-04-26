@@ -6,14 +6,9 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 //i18n
 import { useTranslation } from 'react-i18next';
-import { APIClient } from '../../../helpers/apiClient';
 
 const UserAccount = (props) => {
 
-    const [loadlang, setloadlang] = useState(true);
-    const [professions, setprofessions] = useState([]);
-    const [jobs, setjobs] = useState([]);
-    const [lang, setlang] = useState([]);
     const { t, i18n } = useTranslation();
 
     
@@ -97,16 +92,16 @@ const UserAccount = (props) => {
                                 <div className='row setting-title'>ACCOUNT DETAILS</div>
                                 <div className="col-md-9">
                                     <div className="row">
-                                        <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="FIRST NAME" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
+                                        <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="FIRST NAME" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
                                     </div>
                                     <div className="row">
-                                        <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="LAST NAME" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
+                                        <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="LAST NAME" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
                                     </div>
                                     <div className="row">
-                                        <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="USER NAME" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
+                                        <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="USER NAME" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
                                     </div>
                                     <div className="row">
-                                        {/* <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="ACCOUNT LANGUAGE" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div> */}
+                                        {/* <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="ACCOUNT LANGUAGE" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div> */}
                                         <select className="form-select" id="category">
                                             <option selected disabled value="">ACCOUNT LANGUAGE</option>
                                             <option value="CATEGORY">ENG</option>
@@ -131,13 +126,13 @@ const UserAccount = (props) => {
                             <div className="col-md-12">
                                 
                                 <div className="row">
-                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="E-MAIL" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
+                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="E-MAIL" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="PASSWORD" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
+                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="PASSWORD" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="TELEPHONE" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
+                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="TELEPHONE" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
                                 </div>
                             </div>
                             </div>

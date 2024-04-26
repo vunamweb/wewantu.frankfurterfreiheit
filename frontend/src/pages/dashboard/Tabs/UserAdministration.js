@@ -98,40 +98,40 @@ const UserAdministration = (props) => {
                                 <div className="col-md-2">
                                     <img src={`${process.env.PUBLIC_URL}/img/avatar.png`} className="avatar" alt="avatar" /> <br />
                                 </div>
-                                <div className="col-md-5"><input type="text" id="company" name="company" className="form-control" required placeholder="BRUCE WAYNE" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
+                                <div className="col-md-5"><input type="text" id="company" name="company" className="form-control" required placeholder="BRUCE WAYNE" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
                                 <div className="col-md-5">
-                                    <input type="text" id="company" name="company" className="form-control" required placeholder="BRUCE.WAYNE@WAYNE…." oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /> <br />
-                                    <input type="text" id="company" name="company" className="form-control" required placeholder="*******" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
+                                    <input type="text" id="company" name="company" className="form-control" required placeholder="BRUCE.WAYNE@WAYNE…." onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /> <br />
+                                    <input type="text" id="company" name="company" className="form-control" required placeholder="*******" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
                                 </div>
                             </div>
                             <div className="row line1">
                                 <div className="col-md-2">
                                     <img src={`${process.env.PUBLIC_URL}/img/avatar.png`} className="avatar" alt="avatar" /> <br />
                                 </div>
-                                <div className="col-md-5"><input type="text" id="company" name="company" className="form-control" required placeholder="LUCIUS FOX" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
+                                <div className="col-md-5"><input type="text" id="company" name="company" className="form-control" required placeholder="LUCIUS FOX" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
                                 <div className="col-md-5">
-                                    <input type="text" id="company" name="company" className="form-control" required placeholder="LUCIUS.FOX@WAYNE…." oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /> <br />
-                                    <input type="text" id="company" name="company" className="form-control" required placeholder="*******" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
+                                    <input type="text" id="company" name="company" className="form-control" required placeholder="LUCIUS.FOX@WAYNE…." onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /> <br />
+                                    <input type="text" id="company" name="company" className="form-control" required placeholder="*******" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
                                 </div>
                             </div>
                             <div className="row line1">
                                 <div className="col-md-2">
                                     <img src={`${process.env.PUBLIC_URL}/img/avatar.png`} className="avatar" alt="avatar" /> <br />
                                 </div>
-                                <div className="col-md-5"><input type="text" id="company" name="company" className="form-control" required placeholder="ALFRED PENNYWORTH" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
+                                <div className="col-md-5"><input type="text" id="company" name="company" className="form-control" required placeholder="ALFRED PENNYWORTH" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
                                 <div className="col-md-5">
-                                    <input type="text" id="company" name="company" className="form-control" required placeholder="ALFRED@WAYNE…." oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /> <br />
-                                    <input type="text" id="company" name="company" className="form-control" required placeholder="*******" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
+                                    <input type="text" id="company" name="company" className="form-control" required placeholder="ALFRED@WAYNE…." onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /> <br />
+                                    <input type="text" id="company" name="company" className="form-control" required placeholder="*******" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
                                 </div>
                             </div>
                             <div className="row line1">
                                 <div className="col-md-2">
                                     <img src={`${process.env.PUBLIC_URL}/img/avatar.png`} className="avatar" alt="avatar" /> <br />
                                 </div>
-                                <div className="col-md-5"><input type="text" id="company" name="company" className="form-control" required placeholder="USERNAME" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
+                                <div className="col-md-5"><input type="text" id="company" name="company" className="form-control" required placeholder="USERNAME" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
                                 <div className="col-md-5">
-                                    <input type="text" id="company" name="company" className="form-control" required placeholder="USER E-MAIL" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /> <br />
-                                    <input type="text" id="company" name="company" className="form-control" required placeholder="*******" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
+                                    <input type="text" id="company" name="company" className="form-control" required placeholder="USER E-MAIL" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /> <br />
+                                    <input type="text" id="company" name="company" className="form-control" required placeholder="*******" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" />
                                 </div>
                             </div>
                         </div>

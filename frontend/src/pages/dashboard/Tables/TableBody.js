@@ -4,7 +4,7 @@ import {  Popconfirm } from 'antd';
 const TableBody = ({ tableName,tableData, columns,tableRowEdit ,tableRowRemove }) => {
     return (
      <tbody>
-      {tableData.map((data,index) => {
+      {tableData !==null && tableData.map((data,index) => {
         if(tableName === 'CategoryTable') {
             return (
                 <tr key={data.profession_id}>

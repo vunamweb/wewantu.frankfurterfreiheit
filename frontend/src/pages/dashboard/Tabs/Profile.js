@@ -56,14 +56,14 @@ function Profile(props) {
                 <i className="ri-more-2-fill"></i>
               </DropdownToggle>
               <DropdownMenu className="dropdown-menu-end">
-                <DropdownItem>{t("Edit")}</DropdownItem>
-                <DropdownItem>{t("Action")}</DropdownItem>
+                <DropdownItem>{t("t_edit")}</DropdownItem>
+                <DropdownItem>{t("t_action")}</DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem>{t("Another action")}</DropdownItem>
+                <DropdownItem>{t("t_another_action")}</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
-          <h4 className="mb-0">{t("My Profile")}</h4>
+          <h4 className="mb-0">{t("t_my_profile")}</h4>
         </div>
 
         <div className="text-center p-4 border-bottom">
@@ -80,7 +80,7 @@ function Profile(props) {
           </h5>
           <p className="text-muted text-truncate mb-1">
             <i className="ri-record-circle-fill font-size-10 text-success me-1 d-inline-block"></i>{" "}
-            {t("Active")}
+            {t("t_active")}
           </p>
         </div>
         {/* End profile user  */}
@@ -90,7 +90,7 @@ function Profile(props) {
           <div className="text-muted">
             <p className="mb-4">
               {t(
-                "If several languages coalesce, the grammar of the resulting language is more simple and regular than that of the individual."
+                "t_if_several_languages_coalesce_the_grammar_of_the_resulting_language_is_more_simple_and_regular_than_that_of_the_individual_"
               )}
             </p>
           </div>
@@ -105,22 +105,22 @@ function Profile(props) {
                 toggleCollapse={toggleCollapse1}
               >
                 <div>
-                  <p className="text-muted mb-1">{t("Name")}</p>
+                  <p className="text-muted mb-1">{t("t_name")}</p>
                   <h5 className="font-size-14">{t("Patricia Smith")}</h5>
                 </div>
 
                 <div className="mt-4">
-                  <p className="text-muted mb-1">{t("Email")}</p>
+                  <p className="text-muted mb-1">{t("t_email")}</p>
                   <h5 className="font-size-14">{t("adc@123.com")}</h5>
                 </div>
 
                 <div className="mt-4">
-                  <p className="text-muted mb-1">{t("Time")}</p>
+                  <p className="text-muted mb-1">{t("t_time")}</p>
                   <h5 className="font-size-14">{t("11:40 AM")}</h5>
                 </div>
 
                 <div className="mt-4">
-                  <p className="text-muted mb-1">{t("Location")}</p>
+                  <p className="text-muted mb-1">{t("t_location")}</p>
                   <h5 className="font-size-14 mb-0">{t("California, USA")}</h5>
                 </div>
               </CustomCollapse>

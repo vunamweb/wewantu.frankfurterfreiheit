@@ -38,8 +38,8 @@ function FileList(props) {
                                     <i className="ri-more-fill"></i>
                                 </DropdownToggle>
                                 <DropdownMenu className="dropdown-menu-end">
-                                    <DropdownItem>{t('Share')} <i className="ri-share-line float-end text-muted"></i></DropdownItem>
-                                    <DropdownItem>{t('Delete')} <i className="ri-delete-bin-line float-end text-muted"></i></DropdownItem>
+                                    <DropdownItem>{t('t_share')} <i className="ri-share-line float-end text-muted"></i></DropdownItem>
+                                    <DropdownItem>{t('t_delete')} <i className="ri-delete-bin-line float-end text-muted"></i></DropdownItem>
                                 </DropdownMenu>
                             </UncontrolledDropdown>
                         </ul>

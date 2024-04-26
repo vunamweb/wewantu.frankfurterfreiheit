@@ -10,7 +10,7 @@ function Activatedmail(props) {
         <React.Fragment>
             <MainMenu />
             <div class="alert alert-success text-center">
-                <strong>{t("success").toUpperCase()} !</strong> {t("email_successful").toUpperCase()}.
+                <strong>{t("t_success").toUpperCase()} !</strong> {t("t_email_successful").toUpperCase()}.
             </div>
             <Footer />
         </React.Fragment>

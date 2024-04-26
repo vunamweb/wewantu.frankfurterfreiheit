@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { openUserSidebar, setFullUser } from "../../redux/actions";
 import { getLoggedInUser } from '../../helpers/authUtils';
 import { getDatabase, onValue,ref } from "firebase/database";
+import { t } from 'i18next';
 class Index extends Component {
     constructor(props) {
         super(props);
@@ -172,34 +173,35 @@ class Index extends Component {
             
             <>
             <React.Fragment>
+            {!loading && (<div className="loader"></div>)}
             { curUser && (
                 <div className="main_wewantu_das">
                 <div className="container-fluid px-0 wewantu">
                     <div className="row g-0">
                         <div className="col-md-5 werist-l"></div>
                         <div className="col-md-5 werist  center-block text-center">
-                            <div className="title">{curUser.search_queries} SEARCH QUERIES</div>
+                            <div className="title">{curUser.search_queries} {t('t_search_queries').toUpperCase()}</div>
                         </div>
                         <div className="col-md werist-r"></div>                         
                     </div>
                     <div className="row g-0">
                         <div className="col-md-6 werist-l"></div>
                         <div className="col-md-3 werist  center-block text-center">
-                            <div className="title">{curUser.messages_count} MESSAGES</div>
+                            <div className="title">{curUser.messages_count} {t('t_messages').toUpperCase()}</div>
                         </div>
                         <div className="col-md werist-r"></div>                         
                     </div>
                     <div className="row g-0">
                         <div className="col-md-8 werist-l"></div>
                         <div className="col-md-3 werist  center-block text-center">
-                            <div className="title">{curUser.credits} CREDITS</div>
+                            <div className="title">{curUser.credits} {t('t_credits').toUpperCase()}</div>
                         </div>
                         <div className="col-md werist-r"></div>                         
                     </div>
                 </div>
             </div>
             )}
-            {!loading && (<div className="loader"></div>)}
+            
             {users.length > 0 && (
                 
                 

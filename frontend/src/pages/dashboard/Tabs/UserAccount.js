@@ -99,16 +99,16 @@ const UserAccount = (props) => {
                             <div className="col-md-11">
                                 
                                 <div className="row">
-                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
+                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
+                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
+                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
+                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
                                 </div>
                             </div>
                         </div>
@@ -116,16 +116,16 @@ const UserAccount = (props) => {
                             <div className="col-md-12">
                                 
                                 <div className="row">
-                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
+                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
+                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
+                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="" oninvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
+                                    <div className="col-md"><input type="text" id="company" name="company" className="form-control" required placeholder="" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /></div>
                                 </div>
                             </div>
                         </div>
