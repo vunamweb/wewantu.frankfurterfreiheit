@@ -69,8 +69,16 @@ import { APIClient } from '../../../helpers/apiClient';
     const DisplayData = productRows.length >0 && productRows.map((row, idx) => (
             <tr key={idx}>
             {
-                row.map((info,index) => (
-                    
+                row.map((info,index) => {
+                    info.address = (info.address != undefined) ? info.address : [
+                        {
+                            street: null,
+                            city: null,
+                            country: null,
+                        }
+                    ];
+
+                   return  (
                     <td>
                         <div className="info">
                             <div className="row">
@@ -90,7 +98,9 @@ import { APIClient } from '../../../helpers/apiClient';
                             </div>
                         </div>
                         </td>
-                ))
+                )
+                } 
+               )
                 
             }                                          
             </tr>  
