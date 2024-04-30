@@ -152,7 +152,11 @@ function SerchCenterModal(props){
                                 </div>
                                 <div className="col-md-9">
                                     <span>Emty</span><br/>
-                                    <span>{item.job_decription}</span><br/>
+                                    {
+                                        item.profiles.map((item, index) => {
+                                            return (
+                                                <div>
+                                                        <span>{item.job_decription}</span><br/>
                                     <span>{item.plz_at_job_location} {item.address[0].postal_code}</span><br/>
                                     <span>{item.desired_salary * 500}</span><br/>
                                     <span>{item.desired_weekly_hours}</span><br/>                                    
@@ -162,6 +166,10 @@ function SerchCenterModal(props){
                                     <span>{item.desired_work_at_weekend.value}</span><br/>
                                     <span>{item.desired_work_at_night.value}</span><br/>
                                     <span>{item.ambitions.ambition}</span><br/>
+                                </div>
+                                            )
+                                        })
+                                    }
                                 </div>
                         </div>
                         <div className="row" style={{"paddingTop": "2%"}}>
