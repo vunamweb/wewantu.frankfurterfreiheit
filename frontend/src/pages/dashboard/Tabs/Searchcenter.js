@@ -175,6 +175,63 @@ class Searchcenter extends Component {
         return result;
     }
 
+    exist(parent, child) {
+        let exist = false;
+
+        try {
+            child.map((item, index) => {
+                if (parent.indexOf(item) !== -1)
+                    exist = true;
+            })
+        } catch (error) {
+            console.log(error);
+        }
+
+        return exist;
+    }
+
+    existJOBID(jobListParent, jobListChild) {
+        let exist = false;
+
+        try {
+            jobListChild.map((item, index) => {
+                if (jobListParent.indexOf(item.job_id) !== -1)
+                    exist = true;
+            })
+        } catch (error) {
+            console.log(error);
+        }
+
+        return exist;
+    }
+    
+    checkMapJob(search, job) {
+        let check = false;
+
+        try {
+            let searchDrive = search.drive;
+            let jobDrive = job.user.drive;
+
+            let searchLanguageMother = search.language.mother;
+            let jobLanguageMother = job.user.language.mother;
+
+            let searchLanguageForeign = search.language.foreign;
+            let jobLanguageForeign = job.user.language.foreign;
+
+            let seachJobID = search.job_ids;
+            let jobList= job.profiles;
+
+            if (this.exist(searchDrive, jobDrive) && this.exist(searchLanguageMother, jobLanguageMother)
+                && this.exist(searchLanguageForeign, jobLanguageForeign) && this.existJOBID(seachJobID, jobList))
+
+                check = true;
+        } catch (error) {
+            console.log(error);
+        }
+
+        return check;
+    }
+
     render() {
         document.title = "SEARCH CENTER | WEWANTU"
         const professions = getProfessions();
@@ -183,16 +240,20 @@ class Searchcenter extends Component {
         const onChange = (values) => {
             let jobList = this.state.jobList;
 
+            // let value to search
             let seachData = {};
+
             seachData.drive = [];
 
             seachData.language = {};
             seachData.language.mother = [];
             seachData.language.foreign = [];
 
+            seachData.job_ids = [];
+
             jobList.map((item, index) => {
                 try {
-                    if (item.profession.profession_id == values || values == 'all') {
+                    if (item.profession.profession_id == values) {
                         if (item.language.language_id != undefined)
                             seachData.language.mother.push(item.language.language_id);
 
@@ -201,13 +262,35 @@ class Searchcenter extends Component {
 
                         if (item.driver_license.driver_license_id != undefined)
                             seachData.drive.push(item.driver_license.driver_license_id);
+                        
+                            if (item.job_id != undefined)
+                            seachData.job_ids.push(item.job_id);
+                        
                     }
                 } catch (error) {
                     console.log(error)
                 }
             })
+            // END
 
-            if (values === 'all') {
+            let resultSearch = [];
+
+            if (values == 'all') {
+                resultSearch = [...searchJob];
+            } else {
+                try {
+                    this.state.searchJob.map((item, index) => {
+                        if (this.checkMapJob(seachData, item))
+                            resultSearch.push(item)
+                    })
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+
+            this.setState({ searchData: resultSearch });
+
+            /* if (values === 'all') {
                 //this.renData (this.state.listuser,this.state.searchJob)
                 this.setState({
                     // listuser: listuser,
@@ -223,10 +306,8 @@ class Searchcenter extends Component {
                 })
                 //let a = this.state.searchJob !==null && this.state.searchJob.filter(profession => profession.profession.profession_id !==null && profession.profession.profession_id.includes(values));     
                 //this.renData (this.state.listuser,a)
-            }
-
+            } */
         }
-
 
         const { loading, searchData, searchJob } = this.state;
         return (
