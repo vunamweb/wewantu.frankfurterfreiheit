@@ -37,10 +37,12 @@ class Searchcenter extends Component {
             newsearchJob = newsearchJob.filter(item => item.job_search_profile_id !== itemwl.job_search_profile.job_search_profile_id)
         })
 
+        // get list of user from mobile
         newsearchJob = newsearchJob.filter(item => {
             return item.user.firebase_token != null
         })
 
+        // set drive license for user
         newsearchJob.length > 0 && newsearchJob.map(job => {
             try {
                 job.user.drive = [];
@@ -54,6 +56,7 @@ class Searchcenter extends Component {
             }
         })
 
+        // set language for user
         newsearchJob.length > 0 && newsearchJob.map(job => {
             try {
                 job.user.language = {};
@@ -72,6 +75,8 @@ class Searchcenter extends Component {
                 console.log(error)
             }
         })
+
+        newsearchJob = this.mixJobProfile(newsearchJob);
 
         newsearchJob.map((serJob, index) => {
             let addr = {};
@@ -107,6 +112,67 @@ class Searchcenter extends Component {
             jobList: jobList,
             loading: true
         })
+    }
+
+    checkExistUser(jobList, user_id) {
+        let position = -1;
+
+        jobList.map((item, index) => {
+            if (item.user.user_id == user_id)
+                position = index;
+        })
+
+        return position;
+    }
+    mixJobProfile(jobProfileList) {
+        let result = [];
+
+        jobProfileList.map((item, index) => {
+            // if result is empty
+            if (result.length == 0) {
+                try {
+                    let obj = {};
+
+                    obj.user = item.user;
+
+                    obj.profiles = [];
+                    obj.profiles.push(item);
+                    delete obj.profiles[0].user;
+
+                    result.push(obj);
+                } catch (error) {
+                    console.log(error);
+                }
+            } else { // if ready to have data
+                let countResult = result.length;
+
+                try {
+                    let position = this.checkExistUser(result, item.user.user_id);
+                    // if user is exist 
+                    if (position >= 0) {
+                        let obj = item;
+                        delete obj.user;
+
+                        // add profile for user
+                        result[position].profiles.push(obj);
+                    } else { // if user not exist
+                        let obj = {};
+
+                        obj.user = item.user;
+
+                        obj.profiles = [];
+                        obj.profiles.push(item);
+                        delete obj.profiles[0].user;
+
+                        result.push(obj);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        })
+
+        return result;
     }
 
     render() {
