@@ -11,6 +11,7 @@ import { Avatar } from 'antd';
 import { Button } from 'reactstrap';
 import { APIClient } from '../../../helpers/apiClient';
 import WatchListModal from '../Modal/WatchListModal';
+import jsPDF from 'jspdf';
 
 
 function Watchlist(props) {
@@ -86,6 +87,17 @@ function Watchlist(props) {
 		setcurrentUser(userProfile);
 	}
 
+	const exportPDF = (info) => {
+		// Create a new jsPDF instance
+		const pdf = new jsPDF();
+	
+		// Add content to the PDF
+		pdf.text("Hello, World!", 10, 10);
+	
+		// Save the PDF
+		pdf.save("document.pdf");
+	  };
+
 	const renderUserinfo = (values) => {
 		const currentUser = allUser.filter(val => (val.user_id === values.user_add_id))[0];
 		console.log(currentUser)
@@ -152,7 +164,7 @@ function Watchlist(props) {
 										</Checkbox>
 								</div>
 								<div className="col-md-2">
-									<Button className="btn btn-primary form-control" size="sm" type="submit">EXPORT PDF</Button>
+									<Button className="btn btn-primary form-control" size="sm" onClick={(e) => exportPDF(null)}>EXPORT PDF</Button>
 								</div>
 								<div className="col-md-3">
 									<Button className="btn btn-primary form-control" size="sm" type="submit">SEND MASSAGE ALL CHECKED</Button>
