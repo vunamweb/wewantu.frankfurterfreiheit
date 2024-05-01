@@ -44,10 +44,7 @@ function Watchlist (props){
 					} 
 				});
 			}
-			
-                
-                
-        },[props.activeTab])
+		},[props.activeTab])
 
 		const ondeleteWL = (info,index) => {
 			let tmp = [...watchlistData];
@@ -60,7 +57,7 @@ function Watchlist (props){
 			
 		};
 		const renderUserinfo = (values) => {
-			const currentUser =  allUser.filter(val => val.user_id === values.job_search_profile.user_id)[0];
+			const currentUser =  allUser.filter(val => (val.user_id === values.user_add_id && values.type === 1))[0];
 			console.log(currentUser)
 			return(
 				<>

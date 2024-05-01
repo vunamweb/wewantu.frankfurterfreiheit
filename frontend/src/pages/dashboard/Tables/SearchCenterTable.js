@@ -49,8 +49,9 @@ import { APIClient } from '../../../helpers/apiClient';
                     let tmp = values.user.prename+' '+ values.user.lastname+',\r'+ res[0].description;
                     let obj_watchlist={
                         message: tmp,
-                        job_search_profile_id: values.job_search_profile_id,
-                        user_id:admin.user_id
+                        user_add_id: values.user.user_id,
+                        user_id:admin.user_id,
+                        type: 1
                     };
                     console.log(obj_watchlist);
                     new APIClient().create('user_watchlist',obj_watchlist).then(val=>{
@@ -116,8 +117,6 @@ import { APIClient } from '../../../helpers/apiClient';
             </table>
             {Object.keys(currentUser).length >0 && (<SerchCenterModal currentUser={currentUser} handleWLClick={handleWLClick} handleHiddenClick={handleHiddenClick} currentIndex={currentIndex} JsonData={JsonData ? JsonData : null} isModalOpenDetail={isModalOpenDetail} handleCancelDetail={handleCancelDetail}/>)}
             {Object.keys(currentUser).length >0 && (<SerchCenterWachlistModal currentUser={currentUser} JsonData={JsonData ? JsonData : null} isModalOpen={isModalOpen}  handleCancel={handleCancel}/>)}
-            
-                       
         </React.Fragment>
         
     )
