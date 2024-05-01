@@ -105,6 +105,8 @@ class Searchcenter extends Component {
 
         });
 
+        localStorage.setItem('listUserProfile', JSON.stringify(newsearchJob));
+
         this.setState({
             // listuser: listuser,
             searchJob: newsearchJob.filter(val => val.user.user_id !== admin.user_id),

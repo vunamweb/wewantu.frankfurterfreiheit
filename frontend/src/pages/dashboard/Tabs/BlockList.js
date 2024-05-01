@@ -47,14 +47,16 @@ function Blocklist (props){
 		},[props.activeTab])
 
 		const ondeleteWL = (info,index) => {
-			let tmp = [...watchlistData];
-			console.log(info.user_watchlist_id);
-			new APIClient().delete('user_watchlist/'+info.user_watchlist_id).then( res=>{
-				tmp.splice(index, 1)
-				setwatchlistData(tmp)
-			})
-			
-			
+            const result = window.confirm("Do you want to proceed?");
+
+            if(result) {
+                let tmp = [...watchlistData];
+                console.log(info.user_watchlist_id);
+                new APIClient().delete('user_watchlist/'+info.user_watchlist_id).then( res=>{
+                    tmp.splice(index, 1)
+                    setwatchlistData(tmp)
+                })
+            }
 		};
 		const renderUserinfo = (values) => {
 			const currentUser =  allUser.filter(val => (val.user_id === values.user_add_id))[0];
