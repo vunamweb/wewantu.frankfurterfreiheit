@@ -76,6 +76,11 @@ function LeftSidebarMenu(props) {
                             {t('t_watchlist').toUpperCase()}
                             </NavLink>
                         </NavItem>
+                        <NavItem id="blocklist">
+                            <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'blocklist' }) + " mb-2"} onClick={() => { toggleTab('blocklist'); }}>
+                            {"Block List".toUpperCase()}
+                            </NavLink>
+                        </NavItem>
                         <NavItem id="mess">
                             <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'mess' }) + " mb-2"} onClick={() => { toggleTab('mess'); }}>
                              {t('t_massage_center').toUpperCase()}

@@ -4,7 +4,6 @@ import { Select } from "antd";
 import { FaRegStar } from "react-icons/fa";
 import { t } from 'i18next';
 import { Checkbox } from 'antd';
-import SerchCenterModal from '../Modal/SerchCenterModal';
 import { getLoggedInUser,getAllUser } from '../../../helpers/authUtils';
 import Data from '../../../data/watchlist.json';
 import { Avatar } from 'antd';
@@ -12,17 +11,16 @@ import { Button } from 'reactstrap';
 import { APIClient } from '../../../helpers/apiClient';
 
 
-function Watchlist (props){
+function Blocklist (props){
 		
-        document.title = "Watchlist | WEWANTU"
+        document.title = "Blocklist | WEWANTU"
 		const admin=getLoggedInUser()[0];
 		const allUser =getAllUser();
 		const loadwatchlist=props.loadwatchlist;
 		const professions=getProfessions();
 		const onChange = (values) => {}
 		const [loadlang, setloadlang] = useState(true);
-		const [isModalOpenDetail, setIsModalOpenDetail] = useState(true);
-        const CheckboxGroup = Checkbox.Group;
+		const CheckboxGroup = Checkbox.Group;
 		const plainOptions = ['A', 'B', 'C'];
 		const defaultCheckedList = ['Apple', 'Orange'];
 		const [watchlistData, setwatchlistData] = useState([]);
@@ -38,7 +36,7 @@ function Watchlist (props){
 		
 		useEffect(() => {
 				
-			if(props.activeTab === 'watchlist'){
+			if(props.activeTab === 'blocklist'){
 				new APIClient().get('user/'+admin.user_id+'/user_watchlist').then(res=>{
 					if(res.length >0){
 						
@@ -61,19 +59,36 @@ function Watchlist (props){
 		const renderUserinfo = (values) => {
 			const currentUser =  allUser.filter(val => (val.user_id === values.user_add_id))[0];
 			console.log(currentUser)
-			if(currentUser != undefined)
-			return(
-				<>
-					<div className="col-md-2">
-						<Checkbox value="A" /><Avatar className='avatar' size={80}>{(currentUser.prename.slice(0,1)).toUpperCase()}{(currentUser.lastname.slice(0,1)).toUpperCase()}</Avatar>
-						<div className="name">{currentUser.prename} {currentUser.lastname}</div>
-					</div>
-					<div className="col-md-4">
-						<p className="about">{currentUser.hobbies}</p> 
-						<FaRegStar /> <FaRegStar /> <FaRegStar /> <FaRegStar /> <FaRegStar />
-					</div>
-				</>
-			)
+			if(currentUser != undefined) {
+                let hobbiesList, hobbies = '';
+
+                        try {
+                            hobbiesList = currentUser.hobbies;
+                            hobbiesList = JSON.parse(hobbiesList);
+
+                            for (let i = 0; i < hobbiesList.length; i++) {
+                                if (i < hobbiesList.length - 1)
+                                    hobbies = hobbies + hobbiesList[i] + ', ';
+                                else
+                                    hobbies = hobbies + hobbiesList[i];
+                            }
+                        } catch (error) {
+                            hobbies = currentUser.hobbies;
+                        }
+
+                return(
+                    <>
+                        <div className="col-md-5">
+                            <Checkbox value="A" /><Avatar className='avatar' size={80}>{(currentUser.prename.slice(0,1)).toUpperCase()}{(currentUser.lastname.slice(0,1)).toUpperCase()}</Avatar>
+                            <div className="name">{currentUser.prename} {currentUser.lastname}</div>
+                        </div>
+                        <div className="col-md-5">
+                            <p className="about">{hobbies}</p> 
+                            <FaRegStar /> <FaRegStar /> <FaRegStar /> <FaRegStar /> <FaRegStar />
+                        </div>
+                    </>
+                )
+            }
 		}
 
 		if(watchlistData.length > 0){
@@ -83,7 +98,7 @@ function Watchlist (props){
 					<div className="main-mes">
 						<div className="container-fluid px-0">
 							<div className="row w-title">
-								<div className="col-md"><span className="w-title-l">WATCHLIST</span> </div>
+								<div className="col-md"><span className="w-title-l">BLOCKLIST</span> </div>
 								<div className="col-md"><span className="w-title-r">
 									<Select
 												showSearch
@@ -116,26 +131,11 @@ function Watchlist (props){
 							</div>
 						</div>
 						<div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{position:'relative', height: '600px'}}>
-							<form>
-								<div className="row w-checkall">
-									<div className="col-md-7">
-										<Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>
-											Check all
-										</Checkbox>
-									</div>
-									<div className="col-md-2">
-										<Button className="btn btn-primary form-control" size="sm" type="submit">EXPORT PDF</Button>
-									</div>
-									<div className="col-md-3">
-										<Button className="btn btn-primary form-control" size="sm" type="submit">SEND MASSAGE ALL CHECKED</Button>
-									</div>
-								</div>
-							</form>
 							<CheckboxGroup value={checkedList} onChange={onChangecheckbox} >
 									<table className="table">
 									<tbody className='table-watchlist'>
 										{watchlistData.map((info,index) => {
-											if(info.type == 1)
+											if(info.type == 0)
 											return(                
 													<tr>
 														<td data-checkbox="true"></td>
@@ -144,10 +144,7 @@ function Watchlist (props){
 																<div className="row">
 																	{renderUserinfo(info)}
 																	
-																	<div className="col-md-4 watchlist_content">{info.message}</div>
 																	<div className="col-md-2">
-																		<Button className="btn btn-primary form-control" size="sm" type="submit" data-bs-toggle="modal" data-bs-target="#idDeitals">DETAILS</Button>
-																		<Button className="btn btn-primary form-control" size="sm" type="submit" data-bs-toggle="modal" data-bs-target="#idWatchList">SEND MASSAGE</Button>
 																		<Button className="btn btn-primary form-control" size="sm" type="submit" onClick={(e)=>ondeleteWL(info,index)}>DELETE</Button>
 																	</div>
 																</div>
@@ -175,4 +172,4 @@ function Watchlist (props){
 }
 
 
-export default Watchlist;
+export default Blocklist;

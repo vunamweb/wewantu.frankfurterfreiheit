@@ -34,7 +34,7 @@ class Searchcenter extends Component {
 
         watchlist.length > 0 && watchlist.map(itemwl => {
 
-            //newsearchJob = newsearchJob.filter(item => item.user.user_id !== itemwl.user_add_id)
+            newsearchJob = newsearchJob.filter(item => item.user.user_id !== itemwl.user_add_id || itemwl.type == 1 )
         })
 
         // get list of user from mobile

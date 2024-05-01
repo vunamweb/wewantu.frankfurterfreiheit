@@ -25,8 +25,13 @@ function SerchCenterModal(props) {
     }
     const { t } = useTranslation();
     const [tableData, settableData] = useState([]);
+
     const addwatclist = (values) => {
         props.handleWLClick(currentUser, currentIndex)
+    }
+
+    const blockwatclist = (values) => {
+        props.handleBlockClick(currentUser, currentIndex)
     }
 
     const handleHiddenClick = (values) => {
@@ -163,7 +168,7 @@ function SerchCenterModal(props) {
 
                                         <FaRegStar /> <FaRegStar /> <FaRegStar /> <FaRegStar /> <FaRegStar />
                                         <div className="modal-footer">
-                                            <button type="button" className="btn btn-primary btn-sm button-search" onClick={() => { handleHiddenClick() }}><span className='profile-search'>{t('t_dont_show_again').toUpperCase()}</span></button>
+                                            <button type="button" className="btn btn-primary btn-sm button-search" onClick={() => { blockwatclist() }}><span className='profile-search'>{t('t_dont_show_again').toUpperCase()}</span></button>
                                             <button type="primary" className="btn btn-primary btn-sm button-search" onClick={() => { addwatclist() }}><span className='profile-search'>{t('t_add_to_watchlist').toUpperCase()}</span></button>
                                             <button type="button" className="btn btn-primary btn-sm button-search" onClick={() => { toggleTab('credits') }}><span className='profile-search'>{t('t_get_lead_for_x_credit').toUpperCase()}</span></button>
                                         </div>

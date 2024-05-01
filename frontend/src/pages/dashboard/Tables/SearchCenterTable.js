@@ -32,9 +32,15 @@ import { APIClient } from '../../../helpers/apiClient';
       }
       const handleWLClick = (id,index) =>{
        addwatclist(id)
-        JsonData.splice(index, 1);
+        //JsonData.splice(index, 1);
         setIsModalOpenDetail(false);
       }
+
+      const handleBlockClick = (id,index) =>{
+        blockwatclist(id)
+         JsonData.splice(index, 1);
+         setIsModalOpenDetail(false);
+       }
 
       const handleHiddenClick = (id,index) =>{
         JsonData.splice(index, 1);
@@ -65,6 +71,31 @@ import { APIClient } from '../../../helpers/apiClient';
         
         /**/
       }
+
+      const blockwatclist = (values) => {
+        if(currentUser){
+             new APIClient().get('user/ce5ed1af-adb5-4336-bc04-e70f17f30a16/user_template')
+             .then(res=>{
+                 if(res){
+                     let tmp = values.user.prename+' '+ values.user.lastname+',\r'+ res[0].description;
+                     let obj_watchlist={
+                         message: tmp,
+                         user_add_id: values.user.user_id,
+                         user_id:admin.user_id,
+                         type: 0
+                     };
+                     console.log(obj_watchlist);
+                     new APIClient().create('user_watchlist',obj_watchlist).then(val=>{
+                         if(val){
+                             alert('Block successfully')
+                         }
+                     })
+                 } 
+             });
+         }
+         
+         /**/
+       }
     const rows = [...Array( Math.ceil(JsonData.length / 4) )];    
     const productRows = rows.length>0 && rows.map( (row, idx) => JsonData.slice(idx * 4, idx * 4 + 4) ); 
     const DisplayData = productRows.length >0 && productRows.map((row, idx) => (
@@ -115,7 +146,7 @@ import { APIClient } from '../../../helpers/apiClient';
                    {DisplayData}
                 </tbody>
             </table>
-            {Object.keys(currentUser).length >0 && (<SerchCenterModal currentUser={currentUser} handleWLClick={handleWLClick} handleHiddenClick={handleHiddenClick} currentIndex={currentIndex} JsonData={JsonData ? JsonData : null} isModalOpenDetail={isModalOpenDetail} handleCancelDetail={handleCancelDetail}/>)}
+            {Object.keys(currentUser).length >0 && (<SerchCenterModal currentUser={currentUser} handleWLClick={handleWLClick} handleBlockClick={handleBlockClick} handleHiddenClick={handleHiddenClick} currentIndex={currentIndex} JsonData={JsonData ? JsonData : null} isModalOpenDetail={isModalOpenDetail} handleCancelDetail={handleCancelDetail}/>)}
             {Object.keys(currentUser).length >0 && (<SerchCenterWachlistModal currentUser={currentUser} JsonData={JsonData ? JsonData : null} isModalOpen={isModalOpen}  handleCancel={handleCancel}/>)}
         </React.Fragment>
         

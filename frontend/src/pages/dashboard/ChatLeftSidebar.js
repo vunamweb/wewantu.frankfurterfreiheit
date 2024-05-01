@@ -9,6 +9,7 @@ import Searchcenter from './Tabs/Searchcenter';
 import AddCategory from './Tabs/AddCategory';
 import Jobs from './Tabs/Jobs';
 import Watchlist from './Tabs/Watchlist';
+import Blocklist from './Tabs/BlockList';
 import Chats from "./Tabs/Chats";
 import UserChat from "./UserChat/index";
 import AccountSetting from './Tabs/AccountSetting';
@@ -21,6 +22,7 @@ function ChatLeftSidebar(props) {
     const activeTab = props.activeTab;
     const [loadlang, setloadlang] = useState(true);
     const [loadwatchlist, setwatchlist] = useState(true);
+    const [loadblocklist, setblocklist] = useState(true);
     const admin=getLoggedInUser()[0];
     const [professions, setprofessions] = useState([]);
     if(admin ===null){
@@ -111,6 +113,9 @@ function ChatLeftSidebar(props) {
                     </TabPane>
                     <TabPane tabId="watchlist" id="pills-watchlist">
                         <Watchlist loadwatchlist={loadwatchlist} setwatchlist={setwatchlist} activeTab={activeTab}/>
+                    </TabPane>
+                    <TabPane tabId="blocklist" id="pills-blocklist">
+                        <Blocklist loadwatchlist={loadwatchlist} setwatchlist={setwatchlist} activeTab={activeTab}/>
                     </TabPane>                    
                     <TabPane tabId="mess" id="pills-mess">        
                         <div className="row">                
