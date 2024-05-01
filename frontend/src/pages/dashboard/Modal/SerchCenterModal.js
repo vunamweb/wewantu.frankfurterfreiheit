@@ -157,7 +157,7 @@ function SerchCenterModal(props){
                                             return (
                                                 <div>
                                                         <span>{item.job_decription}</span><br/>
-                                    <span>{item.plz_at_job_location} {item.address[0].postal_code}</span><br/>
+                                    <span>{item.plz_at_job_location} {item.postal_code}</span><br/>
                                     <span>{item.desired_salary * 500}</span><br/>
                                     <span>{item.desired_weekly_hours}</span><br/>                                    
                                     <span>{item.desired_working_days_per_week}</span><br/>
