@@ -107,18 +107,10 @@ class SearchProfile extends Component {
 
         //localStorage.setItem('listUserProfile', JSON.stringify(newsearchJob));
 
-        let filterSearch = [];
-        let search =  localStorage.getItem('search_job_profile');
-
-        newsearchJob.map((item, index) => {
-           if(this.checkMapJob(search, item))
-              filterSearch.push(item);
-        })
-
         this.setState({
             // listuser: listuser,
             searchJob: newsearchJob.filter(val => val.user.user_id !== admin.user_id),
-            searchData: filterSearch.filter(val => val.user.user_id !== admin.user_id),
+            searchData: newsearchJob.filter(val => val.user.user_id !== admin.user_id),
             jobList: jobList,
             loading: true
         })
@@ -188,9 +180,12 @@ class SearchProfile extends Component {
     exist(parent, child) {
         let exist = false;
 
+        if(parent == undefined)
+        exist = true;
+
         try {
             child.map((item, index) => {
-                if (parent.indexOf(item) !== -1)
+                if (parent == undefined || parent.indexOf(item) !== -1)
                     exist = true;
             })
         } catch (error) {
@@ -205,7 +200,7 @@ class SearchProfile extends Component {
 
         try {
             jobListChild.map((item, index) => {
-                if (jobListParent.indexOf(item.job_id) !== -1)
+                if (jobListParent == item.job_id)
                     exist = true;
             })
         } catch (error) {
@@ -222,13 +217,13 @@ class SearchProfile extends Component {
             let searchDrive = search.drive;
             let jobDrive = job.user.drive;
 
-            let searchLanguageMother = search.language.mother;
+            let searchLanguageMother = (search.language != undefined) ? search.language.mother : undefined;
             let jobLanguageMother = job.user.language.mother;
 
-            let searchLanguageForeign = search.language.foreign;
+            let searchLanguageForeign = (search.language != undefined) ? search.language.foreign : undefined;
             let jobLanguageForeign = job.user.language.foreign;
 
-            let seachJobID = search.job_ids;
+            let seachJobID = search.job_id;
             let jobList= job.profiles;
 
             if (this.exist(searchDrive, jobDrive) && this.exist(searchLanguageMother, jobLanguageMother)
@@ -246,85 +241,32 @@ class SearchProfile extends Component {
         document.title = "SEARCH CENTER | WEWANTU"
         const professions = getProfessions();
 
+        let filterSearch = [];
 
-        const onChange = (values) => {
-            let jobList = this.state.jobList;
+        let search =  localStorage.getItem('search_job_profile');
+        search = JSON.parse(search);
 
-            // let value to search
-            let seachData = {};
-
-            seachData.drive = [];
-
-            seachData.language = {};
-            seachData.language.mother = [];
-            seachData.language.foreign = [];
-
-            seachData.job_ids = [];
-
-            jobList.map((item, index) => {
-                try {
-                    if (item.profession.profession_id == values) {
-                        if (item.language.language_id != undefined)
-                            seachData.language.mother.push(item.language.language_id);
-
-                        if (item.foreign_language_id != undefined)
-                            seachData.language.foreign.push(item.foreign_language_id);
-
-                        if (item.driver_license.driver_license_id != undefined)
-                            seachData.drive.push(item.driver_license.driver_license_id);
-                        
-                            if (item.job_id != undefined)
-                            seachData.job_ids.push(item.job_id);
-                        
-                    }
-                } catch (error) {
-                    console.log(error)
-                }
-            })
-            // END
-
-            let resultSearch = [];
-
-            if (values == 'all') {
-                resultSearch = [...searchJob];
-            } else {
-                try {
-                    this.state.searchJob.map((item, index) => {
-                        if (this.checkMapJob(seachData, item))
-                            resultSearch.push(item)
-                    })
-                } catch (error) {
-                    console.log(error);
-                }
-            }
-
-            this.setState({ searchData: resultSearch });
-
-            /* if (values === 'all') {
-                //this.renData (this.state.listuser,this.state.searchJob)
-                this.setState({
-                    // listuser: listuser,
-                    searchData: searchJob
-                })
-
-            }
-            else {
-                let oldsearchData = [...searchJob];
-                this.setState({
-                    // listuser: listuser,
-                    searchData: oldsearchData.filter(profession => profession.profession.profession_id !== null && profession.profession.profession_id.includes(values))
-                })
-                //let a = this.state.searchJob !==null && this.state.searchJob.filter(profession => profession.profession.profession_id !==null && profession.profession.profession_id.includes(values));     
-                //this.renData (this.state.listuser,a)
-            } */
+        try {
+            this.state.searchData.map((item, index) => {
+                if(this.checkMapJob(search, item))
+                   filterSearch.push(item);
+             })
+        } catch(error) {
+            console.log(error);
         }
-
+        
         const { loading, searchData, searchJob } = this.state;
         return (
 
             <>
                 <React.Fragment>
-                <div>job profile</div>
+                {!loading && (<div className="loader"></div>)}
+                    <div className="main_job">
+                        <div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{ position: 'relative', height: '600px' }}>
+                            <SearchCenterTable searchData={filterSearch} />
+                        </div>
+                    </div>
+                
                 </React.Fragment>
             </>
         );
