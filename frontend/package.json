@@ -3,7 +3,7 @@
   "version": "2.3.0",
   "private": true,
   "license": "WWT",
-  "proxy": "https://api.topazvn.vn",
+  "homepage": "https://wewantu.frankfurterfreiheit.de/",
   "dependencies": {
     "@testing-library/jest-dom": "^6.1.5",
     "@testing-library/react": "^14.1.2",

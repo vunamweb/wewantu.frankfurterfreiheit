@@ -22,6 +22,10 @@ import { useTranslation } from 'react-i18next';
     const handleCanceladd = () => {
         setIsModalOpenadd(false);
     };
+
+    const toggleTab = tab => {
+        props.setActiveTab(tab)
+    }
     useEffect(() => {
         if(loadlang){
             const admin=getLoggedInUser()[0];
@@ -113,6 +117,7 @@ import { useTranslation } from 'react-i18next';
       };
       
     const AddRow = (row) => {
+        localStorage.setItem('search_job_profile',JSON.stringify(row));
        /* console.log(row);
         const dataRow = [...tableData];
         dataRow.push(row)
@@ -137,7 +142,8 @@ import { useTranslation } from 'react-i18next';
                     );
                    });
                 settableData(dataBody);
-                setIsModalOpenadd(false)
+                setIsModalOpenadd(false);
+                toggleTab('searchprofile');
         })
         //window.location.reload();
       };

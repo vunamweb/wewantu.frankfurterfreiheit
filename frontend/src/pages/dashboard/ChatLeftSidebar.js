@@ -6,6 +6,7 @@ import { getLoggedInUser,setProfessions,setdriver_licenses,setlanguages,setjob,s
 import { APIClient } from '../../helpers/apiClient';
 //Import Components
 import Searchcenter from './Tabs/Searchcenter';
+import SearchProfile from './Tabs/SearchProfile';
 import AddCategory from './Tabs/AddCategory';
 import Jobs from './Tabs/Jobs';
 import Watchlist from './Tabs/Watchlist';
@@ -110,6 +111,9 @@ function ChatLeftSidebar(props) {
                     </TabPane>
                     <TabPane tabId="searchcenter" id="pills-searchcenter">
                         <Searchcenter professions={professions}/>
+                    </TabPane>
+                    <TabPane tabId="searchprofile" id="pills-searchprofile">
+                        <SearchProfile professions={professions}/>
                     </TabPane>
                     <TabPane tabId="watchlist" id="pills-watchlist">
                         <Watchlist loadwatchlist={loadwatchlist} setwatchlist={setwatchlist} activeTab={activeTab}/>
