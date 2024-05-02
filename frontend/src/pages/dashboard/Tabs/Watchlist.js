@@ -43,6 +43,61 @@ function Watchlist(props) {
 		setIsModalOpenDetail(false);
 	}
 
+	const rendervalue = (lang) => {
+		return typeof lang !== 'undefined' && lang.map(val => {
+			switch (val.level) {
+				case 1:
+					return (<><span>{t('business_fluent_in_spoken_and_written')}</span><br /></>);
+				case 2:
+					return (<><span>{t('school_level')}</span><br /></>);
+				case 3:
+					return (<><span>{t('Can_order_a_pizza')}</span><br /></>);
+				default:
+					return (<><span>{t('mother_tongue')}</span><br /></>);
+			}
+
+		})
+	};
+
+	const rendereducational_stagesvalue = (element) => {
+		return typeof element !== 'undefined' && element !== null && element.map(val => {
+			return (<><span>{val.institute}</span><br /></>)
+		})
+	};
+
+	const getNameJobFromId = (id) => {
+		let jobs = localStorage.getItem('job');
+
+		try {
+			jobs = JSON.parse(jobs);
+		} catch (error) {
+			jobs = [];
+		}
+		let name = null;
+
+		jobs.map((item, index) => {
+			if (item.value == id)
+				name = item.label;
+		})
+
+		return name;
+	}
+
+	const renderdriver_licenses = (element) => {
+		if (typeof element === 'undefined' || element === null)
+			return (<><span>Emty</span></>)
+		return typeof element !== 'undefined' && element !== null && element.map((val, index) => {
+			if (index > 0)
+				if (index === element.length - 1)
+					return (<><span>, {val.driver_license}</span></>)
+				else
+					return (<><span>, {val.driver_license}</span></>)
+			else
+				return (<><span>{val.driver_license}</span></>)
+		})
+
+	};
+
 	useEffect(() => {
 
 		if (props.activeTab === 'watchlist') {
@@ -57,7 +112,7 @@ function Watchlist(props) {
 
 	const ondeleteWL = (info, index) => {
 		const result = window.confirm("Do you want to proceed?");
-		if(result) {
+		if (result) {
 			let tmp = [...watchlistData];
 			console.log(info.user_watchlist_id);
 			new APIClient().delete('user_watchlist/' + info.user_watchlist_id).then(res => {
@@ -67,6 +122,24 @@ function Watchlist(props) {
 		}
 	};
 
+	const getUserprofileFromWatchList = (info) => {
+		let listUserProfile = localStorage.getItem('listUserProfile');
+		let userProfile;
+
+		try {
+			listUserProfile = JSON.parse(listUserProfile);
+
+			listUserProfile.map((item, index) => {
+				if (item.user.user_id == info.user_add_id)
+					userProfile = item;
+			})
+		} catch (error) {
+			userProfile = {};
+		}
+
+		return userProfile;
+	}
+	
 	const handleDTClick = (info) => {
 		setIsModalOpenDetail(true)
 
@@ -87,16 +160,146 @@ function Watchlist(props) {
 		setcurrentUser(userProfile);
 	}
 
-	const exportPDF = (info) => {
+	const exportPDF = (item) => {
+		const x = 10;
+		let y = 10, spacey = 8;
+
+		const fontSize = 12;
+		const docWidth = 210; // in mm
+        const docHeight = 597; // in mm
+
 		// Create a new jsPDF instance
-		const pdf = new jsPDF();
+		const pdf = new jsPDF({
+			orientation: 'portrait', // or 'landscape'
+			unit: 'mm',
+			format: [docWidth, docHeight]
+		  });
+
+		pdf.setFontSize(fontSize);
+
+		watchlistData.map((info, index) => {
+			if(info.type == 1) {
+
+				info = getUserprofileFromWatchList(info);
+
+				try {
+					let hobbiesList, hobbies = '';
 	
-		// Add content to the PDF
-		pdf.text("Hello, World!", 10, 10);
+					try {
+						hobbiesList = info.user.hobbies;
+						hobbiesList = JSON.parse(hobbiesList);
 	
+						for (let i = 0; i < hobbiesList.length; i++) {
+							if (i < hobbiesList.length - 1)
+								hobbies = hobbies + hobbiesList[i] + ', ';
+							else
+								hobbies = hobbies + hobbiesList[i];
+						}
+					} catch (error) {
+						hobbies = info.user.hobbies;
+					}
+	
+					let name = info.user.prename.toUpperCase() + ' ' + info.user.lastname.toUpperCase();
+					pdf.text(name, x, y);
+					y = y + spacey;
+	
+					let location = info.address[0].city + ' ' + info.address[0].postal_code;
+					pdf.text(location, x, y);
+					y = y + spacey;
+	
+					let text;
+	
+					info.profiles.map((item, index) => {
+						item.job_id = (item.job_id != undefined) ? item.job_id : 0;
+	
+						let jobLabel = getNameJobFromId(item.job_id);
+	
+						let positionProfile = 'Profile ' + (index + 1);
+						pdf.text(positionProfile, x, y);
+						y = y + spacey;
+
+						text = '-------';
+					    pdf.text(text, x, y);
+					    y = y + spacey;
+
+						text = t('t_job_desire') + ': ' + jobLabel;
+						pdf.text(text, x, y);
+						y = y + spacey;
+	
+						text = t('t_location') + ': ' + item.max_distance + ' km PLZ ' + item.postalcode;
+						pdf.text(text, x, y);
+						y = y + spacey;
+	
+						text = t('t_salary_request') + ': ' + item.desired_salary * 500;
+						pdf.text(text, x, y);
+						y = y + spacey;
+	
+						text = t('t_working_hours_week') + ': ' + item.desired_weekly_hours;
+						pdf.text(text, x, y);
+						y = y + spacey;
+	
+						text = t('t_days_week') + ': ' + item.desired_working_days_per_week;
+						pdf.text(text, x, y);
+						y = y + spacey;
+	
+						text = t('t_holiday_days') + ': ' + item.desired_holiday_days_per_year;
+						pdf.text(text, x, y);
+						y = y + spacey;
+	
+						text = t('t_home_office') + ': ' + item.desired_work_at_home.value;
+						pdf.text(text, x, y);
+						y = y + spacey;
+	
+						text = t('t_working_on weekends') + ': ' + item.desired_work_at_weekend.value;
+						pdf.text(text, x, y);
+						y = y + spacey;
+	
+						text = t('t_night_work') + ': ' + item.desired_work_at_night.value;
+						pdf.text(text, x, y);
+						y = y + spacey;
+	
+						text = t('t_ambitions') + ': ' + item.ambitions.ambition;
+						pdf.text(text, x, y);
+						y = y + spacey;
+					})
+	
+					text = t('t_place_of_residence') + ': ' + location;
+					pdf.text(text, x, y);
+					y = y + spacey;
+	
+					/*text = t('t_language_knowledge') + ' ' + (info.languages !== null ? rendervalue(info.languages) : '');
+					pdf.text(text, x, y);
+					y = y + spacey;
+	
+					text = 'Education' + ' ' + rendereducational_stagesvalue(info.educational_stages);
+					pdf.text(text, x, y);
+					y = y + spacey;
+	
+					text = t("t_driver_s_license") + ' ' + renderdriver_licenses(info.driver_licenses);
+					pdf.text(text, x, y);
+					y = y + spacey; */
+	
+					text = t("t_passenger_transport") + ': ' + (info.user.passenger_transport === 0 ? t('that_s_obvious') : t('people_what'));
+					pdf.text(text, x, y);
+					y = y + spacey;
+	
+					text = t("t_hobbies") + ': ' + hobbies;
+					pdf.text(text, x, y);
+					y = y + spacey;
+
+					text = '--------------------------------------';
+					pdf.text(text, x, y);
+					y = y + spacey;
+	
+				} catch (error) {
+					pdf.text("No data", x, y);
+				}
+			}
+		})
+
 		// Save the PDF
-		pdf.save("document.pdf");
-	  };
+		pdf.save("export.pdf");
+	};
 
 	const renderUserinfo = (values) => {
 		const currentUser = allUser.filter(val => (val.user_id === values.user_add_id))[0];
