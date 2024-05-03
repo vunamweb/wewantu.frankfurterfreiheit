@@ -34,7 +34,7 @@ class Searchcenter extends Component {
 
         watchlist.length > 0 && watchlist.map(itemwl => {
 
-            newsearchJob = newsearchJob.filter(item => item.user.user_id !== itemwl.user_add_id || itemwl.type == 1 )
+            newsearchJob = newsearchJob.filter(item => item.user.user_id !== itemwl.user_add_id || itemwl.type == 1)
         })
 
         // get list of user from mobile
@@ -180,9 +180,12 @@ class Searchcenter extends Component {
     exist(parent, child) {
         let exist = false;
 
+        if (parent == undefined)
+            exist = true;
+
         try {
             child.map((item, index) => {
-                if (parent.indexOf(item) !== -1)
+                if (parent == undefined || parent.indexOf(item) !== -1)
                     exist = true;
             })
         } catch (error) {
@@ -197,7 +200,7 @@ class Searchcenter extends Component {
 
         try {
             jobListChild.map((item, index) => {
-                if (jobListParent.indexOf(item.job_id) !== -1)
+                if (jobListParent == item.job_id)
                     exist = true;
             })
         } catch (error) {
@@ -206,22 +209,22 @@ class Searchcenter extends Component {
 
         return exist;
     }
-    
+
     checkMapJob(search, job) {
         let check = false;
 
         try {
-            let searchDrive = search.drive;
+            let searchDrive = search.driver_license_id;
             let jobDrive = job.user.drive;
 
-            let searchLanguageMother = search.language.mother;
+            let searchLanguageMother = search.language_id;
             let jobLanguageMother = job.user.language.mother;
 
-            let searchLanguageForeign = search.language.foreign;
+            let searchLanguageForeign = search.foreign_language_id;
             let jobLanguageForeign = job.user.language.foreign;
 
-            let seachJobID = search.job_ids;
-            let jobList= job.profiles;
+            let seachJobID = search.job;
+            let jobList = job.profiles;
 
             if (this.exist(searchDrive, jobDrive) && this.exist(searchLanguageMother, jobLanguageMother)
                 && this.exist(searchLanguageForeign, jobLanguageForeign) && this.existJOBID(seachJobID, jobList))
@@ -264,10 +267,10 @@ class Searchcenter extends Component {
 
                         if (item.driver_license.driver_license_id != undefined)
                             seachData.drive.push(item.driver_license.driver_license_id);
-                        
-                            if (item.job_id != undefined)
+
+                        if (item.job_id != undefined)
                             seachData.job_ids.push(item.job_id);
-                        
+
                     }
                 } catch (error) {
                     console.log(error)
@@ -311,6 +314,27 @@ class Searchcenter extends Component {
             } */
         }
 
+        let filterSearch = [];
+
+        let search = localStorage.getItem('search_job_profile');
+
+        try {
+            search = JSON.parse(search);
+        } catch (error) {
+            console.log(error);
+        }
+
+        try {
+            this.state.searchData.map((item, index) => {
+                if (this.checkMapJob(search, item))
+                    filterSearch.push(item);
+            })
+        } catch (error) {
+            console.log(error);
+        }
+
+        localStorage.setItem('search_job_profile', null);
+
         const { loading, searchData, searchJob } = this.state;
         return (
 
@@ -342,7 +366,7 @@ class Searchcenter extends Component {
                             </div>
                         </div>
                         <div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{ position: 'relative', height: '600px' }}>
-                            <SearchCenterTable searchData={searchData} />
+                            <SearchCenterTable searchData={filterSearch} />
                         </div>
                     </div>
                 </React.Fragment>

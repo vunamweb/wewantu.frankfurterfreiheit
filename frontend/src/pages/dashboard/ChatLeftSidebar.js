@@ -6,7 +6,6 @@ import { getLoggedInUser,setProfessions,setdriver_licenses,setlanguages,setjob,s
 import { APIClient } from '../../helpers/apiClient';
 //Import Components
 import Searchcenter from './Tabs/Searchcenter';
-import SearchProfile from './Tabs/SearchProfile';
 import AddCategory from './Tabs/AddCategory';
 import Jobs from './Tabs/Jobs';
 import Watchlist from './Tabs/Watchlist';
@@ -21,6 +20,7 @@ import Credits from './Tabs/Credits';
 import Subcribe from './Tabs/Subcribe';
 function ChatLeftSidebar(props) {
     const activeTab = props.activeTab;
+    const setSearch = props.setSearch;
     const [loadlang, setloadlang] = useState(true);
     const [loadwatchlist, setwatchlist] = useState(true);
     const [loadblocklist, setblocklist] = useState(true);
@@ -100,10 +100,10 @@ function ChatLeftSidebar(props) {
         <React.Fragment>
                 <TabContent activeTab={activeTab}  >
                     <TabPane tabId="jobs" id="pills-jobs"   >
-                        <Jobs activeTab={activeTab}/>
+                        <Jobs activeTab={activeTab} setSearch={setSearch}/>
                     </TabPane>
                     <TabPane tabId="addnewjob" id="pills-addnewjob">
-                        <Jobs activeTab={activeTab}/>
+                        <Jobs activeTab={activeTab} />
                     </TabPane>
                     
                     <TabPane tabId="addnewcategory" id="pills-addnewcategory">
@@ -111,9 +111,6 @@ function ChatLeftSidebar(props) {
                     </TabPane>
                     <TabPane tabId="searchcenter" id="pills-searchcenter">
                         <Searchcenter professions={professions}/>
-                    </TabPane>
-                    <TabPane tabId="searchprofile" id="pills-searchprofile">
-                        <SearchProfile professions={professions}/>
                     </TabPane>
                     <TabPane tabId="watchlist" id="pills-watchlist">
                         <Watchlist loadwatchlist={loadwatchlist} setwatchlist={setwatchlist} activeTab={activeTab}/>

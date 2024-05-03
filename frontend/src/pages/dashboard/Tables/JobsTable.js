@@ -23,8 +23,9 @@ import { useTranslation } from 'react-i18next';
         setIsModalOpenadd(false);
     };
 
-    const toggleTab = tab => {
-        props.setActiveTab(tab)
+    const toggleTab = (tab, search) => {
+        props.setActiveTab(tab);
+        //props.setSearch(search);
     }
     useEffect(() => {
         if(loadlang){
@@ -143,7 +144,7 @@ import { useTranslation } from 'react-i18next';
                    });
                 settableData(dataBody);
                 setIsModalOpenadd(false);
-                toggleTab('searchprofile');
+                toggleTab('searchcenter', JSON.stringify(row));
         })
         //window.location.reload();
       };

@@ -53,7 +53,7 @@ class Jobs extends Component {
             {loading && (<div className="loader"></div>)}
             
             <React.Fragment>
-                <JobsTable setActiveTab={this.props.setActiveTab} jobData={jobData} setTab={setTab} activeTab={this.props.activeTab}/>                           
+                <JobsTable setActiveTab={this.props.setActiveTab} setsetSearch={this.props.setSearch} jobData={jobData} setTab={setTab} activeTab={this.props.activeTab}/>                           
             </React.Fragment>
             </>
             

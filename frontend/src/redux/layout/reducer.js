@@ -4,14 +4,16 @@ import {
 	OPEN_USER_PROFILE_SIDEBAR,
 	CLOSE_USER_PROFILE_SIDEBAR,
 	SET_CONVERSATION_NAME_IN_OPEN_CHAT,
-	SET_LAYOUT_MODE
+	SET_LAYOUT_MODE,
+	SET_SEARCH_DATA
 } from "./constants";
 
 const INIT_STATE = {
 	activeTab : "jobs",
 	userSidebar : false,
 	conversationName : "Admin",
-	layoutMode : "light"
+	layoutMode : "light",
+	dataSearch: null
 };
 
 const Layout = (state = INIT_STATE, action) => {
@@ -21,6 +23,12 @@ const Layout = (state = INIT_STATE, action) => {
 				...state,
 				activeTab: action.payload
 			};
+
+		case SET_SEARCH_DATA:
+			return {
+					...state,
+					dataSearch: action.payload
+			};	
 
 		case OPEN_USER_PROFILE_SIDEBAR:
 			return {

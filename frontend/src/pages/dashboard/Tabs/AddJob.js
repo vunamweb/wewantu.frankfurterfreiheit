@@ -73,14 +73,7 @@ const AddJob = (props) => {
             new APIClient().create('job_search_profile',datapost).then(val=>{
                 if(val.job_search_profile_id){
                     let selectedOptionEdit = professions !== null && professions.find((option) => option.profession_id === datapost.profession_id);
-                    let newRow = {
-                        'job_search_profile_id':val.job_search_profile_id,
-                        'job_id':values.job ? values.job :0,
-                        'job_decription':values.job_decription ? values.job_decription  : '',
-                        'profession':selectedOptionEdit.profession,
-                        requested:0,
-                        messages:0,
-                    }
+                    let newRow = values
                     props.AddRow(newRow)
                     form.resetFields();
                 }

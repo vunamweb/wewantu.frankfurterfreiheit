@@ -3,12 +3,18 @@ import {
 	OPEN_USER_PROFILE_SIDEBAR,
 	CLOSE_USER_PROFILE_SIDEBAR,
 	SET_CONVERSATION_NAME_IN_OPEN_CHAT,
-	SET_LAYOUT_MODE
+	SET_LAYOUT_MODE,
+	SET_SEARCH_DATA
 } from "./constants";
 
 export const setActiveTab = (tabId) => ({
 	type: SET_ACTIVE_TAB,
 	payload: tabId
+});
+
+export const setSearch = (search) => ({
+	type: SET_SEARCH_DATA,
+	payload: search
 });
 
 export const openUserSidebar = () => ({
