@@ -12,6 +12,7 @@ class Searchcenter extends Component {
             searchData: [],
             listuser: [],
             searchJob: [],
+            filter: false,
             limit: 5,
         };
 
@@ -180,7 +181,7 @@ class Searchcenter extends Component {
     exist(parent, child) {
         let exist = false;
 
-        if (parent == undefined)
+        if ((parent == undefined || (Array.isArray(parent) && parent.length == 0)) || (Array.isArray(child) && child.length == 0))
             exist = true;
 
         try {
@@ -200,7 +201,7 @@ class Searchcenter extends Component {
 
         try {
             jobListChild.map((item, index) => {
-                if (jobListParent == item.job_id)
+                if (jobListParent == item.job_id || (Array.isArray(jobListParent) && jobListParent.indexOf(item.job_id) !== -1))
                     exist = true;
             })
         } catch (error) {
@@ -214,16 +215,16 @@ class Searchcenter extends Component {
         let check = false;
 
         try {
-            let searchDrive = search.driver_license_id;
+            let searchDrive = (search.hasOwnProperty('job')) ? search.driver_license_id : search.drive;
             let jobDrive = job.user.drive;
 
-            let searchLanguageMother = search.language_id;
+            let searchLanguageMother = (search.hasOwnProperty('job')) ? search.language_id : search.language.mother;
             let jobLanguageMother = job.user.language.mother;
 
-            let searchLanguageForeign = search.foreign_language_id;
+            let searchLanguageForeign = (search.hasOwnProperty('job')) ? search.foreign_language_id : search.language.foreign;
             let jobLanguageForeign = job.user.language.foreign;
 
-            let seachJobID = search.job;
+            let seachJobID = (search.hasOwnProperty('job')) ? search.job : search.job_ids;
             let jobList = job.profiles;
 
             if (this.exist(searchDrive, jobDrive) && this.exist(searchLanguageMother, jobLanguageMother)
@@ -237,107 +238,99 @@ class Searchcenter extends Component {
         return check;
     }
 
+    getFilterSearch = (values) => {
+        let jobList = (this.state.jobList != undefined) ? this.state.jobList : [];
+
+        // let value to search
+        let seachData = {};
+
+        seachData.drive = [];
+
+        seachData.language = {};
+        seachData.language.mother = [];
+        seachData.language.foreign = [];
+
+        seachData.job_ids = [];
+
+        jobList.map((item, index) => {
+            try {
+                if (item.profession.profession_id == values || values == "all") {
+                    if (item.language.language_id != undefined)
+                        seachData.language.mother.push(item.language.language_id);
+
+                    if (item.foreign_language_id != undefined)
+                        seachData.language.foreign.push(item.foreign_language_id);
+
+                    if (item.driver_license.driver_license_id != undefined)
+                        seachData.drive.push(item.driver_license.driver_license_id);
+
+                    if (item.job_id != undefined)
+                        seachData.job_ids.push(item.job_id);
+
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        })
+        // END
+
+        let resultSearch = [];
+
+        try {
+            this.state.searchJob.map((item, index) => {
+                if (this.checkMapJob(seachData, item))
+                    resultSearch.push(item)
+            })
+        } catch (error) {
+            console.log(error);
+        }
+
+        return resultSearch;
+    }
+
     render() {
         document.title = "SEARCH CENTER | WEWANTU"
         const professions = getProfessions();
 
 
         const onChange = (values) => {
-            let jobList = this.state.jobList;
+            let resultSearch = this.getFilterSearch(values);
 
-            // let value to search
-            let seachData = {};
-
-            seachData.drive = [];
-
-            seachData.language = {};
-            seachData.language.mother = [];
-            seachData.language.foreign = [];
-
-            seachData.job_ids = [];
-
-            jobList.map((item, index) => {
-                try {
-                    if (item.profession.profession_id == values) {
-                        if (item.language.language_id != undefined)
-                            seachData.language.mother.push(item.language.language_id);
-
-                        if (item.foreign_language_id != undefined)
-                            seachData.language.foreign.push(item.foreign_language_id);
-
-                        if (item.driver_license.driver_license_id != undefined)
-                            seachData.drive.push(item.driver_license.driver_license_id);
-
-                        if (item.job_id != undefined)
-                            seachData.job_ids.push(item.job_id);
-
-                    }
-                } catch (error) {
-                    console.log(error)
-                }
-            })
-            // END
-
-            let resultSearch = [];
-
-            if (values == 'all') {
-                resultSearch = [...searchJob];
-            } else {
-                try {
-                    this.state.searchJob.map((item, index) => {
-                        if (this.checkMapJob(seachData, item))
-                            resultSearch.push(item)
-                    })
-                } catch (error) {
-                    console.log(error);
-                }
-            }
-
-            this.setState({ searchData: resultSearch });
-
-            /* if (values === 'all') {
-                //this.renData (this.state.listuser,this.state.searchJob)
-                this.setState({
-                    // listuser: listuser,
-                    searchData: searchJob
-                })
-
-            }
-            else {
-                let oldsearchData = [...searchJob];
-                this.setState({
-                    // listuser: listuser,
-                    searchData: oldsearchData.filter(profession => profession.profession.profession_id !== null && profession.profession.profession_id.includes(values))
-                })
-                //let a = this.state.searchJob !==null && this.state.searchJob.filter(profession => profession.profession.profession_id !==null && profession.profession.profession_id.includes(values));     
-                //this.renData (this.state.listuser,a)
-            } */
+            this.setState({ searchData: resultSearch, filter: true });
         }
 
         let filterSearch = [];
 
         let search = localStorage.getItem('search_job_profile');
 
-        try {
-            search = JSON.parse(search);
-        } catch (error) {
-            console.log(error);
-        }
+        // if click search center
+        if (search == 'null' && !this.state.filter)
+        filterSearch = this.getFilterSearch('all');
+        // if filter
+        else if (search == 'null' && this.state.filter)
+        filterSearch = this.state.searchData;
+        // go to after search
+        else {
+            try {
+                search = JSON.parse(search);
+            } catch (error) {
+                console.log(error);
+            }
 
-        try {
-            this.state.searchData.map((item, index) => {
-                if (this.checkMapJob(search, item))
-                    filterSearch.push(item);
-            })
-        } catch (error) {
-            console.log(error);
-        }
+            try {
+                this.state.searchJob.map((item, index) => {
+                    if (this.checkMapJob(search, item))
+                        filterSearch.push(item);
+                })
+            } catch (error) {
+                console.log(error);
+            }
 
-        localStorage.setItem('search_job_profile', null);
+            localStorage.setItem('search_job_profile', null);
+        }
 
         const { loading, searchData, searchJob } = this.state;
         return (
-
             <>
                 <React.Fragment>
                     {!loading && (<div className="loader"></div>)}
