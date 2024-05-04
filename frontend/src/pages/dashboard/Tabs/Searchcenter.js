@@ -10,7 +10,7 @@ class Searchcenter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: false,
+            //loading: false,
             searchData: [],
             listuser: [],
             listJobProfile: [],
@@ -118,7 +118,7 @@ class Searchcenter extends Component {
             listJobProfileAll: searchJob,
             listJobProfileMobile: newsearchJob.filter(val => val.user.user_id !== admin.user_id),
             jobList: jobList,
-            loading: true
+            //loading: true
         })
     }
 
@@ -252,7 +252,7 @@ class Searchcenter extends Component {
     }
 
     onClickJobProfile = (item) => {
-        this.setState({ search: true, searchItem: item })
+        this.setState({ search: true, loading: true, searchItem: item })
     }
 
     render() {
@@ -300,8 +300,8 @@ class Searchcenter extends Component {
         const { loading, searchData, searchJob } = this.state;
         return (
             <>
-                <React.Fragment>
-                    {!loading && (<div className="loader"></div>)}
+             <React.Fragment>
+                    {loading && (<div className="loader"></div>)}
                     <div class="row">
                         <div class="col-md-5">
                             <table class="table">{headerJobProfile}{listJobProfile}</table>
@@ -332,7 +332,7 @@ class Searchcenter extends Component {
                                     </div>
                                 </div>
                                 <div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{ position: 'relative', height: '600px' }}>
-                                    <SearchCenterTable searchData={filterSearch} />
+                                    <SearchCenterTable searchData={filterSearch} component={this} />
                                 </div>
                             </div>
 
