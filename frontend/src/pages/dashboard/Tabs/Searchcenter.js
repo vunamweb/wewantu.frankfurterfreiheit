@@ -4,6 +4,8 @@ import { Select } from "antd";
 import { APIClient } from '../../../helpers/apiClient';
 import { getLoggedInUser, getProfessions } from '../../../helpers/authUtils';
 import { t } from 'i18next';
+import functions from '../../../function/function';
+
 class Searchcenter extends Component {
     constructor(props) {
         super(props);
@@ -11,11 +13,14 @@ class Searchcenter extends Component {
             loading: false,
             searchData: [],
             listuser: [],
+            listJobProfile: [],
             searchJob: [],
+            search: false,
+            searchItem: {},
             filter: false,
+            categoryID: 'all',
             limit: 5,
         };
-
     }
 
     async componentDidMount() {
@@ -110,8 +115,8 @@ class Searchcenter extends Component {
 
         this.setState({
             // listuser: listuser,
-            searchJob: newsearchJob.filter(val => val.user.user_id !== admin.user_id),
-            searchData: newsearchJob.filter(val => val.user.user_id !== admin.user_id),
+            listJobProfileAll: searchJob,
+            listJobProfileMobile: newsearchJob.filter(val => val.user.user_id !== admin.user_id),
             jobList: jobList,
             loading: true
         })
@@ -178,66 +183,6 @@ class Searchcenter extends Component {
         return result;
     }
 
-    exist(parent, child) {
-        let exist = false;
-
-        if ((parent == undefined || (Array.isArray(parent) && parent.length == 0)) || (Array.isArray(child) && child.length == 0))
-            exist = true;
-
-        try {
-            child.map((item, index) => {
-                if (parent == undefined || parent.indexOf(item) !== -1)
-                    exist = true;
-            })
-        } catch (error) {
-            console.log(error);
-        }
-
-        return exist;
-    }
-
-    existJOBID(jobListParent, jobListChild) {
-        let exist = false;
-
-        try {
-            jobListChild.map((item, index) => {
-                if (jobListParent == item.job_id || (Array.isArray(jobListParent) && jobListParent.indexOf(item.job_id) !== -1))
-                    exist = true;
-            })
-        } catch (error) {
-            console.log(error);
-        }
-
-        return exist;
-    }
-
-    checkMapJob(search, job) {
-        let check = false;
-
-        try {
-            let searchDrive = (search.hasOwnProperty('job')) ? search.driver_license_id : search.drive;
-            let jobDrive = job.user.drive;
-
-            let searchLanguageMother = (search.hasOwnProperty('job')) ? search.language_id : search.language.mother;
-            let jobLanguageMother = job.user.language.mother;
-
-            let searchLanguageForeign = (search.hasOwnProperty('job')) ? search.foreign_language_id : search.language.foreign;
-            let jobLanguageForeign = job.user.language.foreign;
-
-            let seachJobID = (search.hasOwnProperty('job')) ? search.job : search.job_ids;
-            let jobList = job.profiles;
-
-            if (this.exist(searchDrive, jobDrive) && this.exist(searchLanguageMother, jobLanguageMother)
-                && this.exist(searchLanguageForeign, jobLanguageForeign) && this.existJOBID(seachJobID, jobList))
-
-                check = true;
-        } catch (error) {
-            console.log(error);
-        }
-
-        return check;
-    }
-
     getFilterSearch = (values) => {
         let jobList = (this.state.jobList != undefined) ? this.state.jobList : [];
 
@@ -288,78 +233,109 @@ class Searchcenter extends Component {
         return resultSearch;
     }
 
+    getJobProfile = (values) => {
+        let jobList = (this.state.jobList != undefined) ? this.state.jobList : [];
+
+        let result = [];
+
+        jobList.map((item, index) => {
+            try {
+                if (item.profession.profession_id == values || values == "all") {
+                    result.push(item);
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        })
+
+        return result;
+    }
+
+    onClickJobProfile = (item) => {
+        this.setState({ search: true, searchItem: item })
+    }
+
     render() {
         document.title = "SEARCH CENTER | WEWANTU"
         const professions = getProfessions();
 
 
-        const onChange = (values) => {
-            let resultSearch = this.getFilterSearch(values);
+        const onChange = (categoryID) => {
+            //let resultSearch = this.getJobProfile(values);
 
-            this.setState({ searchData: resultSearch, filter: true });
+            this.setState({ categoryID: categoryID });
         }
 
         let filterSearch = [];
 
         let search = localStorage.getItem('search_job_profile');
 
+        //if search
+        if (this.state.search) {
+          filterSearch = functions.getListUser(this.state.listJobProfileMobile, this.state.searchItem);
+        }
         // if click search center
-        if (search == 'null' && !this.state.filter)
-        filterSearch = this.getFilterSearch('all');
+        else if (search == 'null' && !this.state.search)
+            filterSearch = [];
         // if filter
         else if (search == 'null' && this.state.filter)
-        filterSearch = this.state.searchData;
+            filterSearch = [];
         // go to after search
         else {
             try {
                 search = JSON.parse(search);
             } catch (error) {
+                search = [];
                 console.log(error);
             }
 
-            try {
-                this.state.searchJob.map((item, index) => {
-                    if (this.checkMapJob(search, item))
-                        filterSearch.push(item);
-                })
-            } catch (error) {
-                console.log(error);
-            }
+           filterSearch = functions.getListUser(this.state.listJobProfileMobile, search);
 
-            localStorage.setItem('search_job_profile', null);
+           localStorage.setItem('search_job_profile', null);
         }
+
+        let listJobProfile = functions.getListJobProfileCurrent(this.state.categoryID, this.state.listJobProfileAll, this.onClickJobProfile);
+        let headerJobProfile = functions.HeaderJobPfofile();
 
         const { loading, searchData, searchJob } = this.state;
         return (
             <>
                 <React.Fragment>
                     {!loading && (<div className="loader"></div>)}
-                    <div className="main_job">
-                        <div className='row g-3 title'>
-                            <div className="col-md">{t('t_search_center').toUpperCase()}</div>
-                            <div className="col-md-4 align-middle">
-                                <Select
-                                    showSearch
-                                    id="category"
-                                    name="category"
-                                    className="form-control searchcenterselect title"
-                                    placeholder={t('t_category').toUpperCase()}
-                                    onChange={onChange}
-                                //options={professions.map((item) => ({
-                                // label: item.profession,
-                                //    value: item.profession_id
-                                // }))}
-                                >
-                                    <Select.Option value="all">All</Select.Option>
-                                    {professions !== null && professions.map((item) => (
-                                        <Select.Option value={item.profession_id}>{item.profession}</Select.Option>
-                                    ))}
-
-                                </Select>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <table class="table">{headerJobProfile}{listJobProfile}</table>
                         </div>
-                        <div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{ position: 'relative', height: '600px' }}>
-                            <SearchCenterTable searchData={filterSearch} />
+                        <div class="col-md-5">
+                            <div className="main_job">
+                                <div className='row g-3 title'>
+                                    <div className="col-md">{t('t_search_center').toUpperCase()}</div>
+                                    <div className="col-md-4 align-middle">
+                                        <Select
+                                            showSearch
+                                            id="category"
+                                            name="category"
+                                            className="form-control searchcenterselect title"
+                                            placeholder={t('t_category').toUpperCase()}
+                                            onChange={onChange}
+                                        //options={professions.map((item) => ({
+                                        // label: item.profession,
+                                        //    value: item.profession_id
+                                        // }))}
+                                        >
+                                            <Select.Option value="all">All</Select.Option>
+                                            {professions !== null && professions.map((item) => (
+                                                <Select.Option value={item.profession_id}>{item.profession}</Select.Option>
+                                            ))}
+
+                                        </Select>
+                                    </div>
+                                </div>
+                                <div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{ position: 'relative', height: '600px' }}>
+                                    <SearchCenterTable searchData={filterSearch} />
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </React.Fragment>
