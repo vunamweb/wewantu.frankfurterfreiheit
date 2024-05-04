@@ -132,6 +132,7 @@ class Searchcenter extends Component {
 
         return position;
     }
+    
     mixJobProfile(jobProfileList) {
         let result = [];
 
@@ -177,74 +178,6 @@ class Searchcenter extends Component {
                 } catch (error) {
                     console.log(error);
                 }
-            }
-        })
-
-        return result;
-    }
-
-    getFilterSearch = (values) => {
-        let jobList = (this.state.jobList != undefined) ? this.state.jobList : [];
-
-        // let value to search
-        let seachData = {};
-
-        seachData.drive = [];
-
-        seachData.language = {};
-        seachData.language.mother = [];
-        seachData.language.foreign = [];
-
-        seachData.job_ids = [];
-
-        jobList.map((item, index) => {
-            try {
-                if (item.profession.profession_id == values || values == "all") {
-                    if (item.language.language_id != undefined)
-                        seachData.language.mother.push(item.language.language_id);
-
-                    if (item.foreign_language_id != undefined)
-                        seachData.language.foreign.push(item.foreign_language_id);
-
-                    if (item.driver_license.driver_license_id != undefined)
-                        seachData.drive.push(item.driver_license.driver_license_id);
-
-                    if (item.job_id != undefined)
-                        seachData.job_ids.push(item.job_id);
-
-                }
-            } catch (error) {
-                console.log(error)
-            }
-        })
-        // END
-
-        let resultSearch = [];
-
-        try {
-            this.state.searchJob.map((item, index) => {
-                if (this.checkMapJob(seachData, item))
-                    resultSearch.push(item)
-            })
-        } catch (error) {
-            console.log(error);
-        }
-
-        return resultSearch;
-    }
-
-    getJobProfile = (values) => {
-        let jobList = (this.state.jobList != undefined) ? this.state.jobList : [];
-
-        let result = [];
-
-        jobList.map((item, index) => {
-            try {
-                if (item.profession.profession_id == values || values == "all") {
-                    result.push(item);
-                }
-            } catch (error) {
-                console.log(error)
             }
         })
 
