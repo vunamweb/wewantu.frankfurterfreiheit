@@ -2,7 +2,7 @@ import React, { useEffect,useState } from 'react';
 import { connect } from "react-redux";
 
 import { TabContent, TabPane } from "reactstrap";
-import { getLoggedInUser,setProfessions,setdriver_licenses,setlanguages,setjob,setjob_search_profiles,setAllUser } from '../../helpers/authUtils';
+import { getLoggedInUser,setProfessions,setdriver_licenses,setlanguages,setjob,setjob_search_profiles,setAllUser, setjob_search_profiles_all } from '../../helpers/authUtils';
 import { APIClient } from '../../helpers/apiClient';
 //Import Components
 import Searchcenter from './Tabs/Searchcenter';
@@ -60,6 +60,14 @@ function ChatLeftSidebar(props) {
                     setjob_search_profiles(res)
                 }
             });
+
+             //load job_search_profiles_all
+             new APIClient().get('list_job_search_profiles').then(res =>{
+                if(res){  
+                    setjob_search_profiles_all(res)
+                }
+            });
+
             //load driver_licenses
             new APIClient().get('driver_licenses').then(res=>{
                 if(res){
@@ -92,7 +100,6 @@ function ChatLeftSidebar(props) {
                 } 
             });
 
-            
             setloadlang(false);
         }            
     },[loadlang,admin]);

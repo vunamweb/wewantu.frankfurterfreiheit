@@ -85,6 +85,10 @@ const setdriver_licenses =(driver_licenses) =>{
     localStorage.setItem('driver_licenses', JSON.stringify(driver_licenses));
 }
 
+const setjob_search_profiles_all =(job_search_profiles_all) =>{
+    localStorage.setItem('job_search_profiles_all', JSON.stringify(job_search_profiles_all));
+}
+
 const getdriver_licenses =() =>{
     
     const driver_licenses = localStorage.getItem('driver_licenses');
@@ -117,4 +121,4 @@ const getforeign_language =() =>{
     return foreign_language ? (typeof (user) == 'object' ? foreign_language : JSON.parse(foreign_language)) : null;
 }
 
-export { getAllUser,setAllUser,getjob,setjob,isUserAuthenticated, setLoggedInUser, getLoggedInUser,setProfessions,getProfessions,getjob_search_profiles,setjob_search_profiles,getdriver_licenses,setdriver_licenses,getlanguages,setlanguages,getforeign_language };
+export { getAllUser,setAllUser,getjob,setjob,isUserAuthenticated, setLoggedInUser, getLoggedInUser,setProfessions,getProfessions,getjob_search_profiles,setjob_search_profiles,getdriver_licenses,setdriver_licenses,getlanguages,setlanguages,getforeign_language, setjob_search_profiles_all };

@@ -12,23 +12,24 @@ import { Button } from 'reactstrap';
 import { APIClient } from '../../../helpers/apiClient';
 import WatchListModal from '../Modal/WatchListModal';
 import jsPDF from 'jspdf';
-
+import functions from '../../../function/function';
 
 function Watchlist(props) {
-
-	document.title = "Watchlist | WEWANTU"
+   document.title = "Watchlist | WEWANTU"
 	const admin = getLoggedInUser()[0];
 	const allUser = getAllUser();
 	const loadwatchlist = props.loadwatchlist;
 	const professions = getProfessions();
-	const onChange = (values) => { }
 	const [loadlang, setloadlang] = useState(true);
+	const [search, setSearch] = useState(null);
+	const [categoryID, setCategoryID] = useState('all');
 	const [currentUser, setcurrentUser] = useState({});
 	const [isModalOpenDetail, setIsModalOpenDetail] = useState(false);
 	const CheckboxGroup = Checkbox.Group;
 	const plainOptions = ['A', 'B', 'C'];
 	const defaultCheckedList = ['Apple', 'Orange'];
 	const [watchlistData, setwatchlistData] = useState([]);
+	const [watchListFilter, setwatchListFilter] = useState([]);
 	const [checkedList, setCheckedList] = useState([]);
 	const checkAll = plainOptions.length === checkedList.length;
 	const indeterminate = checkedList.length > 0 && checkedList.length < plainOptions.length;
@@ -113,11 +114,11 @@ function Watchlist(props) {
 	const ondeleteWL = (info, index) => {
 		const result = window.confirm("Do you want to proceed?");
 		if (result) {
-			let tmp = [...watchlistData];
+			let tmp = [...watchListFilter];
 			console.log(info.user_watchlist_id);
 			new APIClient().delete('user_watchlist/' + info.user_watchlist_id).then(res => {
 				tmp.splice(index, 1)
-				setwatchlistData(tmp)
+				setwatchListFilter(tmp)
 			})
 		}
 	};
@@ -319,10 +320,63 @@ function Watchlist(props) {
 			)
 	}
 
+	const existIntoWatchList = (filterSearch, user_id) => {
+		let check = false;
+
+		filterSearch.map((item, index) => {
+			if(item.user.user_id == user_id)
+			check = true;
+		})
+
+		return check;
+	}
+
+	const onClickJobProfile = (item) => {
+		let listUserProfile = localStorage.getItem('listUserProfile');
+
+		try {
+listUserProfile = JSON.parse(listUserProfile);
+		} catch(error) {
+			listUserProfile = [];
+		}
+
+		let filterSearch = functions.getListUser(listUserProfile, item);
+
+		let watchListFilter = [];
+
+		try {
+watchlistData.map((item, index) => {
+	if(existIntoWatchList(filterSearch, item.user_add_id))
+	watchListFilter.push(item)
+})
+		} catch(error) {
+
+		}
+		setwatchListFilter(watchListFilter);
+	}
+	
+	const onChange = (values) => { 
+		setCategoryID(values);
+	}
+	
+
+	let listJobProfileAll = localStorage.getItem('job_search_profiles_all');
+
+	try {
+		listJobProfileAll = JSON.parse(listJobProfileAll);
+	} catch(error) {
+listJobProfileAll = [];
+	}
+	
+    let listJobProfile = functions.getListJobProfileCurrent(categoryID, listJobProfileAll, onClickJobProfile);
+	let headerJobProfile = functions.HeaderJobPfofile();
+
 	if (watchlistData.length > 0) {
 		return (
 			<React.Fragment>
-
+                <div class="list_job">
+                    <table class="table">{headerJobProfile}{listJobProfile}</table>
+                </div>
 				<div className="main-mes">
 					<div className="container-fluid px-0">
 						<div className="row w-title">
@@ -358,7 +412,9 @@ function Watchlist(props) {
 							</div>
 						</div>
 					</div>
-					<div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{ position: 'relative', height: '600px' }}>
+					{
+						(watchListFilter.length > 0) ?
+						<div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{ position: 'relative', height: '600px' }}>
 						<form>
 							<div className="row w-checkall">
 								<div className="col-md-7">
@@ -377,7 +433,7 @@ function Watchlist(props) {
 						<CheckboxGroup value={checkedList} onChange={onChangecheckbox} >
 							<table className="table">
 								<tbody className='table-watchlist'>
-									{watchlistData.map((info, index) => {
+									{watchListFilter.map((info, index) => {
 										if (info.type == 1)
 											return (
 												<tr>
@@ -403,11 +459,11 @@ function Watchlist(props) {
 								</tbody>
 							</table>
 						</CheckboxGroup>
-
-					</div>
+                    </div>
+				 : null	
+					}
 				</div>
-
-				<WatchListModal currentUser={currentUser} JsonData={null} isModalOpenDetail={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />
+<WatchListModal currentUser={currentUser} JsonData={null} isModalOpenDetail={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />
 			</React.Fragment>
 		);
 	}
