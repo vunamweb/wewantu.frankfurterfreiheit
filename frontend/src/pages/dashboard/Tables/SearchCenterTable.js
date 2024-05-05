@@ -10,7 +10,7 @@ import { APIClient } from '../../../helpers/apiClient';
 function SearchCenterDisplay(props) {
     const JsonData = props.searchData;
     const [loading, setloading] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(true);
     const [isModalOpenDetail, setIsModalOpenDetail] = useState(false);
     const [currentUser, setcurrentUser] = useState({});
     const [currentIndex, setcurrentIndex] = useState(-1);

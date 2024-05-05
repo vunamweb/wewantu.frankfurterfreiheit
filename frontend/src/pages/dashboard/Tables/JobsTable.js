@@ -14,7 +14,8 @@ import { useTranslation } from 'react-i18next';
     const [curindex, setcurindex] = useState('');    
     const [loadlang, setloadlang] = useState(true);
     const { t } = useTranslation();
-    const [tableData,settableData] = useState([]);     
+    const [tableData,settableData] = useState([]);
+    const [categoryID,setCategoryID] = useState('all');
     const handleCancel = () => {
         setIsModalOpen(false);
     };
@@ -60,6 +61,7 @@ import { useTranslation } from 'react-i18next';
                         job_id:info.job_id,
                         job_decription:info.job_decription,
                         profession:info.profession.profession,
+                        profession_id:info.profession.profession_id,
                         requested:info.requested,
                         messages:info.messages,
                         created_at:info.created_at
@@ -116,6 +118,17 @@ import { useTranslation } from 'react-i18next';
         dataRow[curindex]=row;
         settableData(dataRow);
       };
+
+    const getfilterTableData = () => {
+        let result = [];
+
+        tableData.map((item, index) => {
+            if(item.profession_id == categoryID || categoryID == 'all')
+            result.push(item);
+        })
+
+        return result;
+    }  
       
     const AddRow = (row) => {
         localStorage.setItem('search_job_profile',JSON.stringify(row));
@@ -151,12 +164,14 @@ import { useTranslation } from 'react-i18next';
     const columns = [
         { label: t('t_job_id').toUpperCase(), accessor: "job_id", sortable: true },
         { label: t('t_job_description').toUpperCase(), accessor: "job_decription", sortable: true },
-        { label: t('t_category').toUpperCase(), accessor: "profession", sortable: true },
+        { label: t('t_category').toUpperCase(), accessor: "profession", sortable: false },
         { label: t('t_requested').toUpperCase(), accessor: "requested", sortable: false },
         { label: t('t_messages').toUpperCase(), accessor: "messages", sortable: false },
        ];
        
        !loadlang && (<div className="loader"></div>)
+
+       let filterTableData = getfilterTableData(); 
        //if(props.activeTab === 'jobs'){
         return(
             <React.Fragment>
@@ -178,8 +193,8 @@ import { useTranslation } from 'react-i18next';
                     <div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{position:'relative',height:'600px'}}>
                     
                         <table className="table">
-                            <TableHead columns={columns} handleSorting={handleSorting}/>
-                            <TableBody columns={columns} tableName='JobsTable' tableRowEdit={tableRowEdit} tableRowRemove={tableRowRemove} tableData={tableData} tableDataadd={tableData} />
+                            <TableHead setCategoryID={setCategoryID} columns={columns} handleSorting={handleSorting}/>
+                            <TableBody columns={columns} tableName='JobsTable' tableRowEdit={tableRowEdit} tableRowRemove={tableRowRemove} tableData={filterTableData} tableDataadd={filterTableData} />
                         </table>
     
                         <Modal open={isModalOpen} onCancel={handleCancel} width={1000} footer=" ">
