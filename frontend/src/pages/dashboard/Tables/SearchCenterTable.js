@@ -10,7 +10,7 @@ import { APIClient } from '../../../helpers/apiClient';
 function SearchCenterDisplay(props) {
     const JsonData = props.searchData;
     const [loading, setloading] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenDetail, setIsModalOpenDetail] = useState(false);
     const [currentUser, setcurrentUser] = useState({});
     const [currentIndex, setcurrentIndex] = useState(-1);
@@ -19,12 +19,13 @@ function SearchCenterDisplay(props) {
     useEffect(() => {
         // This function will run after the component renders
         const timer = setTimeout(() => {
+            if(props.component.state.loading)
             props.component.setState({ loading: false })
-        }, 100);
+        }, 200);
     
         // Cleanup function to clear the timer when the component unmounts
         return () => clearTimeout(timer);
-      }, [props]);
+      });
 
     /*try {
         setTimeout(props.component.setState({ loading: false }), 2000);

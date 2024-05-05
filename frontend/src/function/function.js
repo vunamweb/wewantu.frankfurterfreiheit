@@ -65,16 +65,16 @@ class Functions {
         let check = false;
 
         try {
-            let searchDrive = search.driver_license.driver_license_id;
+            let searchDrive = (search.driver_license == undefined) ? search.driver_license_id : search.driver_license.driver_license_id;
             let jobDrive = job.user.drive;
 
-            let searchLanguageMother = search.language.language_id;
+            let searchLanguageMother = (search.language == undefined) ? search.language_id : search.language.language_id;
             let jobLanguageMother = job.user.language.mother;
 
             let searchLanguageForeign = search.foreign_language_id;
             let jobLanguageForeign = job.user.language.foreign;
 
-            let seachJobID = search.job_id;
+            let seachJobID = (search.job_id == undefined) ? search.job : search.job_id;
             let jobList = job.profiles;
 
             if (this.exist(searchDrive, jobDrive) && this.exist(searchLanguageMother, jobLanguageMother)
