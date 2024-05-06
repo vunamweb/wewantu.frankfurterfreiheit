@@ -45,6 +45,7 @@ function SearchCenterDisplay(props) {
         setcurrentIndex(index)
         setIsModalOpenDetail(true)
         setcurrentUser(id)
+        // setIsModalOpen(true)
     }
     const handleWLClick = (id, index) => {
         addwatclist(id)

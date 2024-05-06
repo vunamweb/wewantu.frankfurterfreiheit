@@ -120,7 +120,7 @@ function ChatLeftSidebar(props) {
                         <Searchcenter professions={professions}/>
                     </TabPane>
                     <TabPane tabId="watchlist" id="pills-watchlist">
-                        <Watchlist loadwatchlist={loadwatchlist} setwatchlist={setwatchlist} activeTab={activeTab}/>
+                        <Watchlist recentChatList={props.recentChatList} loadwatchlist={loadwatchlist} setwatchlist={setwatchlist} activeTab={activeTab}/>
                     </TabPane>
                     <TabPane tabId="blocklist" id="pills-blocklist">
                         <Blocklist loadwatchlist={loadwatchlist} setwatchlist={setwatchlist} activeTab={activeTab}/>

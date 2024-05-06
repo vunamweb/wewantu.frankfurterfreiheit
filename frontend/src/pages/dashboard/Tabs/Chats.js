@@ -13,6 +13,7 @@ import { setconversationNameInOpenChat, activeUser } from "../../../redux/action
 class Chats extends Component {
     constructor(props) {
         super(props);
+        
         this.state = {
             searchChat: "",
             recentChatList: this.props.recentChatList

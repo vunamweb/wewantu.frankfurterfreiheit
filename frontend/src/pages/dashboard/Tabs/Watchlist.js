@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getProfessions } from '../../../helpers/authUtils';
-import { Select } from "antd";
+import { Modal, Select } from "antd";
 import { FaRegStar } from "react-icons/fa";
 import { t } from 'i18next';
 import { Checkbox } from 'antd';
@@ -13,9 +13,14 @@ import { APIClient } from '../../../helpers/apiClient';
 import WatchListModal from '../Modal/WatchListModal';
 import jsPDF from 'jspdf';
 import functions from '../../../function/function';
+import Chats from "./Chats";
+import UserChat from "../UserChat/index";
+import UserTemplate from './UserTemplate';
+import WatchListSendMessageModal from '../Modal/WatchListSendMessageModal';
 
 function Watchlist(props) {
-   document.title = "Watchlist | WEWANTU"
+
+	document.title = "Watchlist | WEWANTU"
 	const admin = getLoggedInUser()[0];
 	const allUser = getAllUser();
 	const loadwatchlist = props.loadwatchlist;
@@ -25,6 +30,10 @@ function Watchlist(props) {
 	const [categoryID, setCategoryID] = useState('all');
 	const [currentUser, setcurrentUser] = useState({});
 	const [isModalOpenDetail, setIsModalOpenDetail] = useState(false);
+
+	const [isModalOpenSendMessage, setIsModalOpenSendMessage] = useState(false);
+	const [userChatList, setUserChatList] = useState([]);
+
 	const CheckboxGroup = Checkbox.Group;
 	const plainOptions = ['A', 'B', 'C'];
 	const defaultCheckedList = ['Apple', 'Orange'];
@@ -33,6 +42,9 @@ function Watchlist(props) {
 	const [checkedList, setCheckedList] = useState([]);
 	const checkAll = plainOptions.length === checkedList.length;
 	const indeterminate = checkedList.length > 0 && checkedList.length < plainOptions.length;
+
+
+
 	const onChangecheckbox = (list) => {
 		setCheckedList(list);
 	};
@@ -43,6 +55,10 @@ function Watchlist(props) {
 	const handleCancelDetail = () => {
 		setIsModalOpenDetail(false);
 	}
+
+	const handleCancelSendMessage = () => {
+		setIsModalOpenSendMessage(false);
+	};
 
 	const rendervalue = (lang) => {
 		return typeof lang !== 'undefined' && lang.map(val => {
@@ -103,6 +119,7 @@ function Watchlist(props) {
 
 		if (props.activeTab === 'watchlist') {
 			new APIClient().get('user/' + admin.user_id + '/user_watchlist').then(res => {
+				// console.log(res);
 				if (res.length > 0) {
 
 					setwatchlistData(res)
@@ -140,7 +157,7 @@ function Watchlist(props) {
 
 		return userProfile;
 	}
-	
+
 	const handleDTClick = (info) => {
 		setIsModalOpenDetail(true)
 
@@ -161,35 +178,43 @@ function Watchlist(props) {
 		setcurrentUser(userProfile);
 	}
 
+	const handleSendMessage = (info) => {
+		// const users = props.recentChatList.filter((x) => { return x.user_id == info.user_add_id });
+		// setUserChatList(users);
+		const currentUser = allUser.filter(val => (val.user_id === info.user_add_id))[0];
+		setcurrentUser(currentUser);
+		setIsModalOpenSendMessage(true);
+	}
+
 	const exportPDF = (item) => {
 		const x = 10;
 		let y = 10, spacey = 8;
 
 		const fontSize = 12;
 		const docWidth = 210; // in mm
-        const docHeight = 597; // in mm
+		const docHeight = 597; // in mm
 
 		// Create a new jsPDF instance
 		const pdf = new jsPDF({
 			orientation: 'portrait', // or 'landscape'
 			unit: 'mm',
 			format: [docWidth, docHeight]
-		  });
+		});
 
 		pdf.setFontSize(fontSize);
 
 		watchlistData.map((info, index) => {
-			if(info.type == 1) {
+			if (info.type == 1) {
 
 				info = getUserprofileFromWatchList(info);
 
 				try {
 					let hobbiesList, hobbies = '';
-	
+
 					try {
 						hobbiesList = info.user.hobbies;
 						hobbiesList = JSON.parse(hobbiesList);
-	
+
 						for (let i = 0; i < hobbiesList.length; i++) {
 							if (i < hobbiesList.length - 1)
 								hobbies = hobbies + hobbiesList[i] + ', ';
@@ -199,75 +224,75 @@ function Watchlist(props) {
 					} catch (error) {
 						hobbies = info.user.hobbies;
 					}
-	
+
 					let name = info.user.prename.toUpperCase() + ' ' + info.user.lastname.toUpperCase();
 					pdf.text(name, x, y);
 					y = y + spacey;
-	
+
 					let location = info.address[0].city + ' ' + info.address[0].postal_code;
 					pdf.text(location, x, y);
 					y = y + spacey;
-	
+
 					let text;
-	
+
 					info.profiles.map((item, index) => {
 						item.job_id = (item.job_id != undefined) ? item.job_id : 0;
-	
+
 						let jobLabel = getNameJobFromId(item.job_id);
-	
+
 						let positionProfile = 'Profile ' + (index + 1);
 						pdf.text(positionProfile, x, y);
 						y = y + spacey;
 
 						text = '-------';
-					    pdf.text(text, x, y);
-					    y = y + spacey;
+						pdf.text(text, x, y);
+						y = y + spacey;
 
 						text = t('t_job_desire') + ': ' + jobLabel;
 						pdf.text(text, x, y);
 						y = y + spacey;
-	
+
 						text = t('t_location') + ': ' + item.max_distance + ' km PLZ ' + item.postalcode;
 						pdf.text(text, x, y);
 						y = y + spacey;
-	
+
 						text = t('t_salary_request') + ': ' + item.desired_salary * 500;
 						pdf.text(text, x, y);
 						y = y + spacey;
-	
+
 						text = t('t_working_hours_week') + ': ' + item.desired_weekly_hours;
 						pdf.text(text, x, y);
 						y = y + spacey;
-	
+
 						text = t('t_days_week') + ': ' + item.desired_working_days_per_week;
 						pdf.text(text, x, y);
 						y = y + spacey;
-	
+
 						text = t('t_holiday_days') + ': ' + item.desired_holiday_days_per_year;
 						pdf.text(text, x, y);
 						y = y + spacey;
-	
+
 						text = t('t_home_office') + ': ' + item.desired_work_at_home.value;
 						pdf.text(text, x, y);
 						y = y + spacey;
-	
+
 						text = t('t_working_on weekends') + ': ' + item.desired_work_at_weekend.value;
 						pdf.text(text, x, y);
 						y = y + spacey;
-	
+
 						text = t('t_night_work') + ': ' + item.desired_work_at_night.value;
 						pdf.text(text, x, y);
 						y = y + spacey;
-	
+
 						text = t('t_ambitions') + ': ' + item.ambitions.ambition;
 						pdf.text(text, x, y);
 						y = y + spacey;
 					})
-	
+
 					text = t('t_place_of_residence') + ': ' + location;
 					pdf.text(text, x, y);
 					y = y + spacey;
-	
+
 					/*text = t('t_language_knowledge') + ' ' + (info.languages !== null ? rendervalue(info.languages) : '');
 					pdf.text(text, x, y);
 					y = y + spacey;
@@ -279,11 +304,11 @@ function Watchlist(props) {
 					text = t("t_driver_s_license") + ' ' + renderdriver_licenses(info.driver_licenses);
 					pdf.text(text, x, y);
 					y = y + spacey; */
-	
+
 					text = t("t_passenger_transport") + ': ' + (info.user.passenger_transport === 0 ? t('that_s_obvious') : t('people_what'));
 					pdf.text(text, x, y);
 					y = y + spacey;
-	
+
 					text = t("t_hobbies") + ': ' + hobbies;
 					pdf.text(text, x, y);
 					y = y + spacey;
@@ -291,7 +316,7 @@ function Watchlist(props) {
 					text = '--------------------------------------';
 					pdf.text(text, x, y);
 					y = y + spacey;
-	
+
 				} catch (error) {
 					pdf.text("No data", x, y);
 				}
@@ -304,7 +329,7 @@ function Watchlist(props) {
 
 	const renderUserinfo = (values) => {
 		const currentUser = allUser.filter(val => (val.user_id === values.user_add_id))[0];
-		console.log(currentUser)
+
 		if (currentUser != undefined)
 			return (
 				<>
@@ -324,8 +349,8 @@ function Watchlist(props) {
 		let check = false;
 
 		filterSearch.map((item, index) => {
-			if(item.user.user_id == user_id)
-			check = true;
+			if (item.user.user_id == user_id)
+				check = true;
 		})
 
 		return check;
@@ -335,8 +360,8 @@ function Watchlist(props) {
 		let listUserProfile = localStorage.getItem('listUserProfile');
 
 		try {
-listUserProfile = JSON.parse(listUserProfile);
-		} catch(error) {
+			listUserProfile = JSON.parse(listUserProfile);
+		} catch (error) {
 			listUserProfile = [];
 		}
 
@@ -345,38 +370,41 @@ listUserProfile = JSON.parse(listUserProfile);
 		let watchListFilter = [];
 
 		try {
-watchlistData.map((item, index) => {
-	if(existIntoWatchList(filterSearch, item.user_add_id))
-	watchListFilter.push(item)
-})
-		} catch(error) {
+			watchlistData.map((item, index) => {
+				if (existIntoWatchList(filterSearch, item.user_add_id))
+					watchListFilter.push(item)
+			})
+		} catch (error) {
 
 		}
 		setwatchListFilter(watchListFilter);
 	}
-	
-	const onChange = (values) => { 
+
+	const onChange = (values) => {
 		setCategoryID(values);
 	}
-	
+
 
 	let listJobProfileAll = localStorage.getItem('job_search_profiles_all');
 
 	try {
 		listJobProfileAll = JSON.parse(listJobProfileAll);
-	} catch(error) {
-listJobProfileAll = [];
+	} catch (error) {
+		listJobProfileAll = [];
 	}
-	
-    let listJobProfile = functions.getListJobProfileCurrent(categoryID, listJobProfileAll, onClickJobProfile);
+
+	let listJobProfile = functions.getListJobProfileCurrent(categoryID, listJobProfileAll, onClickJobProfile);
 	let headerJobProfile = functions.HeaderJobPfofile();
 
 	if (watchlistData.length > 0) {
+		let filterSearch = [];
+		filterSearch = functions.getListUser(allUser, {});
+		console.log(filterSearch);
 		return (
 			<React.Fragment>
-                <div class="list_job">
-                    <table class="table">{headerJobProfile}{listJobProfile}</table>
-                </div>
+				<div class="list_job">
+					<table class="table">{headerJobProfile}{listJobProfile}</table>
+				</div>
 				<div className="main-mes">
 					<div className="container-fluid px-0">
 						<div className="row w-title">
@@ -414,56 +442,59 @@ listJobProfileAll = [];
 					</div>
 					{
 						(watchListFilter.length > 0) ?
-						<div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{ position: 'relative', height: '600px' }}>
-						<form>
-							<div className="row w-checkall">
-								<div className="col-md-7">
-									<Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>
-										Check all
-										</Checkbox>
-								</div>
-								<div className="col-md-2">
-									<Button className="btn btn-primary form-control" size="sm" onClick={(e) => exportPDF(null)}>EXPORT PDF</Button>
-								</div>
-								<div className="col-md-3">
-									<Button className="btn btn-primary form-control" size="sm" type="submit">SEND MASSAGE ALL CHECKED</Button>
-								</div>
-							</div>
-						</form>
-						<CheckboxGroup value={checkedList} onChange={onChangecheckbox} >
-							<table className="table">
-								<tbody className='table-watchlist'>
-									{watchListFilter.map((info, index) => {
-										if (info.type == 1)
-											return (
-												<tr>
-													<td data-checkbox="true"></td>
-													<td>
-														<div className="info_watchlist">
-															<div className="row">
-																{renderUserinfo(info)}
+							<div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{ position: 'relative', height: '600px' }}>
+								<form>
+									<div className="row w-checkall">
+										<div className="col-md-7">
+											<Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>
+												Check all
+											</Checkbox>
+										</div>
+										<div className="col-md-2">
+											<Button className="btn btn-primary form-control" size="sm" onClick={(e) => exportPDF(null)}>EXPORT PDF</Button>
+										</div>
+										<div className="col-md-3">
+											<Button className="btn btn-primary form-control" size="sm" type="submit">SEND MASSAGE ALL CHECKED</Button>
+										</div>
+									</div>
+								</form>
+								<CheckboxGroup value={checkedList} onChange={onChangecheckbox} >
+									<table className="table">
+										<tbody className='table-watchlist'>
+											{watchListFilter.map((info, index) => {
+												if (info.type == 1)
+													return (
+														<tr>
+															<td data-checkbox="true"></td>
+															<td>
+																<div className="info_watchlist">
+																	<div className="row">
+																		{renderUserinfo(info)}
 
-																<div className="col-md-4 watchlist_content">{info.message}</div>
-																<div className="col-md-2">
-																	<Button className="btn btn-primary form-control" size="sm" type="submit" data-bs-toggle="modal" onClick={(e) => handleDTClick(info)} data-bs-target="#idDeitals">DETAILS</Button>
-																	<Button className="btn btn-primary form-control" size="sm" type="submit" data-bs-toggle="modal" data-bs-target="#idWatchList">SEND MASSAGE</Button>
-																	<Button className="btn btn-primary form-control" size="sm" type="submit" onClick={(e) => ondeleteWL(info, index)}>DELETE</Button>
+																		<div className="col-md-4 watchlist_content">{info.message}</div>
+																		<div className="col-md-2">
+																			<Button className="btn btn-primary form-control" size="sm" type="submit" data-bs-toggle="modal" onClick={(e) => handleDTClick(info)} data-bs-target="#idDeitals">DETAILS</Button>
+																			<Button className="btn btn-primary form-control" size="sm" type="submit" data-bs-toggle="modal" onClick={(e) => handleSendMessage(info)} data-bs-target="#idWatchList">SEND MASSAGE</Button>
+																			<Button className="btn btn-primary form-control" size="sm" type="submit" onClick={(e) => ondeleteWL(info, index)}>DELETE</Button>
+																		</div>
+																	</div>
+
 																</div>
-															</div>
-
-														</div>
-													</td>
-												</tr>
-											)
-									})}
-								</tbody>
-							</table>
-						</CheckboxGroup>
-                    </div>
-				 : null	
+															</td>
+														</tr>
+													)
+											})}
+										</tbody>
+									</table>
+								</CheckboxGroup>
+							</div>
+							: null
 					}
 				</div>
-<WatchListModal currentUser={currentUser} JsonData={null} isModalOpenDetail={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />
+				<WatchListModal currentUser={currentUser} JsonData={null} isModalOpenDetail={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />
+
+				
+				{Object.keys(currentUser).length > 0 && (<WatchListSendMessageModal currentUser={currentUser} JsonData={null} isModalOpen={isModalOpenSendMessage} handleCancel={handleCancelSendMessage} />)}
 			</React.Fragment>
 		);
 	}
