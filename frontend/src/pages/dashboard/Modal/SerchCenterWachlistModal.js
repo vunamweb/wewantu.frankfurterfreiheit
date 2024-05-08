@@ -10,6 +10,7 @@ import { APIClient } from '../../../helpers/apiClient';
 import TextArea from 'antd/es/input/TextArea';
 import { setActiveTab } from "../../../redux/actions";
 import { connect} from "react-redux";
+import { toast } from 'react-toastify';
 
 function SerchCenterWachlistModal(props){
     const currentUser = props.currentUser
@@ -37,7 +38,7 @@ function SerchCenterWachlistModal(props){
             values.user_id=admin.user_id;
             new APIClient().create('user_template',values).then(val=>{
                 if(val){
-                    alert('add successfully')
+                    toast.success('add successfully')
                     onReset()
                     setloadlang(true)
                     handleCancelUserTemplate()
@@ -50,7 +51,7 @@ function SerchCenterWachlistModal(props){
             
             new APIClient().create('user_watchlist',values).then(val=>{
                 if(val){
-                    alert('add successfully')
+                    toast.success('add successfully')
                     toggleTab("jobs")
                 }
             })

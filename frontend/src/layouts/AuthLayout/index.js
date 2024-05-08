@@ -7,6 +7,9 @@ import { changeLayoutMode } from '../../redux/actions';
 //Import Components
 import LeftSidebarMenu from "./LeftSidebarMenu";
 import TopSidebarMenu from "./TopSidebarMenu";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 class Index extends Component {
     constructor(props) {
         super(props);
@@ -47,6 +50,7 @@ class Index extends Component {
                         
                     
                 </div>
+                <ToastContainer position='bottom-right'  />
             </React.Fragment>
         );
     }

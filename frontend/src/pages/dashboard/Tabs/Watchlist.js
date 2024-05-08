@@ -162,6 +162,7 @@ function Watchlist(props) {
 		setIsModalOpenDetail(true)
 
 		let listUserProfile = localStorage.getItem('listUserProfile');
+		console.log(listUserProfile);
 		let userProfile;
 
 		try {
