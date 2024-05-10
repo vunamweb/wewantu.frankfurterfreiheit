@@ -11,12 +11,13 @@ import 'swiper/css/scrollbar';
 import { APIClient } from '../../../helpers/apiClient';
 import { setActiveTab } from "../../../redux/actions";
 import { connect } from "react-redux";
+import RatingStar from '../Component/RatingStar';
 
 function SerchCenterModal(props) {
     const job_search_profile = props.JsonData;
     const currentUser = props.currentUser;
     const currentIndex = props.currentIndex;
-    console.log(currentIndex)
+
     const admin = getLoggedInUser()[0];
     const [form2] = Form.useForm();
     const toggleTab = tab => {
@@ -166,7 +167,8 @@ function SerchCenterModal(props) {
                                         <div className='popup-infor' style={{ "paddingTop": "%5" }}><img src="assets/img/year.svg" alt='' />{item.address[0].year_birthday}</div>
                                         <div className='popup-infor'><img src="assets/img/location.svg" alt='' />{item.address[0].city} {item.address[0].country ? ',' + item.address[0].country : ''}</div>
 
-                                        <FaRegStar /> <FaRegStar /> <FaRegStar /> <FaRegStar /> <FaRegStar />
+                                        <RatingStar user_id={item.user.user_id} />
+                                        
                                         <div className="modal-footer">
                                             <button type="button" className="btn btn-primary btn-sm button-search" onClick={() => { blockwatclist() }}><span className='profile-search'>{t('t_dont_show_again').toUpperCase()}</span></button>
                                             <button type="primary" className="btn btn-primary btn-sm button-search" onClick={() => { addwatclist() }}><span className='profile-search'>{t('t_add_to_watchlist').toUpperCase()}</span></button>

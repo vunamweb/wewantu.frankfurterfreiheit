@@ -132,7 +132,7 @@ class Searchcenter extends Component {
 
         return position;
     }
-    
+
     mixJobProfile(jobProfileList) {
         let result = [];
 
@@ -205,7 +205,7 @@ class Searchcenter extends Component {
 
         //if search
         if (this.state.search) {
-          filterSearch = functions.getListUser(this.state.listJobProfileMobile, this.state.searchItem);
+            filterSearch = functions.getListUser(this.state.listJobProfileMobile, this.state.searchItem);
         }
         // if click search center
         else if (search == 'null' && !this.state.search)
@@ -222,9 +222,9 @@ class Searchcenter extends Component {
                 console.log(error);
             }
 
-           filterSearch = functions.getListUser(this.state.listJobProfileMobile, search);
+            filterSearch = functions.getListUser(this.state.listJobProfileMobile, search);
 
-           localStorage.setItem('search_job_profile', null);
+            localStorage.setItem('search_job_profile', null);
         }
 
         let listJobProfile = functions.getListJobProfileCurrent(this.state.categoryID, this.state.listJobProfileAll, this.onClickJobProfile);
@@ -233,43 +233,41 @@ class Searchcenter extends Component {
         const { loading, searchData, searchJob } = this.state;
         return (
             <>
-             <React.Fragment>
+                <React.Fragment>
                     {loading && (<div className="loader"></div>)}
-                    <div class="row">
-                        <div class="col-md-5">
-                            <table class="table">{headerJobProfile}{listJobProfile}</table>
-                        </div>
-                        <div class="col-md-5">
-                            <div className="main_job">
-                                <div className='row g-3 title'>
-                                    <div className="col-md">{t('t_search_center').toUpperCase()}</div>
-                                    <div className="col-md-4 align-middle">
-                                        <Select
-                                            showSearch
-                                            id="category"
-                                            name="category"
-                                            className="form-control searchcenterselect title"
-                                            placeholder={t('t_category').toUpperCase()}
-                                            onChange={onChange}
-                                        //options={professions.map((item) => ({
-                                        // label: item.profession,
-                                        //    value: item.profession_id
-                                        // }))}
-                                        >
-                                            <Select.Option value="all">All</Select.Option>
-                                            {professions !== null && professions.map((item) => (
-                                                <Select.Option value={item.profession_id}>{item.profession}</Select.Option>
-                                            ))}
+                    <div class="list_job">
+                        <table class="table">{headerJobProfile}{listJobProfile}</table>
+                    </div>
+                    <div class="main-mes">
+                        <div className="main_job">
+                            <div className='row g-3 title'>
+                                <div className="col-md">{t('t_search_center').toUpperCase()}{filterSearch.length>0?"("+filterSearch.length+")":"("+t("t_no_data_found")+")"}</div>
+                                <div className="col-md-4 align-middle">
+                                    <Select
+                                        showSearch
+                                        id="category"
+                                        name="category"
+                                        className="form-control searchcenterselect title"
+                                        placeholder={t('t_category').toUpperCase()}
+                                        onChange={onChange}
+                                    //options={professions.map((item) => ({
+                                    // label: item.profession,
+                                    //    value: item.profession_id
+                                    // }))}
+                                    >
+                                        <Select.Option value="all">All</Select.Option>
+                                        {professions !== null && professions.map((item) => (
+                                            <Select.Option value={item.profession_id}>{item.profession}</Select.Option>
+                                        ))}
 
-                                        </Select>
-                                    </div>
-                                </div>
-                                <div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{ position: 'relative', height: '600px' }}>
-                                    <SearchCenterTable searchData={filterSearch} component={this} />
+                                    </Select>
                                 </div>
                             </div>
-
+                            <div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{ position: 'relative', height: '600px' }}>
+                                <SearchCenterTable searchData={filterSearch} component={this} />
+                            </div>
                         </div>
+
                     </div>
                 </React.Fragment>
             </>

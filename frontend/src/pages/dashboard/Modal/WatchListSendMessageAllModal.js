@@ -16,10 +16,10 @@ import avatar4 from "../../../assets/images/users/avatar-4.jpg";
 import { getFirebaseBackend } from '../../../helpers/firebase';
 import { toast } from 'react-toastify';
 import ConfirmModal from './ConfirmModal';
-import RatingStar from '../Component/RatingStar';
 
-function WatchListSendMessageModal(props) {
-    const currentUser = props.currentUser
+function WatchListSendMessageAllModal(props) {
+    const listUser = props.listUser
+    
     const fireBaseBackend = getFirebaseBackend();
 
     const { t } = useTranslation();
@@ -30,18 +30,9 @@ function WatchListSendMessageModal(props) {
     const [isModalOpenUserTemplate, setIsModalOpenUserTemplate] = useState(false);
     const [loadlang, setloadlang] = useState(true);
     const [templateData, settemplateData] = useState([]);
-    const [hasPayment, setHasPayment] = useState(false);
+    const [hasPayment, setHasPayment] = useState(true);
     const [isOpenConfirmModal,setIsOpenConfirmModal] = useState(false);
-    const [address,setAddress] = useState({});
-
-    // const [user,setUser] = useState(null);
-    let user = null;
-    if (currentUser.user){
-        user = currentUser.user;
-    }
-    else{
-        user = currentUser; 
-    }
+    const user = {};
 
     const toggleTab = tab => {
         props.setActiveTab(tab)
@@ -68,10 +59,10 @@ function WatchListSendMessageModal(props) {
     }
 
     const handleOnTemplateItemClick = (event) => {
-        let tmp = user.prename + ' ' + user.lastname + ',\r' + event.target.value;
+        let tmp = event.target.value;
         form2.setFieldsValue({
             message: tmp,
-            job_search_profile_id: user.job_search_profile_id,
+            job_search_profile_id: "",//user.job_search_profile_id,
             user_id: admin.user_id
         });
     }
@@ -99,7 +90,9 @@ function WatchListSendMessageModal(props) {
         }
         if (getLoggedInUser().length > 0) {
             const admin = getLoggedInUser()[0];
-            fireBaseBackend.writeMessages(admin, user, messageObj);
+            listUser.forEach(user => {
+                fireBaseBackend.writeMessages(admin, user, messageObj);
+            });
             toast.success("Message sent successfully");
         }
 
@@ -113,7 +106,7 @@ function WatchListSendMessageModal(props) {
         if (user){
             const user_payment_data = {
                 user_id:admin.user_id,
-                user_id_payment:user.user_id,
+                // user_id_payment:user.user_id,
                 credit:1
             }
             new APIClient().create("user_payment",user_payment_data).then((res)=>{
@@ -128,66 +121,42 @@ function WatchListSendMessageModal(props) {
         setIsOpenConfirmModal(true);
     }
 
-    const addwatclist = (values) => {
-
-
-        new APIClient().create('user_watchlist', values).then(val => {
-            if (val) {
-                toast.success('Added successfully')
-                toggleTab("jobs")
-            }
-        })
-    }
 
     useEffect(() => {
-        if (currentUser) {
-            //set address
-            if (currentUser.address && currentUser.address.length>0)
-                setAddress(currentUser.address[0]);
+        // if (currentUser) {
+            
+        //     //check payment
+        //     new APIClient().get('user/' + admin.user_id + '/user_payment').then(res => {
+        //         if (res.length > 0) {
+        //             let user_payment_list = res.filter((payment) => { return payment.user_id_payment == user.user_id });
+        //             if (user_payment_list.length > 0) {
+        //                 setHasPayment(true);
+        //             }
+        //         }else{
+        //             setHasPayment(false);
+        //         }
+        //     })
+            
+        // }
 
-            //check payment
-            new APIClient().get('user/' + admin.user_id + '/user_payment').then(res => {
-                if (res.length > 0) {
-                    let user_payment_list = res.filter((payment) => { return payment.user_id_payment == user.user_id });
-                    if (user_payment_list.length > 0) {
-                        setHasPayment(true);
-                    }
-                }else{
-                    setHasPayment(false);
-                }
-            })
-            new APIClient().get('user/' + admin.user_id + '/user_template').then(res => {
-                if (res.length > 0) {
-                    let tmp = user.prename + ' ' + user.lastname + ',\r' + res[0].description;
-                    form2.setFieldsValue({
-                        message: tmp,
-                        job_search_profile_id: user.job_search_profile_id,
-                        user_id: admin.user_id
-                    });
-                    settemplateData(res);
-                }
-            });
-        }
+        new APIClient().get('user/' + admin.user_id + '/user_template').then(res => {
+            if (res.length > 0) {
+                let tmp =res[0].description;
+                form2.setFieldsValue({
+                    message: tmp,
+                    job_search_profile_id: "", //user.job_search_profile_id,
+                    user_id: admin.user_id
+                });
+                settemplateData(res);
+            }
+        });
 
-    }, [currentUser])
-
-    if (!user || Object.keys(user).length==0){
-        return null;
-    }
+    }, [listUser])
 
     return (
         <React.Fragment>
             <Modal title="Write a message for Bäckereifachverkäufer/in Berlin Mitte" open={props.isModalOpen} onCancel={props.handleCancel} width={1000} footer=" ">
                 <div className="row write-msg">
-                    <div className="col-md-3 pleft">
-                        <Avatar className='avatar' size={80}>{(user.prename.slice(0, 1)).toUpperCase()}{(user.lastname.slice(0, 1)).toUpperCase()}</Avatar>
-                        <div className="name">{user.prename} {user.lastname}</div>
-                        <div className='popup-infor'><img src="assets/img/year.svg" alt='' />{user.year_of_birth}</div>
-                        <div className='popup-infor' style={{ "paddingTop": "10%" }}><img src="assets/img/location.svg" alt='' />{address.city} {address.postal_code ? ',' + address.postal_code : ''}</div>
-                        <div className='popup-infor'><img src="assets/img/hand.svg" alt='' /></div>
-                        {/* <div className='popup-infor'><img src="assets/img/safari.svg" alt=''/></div> */}
-                        <RatingStar user_id={user.user_id} />
-                    </div>
                     <div className="col-md about">
                         <Form
                             form={form2}
@@ -228,6 +197,9 @@ function WatchListSendMessageModal(props) {
                                 </div>
                             </div>
                         </Form>
+
+
+
                     </div>
                 </div>
 
@@ -293,4 +265,4 @@ const mapStatetoProps = state => {
 
 export default connect(mapStatetoProps, {
     setActiveTab
-})(WatchListSendMessageModal);
+})(WatchListSendMessageAllModal);

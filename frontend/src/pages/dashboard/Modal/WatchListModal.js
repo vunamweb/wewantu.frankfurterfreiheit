@@ -11,12 +11,16 @@ import 'swiper/css/scrollbar';
 import { APIClient } from '../../../helpers/apiClient';
 import { setActiveTab } from "../../../redux/actions";
 import { connect } from "react-redux";
+import RatingStar from '../Component/RatingStar';
 
 function WatchListModal(props) {
-    let item = props.currentUser;
-
+    let data = props.currentUser;
+    const currentUser = props.currentUser;
+    let hobbiesList, hobbies = '';
     const { t } = useTranslation();
-
+    const [tableData, settableData] = useState([]);
+    const [item,setItem] = useState(null);
+    
     const getNameJobFromId = (id) => {
         let jobs = localStorage.getItem('job');
 
@@ -83,112 +87,137 @@ function WatchListModal(props) {
 
     };
 
-    let hobbiesList, hobbies = '';
+    useEffect(() => {        
+        if (currentUser && currentUser.user) {
+            console.log(currentUser);
+            // setItem(currentUser);
+            let userClone = {...currentUser};
+            new APIClient().get('user/' + currentUser.user.user_id + '/languages').then(
+                val => {
+                    val.length > 0 ? userClone.languages = val: userClone.languages = null;
+                    new APIClient().get('user/' + currentUser.user.user_id + '/driver_licenses').then(val1 => {
+                        val1.length > 0 ?userClone.driver_licenses = val1 : userClone.driver_licenses = null;
+                        new APIClient().get('user/' + currentUser.user.user_id + '/educational_stages').then(val2 => {
+                            val2.length > 0 ?userClone.educational_stages = val2 : userClone.educational_stages = null; 
+                            setItem(userClone);
+                        });
+                        
+                    });    
+                }
+                
+            )
+            // 
+            
+            // try {
+            //     hobbiesList = currentUser.user.hobbies;
+            //     hobbiesList = JSON.parse(hobbiesList);
 
-    try {
-        hobbiesList = item.user.hobbies;
-        hobbiesList = JSON.parse(hobbiesList);
-
-        for (let i = 0; i < hobbiesList.length; i++) {
-            if (i < hobbiesList.length - 1)
-                hobbies = hobbies + hobbiesList[i] + ', ';
-            else
-                hobbies = hobbies + hobbiesList[i];
+            //     for (let i = 0; i < hobbiesList.length; i++) {
+            //         if (i < hobbiesList.length - 1)
+            //             item.hobbies = hobbies + hobbiesList[i] + ', ';
+            //         else
+            //         item.hobbies = hobbies + hobbiesList[i];
+            //     }
+            // } catch (error) {
+            //     item.hobbies = currentUser.user.hobbies;
+            // }
         }
-    } catch (error) {
-        hobbies = null; //item.user.hobbies;
+    }, [currentUser])
+
+
+    if (item && item.user) {
+        rendervalue(item.languages)
+        return (
+            <React.Fragment>
+                <Modal title={' Detail '} open={props.isModalOpenDetail} onCancel={props.handleCancelDetail} width={1000} footer=" ">
+                    <div className="row details">
+                        <div className="col-md-2 pleft">
+                            <Avatar className='avatar' size={80}>{(item.user.prename.slice(0, 1)).toUpperCase()}{(item.user.lastname.slice(0, 1)).toUpperCase()}</Avatar>
+                            <div className="name">{item.user.prename} {item.user.lastname}</div>
+                            <div className='popup-infor' style={{ "paddingTop": "%5" }}><img src="assets/img/year.svg" alt='' />{item.address[0].year_birthday?item.address[0].year_birthday:"No data"}</div>
+                            <div className='popup-infor'><img src="assets/img/location.svg" alt='' />{item.address[0].city} {item.address[0].postal_code ? ',' + item.address[0].postal_code : ''}</div>
+
+                            <RatingStar user_id={item.user.user_id} />
+                        </div>
+                        <div className="col-md-10 about-1">
+                            <div className="row" style={{ "paddingTop": "2%" }}>
+                                <div className='popup-infor-1'><img src="assets/img/location.svg" alt='' /> {item.address[0].house_number} {item.address[0].street} {item.address[0].state} {item.address[0].city} {item.plz_at_job_location} {item.address[0].postal_code}</div>
+                                <span>{t('t_job_profile')}</span><br /><br />
+                                {
+                                    item.profiles.map((item, index) => {
+                                        item.job_id = (item.job_id != undefined) ? item.job_id : 0;
+
+                                        let jobLabel = getNameJobFromId(item.job_id);
+
+                                        return (
+                                            <div class="row">
+
+                                                <div className="col-md-3">
+                                                    <span>{t('t_job_desire')}</span><br />
+                                                    <span>{t('t_location')}</span><br />
+                                                    <span>{t('t_salary_request')}</span><br />
+                                                    <span>{t('t_working_hours_week')}</span><br />
+                                                    <span>{t('t_days_week')}</span><br />
+                                                    <span>{t('t_holiday_days')}</span><br />
+                                                    <span>{t('t_home_office')}</span><br />
+                                                    <span>{t('t_working_on weekends')}</span><br />
+                                                    <span>{t('t_night_work')}</span><br />
+                                                    <span>{t('t_ambitions')}</span><br />
+                                                </div>
+                                                <div className="col-md-9">
+                                                    <span>{
+                                                        jobLabel}</span><br />
+                                                    <span>{item.max_distance} km PLZ {item.postalcode}</span><br />
+                                                    <span>{item.desired_salary * 500}</span><br />
+                                                    <span>{item.desired_weekly_hours}</span><br />
+                                                    <span>{item.desired_working_days_per_week}</span><br />
+                                                    <span>{item.desired_holiday_days_per_year}</span><br />
+                                                    <span>{item.desired_work_at_home.value}</span><br />
+                                                    <span>{item.desired_work_at_weekend.value}</span><br />
+                                                    <span>{item.desired_work_at_night.value}</span><br />
+                                                    <span>{item.ambitions.ambition}</span><br />
+
+                                                </div>
+
+                                                <hr />
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                            <div className="row" style={{ "paddingTop": "2%" }}>
+                                <div className="col-md-3">
+                                    <span>{t('t_place_of_residence')}</span><br />
+                                    <span>{t('t_language_knowledge')}</span><br />
+                                    {
+                                        item.languages !== null ? renderlang(item.languages) : ''
+                                    }
+                                    {rendereducational_stageskey(item.educational_stages)}
+                                    <span>{t("t_driver_s_license")}</span><br />
+                                    <span>{t('t_passenger_transport')}</span><br />
+                                    <span>{t('t_hobbies')}</span><br />
+                                </div>
+                                <div className="col-md-9">
+                                    <span>{item.address[0].house_number} {item.address[0].street} {item.address[0].state} {item.address[0].city}{item.address[0].country ? ', ' + item.address[0].country : ''}</span><br /><br />
+                                    {
+                                        item.languages !== null ? rendervalue(item.languages) : ''
+                                    }
+                                    {rendereducational_stagesvalue(item.educational_stages)}
+                                    <span>{renderdriver_licenses(item.driver_licenses)}</span><br />
+                                    <span>{item.user.passenger_transport === 0 ? t('that_s_obvious') : t('people_what')}</span><br />
+                                    <span>{item.user.hobbies}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </Modal>
+            </React.Fragment>
+        )
     }
 
-    if(item.user != undefined)
-    return (
-        <React.Fragment>
-            <Modal title={' Detail '} open={props.isModalOpenDetail} onCancel={props.handleCancelDetail} width={1000} footer=" ">
-                <div className="row details">
-                    <div className="col-md-2 pleft">
-                        <Avatar className='avatar' size={80}>{(item.user.prename.slice(0, 1)).toUpperCase()}{(item.user.lastname.slice(0, 1)).toUpperCase()}</Avatar>
-                        <div className="name">{item.user.prename} {item.user.lastname}</div>
-                        <div className='popup-infor' style={{ "paddingTop": "%5" }}><img src="assets/img/year.svg" alt='' />{item.address[0].year_birthday}</div>
-                        <div className='popup-infor'><img src="assets/img/location.svg" alt='' />{item.address[0].city} {item.address[0].country ? ',' + item.address[0].country : ''}</div>
-
-                        <FaRegStar /> <FaRegStar /> <FaRegStar /> <FaRegStar /> <FaRegStar />
-                    </div>
-                    <div className="col-md-10 about-1">
-                        <div className="row" style={{ "paddingTop": "2%" }}>
-                            <div className='popup-infor-1'><img src="assets/img/location.svg" alt='' /> {item.address[0].house_number} {item.address[0].street} {item.address[0].state} {item.address[0].city} {item.plz_at_job_location} {item.address[0].postal_code}</div>
-                            <span>{t('t_job_profile')}</span><br /><br />
-                            {
-                                item.profiles.map((item, index) => {
-                                    item.job_id = (item.job_id != undefined) ? item.job_id : 0;
-
-                                    let jobLabel = getNameJobFromId(item.job_id);
-
-                                    return (
-                                        <div class="row">
-
-                                            <div className="col-md-3">
-                                                <span>{t('t_job_desire')}</span><br />
-                                                <span>{t('t_location')}</span><br />
-                                                <span>{t('t_salary_request')}</span><br />
-                                                <span>{t('t_working_hours_week')}</span><br />
-                                                <span>{t('t_days_week')}</span><br />
-                                                <span>{t('t_holiday_days')}</span><br />
-                                                <span>{t('t_home_office')}</span><br />
-                                                <span>{t('t_working_on weekends')}</span><br />
-                                                <span>{t('t_night_work')}</span><br />
-                                                <span>{t('t_ambitions')}</span><br />
-                                            </div>
-                                            <div className="col-md-9">
-                                                <span>{
-                                                    jobLabel}</span><br />
-                                                <span>{item.max_distance} km PLZ {item.postalcode}</span><br />
-                                                <span>{item.desired_salary * 500}</span><br />
-                                                <span>{item.desired_weekly_hours}</span><br />
-                                                <span>{item.desired_working_days_per_week}</span><br />
-                                                <span>{item.desired_holiday_days_per_year}</span><br />
-                                                <span>{item.desired_work_at_home.value}</span><br />
-                                                <span>{item.desired_work_at_weekend.value}</span><br />
-                                                <span>{item.desired_work_at_night.value}</span><br />
-                                                <span>{item.ambitions.ambition}</span><br />
-
-                                            </div>
-
-                                            <hr />
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
-                        <div className="row" style={{ "paddingTop": "2%" }}>
-                            <div className="col-md-3">
-                                <span>{t('t_place_of_residence')}</span><br />
-                                <span>{t('t_language_knowledge')}</span><br />
-                                {
-                                    item.languages !== null ? renderlang(item.languages) : ''
-                                }
-                                {rendereducational_stageskey(item.educational_stages)}
-                                <span>{t("t_driver_s_license")}</span><br />
-                                <span>{t('t_passenger_transport')}</span><br />
-                                <span>{t('t_hobbies')}</span><br />
-                            </div>
-                            <div className="col-md-9">
-                                <span>{item.address[0].house_number} {item.address[0].street} {item.address[0].state} {item.address[0].city}{item.address[0].country ? ', ' + item.address[0].country : ''}</span><br /><br />
-                                {
-                                    item.languages !== null ? rendervalue(item.languages) : ''
-                                }
-                                {rendereducational_stagesvalue(item.educational_stages)}
-                                <span>{renderdriver_licenses(item.driver_licenses)}</span><br />
-                                <span>{item.user.passenger_transport === 0 ? t('that_s_obvious') : t('people_what')}</span><br />
-                                <span>{hobbies}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </Modal>
-        </React.Fragment>
-    )
-    else 
-    return null;
+    else
+        return null;
 }
 
 const mapStatetoProps = state => {
