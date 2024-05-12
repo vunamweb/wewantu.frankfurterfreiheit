@@ -34,9 +34,11 @@ function Watchlist(props) {
 	const [categoryID, setCategoryID] = useState('all');
 	const [currentUser, setcurrentUser] = useState({});
 	const [currentUserSendMessage, setCurrentUserSendMessage] = useState({});
+	const [currentUserSendMail, setCurrentUserSendMail] = useState({});
 	const [isModalOpenDetail, setIsModalOpenDetail] = useState(false);
 
 	const [isModalOpenSendMessage, setIsModalOpenSendMessage] = useState(false);
+	const [isModalOpenSendMail, setIsModalOpenSendMail] = useState(false);
 	const [isModalOpenSendMessageAll, setIsModalOpenSendMessageAll] = useState(false);
 	const [userChatList, setUserChatList] = useState([]);
 	const [checkAll, setCheckAll] = useState(false);
@@ -69,6 +71,10 @@ function Watchlist(props) {
 	const handleCancelSendMessage = () => {
 		setIsModalOpenSendMessage(false);
 	};
+
+	const handleCancelSendMail = () => {
+		setIsModalOpenSendMail(false);
+	}
 
 	const rendervalue = (lang) => {
 		return typeof lang !== 'undefined' && lang.map(val => {
@@ -187,11 +193,8 @@ function Watchlist(props) {
 		setcurrentUser(userProfile);
 	}
 
-	const handleSendMessage = (info) => {
-		// const currentUser = allUser.filter(val => (val.user_id === info.user_add_id))[0];
-		// setcurrentUser(currentUser);
+	const handleSendMessage = (info, type) => {
 		let listUserProfile = localStorage.getItem('listUserProfile');
-		// console.log(listUserProfile);
 		let userProfile;
 
 		try {
@@ -204,10 +207,16 @@ function Watchlist(props) {
 		} catch (error) {
 			userProfile = {};
 		}
+		if (type == "mail") {
+			setCurrentUserSendMail(userProfile);
 
-		setCurrentUserSendMessage(userProfile);
+			setIsModalOpenSendMail(true);
+		}
+		else {
+			setCurrentUserSendMessage(userProfile);
 
-		setIsModalOpenSendMessage(true);
+			setIsModalOpenSendMessage(true);
+		}
 	}
 
 	const handleSendMessageAll = () => {
@@ -235,10 +244,6 @@ function Watchlist(props) {
 
 	const handleCancelSendMessageAll = () => {
 		setIsModalOpenSendMessageAll(false);
-	}
-
-	const handleSendMail = (info) => {
-		toast.warn("evolving functionality");
 	}
 
 	const exportPDF = (item) => {
@@ -564,8 +569,8 @@ function Watchlist(props) {
 																		</div>
 																		<div className="col-md-2">
 																			<Button className="btn btn-primary form-control" size="sm" data-bs-toggle="modal" onClick={(e) => handleDTClick(info)} data-bs-target="#idDeitals">DETAILS</Button>
-																			<Button className="btn btn-primary form-control" size="sm" data-bs-toggle="modal" onClick={(e) => handleSendMessage(info)} data-bs-target="#idWatchList">SEND MASSAGE</Button>
-																			<Button className="btn btn-primary form-control" size="sm" data-bs-toggle="modal" onClick={(e) => handleSendMail(info)} >SEND MAIL</Button>
+																			<Button className="btn btn-primary form-control" size="sm" data-bs-toggle="modal" onClick={(e) => handleSendMessage(info, "message")} data-bs-target="#idWatchList">SEND MASSAGE</Button>
+																			<Button className="btn btn-primary form-control" size="sm" data-bs-toggle="modal" onClick={(e) => handleSendMessage(info, "mail")} >SEND MAIL</Button>
 																			<Button className="btn btn-primary form-control" size="sm" onClick={(e) => ondeleteWL(info, index)}>DELETE</Button>
 																		</div>
 																	</div>
@@ -584,6 +589,7 @@ function Watchlist(props) {
 				</div>
 				<WatchListModal currentUser={currentUser} JsonData={null} isModalOpenDetail={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />
 				{Object.keys(currentUserSendMessage).length > 0 && (<WatchListSendMessageModal currentUser={currentUserSendMessage} JsonData={null} isModalOpen={isModalOpenSendMessage} handleCancel={handleCancelSendMessage} />)}
+				{Object.keys(currentUserSendMail).length > 0 && (<WatchListSendMessageModal type="mail" currentUser={currentUserSendMail} JsonData={null} isModalOpen={isModalOpenSendMail} handleCancel={handleCancelSendMail} />)}
 				{checkedListUsers.length > 0 && (<WatchListSendMessageAllModal listUser={checkedListUsers} JsonData={null} isModalOpen={isModalOpenSendMessageAll} handleCancel={handleCancelSendMessageAll} />)}
 			</React.Fragment>
 		);

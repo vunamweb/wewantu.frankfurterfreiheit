@@ -21,6 +21,7 @@ import RatingStar from '../Component/RatingStar';
 function WatchListSendMessageModal(props) {
     const currentUser = props.currentUser
     const fireBaseBackend = getFirebaseBackend();
+    const type = props.type;
 
     const { t } = useTranslation();
     const [form] = Form.useForm();
@@ -43,9 +44,6 @@ function WatchListSendMessageModal(props) {
         user = currentUser; 
     }
 
-    const toggleTab = tab => {
-        props.setActiveTab(tab)
-    }
     const handleOpenUserTemplate = (e, id) => {
         setIsModalOpenUserTemplate(true)
     }
@@ -99,7 +97,11 @@ function WatchListSendMessageModal(props) {
         }
         if (getLoggedInUser().length > 0) {
             const admin = getLoggedInUser()[0];
-            fireBaseBackend.writeMessages(admin, user, messageObj);
+            if (type == "message")
+                fireBaseBackend.writeMessages(admin, user, messageObj);
+            else
+                toast.success("Send mail successfully");
+            
             toast.success("Message sent successfully");
         }
 
@@ -128,16 +130,6 @@ function WatchListSendMessageModal(props) {
         setIsOpenConfirmModal(true);
     }
 
-    const addwatclist = (values) => {
-
-
-        new APIClient().create('user_watchlist', values).then(val => {
-            if (val) {
-                toast.success('Added successfully')
-                toggleTab("jobs")
-            }
-        })
-    }
 
     useEffect(() => {
         if (currentUser) {
@@ -220,7 +212,6 @@ function WatchListSendMessageModal(props) {
                                 <div className="col-md-5">
                                     <div className='row'>
                                         <Form.Item>
-                                            {/* <Button type="primary" className="btn btn-primary" htmlType="submit">GET LEAD FOR x CREDIT(S)</Button> */}
                                             {hasPayment && <Button type="primary" htmlType='submit' className="btn btn-primary">{t('t_send_message').toUpperCase()}</Button>}
                                         </Form.Item>
                                     </div>
@@ -236,9 +227,9 @@ function WatchListSendMessageModal(props) {
                         <div className="col-md-5" style={{ "marginBottom": "3%" }}><button type="button" onClick={handleOpenUserTemplate} className="btn btn-primary btn-newtemplate">NEW TEMPLATE</button> </div>
                         <div className="row">
                             {templateData.map(item => (
-                                <div className="col-md-3 py-2" >
+                                <div className="col-md-3 py-2 template-item" >
                                     <div><h6>{item.name}</h6></div>
-                                    <TextArea name="mess" rows="5" className='scroll scroll-searchcenter' value={item.description} onClick={handleOnTemplateItemClick} />
+                                    <TextArea name="mess" rows="5" readOnly={true} className='scroll scroll-searchcenter' value={item.description} onClick={handleOnTemplateItemClick} />
                                 </div>
                             ))}
                         </div>

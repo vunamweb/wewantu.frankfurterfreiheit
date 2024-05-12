@@ -121,10 +121,10 @@ function SearchCenterDisplay(props) {
         new APIClient().get('user/' + admin.user_id + '/user_watchlist').then(res => {
             if (res.length > 0) {
                 let check = res.filter(x => { return x.user_add_id == info.user.user_id });
-                if (check.length > 0 && !isWatchlist[info.user.user_id]){
-                    const upd = {...isWatchlist};
+                if (check.length > 0 && !isWatchlist[info.user.user_id]) {
+                    const upd = { ...isWatchlist };
                     upd[info.user.user_id] = true;
-                   setIsWatchlist(upd);
+                    setIsWatchlist(upd);
                 }
             }
         });
@@ -141,32 +141,28 @@ function SearchCenterDisplay(props) {
                             country: null,
                         }
                     ];
-                    
+
 
                     // 
                     return (
-                        <div className='col-md-6'>
+                        <div className='col-md-3'>
                             <div className="info">
                                 <div className="row">
-                                    <div className="col-md-3">
+                                    <div className="col-md-6">
                                         <Avatar className='avatar' size={80}>{(info.user.prename.slice(0, 1)).toUpperCase()}{(info.user.lastname.slice(0, 1)).toUpperCase()}</Avatar>
                                     </div>
-                                    <div className='col-md-4'>
-                                        <div className="name1"><h4>{info.user.prename} {info.user.lastname}</h4></div>
-                                        <div><img src="assets/img/location.svg" alt='' /> {info.address[0].street} {info.address[0].city} {info.address[0].country === null ? '' : ',' + info.address[0].country}</div>
-                                        <div><img src="assets/img/year.svg" alt='' />{info.address[0].year_birthday}</div>
-                                        <RatingStar user_id={info.user.user_id} />
-                                    </div>
-                                    <div className="col-md-5">
+
+                                    <div className="col-md-6">
                                         <button onClick={(e) => handleDTClick(info, idx * 4 + index)} data-id={'detail_' + info.job_search_profile_id} className="btn btn-primary form-control" type="submit" data-bs-toggle="modal" data-bs-target="#idDeitals">DETAILS</button>
                                         <button disabled={isWatchlist[info.user.user_id]} onClick={(e) => handleWLClick(info, idx * 4 + index)} data-id={'watchlist_' + info.job_search_profile_id} className="btn btn-primary form-control" type="submit" data-bs-toggle="modal" data-bs-target="#idWatchList">ADD TO WATCHLIST</button>
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md">
-
-
-                                        {/**<div><img src="assets/img/hand.svg" alt=''/> </div>*/}
+                                    <div className='col-md'>
+                                        <div className="name1"><h4>{info.user.prename} {info.user.lastname}</h4></div>
+                                        <div><img src="assets/img/location.svg" alt='' /> {info.address[0].street} {info.address[0].city} {info.address[0].country === null ? '' : ',' + info.address[0].country}</div>
+                                        <div><img src="assets/img/year.svg" alt='' />{info.address[0].year_birthday}</div>
+                                        <RatingStar user_id={info.user.user_id} />
                                     </div>
                                 </div>
                             </div>
