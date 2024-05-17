@@ -4,7 +4,8 @@ import {
 	CLOSE_USER_PROFILE_SIDEBAR,
 	SET_CONVERSATION_NAME_IN_OPEN_CHAT,
 	SET_LAYOUT_MODE,
-	SET_SEARCH_DATA
+	SET_SEARCH_DATA,
+	CHANGE_LANGUAGE
 } from "./constants";
 
 export const setActiveTab = (tabId) => ({
@@ -34,3 +35,9 @@ export const changeLayoutMode = layoutMode => ({
 	type: SET_LAYOUT_MODE,
 	payload: layoutMode,
   });
+
+
+export const changeLanguage = (language) =>({
+	type: CHANGE_LANGUAGE,
+	payload: language
+})

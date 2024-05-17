@@ -1,5 +1,5 @@
-import React from 'react';
-import { Form, Select, Input, Checkbox } from "antd";
+import React, { useState } from 'react';
+import { Form, Select, Input, Checkbox, Radio } from "antd";
 import { getLoggedInUser, getProfessions, getdriver_licenses, getlanguages, getforeign_language, getjob } from '../../../helpers/authUtils';
 
 import { useTranslation } from 'react-i18next';
@@ -19,6 +19,10 @@ const AddJob = (props) => {
     const toggleTab = tab => {
         //this.props.setActiveTab(tab)
     }
+    // const [workAtWeekend, setWorkAtWeekend] = useState(false);
+    // const [workAtHome, setWorkAtHome] = useState(false);
+    // const [workAtNight, setWorkAtNight] = useState(false);
+
     const onFinish = (values) => {
         let datapost = {};
 
@@ -36,9 +40,9 @@ const AddJob = (props) => {
                 'foreign_language_id': values.foreign_language_id ? values.foreign_language_id : '',
                 'plz_at_job_location': values.plz_at_job_location ? values.plz_at_job_location : '',
                 'nationwide': values.nationwide === true ? 1 : 0,
-                'desired_work_at_weekend_id': values.desired_work_at_weekend_id === true ? "d8e813ff-02c2-43a7-a26f-4fc0125ec16f" : 'f7199f2f-bb8e-47e7-9e19-72c75ff8f88f',
-                'desired_work_at_night_id': values.desired_work_at_night_id === true ? "a1aa0c1d-6f7a-47f0-9221-82ed85f1c75e" : '8c8ff66d-5bc4-4a9d-b31e-32c8f4e77b56',
-                'desired_work_at_home_id': values.desired_work_at_home_id === true ? "5b70848b-9f60-4a33-b146-9f95a34e07cf" : "1b12ed22-d93a-4a8f-8f8d-143535e8f93d"
+                'desired_work_at_weekend_id': values.desired_work_at_weekend_id,
+                'desired_work_at_night_id': values.desired_work_at_night_id,
+                'desired_work_at_home_id': values.desired_work_at_home_id
             }
             //console.log(professions);
             new APIClient().put('job_search_profile', datapost)
@@ -67,9 +71,9 @@ const AddJob = (props) => {
                 'desired_weekly_hours': values.desired_weekly_hours ? values.desired_weekly_hours : 0,
                 'desired_working_days_per_week': 0,
                 'desired_holiday_days_per_year': 0,
-                'desired_work_at_weekend_id': values.desired_work_at_weekend_id === true ? "d8e813ff-02c2-43a7-a26f-4fc0125ec16f" : 'f7199f2f-bb8e-47e7-9e19-72c75ff8f88f',
-                'desired_work_at_night_id': values.desired_work_at_night_id === true ? "a1aa0c1d-6f7a-47f0-9221-82ed85f1c75e" : '8c8ff66d-5bc4-4a9d-b31e-32c8f4e77b56',
-                'desired_work_at_home_id': values.desired_work_at_home_id === true ? "5b70848b-9f60-4a33-b146-9f95a34e07cf" : "1b12ed22-d93a-4a8f-8f8d-143535e8f93d",
+                'desired_work_at_weekend_id': values.desired_work_at_weekend_id,
+                'desired_work_at_night_id': values.desired_work_at_night_id,
+                'desired_work_at_home_id': values.desired_work_at_home_id,
                 'nationwide': values.nationwide === true ? 1 : 0,
                 'postalcode': "",
                 'max_distance': 0,
@@ -108,9 +112,9 @@ const AddJob = (props) => {
                 job: res.job_id,
                 category: res.profession.profession_id,
                 plz_at_job_location: res.plz_at_job_location,
-                desired_work_at_weekend_id: res.desired_work_at_weekend.value,
-                desired_work_at_night_id: res.desired_work_at_night.value,
-                desired_work_at_home_id: res.desired_work_at_home.value,
+                desired_work_at_weekend_id: res.desired_work_at_weekend.desired_work_at_weekend_id,
+                desired_work_at_night_id: res.desired_work_at_night.desired_work_at_night_id,
+                desired_work_at_home_id: res.desired_work_at_home.desired_work_at_home_id,
                 nationwide: res.nationwide,
                 desired_weekly_hours: res.desired_weekly_hours,
                 language_id: res.language.language_id,
@@ -123,6 +127,22 @@ const AddJob = (props) => {
         })
 
     }
+    else {
+        form.setFieldValue({
+            desired_work_at_weekend_id: "f7199f2f-bb8e-47e7-9e19-72c75ff8f88f",
+            desired_work_at_night_id: "8c8ff66d-5bc4-4a9d-b31e-32c8f4e77b56",
+            desired_work_at_home_id: "1b12ed22-d93a-4a8f-8f8d-143535e8f93d",
+        })
+    }
+
+    // const hanleChecked = (type) => (e) => {
+    //     if (type == "weekend")
+    //         setWorkAtWeekend(e.target.checked);
+    //     else if (type == "night")
+    //         setWorkAtNight(e.target.checked);
+    //     else
+    //         setWorkAtHome(e.target.checked);
+    // }
 
     document.title = "ADD NEW JOBS | WEWANTU"
     return (
@@ -282,30 +302,64 @@ const AddJob = (props) => {
                             </Form.Item>
                         </div>
                     </div>
-                    <div className="row g-3">
-                        <div className="col-md-3">
-                            <div className="form-check">
-                                <Form.Item name="desired_work_at_weekend_id" valuePropName="checked" noStyle>
-                                    <Checkbox>{t('t_desired_work_at_weekend_id').toUpperCase()}</Checkbox>
-                                </Form.Item>
 
+                    <div className="row g-3">
+                        <div className='row'>
+                            <div className='col-md-4'>
+                                <div className="form-check">
+                                    {t('t_desired_work_at_weekend_id').toUpperCase()}
+                                </div>
                             </div>
-                            <div className="form-check">
-                                <Form.Item name="desired_work_at_night_id" valuePropName="checked" noStyle>
-                                    <Checkbox>{t('t_desired_work_at_night_id').toUpperCase()}</Checkbox>
+                            <div className='col-md-5'>
+                                <Form.Item name='desired_work_at_weekend_id'>
+                                    <Radio.Group>
+                                        <Radio value={"d8e813ff-02c2-43a7-a26f-4fc0125ec16f"}>{t("yes")}</Radio>
+                                        <Radio value={"f7199f2f-bb8e-47e7-9e19-72c75ff8f88f"}>{t("no")}</Radio>
+                                        <Radio value={"82374a65-d496-41f0-9a0d-cd47f152c9a7"}>{t("maybe")}</Radio>
+                                    </Radio.Group>
                                 </Form.Item>
                             </div>
                         </div>
-                        <div className="col-md-3">
-                            <div className="form-check">
-                                <Form.Item name="nationwide" valuePropName="checked" noStyle>
-                                    <Checkbox>{t('t_nationwide').toUpperCase()}</Checkbox>
+                        <div className='row'>
+                            <div className='col-md-4'>
+                                <div className="form-check">
+                                    {t('t_desired_work_at_night_id').toUpperCase()}
+                                </div>
+                            </div>
+                            <div className='col-md-5'>
+                                <Form.Item name='desired_work_at_night_id'>
+                                    <Radio.Group name="desired_work_at_night_id">
+                                        <Radio value={"a1aa0c1d-6f7a-47f0-9221-82ed85f1c75e"}>{t("yes")}</Radio>
+                                        <Radio value={"8c8ff66d-5bc4-4a9d-b31e-32c8f4e77b56"}>{t("no")}</Radio>
+                                        <Radio value={"57c30192-3d8a-47cd-9b3b-b7df812d898b"}>{t("maybe")}</Radio>
+                                    </Radio.Group>
                                 </Form.Item>
                             </div>
-                            <div className="form-check">
-                                <Form.Item name="desired_work_at_home_id" valuePropName="checked" noStyle>
-                                    <Checkbox> {t('t_desired_work_at_home_id').toUpperCase()}</Checkbox>
+                        </div>
+                        <div className='row'>
+                            <div className='col-md-4'>
+                                <div className="form-check">
+                                    {t('t_desired_work_at_home_id').toUpperCase()}
+                                </div>
+                            </div>
+                            <div className='col-md-5'>
+                                <Form.Item name='desired_work_at_home_id'>
+                                    <Radio.Group>
+                                        <Radio value={"5b70848b-9f60-4a33-b146-9f95a34e07cf"}>{t("yes")}</Radio>
+                                        <Radio value={"1b12ed22-d93a-4a8f-8f8d-143535e8f93d"}>{t("no")}</Radio>
+                                        <Radio value={"fb6be5ac-679b-4cf9-889f-7be7486e2f61"}>{t("maybe")}</Radio>
+                                    </Radio.Group>
                                 </Form.Item>
+
+                            </div>
+                        </div>
+                        <div className='row'>
+                            <div className='col-md-5'>
+                                <div className="form-check">
+                                    <Form.Item name="nationwide" valuePropName="checked" noStyle>
+                                        <Checkbox>{t('t_nationwide').toUpperCase()}</Checkbox>
+                                    </Form.Item>
+                                </div>
                             </div>
                         </div>
 

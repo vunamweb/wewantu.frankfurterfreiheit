@@ -588,7 +588,7 @@ function Watchlist(props) {
 					}
 				</div>
 				<WatchListModal currentUser={currentUser} JsonData={null} isModalOpenDetail={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />
-				{Object.keys(currentUserSendMessage).length > 0 && (<WatchListSendMessageModal currentUser={currentUserSendMessage} JsonData={null} isModalOpen={isModalOpenSendMessage} handleCancel={handleCancelSendMessage} />)}
+				{Object.keys(currentUserSendMessage).length > 0 && (<WatchListSendMessageModal type="message" currentUser={currentUserSendMessage} JsonData={null} isModalOpen={isModalOpenSendMessage} handleCancel={handleCancelSendMessage} />)}
 				{Object.keys(currentUserSendMail).length > 0 && (<WatchListSendMessageModal type="mail" currentUser={currentUserSendMail} JsonData={null} isModalOpen={isModalOpenSendMail} handleCancel={handleCancelSendMail} />)}
 				{checkedListUsers.length > 0 && (<WatchListSendMessageAllModal listUser={checkedListUsers} JsonData={null} isModalOpen={isModalOpenSendMessageAll} handleCancel={handleCancelSendMessageAll} />)}
 			</React.Fragment>

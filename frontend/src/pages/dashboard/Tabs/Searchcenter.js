@@ -38,15 +38,15 @@ class Searchcenter extends Component {
         const admin = getLoggedInUser()[0];
         let newsearchJob = [...searchJob]
 
-        watchlist.length > 0 && watchlist.map(itemwl => {
+        // watchlist.length > 0 && watchlist.map(itemwl => {
 
-            newsearchJob = newsearchJob.filter(item => item.user.user_id !== itemwl.user_add_id || itemwl.type == 1)
-        })
+        //     newsearchJob = newsearchJob.filter(item => item.user.user_id !== itemwl.user_add_id || itemwl.type == 1)
+        // })
 
         // get list of user from mobile
-        newsearchJob = newsearchJob.filter(item => {
-            return item.user.firebase_token != null
-        })
+        // newsearchJob = newsearchJob.filter(item => {
+        //     return item.user.firebase_token != null
+        // })
 
         // set drive license for user
         newsearchJob.length > 0 && newsearchJob.map(job => {

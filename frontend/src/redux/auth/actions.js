@@ -7,7 +7,11 @@ import {
     REGISTER_USER_SUCCESS,
     FORGET_PASSWORD,
     FORGET_PASSWORD_SUCCESS,
-    API_FAILED
+    API_FAILED,
+    REDIRECT_TO_LOGIN,
+    REGISTER_VALIDATE,
+    REGISTER_INVALID,
+    REGISTER_VALID
 } from './constants';
 
 export const loginUser = (username, password, history) => ({
@@ -56,3 +60,23 @@ export const apiError = (error) => ({
     type: API_FAILED,
     payload: error
 });
+
+export const redirectToLogin = () => ({
+    type: REDIRECT_TO_LOGIN,
+    payload:{}
+})
+
+export const registerValidate = (user) => ({
+    type: REGISTER_VALIDATE,
+    payload: {user}
+});
+
+export const registerInvalid = (error) => ({
+    type: REGISTER_INVALID,
+    payload: error
+});
+
+export const registerValid = () => ({
+    type: REGISTER_VALID,
+    payload: {}
+})

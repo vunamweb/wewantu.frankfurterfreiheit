@@ -5,11 +5,15 @@ import { HashLink } from '@xzar90/react-router-hash-link';
 //i18n
 import i18n from '../i18n';
 import { useTranslation } from "react-i18next";
+import { changeLanguage } from '../redux/actions';
+import { useDispatch } from 'react-redux';
 
 function MainMenu() {
 
     const [lng, setlng] = useState("German");
     const { t } = useTranslation();
+    const dispatch =  useDispatch();
+
     const MenuData = [{
         id: 1,
         link: "/home",
@@ -40,12 +44,13 @@ function MainMenu() {
 
         /* set the selected language to i18n */
         i18n.changeLanguage(lng);
-
+        dispatch(changeLanguage(lng));
         if (lng === "de")
             setlng("German");
         else if (lng === "en")
             setlng("English");
     }
+
     return (
         <React.Fragment> 
             <section className="mainmenu-home">

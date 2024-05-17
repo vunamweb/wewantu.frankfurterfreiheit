@@ -91,21 +91,21 @@ function LeftSidebarMenu(props) {
                             {t('t_credits').toUpperCase()}
                             </NavLink>
                         </NavItem>
-                        <NavItem id="useraccount">
+                        {/* <NavItem id="useraccount">
                             <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'useraccount' }) + " mb-2"} onClick={() => { toggleTab('useraccount'); }}>
                             {t('t_user_account').toUpperCase()}
                             </NavLink>
-                        </NavItem>
+                        </NavItem> */}
                         <NavItem id="accountsetting">
                             <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'accountsetting' }) + " mb-2"} onClick={() => { toggleTab('accountsetting'); }}>
                             {t('t_account_settings').toUpperCase()}
                             </NavLink>
                         </NavItem>
-                        <NavItem id="useradministration">
+                        {/* <NavItem id="useradministration">
                             <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'useradministration' }) + " mb-2"} onClick={() => { toggleTab('useradministration'); }}>
                             {t('t_user_administration').toUpperCase()}
                             </NavLink>
-                        </NavItem>
+                        </NavItem> */}
                         <NavItem id="payments">
                             <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'payments' }) + " mb-2"} onClick={() => { toggleTab('payments'); }}>
                             {t('t_payments').toUpperCase()}

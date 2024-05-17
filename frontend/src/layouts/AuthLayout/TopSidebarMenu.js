@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Nav, NavLink } from "reactstrap";
 import { Link } from "react-router-dom";
-import { connect} from "react-redux";
+import { connect, useDispatch} from "react-redux";
 
-import { setActiveTab } from "../../redux/actions";
+import { setActiveTab,changeLanguage } from "../../redux/actions";
 
 import { useTranslation } from "react-i18next";
 
@@ -13,9 +13,10 @@ import i18n from '../../i18n';
 // falgs
 import { getLoggedInUser } from '../../helpers/authUtils';
 
+
 function TopSidebarMenu(props) {
    
-      
+    const dispatch =  useDispatch();
     //console.log(props);
    
     const [lng, setlng] = useState("German");
@@ -30,7 +31,7 @@ function TopSidebarMenu(props) {
 
         /* set the selected language to i18n */
         i18n.changeLanguage(lng);
-
+        dispatch(changeLanguage(lng));
         if (lng === "gr")
             setlng("German");
         else if (lng === "eng")

@@ -7,7 +7,8 @@ import {
     LOGIN_USER,
     LOGOUT_USER,
     REGISTER_USER,
-    FORGET_PASSWORD
+    FORGET_PASSWORD,
+    REGISTER_VALIDATE
 } from './constants';
 
 
@@ -16,8 +17,10 @@ import {
     registerUserSuccess,
     forgetPasswordSuccess,
     apiError,
-    logoutUserSuccess
+    logoutUserSuccess,
+    registerInvalid
 } from './actions';
+import { toast } from 'react-toastify';
 
 
 
@@ -35,26 +38,26 @@ const create = new APIClient().create;
  */
 function* login({ payload: { username, password, history } }) {
     try {
-       
-            //yield call(fireBaseBackend.G, username, password);
-            const response_auth = yield call(new APIClient().auth, 'login', {username:username,password:password});
-			if(response_auth){
-                //setAuthorization(response_auth.session_secret)
-                localStorage.setItem("session_secret", JSON.stringify(response_auth));
-                const user = yield call(new APIClient().get,'user/'+response_auth.user_id);
-                //console.log(user);
-                user.token=response_auth.session_secret;
-                //yield call(new APIClient().delete,'logout');
-                //user.role='role';
-                //user.id=1;
-                //console.log(user);
-                localStorage.setItem("authUser", JSON.stringify(user));
-                //console.log(localStorage);
-                yield put(loginUserSuccess(user));
-            }
-           
-            
-     
+
+        //yield call(fireBaseBackend.G, username, password);
+        const response_auth = yield call(new APIClient().auth, 'login', { username: username, password: password });
+        if (response_auth) {
+            //setAuthorization(response_auth.session_secret)
+            localStorage.setItem("session_secret", JSON.stringify(response_auth));
+            const user = yield call(new APIClient().get, 'user/' + response_auth.user_id);
+            //console.log(user);
+            user.token = response_auth.session_secret;
+            //yield call(new APIClient().delete,'logout');
+            //user.role='role';
+            //user.id=1;
+            //console.log(user);
+            localStorage.setItem("authUser", JSON.stringify(user));
+            //console.log(localStorage);
+            yield put(loginUserSuccess(user));
+        }
+
+
+
         history('/messagecenter');
     } catch (error) {
         yield put(apiError(error));
@@ -67,13 +70,13 @@ function* login({ payload: { username, password, history } }) {
  * @param {*} param0 
  */
 function* logout({ payload: { history } }) {
-    try {        
-            localStorage.removeItem("authUser");
-            localStorage.removeItem("session_secret");            
-            yield put(logoutUserSuccess(true));
-            yield call(new APIClient().delete,'logout');
-       
-    } catch (error) { console.log(error);}
+    try {
+        localStorage.removeItem("authUser");
+        localStorage.removeItem("session_secret");
+        yield put(logoutUserSuccess(true));
+        yield call(new APIClient().delete, 'logout');
+
+    } catch (error) { console.log(error); }
 }
 
 /**
@@ -81,22 +84,54 @@ function* logout({ payload: { history } }) {
  */
 function* register({ payload: { user } }) {
     try {
-       
-            const response = yield call(create, '/user', user);
-            yield put(registerUserSuccess(response));
-            if(response){
-               /*const response_auth = yield call(new APIClient().auth, 'login', {username:email,password:password});
-                if(response_auth){
-                    const user = yield call(new APIClient().get,'user/'+response_auth.user_id);
-                    user.token=response_auth.session_secret;
-                    yield call(new APIClient().delete,'logout');
-                    localStorage.setItem("authUser", JSON.stringify(user));
-                    yield put(registerUserSuccess(user));
-                }*/
+        const response = yield call(create, "/register_validate", { user });
+        if (response.check) {
+            const address = {
+                city: user.city,
+                postal_code: user.zip,
+                street: user.street,
+                house_number: user.no,
+                address_addition: "",
+                country: user.country
             }
-            
+            const responseAddress = yield call(create, "/address", address);
+            if (responseAddress) {
+                const userData = {
+                    salutation: user.salutation,
+                    titel: user.titel,
+                    prename: user.prename,
+                    lastname: user.lastname,
+                    username: user.username,
+                    mobile_phone_number: user.mobile_phone_number,
+                    mail: user.mail,
+                    password: user.password,
+                    address_id: responseAddress.address_id
+                }
+                const response = yield call(create, '/user', userData);
+                // response.success = true;
+                // const user = response;
+                yield put(registerUserSuccess(user));
+            }
+        }
+        else {
+            const errorText = "Account or phone number already exists";
+            yield put(registerInvalid(errorText));
+        }
+
+
     } catch (error) {
         yield put(apiError(error));
+    }
+}
+
+function* register_validate({ payload: { user } }) {
+    try {
+        const response = yield call(create, "/register_validate", { user });
+
+    }
+    catch (error) {
+        const errorText = "Account or phone number already exists";
+        yield put(registerInvalid(errorText));
     }
 }
 
@@ -105,9 +140,9 @@ function* register({ payload: { user } }) {
  */
 function* forgetPassword({ payload: { email } }) {
     try {
-       
-            const response = yield call(create, '/forget-pwd', { email });
-            yield put(forgetPasswordSuccess(response));
+
+        const response = yield call(create, '/forget-pwd', { email });
+        yield put(forgetPasswordSuccess(response));
 
     } catch (error) {
         yield put(apiError(error));
@@ -131,12 +166,18 @@ export function* watchForgetPassword() {
     yield takeEvery(FORGET_PASSWORD, forgetPassword);
 }
 
+
+export function* watchRegisterValidate() {
+    yield takeEvery(REGISTER_VALIDATE, register_validate);
+}
+
 function* authSaga() {
     yield all([
         fork(watchLoginUser),
         fork(watchLogoutUser),
         fork(watchRegisterUser),
         fork(watchForgetPassword),
+        fork(watchRegisterValidate)
     ]);
 }
 

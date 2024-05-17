@@ -73,7 +73,7 @@ function SerchCenterModal(props) {
 
     }, [currentUser])
     useEffect(() => {
-        let data = [...job_search_profile];
+        let data = [...job_search_profile].filter(x=>x.user.user_id === currentUser.user.user_id);
         data.forEach((element, index) => {
             new APIClient().get('user/' + element.user.user_id + '/languages').then(val => val.length > 0 ? data[index].languages = val : data[index].languages = null)
             new APIClient().get('user/' + element.user.user_id + '/educational_stages').then(val => val.length > 0 ? data[index].educational_stages = val : data[index].educational_stages = null);
@@ -82,7 +82,7 @@ function SerchCenterModal(props) {
         });
 
         settableData(data);
-    }, [job_search_profile])
+    }, [currentUser])
     const rendereducational_stageskey = (element) => {
         return typeof element !== 'undefined' && element !== null && element.map(val => {
             return (<><span>{val.educational_stage_type.educational_stage}</span><br /></>)
@@ -211,7 +211,7 @@ function SerchCenterModal(props) {
                                                                 <span>{item.desired_work_at_home.value}</span><br />
                                                                 <span>{item.desired_work_at_weekend.value}</span><br />
                                                                 <span>{item.desired_work_at_night.value}</span><br />
-                                                                <span>{item.ambitions.ambition}</span><br />
+                                                                <span>{item.ambitions?item.ambitions.ambition:""}</span><br />
 
                                                             </div>
 

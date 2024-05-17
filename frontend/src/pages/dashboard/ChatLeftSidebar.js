@@ -138,15 +138,15 @@ function ChatLeftSidebar(props) {
                     <TabPane tabId="credits" id="pills-credits">
                         <Credits />
                     </TabPane>
-                    <TabPane tabId="useraccount" id="pills-useraccount">
+                    {/* <TabPane tabId="useraccount" id="pills-useraccount">
                         <UserAccount />
-                    </TabPane> 
+                    </TabPane>  */}
                     <TabPane tabId="accountsetting" id="pills-accountsetting">
                         <AccountSetting />
                     </TabPane> 
-                    <TabPane tabId="useradministration" id="pills-useradministration">
+                    {/* <TabPane tabId="useradministration" id="pills-useradministration">
                         <UserAdministration />
-                    </TabPane>
+                    </TabPane> */}
                     <TabPane tabId="payments" id="pills-useradministration">
                         <PayMents />
                     </TabPane>

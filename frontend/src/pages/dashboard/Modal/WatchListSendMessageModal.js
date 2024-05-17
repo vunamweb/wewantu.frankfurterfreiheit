@@ -32,16 +32,16 @@ function WatchListSendMessageModal(props) {
     const [loadlang, setloadlang] = useState(true);
     const [templateData, settemplateData] = useState([]);
     const [hasPayment, setHasPayment] = useState(false);
-    const [isOpenConfirmModal,setIsOpenConfirmModal] = useState(false);
-    const [address,setAddress] = useState({});
+    const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
+    const [address, setAddress] = useState({});
 
     // const [user,setUser] = useState(null);
     let user = null;
-    if (currentUser.user){
+    if (currentUser.user) {
         user = currentUser.user;
     }
-    else{
-        user = currentUser; 
+    else {
+        user = currentUser;
     }
 
     const handleOpenUserTemplate = (e, id) => {
@@ -99,26 +99,34 @@ function WatchListSendMessageModal(props) {
             const admin = getLoggedInUser()[0];
             if (type == "message")
                 fireBaseBackend.writeMessages(admin, user, messageObj);
-            else
-                toast.success("Send mail successfully");
-            
+            else {
+                const dataToSend = {
+                    from_user_id:admin.user_id,
+                    to_user_id:user.user_id,
+                    message: values.message
+                }
+                new APIClient().create("/user/sendmail",dataToSend).then(res=>{
+
+                })
+            }
             toast.success("Message sent successfully");
         }
 
     }
 
-    const hanleCancelConfirm = () =>{
+    const hanleCancelConfirm = () => {
         setIsOpenConfirmModal(false);
     }
 
     const handleConfirm = () => {
-        if (user){
+        if (user) {
             const user_payment_data = {
-                user_id:admin.user_id,
-                user_id_payment:user.user_id,
-                credit:1
+                user_id: admin.user_id,
+                user_id_payment: user.user_id,
+                credit: 1,
+                type: type
             }
-            new APIClient().create("user_payment",user_payment_data).then((res)=>{
+            new APIClient().create("user_payment", user_payment_data).then((res) => {
                 setHasPayment(true);
                 toast.success("Buy credit successfully");
                 setIsOpenConfirmModal(false);
@@ -134,17 +142,17 @@ function WatchListSendMessageModal(props) {
     useEffect(() => {
         if (currentUser) {
             //set address
-            if (currentUser.address && currentUser.address.length>0)
+            if (currentUser.address && currentUser.address.length > 0)
                 setAddress(currentUser.address[0]);
 
             //check payment
             new APIClient().get('user/' + admin.user_id + '/user_payment').then(res => {
                 if (res.length > 0) {
-                    let user_payment_list = res.filter((payment) => { return payment.user_id_payment == user.user_id });
+                    let user_payment_list = res.filter((payment) => { return payment.user_id_payment == user.user_id && payment.type == type });
                     if (user_payment_list.length > 0) {
                         setHasPayment(true);
                     }
-                }else{
+                } else {
                     setHasPayment(false);
                 }
             })
@@ -163,7 +171,7 @@ function WatchListSendMessageModal(props) {
 
     }, [currentUser])
 
-    if (!user || Object.keys(user).length==0){
+    if (!user || Object.keys(user).length == 0) {
         return null;
     }
 
@@ -206,16 +214,11 @@ function WatchListSendMessageModal(props) {
 
                             <div className="row">
                                 <div className="col-md-4">
-                                    {!hasPayment && <button type="button" onClick={handleBuyCredit} className="btn btn-secondary">{t('t_buy_credits').toUpperCase()}</button>}
+                                    {!hasPayment && <button type="button" onClick={handleBuyCredit} className="btn btn-secondary form-control">{t('t_buy_credits').toUpperCase()}</button>}
                                 </div>
-                                <div className="col-md-3"></div>
-                                <div className="col-md-5">
-                                    <div className='row'>
-                                        <Form.Item>
-                                            {hasPayment && <Button type="primary" htmlType='submit' className="btn btn-primary">{t('t_send_message').toUpperCase()}</Button>}
-                                        </Form.Item>
-                                    </div>
-                                    <div className='row'></div>
+                                <div className="col-md-4"></div>
+                                <div className="col-md-4">
+                                    {hasPayment && <button type="primary" className="btn btn-primary form-control btn-sm">{(type == "mail") ? t('t_send_mail').toUpperCase() : t('t_send_message').toUpperCase()}</button>}
                                 </div>
                             </div>
                         </Form>

@@ -5,7 +5,8 @@ import {
 	CLOSE_USER_PROFILE_SIDEBAR,
 	SET_CONVERSATION_NAME_IN_OPEN_CHAT,
 	SET_LAYOUT_MODE,
-	SET_SEARCH_DATA
+	SET_SEARCH_DATA,
+	CHANGE_LANGUAGE
 } from "./constants";
 
 const INIT_STATE = {
@@ -13,7 +14,8 @@ const INIT_STATE = {
 	userSidebar : false,
 	conversationName : "Admin",
 	layoutMode : "light",
-	dataSearch: null
+	dataSearch: null,
+	language: "de"
 };
 
 const Layout = (state = INIT_STATE, action) => {
@@ -48,6 +50,11 @@ const Layout = (state = INIT_STATE, action) => {
 				conversationName: action.payload
 			};
 
+		case CHANGE_LANGUAGE:
+			return {
+				...state,
+				language: action.payload
+			}
 		case SET_LAYOUT_MODE:
 		return {
 			...state,
