@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import { openUserSidebar, setFullUser } from "../../redux/actions";
 import { getLoggedInUser } from '../../helpers/authUtils';
 import { getDatabase, onValue,ref } from "firebase/database";
+import config from '../../config';
 class Messagecenter extends Component {
     constructor(props) {
         super(props);
@@ -26,7 +27,7 @@ class Messagecenter extends Component {
         //this.setState({ loading: true });
         if(getLoggedInUser().length >0){
             const admin=getLoggedInUser()[0];
-            const users = await new APIClient().get('https://api.topazvn.vn/listChat.php?admin_id='+admin.user_id)
+            const users = await new APIClient().get(config.API_BASE_URL +  '/listChat.php?admin_id='+admin.user_id)
             //console.log(user);
             if(users.length > 0){
                 this.props.setFullUser(users);

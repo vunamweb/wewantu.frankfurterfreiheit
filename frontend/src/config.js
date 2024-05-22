@@ -1,5 +1,6 @@
 const config = {
-    API_URL: "https://api.topazvn.vn/api/v1/",
+    API_BASE_URL: "https://wewantu.frankfurterfreiheit.de/api",
+    API_URL: "https://wewantu.frankfurterfreiheit.de/api/v1/",
     AUTH_BACKEND: 'Tammy'
 
 }

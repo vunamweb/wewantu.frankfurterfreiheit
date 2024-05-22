@@ -43,10 +43,10 @@ class Searchcenter extends Component {
         //     newsearchJob = newsearchJob.filter(item => item.user.user_id !== itemwl.user_add_id || itemwl.type == 1)
         // })
 
-        // get list of user from mobile
-        // newsearchJob = newsearchJob.filter(item => {
-        //     return item.user.firebase_token != null
-        // })
+        // get list of user from web
+        newsearchJob = newsearchJob.filter(item => {
+            return item.user.firebase_token == null
+        })
 
         // set drive license for user
         newsearchJob.length > 0 && newsearchJob.map(job => {

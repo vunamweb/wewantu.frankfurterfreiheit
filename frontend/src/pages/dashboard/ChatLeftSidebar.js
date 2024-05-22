@@ -18,6 +18,7 @@ import UserAdministration from './Tabs/UserAdministration';
 import PayMents from './Tabs/PayMents';
 import Credits from './Tabs/Credits';
 import Subcribe from './Tabs/Subcribe';
+import config from '../../config';
 function ChatLeftSidebar(props) {
     const activeTab = props.activeTab;
     const setSearch = props.setSearch;
@@ -90,7 +91,7 @@ function ChatLeftSidebar(props) {
                 } 
             });
 
-            new APIClient().get('https://api.topazvn.vn/tmp/job.php?lng=en').then(res=>{
+            new APIClient().get(config.API_BASE_URL+ '/tmp/job.php?lng=en').then(res=>{
                 if(res){
                     const jobsData = res.map((item) => ({
                         label: item.name,
@@ -138,9 +139,9 @@ function ChatLeftSidebar(props) {
                     <TabPane tabId="credits" id="pills-credits">
                         <Credits />
                     </TabPane>
-                    {/* <TabPane tabId="useraccount" id="pills-useraccount">
+                     {/* <TabPane tabId="useraccount" id="pills-useraccount">
                         <UserAccount />
-                    </TabPane>  */}
+                    </TabPane>   */}
                     <TabPane tabId="accountsetting" id="pills-accountsetting">
                         <AccountSetting />
                     </TabPane> 

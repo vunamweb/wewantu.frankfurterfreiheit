@@ -10,13 +10,14 @@ import 'swiper/css';
 import 'swiper/css/scrollbar';
 import { APIClient } from '../../../helpers/apiClient';
 import { setActiveTab } from "../../../redux/actions";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import RatingStar from '../Component/RatingStar';
 
 function WatchListModal(props) {
     let data = props.currentUser;
     const currentUser = props.currentUser;
     let hobbiesList, hobbies = '';
+    const language = useSelector(state => state.Layout.language);
     const { t } = useTranslation();
     const [tableData, settableData] = useState([]);
     const [item,setItem] = useState(null);

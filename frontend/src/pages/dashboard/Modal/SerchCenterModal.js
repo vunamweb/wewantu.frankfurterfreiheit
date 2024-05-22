@@ -10,13 +10,15 @@ import 'swiper/css';
 import 'swiper/css/scrollbar';
 import { APIClient } from '../../../helpers/apiClient';
 import { setActiveTab } from "../../../redux/actions";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import RatingStar from '../Component/RatingStar';
 
 function SerchCenterModal(props) {
     const job_search_profile = props.JsonData;
     const currentUser = props.currentUser;
     const currentIndex = props.currentIndex;
+
+    const language = useSelector(state => state.Layout.language);
 
     const admin = getLoggedInUser()[0];
     const [form2] = Form.useForm();
@@ -184,7 +186,11 @@ function SerchCenterModal(props) {
                                                     item.job_id = (item.job_id != undefined) ? item.job_id : 0;
 
                                                     let jobLabel = getNameJobFromId(item.job_id);
-
+                                                    let ambition = "";
+                                                    if (item.ambitions){
+                                                        let ambitions = JSON.parse(item.ambitions.ambition);
+                                                        ambition = ambitions[language];
+                                                    }
                                                     return (
                                                         <div class="row">
 
@@ -211,7 +217,7 @@ function SerchCenterModal(props) {
                                                                 <span>{item.desired_work_at_home.value}</span><br />
                                                                 <span>{item.desired_work_at_weekend.value}</span><br />
                                                                 <span>{item.desired_work_at_night.value}</span><br />
-                                                                <span>{item.ambitions?item.ambitions.ambition:""}</span><br />
+                                                                <span>{ambition}</span><br />
 
                                                             </div>
 

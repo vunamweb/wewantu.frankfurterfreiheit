@@ -3,6 +3,7 @@ import firebase from 'firebase/compat/app';
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
 import { getDatabase, ref, onValue,push } from "firebase/database";
+import config from '../config';
 
 //import admin from 'firebase-admin';
 class FirebaseAuthBackend {
@@ -51,11 +52,11 @@ class FirebaseAuthBackend {
                 }
             }
            
-            fetch('https://api.topazvn.vn/fcm/?data='+btoa(JSON.stringify(datasend)));
+            fetch(config.API_BASE_URL+ 'fcm/?data='+btoa(JSON.stringify(datasend)));
            
         }
            catch(error){
-            console.log(error);
+            console.log(error)
            }
            
        };

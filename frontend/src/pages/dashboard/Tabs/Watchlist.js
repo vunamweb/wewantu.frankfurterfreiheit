@@ -21,10 +21,12 @@ import WatchListSendMessageAllModal from '../Modal/WatchListSendMessageAllModal'
 import { toast } from 'react-toastify';
 import RatingStar from '../Component/RatingStar';
 import TextArea from 'antd/es/input/TextArea';
+import { useSelector } from 'react-redux';
 
 function Watchlist(props) {
 
 	document.title = "Watchlist | WEWANTU"
+	const language = useSelector(state => state.Layout.language);
 	const admin = getLoggedInUser()[0];
 	const allUser = getAllUser();
 	const loadwatchlist = props.loadwatchlist;
@@ -348,7 +350,12 @@ function Watchlist(props) {
 						pdf.text(text, x, y);
 						y = y + spacey;
 
-						text = t('t_ambitions') + ': ' + item.ambitions.ambition;
+						let ambition = "";
+						if (item.ambitions) {
+							let ambitions = JSON.parse(item.ambitions.ambition);
+							ambition = ambitions[language];
+						}
+						text = t('t_ambitions') + ': ' + ambition;
 						pdf.text(text, x, y);
 						y = y + spacey;
 					})

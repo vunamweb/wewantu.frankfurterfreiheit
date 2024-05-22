@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 //i18n
 import { useTranslation } from 'react-i18next';
 import { APIClient } from '../../../helpers/apiClient';
-import { getLoggedInUser } from '../../../helpers/authUtils';
+import { getAllUser, getLoggedInUser, setLoggedInUser } from '../../../helpers/authUtils';
 import { useSelector } from 'react-redux';
 import config from '../../../config';
 import UserAdministration from './UserAdministration';
@@ -22,11 +22,15 @@ const UserAccount = (props) => {
     const [activeTab, setActiveTab] = useState('tab1');
     const [countries, setCountries] = useState([]);
     const [formData, setFormData] = useState(admin);
-    const [isOpenModalVerifyCode,setIsOpenModalVerifyCode] = useState(false);
+    const [isOpenModalVerifyCode, setIsOpenModalVerifyCode] = useState(false);
+    const [verifyCode, setVerifyCode] = useState("");
+    const [verifyCodeId, setVerifyCodeId] = useState("");
+
+    const users = getAllUser();
 
     const language = useSelector(state => state.Layout.language);
 
-    const urlApiUpload = config.API_URL + "/upload";
+    const urlApiUpload = config.API_URL + "upload";
 
     const uploadButton = () => {
         return (
@@ -36,6 +40,10 @@ const UserAccount = (props) => {
             </div>
         )
     };
+
+    const handleChangeFile = (e) => {
+        console.log(e);
+    }
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
@@ -66,7 +74,7 @@ const UserAccount = (props) => {
         onSubmit: (values) => {
             handleSubmitEmailChange(values);
         },
-    })
+    });
 
     const handleSubmitForm = (values) => {
         var dataPut = {
@@ -77,17 +85,22 @@ const UserAccount = (props) => {
         }
 
         new APIClient().put("user", dataPut).then((res) => {
+            admin.prename = values.prename;
+            admin.lastname = values.lastname;
+
+            setLoggedInUser(admin);
+
             toast.success("Update successfully");
         });
 
     }
 
     const handleSubmitEmailChange = (values) => {
-        setIsOpenModalVerifyCode(true);
+        setFormData(values);
         sendVerifyCode();
     }
 
-    const onCancelModalVerifyCode =()=>{
+    const onCancelModalVerifyCode = () => {
         setIsOpenModalVerifyCode(false);
     }
 
@@ -96,12 +109,47 @@ const UserAccount = (props) => {
     }
     //send verify code
     const sendVerifyCode = () => {
-
+        const dataPost = {
+            user_id: admin.user_id,
+            action: "change_email_password",
+        }
+        setIsOpenModalVerifyCode(true);
+        new APIClient().create("user_verify_code", dataPost).then(res => {
+            if (res.verify_code_id) {
+                setVerifyCodeId(res.verify_code_id);
+            }
+        })
     }
 
     //check verify code
     const checkVerifyCode = () => {
+        const dataPost = {
+            user_id: admin.user_id,
+            verify_id: verifyCodeId,
+            verify_code: verifyCode
+        }
+        new APIClient().create("user/verifycode", dataPost).then(res => {
+            if (res.check) {
+                //save data
+                new APIClient().put("user", formData).then(res => {
+                    //set logged in user
+                    admin.mail = formData.mail;
+                    admin.mobile_phone_number = formData.mobile_phone_number;
+                    setLoggedInUser(admin);
 
+                    //reset form
+                    setVerifyCode("");
+                    setIsOpenModalVerifyCode(false);
+
+                    //notification
+                    toast.success("Update successfully");
+                })
+            }
+        })
+    }
+
+    const hanleChangeVerifyCode = (event) => {
+        setVerifyCode(event.target.value);
     }
 
     useEffect(() => {
@@ -245,8 +293,8 @@ const UserAccount = (props) => {
                                                         listType="picture-card"
                                                         className="avatar-uploader"
                                                         showUploadList={false}
-                                                        action={urlApiUpload} // Thay đổi đường dẫn API upload hình của bạn
-                                                    //onChange={handleChange}
+                                                        // action={urlApiUpload} // Thay đổi đường dẫn API upload hình của bạn
+                                                        onChange={handleChangeFile}
                                                     >
                                                         {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
                                                     </Upload>
@@ -331,7 +379,7 @@ const UserAccount = (props) => {
                             </div>
                         </div>
                         <div className={`tab-pane ${activeTab === 'tab2' ? 'active' : ''}`}>
-                            <UserAdministration />
+                            <UserAdministration users = {users} />
                         </div>
                         <div className={`tab-pane ${activeTab === 'tab3' ? 'active' : ''}`}>COMPANY V-CARD</div>
                         <div className={`tab-pane ${activeTab === 'tab4' ? 'active' : ''}`}>PAYMENTS/INVOICES</div>
@@ -341,7 +389,7 @@ const UserAccount = (props) => {
             </div>
             <Modal onCancel={onCancelModalVerifyCode} onOk={onOkModalVerifyCode} title="Confirm" open={isOpenModalVerifyCode}>
                 <p>We have sent a confirmation code to your registration email, please check your email and re-enter here</p>
-                <Input type='text' className='form-control' name='verify_code'>
+                <Input type='text' className='form-control' name='verify_code' value={verifyCode} required onChange={hanleChangeVerifyCode}>
 
                 </Input>
             </Modal>

@@ -23,7 +23,7 @@ i18next
     
     backend: {
       //loadPath: '/locales/{{lng}}/translation.json',
-      loadPath: 'https://api.topazvn.vn/tmp/lang.php?lng={{lng}}',
+      loadPath: config.API_BASE_URL+'/tmp/lang.php?lng={{lng}}',
       //parse: function (data) { console.log("DATA", data) },
      // crossDomain: true,
 	    /*customHeaders: () => {
