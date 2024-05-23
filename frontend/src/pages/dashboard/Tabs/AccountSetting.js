@@ -26,11 +26,12 @@ const UserAccount = (props) => {
     const [verifyCode, setVerifyCode] = useState("");
     const [verifyCodeId, setVerifyCodeId] = useState("");
 
+
     const users = getAllUser();
 
     const language = useSelector(state => state.Layout.language);
 
-    const urlApiUpload = config.API_URL + "upload";
+    const urlApiUpload = config.API_URL + "user/changeavatar";
 
     const uploadButton = () => {
         return (
@@ -200,15 +201,23 @@ const UserAccount = (props) => {
                                             <li className="nav-item" >
                                                 <Link className={`nav-link ${activeTab === 'tab1' ? 'active' : ''}`} onClick={() => handleTabChange('tab1')} href="#" alt="">ACCOUNT SETTING</Link>
                                             </li>
-                                            <li className="nav-item">
-                                                <Link className={`nav-link ${activeTab === 'tab2' ? 'active' : ''}`} onClick={() => handleTabChange('tab2')} href="#">USER ADMINISTRATION</Link>
-                                            </li>
-                                            <li className="nav-item">
-                                                <Link className={`nav-link ${activeTab === 'tab3' ? 'active' : ''}`} onClick={() => handleTabChange('tab3')} href="#">COMPANY V-CARD</Link>
-                                            </li>
-                                            <li className="nav-item">
-                                                <Link className={`nav-link ${activeTab === 'tab4' ? 'active' : ''}`} onClick={() => handleTabChange('tab4')} href="#">PAYMENTS/INVOICES</Link>
-                                            </li>
+                                            {
+                                                (admin.userType == 0) && <li className="nav-item">
+                                                    <Link className={`nav-link ${activeTab === 'tab2' ? 'active' : ''}`} onClick={() => handleTabChange('tab2')} href="#">USER ADMINISTRATION</Link>
+                                                </li>
+                                            }
+                                            {
+                                                (admin.userType == 0 || admin.userType == 1) &&
+                                                <li className="nav-item">
+                                                    <Link className={`nav-link ${activeTab === 'tab3' ? 'active' : ''}`} onClick={() => handleTabChange('tab3')} href="#">COMPANY V-CARD</Link>
+                                                </li>
+                                            }
+                                            {
+                                                (admin.userType == 0 || admin.userType == 1) &&
+                                                <li className="nav-item">
+                                                    <Link className={`nav-link ${activeTab === 'tab4' ? 'active' : ''}`} onClick={() => handleTabChange('tab4')} href="#">PAYMENTS/INVOICES</Link>
+                                                </li>
+                                            }
                                             <li className="nav-item">
                                                 <Link className={`nav-link ${activeTab === 'tab5' ? 'active' : ''}`} onClick={() => handleTabChange('tab5')} href="#">HELP CENTER</Link>
                                             </li>
@@ -293,7 +302,7 @@ const UserAccount = (props) => {
                                                         listType="picture-card"
                                                         className="avatar-uploader"
                                                         showUploadList={false}
-                                                        // action={urlApiUpload} // Thay đổi đường dẫn API upload hình của bạn
+                                                        action={urlApiUpload}
                                                         onChange={handleChangeFile}
                                                     >
                                                         {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
@@ -379,7 +388,7 @@ const UserAccount = (props) => {
                             </div>
                         </div>
                         <div className={`tab-pane ${activeTab === 'tab2' ? 'active' : ''}`}>
-                            <UserAdministration users = {users} />
+                            {(admin.userType == 0) && <UserAdministration users={users} />}
                         </div>
                         <div className={`tab-pane ${activeTab === 'tab3' ? 'active' : ''}`}>COMPANY V-CARD</div>
                         <div className={`tab-pane ${activeTab === 'tab4' ? 'active' : ''}`}>PAYMENTS/INVOICES</div>

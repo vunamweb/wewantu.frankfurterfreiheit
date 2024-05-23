@@ -7,7 +7,7 @@ import { APIClient } from '../../../helpers/apiClient';
 import { getLoggedInUser } from '../../../helpers/authUtils';
 import { useTranslation } from 'react-i18next';
  function JobsTable(props){
-    
+    const admin = getLoggedInUser()[0];
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenadd, setIsModalOpenadd] = useState(false);
     const [job_search_profile_id, setjob_search_profile_id] = useState('');
@@ -179,7 +179,7 @@ import { useTranslation } from 'react-i18next';
                     <div className="container-fluid px-0">
                         <div className="row">
                             <div className="col-md">
-                                <button className="text_addjobs" onClick={()=>{setIsModalOpenadd(true)}}>
+                                <button className="text_addjobs" onClick={()=>{setIsModalOpenadd(true)}} disabled={admin.add_job?false:true}>
                                     <img src={`${process.env.PUBLIC_URL}/img/plus.svg`} alt=''/><span className='text'>{t('t_add_new_job').toUpperCase()}</span>
                                 </button>
                             </div>

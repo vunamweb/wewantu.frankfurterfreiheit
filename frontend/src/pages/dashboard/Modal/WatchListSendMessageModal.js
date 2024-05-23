@@ -214,7 +214,7 @@ function WatchListSendMessageModal(props) {
 
                             <div className="row">
                                 <div className="col-md-4">
-                                    {!hasPayment && <button type="button" onClick={handleBuyCredit} className="btn btn-secondary form-control">{t('t_buy_credits').toUpperCase()}</button>}
+                                    {!hasPayment && (admin.buy_credit) && <button type="button" onClick={handleBuyCredit} className="btn btn-secondary form-control">{t('t_buy_credits').toUpperCase()}</button>}
                                 </div>
                                 <div className="col-md-4"></div>
                                 <div className="col-md-4">

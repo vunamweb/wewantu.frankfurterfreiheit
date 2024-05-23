@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 //i18n
 import { useTranslation } from 'react-i18next';
 import { APIClient } from '../../../helpers/apiClient';
-import { getAllUser, getLoggedInUser } from '../../../helpers/authUtils';
+import { getAllUser, getLoggedInUser, setAllUser } from '../../../helpers/authUtils';
 import { toast } from 'react-toastify';
 
 const UserAdministration = (props) => {
@@ -24,26 +24,26 @@ const UserAdministration = (props) => {
 
     const users = props.users;
 
-
-
     useEffect(() => {
 
         if (users && users.length > 0) {
             let usersMap = [...users];
+            usersMap = usersMap.filter(user => user.firebase_token == null);
             usersMap.map((user) => {
-                // let rowStatusUpd = { ...rowStatus };
-                // rowStatusUpd[user.user_id] = true;
-                // setRowStatus(rowStatusUpd);
+                user.buy_credit = (user.buy_credit? true : false);
+                user.add_job = (user.add_job? true : false);
+                user.use_lead = (user.use_lead? true : false);
+                user.password = "";
                 user.isReadonly = true;
             });
             setUserData(usersMap);
         }
     }, [users]);
 
-    const handleEditUser = (index,edit) => {
+    const handleEditUser = (index, edit) => {
         let usersUpd = [...userData];
-        
-        usersUpd[index].isReadonly = (edit?false:true);
+
+        usersUpd[index].isReadonly = (edit ? false : true);
         setUserData(usersUpd);
     }
 
@@ -62,10 +62,21 @@ const UserAdministration = (props) => {
         let usersUpd = [...userData];
         usersUpd[index].isReadonly = true;
         setUserData(usersUpd);
+
+        //update localstore
+        let usersStoreUpd = [...users];
+        usersStoreUpd.map((user) => {
+            if (user.user_id == values.user_id) {
+                user.buy_credit = values.buy_credit;
+                user.add_job = values.add_job;
+                user.use_lead = values.use_lead;
+            }
+        });
+        setAllUser(usersStoreUpd);
     }
 
     const currentLang = i18n.language;
-    
+
     if (!userData.length || !userData) {
         return null;
     }
@@ -80,14 +91,15 @@ const UserAdministration = (props) => {
                         <div className='row setting-title'>USER ADMINISTRATION</div>
 
                         {userData.map((user, index) => (
-                            <div key={user.user_id}>
+                            <div >
                                 <Formik
+                                    key={user.user_id}
                                     initialValues={user}
                                     onSubmit={(values) => {
                                         handleUpdateUser(values, index);
                                     }}
                                 >
-                                    <Form>
+                                    <Form id={user.user_id}>
                                         <div className='row'>
                                             <div className="col-md-6 useradmin-left">
 
@@ -117,7 +129,6 @@ const UserAdministration = (props) => {
                                                         <Field
                                                             type="password"
                                                             className="form-control"
-                                                            required
                                                             placeholder={t("t_password").toUpperCase()}
                                                             name="password"
                                                             disabled={user.isReadonly}
@@ -129,7 +140,7 @@ const UserAdministration = (props) => {
                                                 <div className='row line1'>
                                                     <div className="col-md-6">
                                                         <div className="row">
-                                                            <div className="form-check">
+                                                            {/* <div className="form-check">
                                                                 <Field
                                                                     type="checkbox"
                                                                     className="form-check-input"
@@ -137,7 +148,7 @@ const UserAdministration = (props) => {
                                                                     disabled={user.isReadonly}
                                                                 />
                                                                 <label className="form-check-label" for="weekend_work">ADMIN</label>
-                                                            </div>
+                                                            </div> */}
                                                             <div className="form-check">
                                                                 <Field
                                                                     type="checkbox"
@@ -149,11 +160,6 @@ const UserAdministration = (props) => {
                                                                     BUY CREDITS
                                                                 </label>
                                                             </div>
-
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-md-6">
-                                                        <div className="row">
                                                             <div className="form-check">
                                                                 <Field
                                                                     type="checkbox"
@@ -165,6 +171,11 @@ const UserAdministration = (props) => {
                                                                     CREATE JOB/PROJECT
                                                                 </label>
                                                             </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-6">
+                                                        <div className="row">
+
                                                             <div className="form-check">
                                                                 <Field
                                                                     type="checkbox"
@@ -179,9 +190,9 @@ const UserAdministration = (props) => {
                                                 </div>
                                             </div>
                                             <div className='col-md-1 useradmin-right'>
-                                                {(user.isReadonly) && <Link href="#" onClick={() => { handleEditUser(index,true); }}><img src={`${process.env.PUBLIC_URL}/img/edit.svg`} alt="EDIT" /></Link>}
+                                                {(user.isReadonly) && <Link href="#" onClick={() => { handleEditUser(index, true); }}><img src={`${process.env.PUBLIC_URL}/img/edit.svg`} alt="EDIT" /></Link>}
                                                 {(!user.isReadonly) && <button type='submit' className='btn btn-primary btn-sm form-control'>{t("t_save").toUpperCase()}</button>}
-                                                {(!user.isReadonly) && <button type='button' onClick={()=> {handleEditUser(index,false)}} className='btn btn-danger btn-sm form-control'>{t("t_cancel").toUpperCase()}</button>}
+                                                {(!user.isReadonly) && <button type='button' onClick={() => { handleEditUser(index, false) }} className='btn btn-danger btn-sm form-control'>{t("t_cancel").toUpperCase()}</button>}
                                             </div>
                                         </div>
                                     </Form>
