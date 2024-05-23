@@ -45,7 +45,7 @@ class Searchcenter extends Component {
 
         // get list of user from web
         newsearchJob = newsearchJob.filter(item => {
-            return item.user.firebase_token == null
+            return item.user.firebase_token != null
         })
 
         // set drive license for user

@@ -71,9 +71,9 @@ const AddJob = (props) => {
                 'desired_weekly_hours': values.desired_weekly_hours ? values.desired_weekly_hours : 0,
                 'desired_working_days_per_week': 0,
                 'desired_holiday_days_per_year': 0,
-                'desired_work_at_weekend_id': values.desired_work_at_weekend_id,
-                'desired_work_at_night_id': values.desired_work_at_night_id,
-                'desired_work_at_home_id': values.desired_work_at_home_id,
+                'desired_work_at_weekend_id': (values.desired_work_at_weekend_id != undefined) ? values.desired_work_at_weekend_id : '8027208b-18b2-11ef-b340-0050561eb45d',
+                'desired_work_at_night_id': (values.desired_work_at_night_id != undefined) ? values.desired_work_at_night_id : '17a4e416-18b6-11ef-b340-0050561eb45d',
+                'desired_work_at_home_id': (values.desired_work_at_home_id != undefined) ? values.desired_work_at_home_id : '210a717d-18b6-11ef-b340-0050561eb45d',
                 'nationwide': values.nationwide === true ? 1 : 0,
                 'postalcode': "",
                 'max_distance': 0,
@@ -312,7 +312,8 @@ const AddJob = (props) => {
                             </div>
                             <div className='col-md-5'>
                                 <Form.Item name='desired_work_at_weekend_id'>
-                                    <Radio.Group>
+                                    <Radio.Group defaultValue={"8027208b-18b2-11ef-b340-0050561eb45d"}>
+                                        <Radio value={"8027208b-18b2-11ef-b340-0050561eb45d"}>{t("no_mater")}</Radio>
                                         <Radio value={"d8e813ff-02c2-43a7-a26f-4fc0125ec16f"}>{t("yes")}</Radio>
                                         <Radio value={"f7199f2f-bb8e-47e7-9e19-72c75ff8f88f"}>{t("no")}</Radio>
                                         <Radio value={"82374a65-d496-41f0-9a0d-cd47f152c9a7"}>{t("maybe")}</Radio>
@@ -328,7 +329,8 @@ const AddJob = (props) => {
                             </div>
                             <div className='col-md-5'>
                                 <Form.Item name='desired_work_at_night_id'>
-                                    <Radio.Group name="desired_work_at_night_id">
+                                    <Radio.Group name="desired_work_at_night_id" defaultValue={"17a4e416-18b6-11ef-b340-0050561eb45d"}>
+                                        <Radio value={"17a4e416-18b6-11ef-b340-0050561eb45d"}>{t("no_mater")}</Radio>
                                         <Radio value={"a1aa0c1d-6f7a-47f0-9221-82ed85f1c75e"}>{t("yes")}</Radio>
                                         <Radio value={"8c8ff66d-5bc4-4a9d-b31e-32c8f4e77b56"}>{t("no")}</Radio>
                                         <Radio value={"57c30192-3d8a-47cd-9b3b-b7df812d898b"}>{t("maybe")}</Radio>
@@ -344,7 +346,8 @@ const AddJob = (props) => {
                             </div>
                             <div className='col-md-5'>
                                 <Form.Item name='desired_work_at_home_id'>
-                                    <Radio.Group>
+                                    <Radio.Group defaultValue={"210a717d-18b6-11ef-b340-0050561eb45d"}>
+                                        <Radio value={"210a717d-18b6-11ef-b340-0050561eb45d"}>{t("no_mater")}</Radio>
                                         <Radio value={"5b70848b-9f60-4a33-b146-9f95a34e07cf"}>{t("yes")}</Radio>
                                         <Radio value={"1b12ed22-d93a-4a8f-8f8d-143535e8f93d"}>{t("no")}</Radio>
                                         <Radio value={"fb6be5ac-679b-4cf9-889f-7be7486e2f61"}>{t("maybe")}</Radio>

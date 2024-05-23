@@ -51,7 +51,8 @@ class Functions {
 
         try {
             jobListChild.map((item, index) => {
-                if (jobListParent == item.job_id || (Array.isArray(jobListParent) && jobListParent.indexOf(item.job_id) !== -1))
+                if(item.is_activate == 1)
+                  if (jobListParent == item.job_id || (Array.isArray(jobListParent) && jobListParent.indexOf(item.job_id) !== -1))
                     exist = true;
             })
         } catch (error) {
