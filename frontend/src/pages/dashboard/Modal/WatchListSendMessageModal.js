@@ -28,10 +28,11 @@ function WatchListSendMessageModal(props) {
     const [form2] = Form.useForm();
 
     const admin = getLoggedInUser()[0];
+    const [isBuyCredit,setIsBuyCredit] = useState(false);
     const [isModalOpenUserTemplate, setIsModalOpenUserTemplate] = useState(false);
     const [loadlang, setloadlang] = useState(true);
     const [templateData, settemplateData] = useState([]);
-    const [hasPayment, setHasPayment] = useState(false);
+    const [hasPayment, setHasPayment] = useState(true);
     const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
     const [address, setAddress] = useState({});
 
@@ -101,11 +102,11 @@ function WatchListSendMessageModal(props) {
                 fireBaseBackend.writeMessages(admin, user, messageObj);
             else {
                 const dataToSend = {
-                    from_user_id:admin.user_id,
-                    to_user_id:user.user_id,
+                    from_user_id: admin.user_id,
+                    to_user_id: user.user_id,
                     message: values.message
                 }
-                new APIClient().create("/user/sendmail",dataToSend).then(res=>{
+                new APIClient().create("/user/sendmail", dataToSend).then(res => {
 
                 })
             }
@@ -140,12 +141,14 @@ function WatchListSendMessageModal(props) {
 
 
     useEffect(() => {
+        setIsBuyCredit((admin.userType==0?true:admin.buy_credit));
         if (currentUser) {
             //set address
             if (currentUser.address && currentUser.address.length > 0)
                 setAddress(currentUser.address[0]);
 
             //check payment
+            if (admin.userType !=0)
             new APIClient().get('user/' + admin.user_id + '/user_payment').then(res => {
                 if (res.length > 0) {
                     let user_payment_list = res.filter((payment) => { return payment.user_id_payment == user.user_id && payment.type == type });
@@ -214,11 +217,11 @@ function WatchListSendMessageModal(props) {
 
                             <div className="row">
                                 <div className="col-md-4">
-                                    {!hasPayment && (admin.buy_credit) && <button type="button" onClick={handleBuyCredit} className="btn btn-secondary form-control">{t('t_buy_credits').toUpperCase()}</button>}
+                                    {(!hasPayment) && <button disabled={isBuyCredit} type="button" onClick={handleBuyCredit} className="btn btn-secondary form-control">{t('t_buy_credits').toUpperCase()}</button>}
                                 </div>
                                 <div className="col-md-4"></div>
                                 <div className="col-md-4">
-                                    {hasPayment && <button type="primary" className="btn btn-primary form-control btn-sm">{(type == "mail") ? t('t_send_mail').toUpperCase() : t('t_send_message').toUpperCase()}</button>}
+                                    {(hasPayment) && <button type="primary" className="btn btn-primary form-control btn-sm">{(type == "mail") ? t('t_send_mail').toUpperCase() : t('t_send_message').toUpperCase()}</button>}
                                 </div>
                             </div>
                         </Form>

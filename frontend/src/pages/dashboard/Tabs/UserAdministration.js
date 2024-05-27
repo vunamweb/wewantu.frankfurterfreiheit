@@ -88,7 +88,7 @@ const UserAdministration = (props) => {
             <div className="main_job">
                 <div className="container-fluid px-0 main">
                     <div className="row useradmin">
-                        <div className='row setting-title'>USER ADMINISTRATION</div>
+                        <div className='row setting-title'>{t("t_user_administration").toUpperCase()}</div>
 
                         {userData.map((user, index) => (
                             <div >
@@ -157,7 +157,7 @@ const UserAdministration = (props) => {
                                                                     disabled={user.isReadonly}
                                                                 />
                                                                 <label className="form-check-label" for="night_shift">
-                                                                    BUY CREDITS
+                                                                    {t("t_buy_credits")}
                                                                 </label>
                                                             </div>
                                                             <div className="form-check">
@@ -168,7 +168,7 @@ const UserAdministration = (props) => {
                                                                     disabled={user.isReadonly}
                                                                 />
                                                                 <label className="form-check-label" for="night_shift">
-                                                                    CREATE JOB/PROJECT
+                                                                    {t("t_add_new_job").toUpperCase()}
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -183,7 +183,7 @@ const UserAdministration = (props) => {
                                                                     name="use_lead"
                                                                     disabled={user.isReadonly}
                                                                 />
-                                                                <label className="form-check-label" for="weekend_work">USE LEAD</label>
+                                                                <label className="form-check-label" for="weekend_work">{t("t_user_lead").toUpperCase()}</label>
                                                             </div>
                                                         </div>
                                                     </div>

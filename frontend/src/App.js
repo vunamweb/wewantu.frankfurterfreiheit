@@ -3,6 +3,7 @@ import Routes from './routes';
 
 //Import Scss
 import "./assets/scss/themes.scss";
+import "./assets/css/style.css";
 
 //fackbackend
 //import fakeBackend from './helpers/fake-backend';

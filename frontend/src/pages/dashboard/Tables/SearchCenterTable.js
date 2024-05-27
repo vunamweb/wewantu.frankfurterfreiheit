@@ -9,6 +9,9 @@ import SerchCenterWachlistModal from '../Modal/SerchCenterWachlistModal';
 import { APIClient } from '../../../helpers/apiClient';
 import { toast } from 'react-toastify';
 import RatingStar from '../Component/RatingStar';
+
+import { useTranslation } from 'react-i18next';
+
 function SearchCenterDisplay(props) {
     const JsonData = props.searchData;
     const [loading, setloading] = useState(false);
@@ -18,7 +21,7 @@ function SearchCenterDisplay(props) {
     const [currentIndex, setcurrentIndex] = useState(-1);
     const admin = getLoggedInUser()[0];
     const [isWatchlist, setIsWatchlist] = useState({});
-
+    const { t } = useTranslation();
     useEffect(() => {
         // This function will run after the component renders
         const timer = setTimeout(() => {
@@ -153,8 +156,8 @@ function SearchCenterDisplay(props) {
                                     </div>
 
                                     <div className="col-md-6">
-                                        <button onClick={(e) => handleDTClick(info, idx * 4 + index)} data-id={'detail_' + info.job_search_profile_id} className="btn btn-primary form-control" type="submit" data-bs-toggle="modal" data-bs-target="#idDeitals">DETAILS</button>
-                                        <button disabled={isWatchlist[info.user.user_id]} onClick={(e) => handleWLClick(info, idx * 4 + index)} data-id={'watchlist_' + info.job_search_profile_id} className="btn btn-primary form-control" type="submit" data-bs-toggle="modal" data-bs-target="#idWatchList">ADD TO WATCHLIST</button>
+                                        <button onClick={(e) => handleDTClick(info, idx * 4 + index)} data-id={'detail_' + info.job_search_profile_id} className="btn btn-primary form-control" type="submit" data-bs-toggle="modal" data-bs-target="#idDeitals">{t("t_details").toUpperCase()}</button>
+                                        <button disabled={isWatchlist[info.user.user_id]} onClick={(e) => handleWLClick(info, idx * 4 + index)} data-id={'watchlist_' + info.job_search_profile_id} className="btn btn-primary form-control" type="submit" data-bs-toggle="modal" data-bs-target="#idWatchList">{t("t_add_to_watchlist").toUpperCase()}</button>
                                     </div>
                                 </div>
                                 <div className="row">

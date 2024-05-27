@@ -91,7 +91,7 @@ const UserAccount = (props) => {
 
             setLoggedInUser(admin);
 
-            toast.success("Update successfully");
+            toast.success(t("t_success"));
         });
 
     }
@@ -143,7 +143,7 @@ const UserAccount = (props) => {
                     setIsOpenModalVerifyCode(false);
 
                     //notification
-                    toast.success("Update successfully");
+                    toast.success(t("t_success"));
                 })
             }
         })
@@ -195,31 +195,31 @@ const UserAccount = (props) => {
                         <div className="col-md">
                             <nav className="navbar navbar-expand-sm navbar-light">
                                 <div className="container-fluid title-useracc">
-                                    <span className="title">USER ACCOUNT</span>
+                                    <span className="title">{t("t_user_account").toUpperCase()}</span>
                                     <div className="collapse navbar-collapse " id="navbarSupportedContent">
                                         <ul className="navbar-nav ms-auto">
                                             <li className="nav-item" >
-                                                <Link className={`nav-link ${activeTab === 'tab1' ? 'active' : ''}`} onClick={() => handleTabChange('tab1')} href="#" alt="">ACCOUNT SETTING</Link>
+                                                <Link className={`nav-link ${activeTab === 'tab1' ? 'active' : ''}`} onClick={() => handleTabChange('tab1')} href="#" alt="">{t("t_account_settings").toUpperCase()}</Link>
                                             </li>
                                             {
                                                 (admin.userType == 0) && <li className="nav-item">
-                                                    <Link className={`nav-link ${activeTab === 'tab2' ? 'active' : ''}`} onClick={() => handleTabChange('tab2')} href="#">USER ADMINISTRATION</Link>
+                                                    <Link className={`nav-link ${activeTab === 'tab2' ? 'active' : ''}`} onClick={() => handleTabChange('tab2')} href="#">{t("t_user_administration").toUpperCase()}</Link>
                                                 </li>
                                             }
                                             {
                                                 (admin.userType == 0 || admin.userType == 1) &&
                                                 <li className="nav-item">
-                                                    <Link className={`nav-link ${activeTab === 'tab3' ? 'active' : ''}`} onClick={() => handleTabChange('tab3')} href="#">COMPANY V-CARD</Link>
+                                                    <Link className={`nav-link ${activeTab === 'tab3' ? 'active' : ''}`} onClick={() => handleTabChange('tab3')} href="#">{t("t_company_vcard").toUpperCase()}</Link>
                                                 </li>
                                             }
                                             {
                                                 (admin.userType == 0 || admin.userType == 1) &&
                                                 <li className="nav-item">
-                                                    <Link className={`nav-link ${activeTab === 'tab4' ? 'active' : ''}`} onClick={() => handleTabChange('tab4')} href="#">PAYMENTS/INVOICES</Link>
+                                                    <Link className={`nav-link ${activeTab === 'tab4' ? 'active' : ''}`} onClick={() => handleTabChange('tab4')} href="#">{t("t_payments_invoices").toUpperCase()}</Link>
                                                 </li>
                                             }
                                             <li className="nav-item">
-                                                <Link className={`nav-link ${activeTab === 'tab5' ? 'active' : ''}`} onClick={() => handleTabChange('tab5')} href="#">HELP CENTER</Link>
+                                                <Link className={`nav-link ${activeTab === 'tab5' ? 'active' : ''}`} onClick={() => handleTabChange('tab5')} href="#">{t("t_help_center").toUpperCase()}</Link>
                                             </li>
                                         </ul>
                                     </div>
@@ -241,7 +241,7 @@ const UserAccount = (props) => {
                                     }}>
                                         <div className="">
                                             <div className="row line1">
-                                                <div className='row setting-title'>ACCOUNT DETAILS</div>
+                                                <div className='row setting-title'>{t("t_account_details").toUpperCase()}</div>
                                                 <div className="col-md-9">
                                                     <div className="row">
                                                         <div className="col-md">
@@ -296,7 +296,7 @@ const UserAccount = (props) => {
                                                     </div>
                                                 </div>
                                                 <div className="col-md-3">
-                                                    <span>PROFILE PICTURE</span>
+                                                    <span>{t("t_profile_photo").toUpperCase()}</span>
                                                     <Upload
                                                         name="avatar"
                                                         listType="picture-card"
@@ -312,8 +312,8 @@ const UserAccount = (props) => {
 
                                             </div>
                                             <div className="row line1">
-                                                <div className='row setting-title'>E-MAIL SETTINGS</div> <br />
-                                                <div className='row'>Specify which emails you would like to receive from us.</div>
+                                                <div className='row setting-title'>{t("email_setting")}</div> <br />
+                                                <div className='row'>{t("t_email_setting_desc")}.</div>
                                                 {/* <button className="btn btn-primary form-control " id="managesetting" >MANAGE SETTINGS</button> */}
                                             </div>
                                         </div>
@@ -327,7 +327,7 @@ const UserAccount = (props) => {
                                     }} >
                                         <div className="">
                                             <div className='row line1'>
-                                                <div className='row setting-title'>REGISTRATION INFORMATION</div>
+                                                <div className='row setting-title'>{t("t_registration_information")}</div>
                                                 <div className="col-md-12">
 
                                                     <div className="row">
@@ -378,8 +378,8 @@ const UserAccount = (props) => {
                                                 </div>
                                             </div>
                                             <div className='row line1'>
-                                                <div className='row setting-title'>PRIVACY SETTINGS</div>
-                                                <div className='row'>Manage your cookie and privacy settings. Learn more</div>
+                                                <div className='row setting-title'>{t("t_privacy_setting")}</div>
+                                                <div className='row'>{t("t_privacy_setting_desc")}</div>
                                                 {/* <button className="btn btn-primary form-control" id="managesetting" type="submit">MANAGE SETTINGS</button> */}
                                             </div>
                                         </div>
@@ -390,16 +390,15 @@ const UserAccount = (props) => {
                         <div className={`tab-pane ${activeTab === 'tab2' ? 'active' : ''}`}>
                             {(admin.userType == 0) && <UserAdministration users={users} />}
                         </div>
-                        <div className={`tab-pane ${activeTab === 'tab3' ? 'active' : ''}`}>COMPANY V-CARD</div>
-                        <div className={`tab-pane ${activeTab === 'tab4' ? 'active' : ''}`}>PAYMENTS/INVOICES</div>
-                        <div className={`tab-pane ${activeTab === 'tab5' ? 'active' : ''}`}>HELP CENTER</div>
+                        <div className={`tab-pane ${activeTab === 'tab3' ? 'active' : ''}`}></div>
+                        <div className={`tab-pane ${activeTab === 'tab4' ? 'active' : ''}`}></div>
+                        <div className={`tab-pane ${activeTab === 'tab5' ? 'active' : ''}`}></div>
                     </div>
                 </div>
             </div>
             <Modal onCancel={onCancelModalVerifyCode} onOk={onOkModalVerifyCode} title="Confirm" open={isOpenModalVerifyCode}>
-                <p>We have sent a confirmation code to your registration email, please check your email and re-enter here</p>
+                <p>{t("t_change_mail_confirm")}</p>
                 <Input type='text' className='form-control' name='verify_code' value={verifyCode} required onChange={hanleChangeVerifyCode}>
-
                 </Input>
             </Modal>
         </React.Fragment>

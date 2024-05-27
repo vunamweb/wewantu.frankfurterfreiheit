@@ -179,7 +179,7 @@ import { useTranslation } from 'react-i18next';
                     <div className="container-fluid px-0">
                         <div className="row">
                             <div className="col-md">
-                                <button className="text_addjobs" onClick={()=>{setIsModalOpenadd(true)}} disabled={admin.add_job?false:true}>
+                                <button className="text_addjobs" onClick={()=>{setIsModalOpenadd(true)}} disabled={(admin.add_job || admin.userType==0)?false:true}>
                                     <img src={`${process.env.PUBLIC_URL}/img/plus.svg`} alt=''/><span className='text'>{t('t_add_new_job').toUpperCase()}</span>
                                 </button>
                             </div>

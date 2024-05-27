@@ -38,7 +38,7 @@ class Jobs extends Component {
         })
     }
     componentDidMount() {
-       // this.onGetJobSearchProfiles();
+       this.onGetJobSearchProfiles();
     }
     render() {
         document.title = "CURRENT ENQUIRIES | WEWANTU"       

@@ -223,7 +223,7 @@ function Watchlist(props) {
 
 	const handleSendMessageAll = () => {
 		if (checkedList.length == 0) {
-			toast.warn("No items have been selected yet")
+			toast.warn(t("t_no_items_selected"))
 		}
 		else {
 			const uniqueValues = checkedList.reduce((acc, currentValue) => {
@@ -508,7 +508,7 @@ function Watchlist(props) {
 				<div className="main-mes">
 					<div className="container-fluid px-0">
 						<div className="row w-title">
-							<div className="col-md"><span className="w-title-l">WATCHLIST</span> </div>
+							<div className="col-md"><span className="w-title-l">{t("t_watchlist")}</span> </div>
 							<div className="col-md"><span className="w-title-r">
 								<Select
 									showSearch
@@ -522,7 +522,7 @@ function Watchlist(props) {
 								//    value: item.profession_id
 								// }))}
 								>
-									<Select.Option value="all">All</Select.Option>
+									<Select.Option value="all">{t("t_all").toUpperCase()}</Select.Option>
 									{professions !== null && professions.map((item) => (
 										<Select.Option value={item.profession_id}>{item.profession}</Select.Option>
 									))}
@@ -547,14 +547,14 @@ function Watchlist(props) {
 									<div className="row w-checkall">
 										<div className="col-md-7">
 											<Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>
-												Check all
+												{t("t_check_all")}
 											</Checkbox>
 										</div>
 										<div className="col-md-2">
-											<Button className="btn btn-primary form-control" size="sm" onClick={(e) => exportPDF(null)}>EXPORT PDF</Button>
+											<Button className="btn btn-primary form-control" size="sm" onClick={(e) => exportPDF(null)}>{t("t_export_pdf")}</Button>
 										</div>
 										<div className="col-md-3">
-											<Button className="btn btn-primary form-control" size="sm" onClick={(e) => handleSendMessageAll()}>SEND MASSAGE ALL CHECKED</Button>
+											<Button className="btn btn-primary form-control" size="sm" onClick={(e) => handleSendMessageAll()}>{t("t_send_message_all").toUpperCase()}</Button>
 										</div>
 									</div>
 								</form>
@@ -575,10 +575,10 @@ function Watchlist(props) {
 																			<TextArea name='note' value={notes[info.user_add_id]} onChange={updateNotes(info.user_add_id)} cols={10} rows={10} placeholder='Write a note' />
 																		</div>
 																		<div className="col-md-2">
-																			<Button className="btn btn-primary form-control" size="sm" data-bs-toggle="modal" onClick={(e) => handleDTClick(info)} data-bs-target="#idDeitals">DETAILS</Button>
-																			<Button className="btn btn-primary form-control" size="sm" data-bs-toggle="modal" onClick={(e) => handleSendMessage(info, "message")} data-bs-target="#idWatchList">SEND MASSAGE</Button>
-																			<Button className="btn btn-primary form-control" size="sm" data-bs-toggle="modal" onClick={(e) => handleSendMessage(info, "mail")} >SEND MAIL</Button>
-																			<Button className="btn btn-primary form-control" size="sm" onClick={(e) => ondeleteWL(info, index)}>DELETE</Button>
+																			<Button className="btn btn-primary form-control" size="sm" data-bs-toggle="modal" onClick={(e) => handleDTClick(info)} data-bs-target="#idDeitals">{t("t_details").toUpperCase()}</Button>
+																			<Button className="btn btn-primary form-control" size="sm" data-bs-toggle="modal" onClick={(e) => handleSendMessage(info, "message")} data-bs-target="#idWatchList">{t("t_send_message").toUpperCase()}</Button>
+																			<Button className="btn btn-primary form-control" size="sm" data-bs-toggle="modal" onClick={(e) => handleSendMessage(info, "mail")} >{t("t_send_mail").toUpperCase()}</Button>
+																			<Button className="btn btn-primary form-control" size="sm" onClick={(e) => ondeleteWL(info, index)}>{t("t_delete").toUpperCase()}</Button>
 																		</div>
 																	</div>
 

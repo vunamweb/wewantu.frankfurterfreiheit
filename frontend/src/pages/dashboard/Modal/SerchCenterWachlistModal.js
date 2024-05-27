@@ -115,7 +115,7 @@ function SerchCenterWachlistModal(props) {
                                 </Form.Item>
 
                                 <div className="row">
-                                    <div className="col-md-4"><button type="button" className="btn btn-secondary">BUY CREDITS</button></div>
+                                    <div className="col-md-4"><button type="button" className="btn btn-secondary">{t("t_buy_credits")}</button></div>
                                     <div className="col-md-3"></div>
                                     <div className="col-md-5">
                                         <div className='row'>
