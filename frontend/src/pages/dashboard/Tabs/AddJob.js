@@ -381,7 +381,7 @@ const AddJob = (props) => {
                             <div className="d-grid gap-2 login">
                                 <button className="btn btn-primary form-control" id="addsearch" type="submit">{props.action === 'edit' ? t('edit_&_search').toUpperCase() : t('add_&_search').toUpperCase()}</button>
                             </div>
-                            <span className=''>{t('t_based_on_this_search_a_job_will_cost_lead_x_credits')}</span>
+                            {/* <span className=''>{t('t_based_on_this_search_a_job_will_cost_lead_x_credits')}</span> */}
                         </div>
                     </div>
                 </Form>

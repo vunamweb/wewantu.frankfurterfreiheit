@@ -25,6 +25,7 @@ const UserAccount = (props) => {
     const [isOpenModalVerifyCode, setIsOpenModalVerifyCode] = useState(false);
     const [verifyCode, setVerifyCode] = useState("");
     const [verifyCodeId, setVerifyCodeId] = useState("");
+    const [profilePicture, setProfilePicture] = useState(null);
 
 
     const users = getAllUser();
@@ -42,9 +43,24 @@ const UserAccount = (props) => {
         )
     };
 
-    const handleChangeFile = (e) => {
-        console.log(e);
+    const handleChangeFile = (info) => {
+        
     }
+
+    const customRequest = async ({ file }) => {
+        const formData = new FormData();
+        formData.append('avatar', file);
+
+        try {
+            new APIClient().create(urlApiUpload, formData).then(res => {
+                setImageUrl(config.API_BASE_URL + "/"+res);
+                setProfilePicture(res);
+                // toast.success(t("t_successfully"));
+            });
+        } catch (error) {
+            toast.error(error);
+        }
+    };
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
@@ -82,6 +98,7 @@ const UserAccount = (props) => {
             user_id: values.user_id,
             prename: values.prename,
             lastname: values.lastname,
+            profilePicture: profilePicture
             // country: values.country
         }
 
@@ -154,7 +171,14 @@ const UserAccount = (props) => {
     }
 
     useEffect(() => {
-        setImageUrl(process.env.PUBLIC_URL + "/img/avatar.png");
+        if (admin.profilePicture){
+            setProfilePicture(admin.profilePicture);
+            setImageUrl(config.API_BASE_URL+"/"+admin.profilePicture);
+        }
+        else{
+            setImageUrl(process.env.PUBLIC_URL + "/img/avatar.png");
+        }
+        
         new APIClient().get('countries').then(res => {
             if (res.length > 0) {
                 let countryList = [];
@@ -241,7 +265,7 @@ const UserAccount = (props) => {
                                     }}>
                                         <div className="">
                                             <div className="row line1">
-                                                <div className='row setting-title'>{t("t_account_details").toUpperCase()}</div>
+                                                <div className='row setting-title'>{t("t_account_detail").toUpperCase()}</div>
                                                 <div className="col-md-9">
                                                     <div className="row">
                                                         <div className="col-md">
@@ -302,8 +326,9 @@ const UserAccount = (props) => {
                                                         listType="picture-card"
                                                         className="avatar-uploader"
                                                         showUploadList={false}
-                                                        action={urlApiUpload}
+                                                        // action={urlApiUpload}
                                                         onChange={handleChangeFile}
+                                                        customRequest={customRequest}
                                                     >
                                                         {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
                                                     </Upload>
@@ -312,7 +337,7 @@ const UserAccount = (props) => {
 
                                             </div>
                                             <div className="row line1">
-                                                <div className='row setting-title'>{t("email_setting")}</div> <br />
+                                                <div className='row setting-title'>{t("t_email_setting")}</div> <br />
                                                 <div className='row'>{t("t_email_setting_desc")}.</div>
                                                 {/* <button className="btn btn-primary form-control " id="managesetting" >MANAGE SETTINGS</button> */}
                                             </div>
