@@ -1,8 +1,8 @@
-import React, { useEffect,useState } from 'react';
-import { connect } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { connect, useSelector } from "react-redux";
 
 import { TabContent, TabPane } from "reactstrap";
-import { getLoggedInUser,setProfessions,setdriver_licenses,setlanguages,setjob,setjob_search_profiles,setAllUser, setjob_search_profiles_all } from '../../helpers/authUtils';
+import { getLoggedInUser, setProfessions, setdriver_licenses, setlanguages, setjob, setjob_search_profiles, setAllUser, setjob_search_profiles_all } from '../../helpers/authUtils';
 import { APIClient } from '../../helpers/apiClient';
 //Import Components
 import Searchcenter from './Tabs/Searchcenter';
@@ -19,31 +19,38 @@ import PayMents from './Tabs/PayMents';
 import Credits from './Tabs/Credits';
 import Subcribe from './Tabs/Subcribe';
 import config from '../../config';
+import { Input } from 'antd';
+import { t } from 'i18next';
+
 function ChatLeftSidebar(props) {
     const activeTab = props.activeTab;
     const setSearch = props.setSearch;
     const [loadlang, setloadlang] = useState(true);
     const [loadwatchlist, setwatchlist] = useState(true);
     const [loadblocklist, setblocklist] = useState(true);
-    const admin=getLoggedInUser()[0];
+    const admin = getLoggedInUser()[0];
     const [professions, setprofessions] = useState([]);
-    if(admin ===null){
+    const [jobSearchProfiles, setJobSearchProfiles] = useState([]);
+
+    const language = useSelector(state => state.Layout.language);
+
+    if (admin === null) {
         localStorage.removeItem("authUser");
-        localStorage.removeItem("session_secret"); 
+        localStorage.removeItem("session_secret");
     }
-        
+
     useEffect(() => {
 
-        if(loadlang && admin){
+        if (loadlang && admin) {
             //load professions
-            new APIClient().get('user').then(res=>{
-                if(res){
+            new APIClient().get('user').then(res => {
+                if (res) {
                     setAllUser(res);
-                } 
+                }
             });
 
-            new APIClient().get('professions').then(res=>{
-                if(res){
+            new APIClient().get('professions').then(res => {
+                if (res) {
                     //const professionsData = res.map((item) => ({
                     //    label: item.profession,
                     //    value: item.profession_id
@@ -52,106 +59,126 @@ function ChatLeftSidebar(props) {
                     //localStorage.setItem('professions',JSON.stringify(res));
                     //console.log(JSON.parse(localStorage.professions))
                     setProfessions(res);
-                } 
+                }
             });
 
             //load job_search_profiles
-            new APIClient().get('user/'+admin.user_id+'/job_search_profiles').then(res =>{
-                if(res){  
+            new APIClient().get('user/' + admin.user_id + '/job_search_profiles').then(res => {
+                if (res) {
+                    console.log(res);
+                    setJobSearchProfiles(res);
                     setjob_search_profiles(res)
                 }
             });
 
-             //load job_search_profiles_all
-             new APIClient().get('list_job_search_profiles').then(res =>{
-                if(res){  
+            //load job_search_profiles_all
+            new APIClient().get('list_job_search_profiles').then(res => {
+                if (res) {
                     setjob_search_profiles_all(res)
                 }
             });
 
             //load driver_licenses
-            new APIClient().get('driver_licenses').then(res=>{
-                if(res){
-                    const driver_licensesData = res.data !== '' &&  res.map((item) => ({
+            new APIClient().get('driver_licenses').then(res => {
+                if (res) {
+                    const driver_licensesData = res.data !== '' && res.map((item) => ({
                         label: item.driver_license,
                         value: item.driver_license_id
-                      }));
-                      setdriver_licenses(driver_licensesData);
-                }                    
+                    }));
+                    setdriver_licenses(driver_licensesData);
+                }
             });
 
-            new APIClient().get('languages').then(res=>{
-                if(res){
+            new APIClient().get('languages').then(res => {
+                if (res) {
                     const languagesData = res.map((item) => ({
                         label: item.language,
                         value: item.language_id
-                      }));
+                    }));
                     setlanguages(languagesData);
-                    
-                } 
+
+                }
             });
 
-            new APIClient().get(config.API_BASE_URL+ '/tmp/job.php?lng=en').then(res=>{
-                if(res){
+            new APIClient().get(config.API_BASE_URL + '/tmp/job.php?lng=' + language).then(res => {
+                if (res) {
                     const jobsData = res.map((item) => ({
                         label: item.name,
                         value: item.id
-                      }));
-                      setjob(jobsData);
-                } 
+                    }));
+                    setjob(jobsData);
+                }
             });
 
             setloadlang(false);
-        }            
-    },[loadlang,admin]);
+        }
+    }, [loadlang, admin]);
     return (
         <React.Fragment>
-                <TabContent activeTab={activeTab}  >
-                    <TabPane tabId="jobs" id="pills-jobs"   >
-                        <Jobs activeTab={activeTab} setSearch={setSearch}/>
-                    </TabPane>
-                    <TabPane tabId="addnewjob" id="pills-addnewjob">
-                        <Jobs activeTab={activeTab} />
-                    </TabPane>
-                    
-                    <TabPane tabId="addnewcategory" id="pills-addnewcategory">
-                        <AddCategory professions={[professions, setprofessions]}/>
-                    </TabPane>
-                    <TabPane tabId="searchcenter" id="pills-searchcenter">
-                        <Searchcenter professions={professions}/>
-                    </TabPane>
-                    <TabPane tabId="watchlist" id="pills-watchlist">
-                        <Watchlist recentChatList={props.recentChatList} loadwatchlist={loadwatchlist} setwatchlist={setwatchlist} activeTab={activeTab}/>
-                    </TabPane>
-                    <TabPane tabId="blocklist" id="pills-blocklist">
-                        <Blocklist loadwatchlist={loadwatchlist} setwatchlist={setwatchlist} activeTab={activeTab}/>
-                    </TabPane>                    
-                    <TabPane tabId="mess" id="pills-mess">        
-                        <div className="row">                
-                            <Chats recentChatList={props.recentChatList} />
+            <TabContent activeTab={activeTab}  >
+                <TabPane tabId="jobs" id="pills-jobs"   >
+                    <Jobs activeTab={activeTab} setSearch={setSearch} />
+                </TabPane>
+                <TabPane tabId="addnewjob" id="pills-addnewjob">
+                    <Jobs activeTab={activeTab} />
+                </TabPane>
+
+                <TabPane tabId="addnewcategory" id="pills-addnewcategory">
+                    <AddCategory professions={[professions, setprofessions]} />
+                </TabPane>
+                <TabPane tabId="searchcenter" id="pills-searchcenter">
+                    <Searchcenter professions={professions} />
+                </TabPane>
+                <TabPane tabId="watchlist" id="pills-watchlist">
+                    <Watchlist recentChatList={props.recentChatList} loadwatchlist={loadwatchlist} setwatchlist={setwatchlist} activeTab={activeTab} />
+                </TabPane>
+                <TabPane tabId="blocklist" id="pills-blocklist">
+                    <Blocklist loadwatchlist={loadwatchlist} setwatchlist={setwatchlist} activeTab={activeTab} />
+                </TabPane>
+                <TabPane tabId="mess" id="pills-mess">
+                    <div class="main-mes">
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md">
+
+                                    <nav class="navbar navbar-expand-md navbar-light">
+                                        <div class="container-fluid ">
+                                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                                <span class="navbar-toggler-icon"></span>
+                                            </button>
+
+                                            <div class="title">{t("t_massage_center").toUpperCase()}</div>
+                                        </div>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <Chats jobSearchProfiles={jobSearchProfiles} recentChatList={props.recentChatList} />
                             <UserChat recentChatList={props.recentChatList} />
                         </div>
-                    </TabPane>
-                    
-                    <TabPane tabId="subcribe" id="pills-subcribe">
-                        <Subcribe />
-                    </TabPane>
-                    <TabPane tabId="credits" id="pills-credits">
-                        <Credits />
-                    </TabPane>
-                     {/* <TabPane tabId="useraccount" id="pills-useraccount">
+                    </div>
+                </TabPane>
+
+                <TabPane tabId="subcribe" id="pills-subcribe">
+                    <Subcribe />
+                </TabPane>
+                <TabPane tabId="credits" id="pills-credits">
+                    <Credits />
+                </TabPane>
+                {/* <TabPane tabId="useraccount" id="pills-useraccount">
                         <UserAccount />
                     </TabPane>   */}
-                    <TabPane tabId="accountsetting" id="pills-accountsetting">
-                        <AccountSetting />
-                    </TabPane> 
-                    {/* <TabPane tabId="useradministration" id="pills-useradministration">
+                <TabPane tabId="accountsetting" id="pills-accountsetting">
+                    <AccountSetting />
+                </TabPane>
+                {/* <TabPane tabId="useradministration" id="pills-useradministration">
                         <UserAdministration />
                     </TabPane> */}
-                    <TabPane tabId="payments" id="pills-useradministration">
-                        <PayMents />
-                    </TabPane>
-                </TabContent>
+                <TabPane tabId="payments" id="pills-useradministration">
+                    <PayMents />
+                </TabPane>
+            </TabContent>
         </React.Fragment>
     );
 }

@@ -2,29 +2,26 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { Nav, NavItem, NavLink } from "reactstrap";
 import classnames from "classnames";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import { setActiveTab } from "../../redux/actions";
+import { openSearchCenterFromMenu, setActiveTab } from "../../redux/actions";
 
 //Import Images
 import logo from "../../assets/images/logo.svg"
 
 
 function LeftSidebarMenu(props) {
-    
-      
-      
-
-    
-
+    const dispatch = useDispatch();
 
     const toggleTab = tab => {
+        if (tab == "searchcenter"){
+            dispatch(openSearchCenterFromMenu());
+        }
         props.setActiveTab(tab)
     }
     const { t } = useTranslation();
     const activeTab = props.activeTab;
     /* changes language according to clicked language menu item */
-    
 
     return (
         <React.Fragment>

@@ -42,9 +42,9 @@ function UserChat(props) {
     //userType must be required
     const [allUsers] = useState(props.recentChatList);
     const [chatMessages, setchatMessages] = useState(props.recentChatList[props.active_user].messages);
-   const [countid] = useState(props.recentChatList[props.active_user].messages.length);
+    const [countid] = useState(props.recentChatList[props.active_user].messages.length);
     const fireBaseBackend = getFirebaseBackend();
-   
+
 
     useEffect(() => {
         setchatMessages(props.recentChatList[props.active_user].messages);
@@ -53,70 +53,70 @@ function UserChat(props) {
             refC.current.getScrollElement().scrollTop = refC.current.getScrollElement().scrollHeight;
         }
     }, [props.active_user, props.recentChatList]);
-/*
-    useEffect(() => {
-        if (!currentGroup) {
-            return
-        }
-        //console.log(currentGroup);
-        const admin=getLoggedInUser()[0];
-        let tagId=admin.user_id+'_'+currentGroup.user_id;
-        const resp = ref(getDatabase(), 'messages/'+tagId);
-        const unSub = onValue(resp, (snap) => { // <--- return the unsubscriber!
-            
-            if (snap.exists()) {
-                const messages = getSnapshotChildren(snap)
-                     .map(child => ({
-                         id: child.key,
-                         //group: currentGroup.user_id,
-                         ...child.val()
-                     }));
-                     
-                     //console.log(messages[messages.length -1].message);
-                    if(admin.user_id === messages[messages.length -1].fromUser)
-                        console.log('is admin');
-                    else{
-                            addMessage(messages[messages.length -1].message,'textMessage',"receiver");
-                                //const users = fetch('https://api.topazvn.vn/listChat.php?admin_id='+admin.user_id)
-                                //console.log(users);
-                                //setchatMessages(users[props.active_user].messages);
-                            }
-                        //
-
+    /*
+        useEffect(() => {
+            if (!currentGroup) {
                 return
             }
-            
-        });
-        return () => {
-            unSub();
-          };   
-            
-    },[currentGroup]);
-*/
+            //console.log(currentGroup);
+            const admin=getLoggedInUser()[0];
+            let tagId=admin.user_id+'_'+currentGroup.user_id;
+            const resp = ref(getDatabase(), 'messages/'+tagId);
+            const unSub = onValue(resp, (snap) => { // <--- return the unsubscriber!
+                
+                if (snap.exists()) {
+                    const messages = getSnapshotChildren(snap)
+                         .map(child => ({
+                             id: child.key,
+                             //group: currentGroup.user_id,
+                             ...child.val()
+                         }));
+                         
+                         //console.log(messages[messages.length -1].message);
+                        if(admin.user_id === messages[messages.length -1].fromUser)
+                            console.log('is admin');
+                        else{
+                                addMessage(messages[messages.length -1].message,'textMessage',"receiver");
+                                    //const users = fetch('https://api.topazvn.vn/listChat.php?admin_id='+admin.user_id)
+                                    //console.log(users);
+                                    //setchatMessages(users[props.active_user].messages);
+                                }
+                            //
     
+                    return
+                }
+                
+            });
+            return () => {
+                unSub();
+              };   
+                
+        },[currentGroup]);
+    */
+
     const toggle = () => setModal(!modal);
 
-    
-    const addMessage = (message, type="textMessage",userType="sender") => {
-       
+
+    const addMessage = (message, type = "textMessage", userType = "sender") => {
+
         var messageObj = null;
 
-        let d = new Date();        
-        let time =d.getTime();
-        
-        var y = d.getFullYear() ;
+        let d = new Date();
+        let time = d.getTime();
+
+        var y = d.getFullYear();
         var m = d.getMonth() + 1 < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
         var dd = d.getDay() < 10 ? "0" + d.getDay() : d.getDay();
-        var h = d.getHours()< 10 ? "0" + d.getHours() : d.getHours();
-        var mm = d.getMinutes()< 10 ? "0" + d.getMinutes() : d.getMinutes();
-        var s = d.getSeconds()< 10 ? "0" + d.getSeconds() : d.getSeconds();
-        var fulltime= y + "-" + m + "-" + dd + " " + h + ":" + mm + ":" + s;
+        var h = d.getHours() < 10 ? "0" + d.getHours() : d.getHours();
+        var mm = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
+        var s = d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds();
+        var fulltime = y + "-" + m + "-" + dd + " " + h + ":" + mm + ":" + s;
 
         //matches the message type is text, file or image, and create object according to it
         switch (type) {
             case "textMessage":
                 messageObj = {
-                    id: time ,
+                    id: time,
                     message: message,
                     time: fulltime,
                     userType: userType,
@@ -162,11 +162,11 @@ function UserChat(props) {
                 break;
         }
 
-        
-       
-        
-        
-       
+
+
+
+
+
 
         setchatMessages([...chatMessages, messageObj]);
 
@@ -174,17 +174,17 @@ function UserChat(props) {
         copyallUsers[props.active_user].messages = [...chatMessages, messageObj];
         copyallUsers[props.active_user].isTyping = false;
         props.setFullUser(copyallUsers);
-        
+
         scrolltoBottom();
-        
-        if(userType==='sender'){
-            if(getLoggedInUser().length>0){
-                const admin=getLoggedInUser()[0];
-                fireBaseBackend.writeMessages(admin,props.recentChatList[props.active_user],messageObj);
+
+        if (userType === 'sender') {
+            if (getLoggedInUser().length > 0) {
+                const admin = getLoggedInUser()[0];
+                fireBaseBackend.writeMessages(admin, props.recentChatList[props.active_user], messageObj);
             }
         }
-        
-        
+
+
     }
 
     function scrolltoBottom() {
@@ -208,14 +208,14 @@ function UserChat(props) {
 
     return (
         <React.Fragment>
-            <div className="col-md-8 user-chat overflow-hidden">
+            <div className="col-md-5 user-chat overflow-hidden">
 
                 <div className="d-lg-flex">
 
                     <div className={props.userSidebar ? "w-70 overflow-hidden position-relative" : "w-100 overflow-hidden position-relative"}>
 
                         {/* render user head */}
-                        <UserHead  />
+                        <UserHead />
 
                         <SimpleBar
                             style={{ maxHeight: "100%" }}
@@ -397,16 +397,16 @@ function UserChat(props) {
 
                                                             </div>
                                                             {
-                                                                chatMessages[key + 1] ? 
-                                                                chatMessages[key].userType === chatMessages[key + 1].userType ? null : 
+                                                                chatMessages[key + 1] ?
+                                                                    chatMessages[key].userType === chatMessages[key + 1].userType ? null :
 
-                                                                <div className="conversation-name">{chat.userType === "sender" ? 
+                                                                        <div className="conversation-name">{chat.userType === "sender" ?
 
-                                                                "Patricia Smith" : props.recentChatList[props.active_user].name}</div> : 
+                                                                            "Patricia Smith" : props.recentChatList[props.active_user].name}</div> :
 
-                                                                <div className="conversation-name">{chat.userType === "sender" ? 
-                                                                
-                                                                "Admin" : props.recentChatList[props.active_user].name}</div>
+                                                                    <div className="conversation-name">{chat.userType === "sender" ?
+
+                                                                        "Admin" : props.recentChatList[props.active_user].name}</div>
                                                             }
 
                                                         </div>

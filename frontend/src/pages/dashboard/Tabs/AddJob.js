@@ -34,7 +34,7 @@ const AddJob = (props) => {
                 'job_id': values.job ? values.job : 0,
                 'job_decription': values.job_decription ? values.job_decription : '',
                 'profession_id': values.category,
-                'driver_license_id': values.driver_license_id ? values.driver_license_id : '',
+                // 'driver_license_id': values.driver_license_id ? values.driver_license_id : '',
                 'foreign_job_id': values.foreign_job_id,
                 'language_id': values.language_id,
                 'foreign_language_id': values.foreign_language_id ? values.foreign_language_id : '',
@@ -43,6 +43,9 @@ const AddJob = (props) => {
                 'desired_work_at_weekend_id': values.desired_work_at_weekend_id,
                 'desired_work_at_night_id': values.desired_work_at_night_id,
                 'desired_work_at_home_id': values.desired_work_at_home_id
+            }
+            if (values.driver_license_id){
+                datapost.driver_license_id = values.driver_license_id;
             }
             //console.log(professions);
             new APIClient().put('job_search_profile', datapost)
@@ -54,8 +57,12 @@ const AddJob = (props) => {
                         'job_decription': values.job_decription ? values.job_decription : '',
                         'profession': selectedOptionEdit.profession
                     });
-                    toast.success("Update successfully")
+                    let newRow = values;
+                    props.AddRow(newRow)
                     props.setIsModalOpen(false)
+                    toast.success("Update successfully")
+                    
+                    
                     form.resetFields();
 
                 })

@@ -5,12 +5,15 @@ import { APIClient } from '../../../helpers/apiClient';
 import { getLoggedInUser, getProfessions } from '../../../helpers/authUtils';
 import { t } from 'i18next';
 import functions from '../../../function/function';
+import { connect, useSelector } from 'react-redux';
+import JobSearchProfile from '../Component/JobSearchProfile';
 
 class Searchcenter extends Component {
     constructor(props) {
         super(props);
         this.state = {
             //loading: false,
+            showListJob:true,
             searchData: [],
             listuser: [],
             listJobProfile: [],
@@ -24,6 +27,9 @@ class Searchcenter extends Component {
     }
 
     async componentDidMount() {
+        this.state.searchItem = this.props.data;
+        this.state.search = true;
+
         const admin = getLoggedInUser()[0];
         let companylist = await new APIClient().get('companylist');
         let addresslist = await new APIClient().get('addresslist');
@@ -34,14 +40,29 @@ class Searchcenter extends Component {
         let watchlist = await new APIClient().get('user/' + admin.user_id + '/user_watchlist');
         this.renData(addresslist, searchJob, companylist, watchlist, allUserDriveList, allUserLanguageList, jobList);
     }
+
+    async componentDidUpdate(prevProps, prevState) {
+        if (prevProps != this.props){
+            if (this.props.data){
+                const data = this.props.data;
+                // this.setState({searchItem:data,search:true,showListJob:false});
+                this.state.searchItem = this.props.data;
+                this.state.search = true;
+            }
+            this.setState({showListJob:this.props.showListJob});
+        }
+       
+    }
+
     renData(addresslist, searchJob, companylist, watchlist, allUserDriveList, allUserLanguageList, jobList) {
         const admin = getLoggedInUser()[0];
         let newsearchJob = [...searchJob]
 
-        // watchlist.length > 0 && watchlist.map(itemwl => {
+        watchlist.length > 0 && watchlist.map(itemwl => {
 
-        //     newsearchJob = newsearchJob.filter(item => item.user.user_id !== itemwl.user_add_id || itemwl.type == 1)
-        // })
+            newsearchJob = newsearchJob.filter(item => item.user.user_id !== itemwl.user_add_id || itemwl.type == 1)
+        })
+
 
         // get list of user from web
         newsearchJob = newsearchJob.filter(item => {
@@ -206,6 +227,9 @@ class Searchcenter extends Component {
         //if search
         if (this.state.search) {
             filterSearch = functions.getListUser(this.state.listJobProfileMobile, this.state.searchItem);
+            filterSearch.map((item) => {
+                item.profiles = item.profiles.filter(profile => profile.job_id == this.state.searchItem.job_id);
+            });
         }
         // if click search center
         else if (search == 'null' && !this.state.search)
@@ -227,21 +251,16 @@ class Searchcenter extends Component {
             localStorage.setItem('search_job_profile', null);
         }
 
-        let listJobProfile = functions.getListJobProfileCurrent(this.state.categoryID, this.state.listJobProfileAll, this.onClickJobProfile);
-        let headerJobProfile = functions.HeaderJobPfofile();
-
-        const { loading, searchData, searchJob } = this.state;
+        const { loading, searchData, searchJob, showListJob } = this.state;
         return (
             <>
                 <React.Fragment>
                     {loading && (<div className="loader"></div>)}
-                    <div class="list_job">
-                        <table class="table">{headerJobProfile}{listJobProfile}</table>
-                    </div>
+                    {(showListJob) && <JobSearchProfile categoryID={this.state.categoryID} onClickJobProfile={this.onClickJobProfile} />}
                     <div class="main-mes">
                         <div className="main_job">
                             <div className='row g-3 title'>
-                                <div className="col-md">{t('t_search_center').toUpperCase()}{filterSearch.length>0?"("+filterSearch.length+")":"("+t("t_no_data_found")+")"}</div>
+                                <div className="col-md">{t('t_search_center').toUpperCase()}{filterSearch.length > 0 ? "(" + filterSearch.length + ")" : "(" + t("t_no_data_found") + ")"}</div>
                                 <div className="col-md-4 align-middle">
                                     <Select
                                         showSearch
@@ -275,5 +294,12 @@ class Searchcenter extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        data: state.SearchCenter.searchFilterData,
+        showListJob: state.SearchCenter.showJobFilter
+    };
+};
 
-export default Searchcenter;
+export default connect(mapStateToProps)(Searchcenter);
+// export default Searchcenter;

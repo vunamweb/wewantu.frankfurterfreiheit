@@ -7,7 +7,6 @@ import { APIClient } from '../../../helpers/apiClient';
 import { useTranslation } from 'react-i18next';
 
 
-
 function CategoryTable(props) {
     const {t} = useTranslation();
     const [form] = Form.useForm();

@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'
 import {  Popconfirm } from 'antd';
+import { pointer } from '@testing-library/user-event/dist/cjs/pointer/index.js';
 
-const TableBody = ({ tableName,tableData, columns,tableRowEdit ,tableRowRemove }) => {
+const TableBody = ({ tableName,tableData, columns,tableRowEdit ,tableRowRemove, handleClickRow }) => {
+
     return (
      <tbody>
       {tableData !==null && tableData.map((data,index) => {
@@ -33,7 +35,7 @@ const TableBody = ({ tableName,tableData, columns,tableRowEdit ,tableRowRemove }
                 <tr key={data.job_search_profile_id}>
                  {columns.map(({ accessor }) => {
                   const tData = data[accessor] ? data[accessor] : "0";
-                  return <td key={accessor}>{tData}</td>;
+                  return <td key={accessor} ><Link href="#" onClick={() => {handleClickRow(data)}}>{tData}</Link></td>;
                  })}
                 
                     <td>

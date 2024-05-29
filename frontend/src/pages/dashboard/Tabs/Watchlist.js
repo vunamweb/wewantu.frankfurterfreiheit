@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getProfessions } from '../../../helpers/authUtils';
-import { Input, Modal, Select } from "antd";
+import { Button, Input, Modal, Select } from "antd";
 import { FaRegStar } from "react-icons/fa";
 import { t } from 'i18next';
 import { Checkbox } from 'antd';
@@ -8,7 +8,7 @@ import SerchCenterModal from '../Modal/SerchCenterModal';
 import { getLoggedInUser, getAllUser } from '../../../helpers/authUtils';
 import Data from '../../../data/watchlist.json';
 import { Avatar } from 'antd';
-import { Button } from 'reactstrap';
+// import { Button } from 'reactstrap';
 import { APIClient } from '../../../helpers/apiClient';
 import WatchListModal from '../Modal/WatchListModal';
 import jsPDF from 'jspdf';
@@ -22,6 +22,7 @@ import { toast } from 'react-toastify';
 import RatingStar from '../Component/RatingStar';
 import TextArea from 'antd/es/input/TextArea';
 import { useSelector } from 'react-redux';
+import JobSearchProfile from '../Component/JobSearchProfile';
 
 function Watchlist(props) {
 
@@ -150,7 +151,6 @@ function Watchlist(props) {
 		const result = window.confirm("Do you want to proceed?");
 		if (result) {
 			let tmp = [...watchListFilter];
-			console.log(info.user_watchlist_id);
 			new APIClient().delete('user_watchlist/' + info.user_watchlist_id).then(res => {
 				tmp.splice(index, 1)
 				setwatchListFilter(tmp)
@@ -410,6 +410,21 @@ function Watchlist(props) {
 		let id = currentUser.user_id + "-" + index;
 		plainOptions.push(id);
 
+		let hobbiesList, hobbies = '';
+
+		try {
+			hobbiesList = currentUser.hobbies;
+			hobbiesList = JSON.parse(hobbiesList);
+
+			for (let i = 0; i < hobbiesList.length; i++) {
+				if (i < hobbiesList.length - 1)
+					hobbies = hobbies + hobbiesList[i] + ', ';
+				else
+					hobbies = hobbies + hobbiesList[i];
+			}
+		} catch (error) {
+			hobbies = currentUser.hobbies;
+		}
 
 		if (currentUser != undefined)
 			return (
@@ -419,7 +434,7 @@ function Watchlist(props) {
 						<div className="name">{currentUser.prename} {currentUser.lastname}</div>
 					</div>
 					<div className="col-md-4">
-						<p className="about">{currentUser.hobbies}</p>
+						<p className="about">{hobbies}</p>
 
 						<RatingStar user_id={currentUser.user_id} updateRating={updateRating} />
 					</div>
@@ -461,7 +476,7 @@ function Watchlist(props) {
 					watchListFilter.push(item)
 			})
 		} catch (error) {
-
+			console.log(error);
 		}
 
 		setwatchListFilter(watchListFilter);
@@ -485,30 +500,18 @@ function Watchlist(props) {
 	}
 
 
-	let listJobProfileAll = localStorage.getItem('job_search_profiles_all');
-
-	try {
-		listJobProfileAll = JSON.parse(listJobProfileAll);
-	} catch (error) {
-		listJobProfileAll = [];
-	}
-
-	let listJobProfile = functions.getListJobProfileCurrent(categoryID, listJobProfileAll, onClickJobProfile);
-	let headerJobProfile = functions.HeaderJobPfofile();
-
 	if (watchlistData.length > 0) {
 		let filterSearch = [];
 		filterSearch = functions.getListUser(allUser, {});
 		// console.log(filterSearch);
 		return (
 			<React.Fragment>
-				<div class="list_job">
-					<table class="table">{headerJobProfile}{listJobProfile}</table>
-				</div>
+				<JobSearchProfile categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
 				<div className="main-mes">
 					<div className="container-fluid px-0">
+
 						<div className="row w-title">
-							<div className="col-md"><span className="w-title-l">{t("t_watchlist")}</span> </div>
+							<div className="col-md"><span className="w-title-l">{t("t_watchlist").toUpperCase()}</span> </div>
 							<div className="col-md"><span className="w-title-r">
 								<Select
 									showSearch
@@ -517,10 +520,6 @@ function Watchlist(props) {
 									className="form-control searchcenterselect title"
 									placeholder={t('t_category').toUpperCase()}
 									onChange={onChange}
-								//options={professions.map((item) => ({
-								// label: item.profession,
-								//    value: item.profession_id
-								// }))}
 								>
 									<Select.Option value="all">{t("t_all").toUpperCase()}</Select.Option>
 									{professions !== null && professions.map((item) => (
@@ -551,14 +550,14 @@ function Watchlist(props) {
 											</Checkbox>
 										</div>
 										<div className="col-md-2">
-											<Button className="btn btn-primary form-control" size="sm" onClick={(e) => exportPDF(null)}>{t("t_export_pdf")}</Button>
+											<button className="btn btn-primary form-control btn-sm" onClick={(e) => exportPDF(null)}>{t("t_export_pdf")}</button>
 										</div>
 										<div className="col-md-3">
-											<Button className="btn btn-primary form-control" size="sm" onClick={(e) => handleSendMessageAll()}>{t("t_send_message_all").toUpperCase()}</Button>
+											<button className="btn btn-primary form-control btn-sm" onClick={(e) => handleSendMessageAll()}>{t("t_send_message_all").toUpperCase()}</button>
 										</div>
 									</div>
 								</form>
-								<CheckboxGroup value={checkedList} onChange={onChangecheckbox} >
+								<CheckboxGroup value={checkedList} onChange={onChangecheckbox} className='row'>
 									<table className="table">
 										<tbody className='table-watchlist'>
 											{watchListFilter.map((info, index) => {
@@ -575,10 +574,10 @@ function Watchlist(props) {
 																			<TextArea name='note' value={notes[info.user_add_id]} onChange={updateNotes(info.user_add_id)} cols={10} rows={10} placeholder='Write a note' />
 																		</div>
 																		<div className="col-md-2">
-																			<Button className="btn btn-primary form-control" size="sm" data-bs-toggle="modal" onClick={(e) => handleDTClick(info)} data-bs-target="#idDeitals">{t("t_details").toUpperCase()}</Button>
-																			<Button className="btn btn-primary form-control" size="sm" data-bs-toggle="modal" onClick={(e) => handleSendMessage(info, "message")} data-bs-target="#idWatchList">{t("t_send_message").toUpperCase()}</Button>
-																			<Button className="btn btn-primary form-control" size="sm" data-bs-toggle="modal" onClick={(e) => handleSendMessage(info, "mail")} >{t("t_send_mail").toUpperCase()}</Button>
-																			<Button className="btn btn-primary form-control" size="sm" onClick={(e) => ondeleteWL(info, index)}>{t("t_delete").toUpperCase()}</Button>
+																			<button class="btn btn-primary form-control btn-sm" type="submit" data-bs-toggle="modal" onClick={(e) => handleDTClick(info)} data-bs-target="#idDeitals">{t("t_details").toUpperCase()}</button>
+																			<button class="btn btn-primary form-control btn-sm" data-bs-toggle="modal" onClick={(e) => handleSendMessage(info, "message")} data-bs-target="#idWatchList">{t("t_send_message").toUpperCase()}</button>
+																			<button class="btn btn-primary form-control btn-sm" data-bs-toggle="modal" onClick={(e) => handleSendMessage(info, "mail")} >{t("t_send_mail").toUpperCase()}</button>
+																			<button class="btn btn-primary form-control btn-sm" onClick={(e) => ondeleteWL(info, index)}>{t("t_delete").toUpperCase()}</button>
 																		</div>
 																	</div>
 

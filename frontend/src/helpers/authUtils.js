@@ -89,6 +89,11 @@ const setjob_search_profiles_all =(job_search_profiles_all) =>{
     localStorage.setItem('job_search_profiles_all', JSON.stringify(job_search_profiles_all));
 }
 
+const getjob_search_profiles_all = () => {
+    const job_search_profile = localStorage.getItem('job_search_profiles_all');
+    return job_search_profile ? (typeof (user) == 'object' ? job_search_profile : JSON.parse(job_search_profile)) : null;
+}
+
 const getdriver_licenses =() =>{
     
     const driver_licenses = localStorage.getItem('driver_licenses');
@@ -121,4 +126,4 @@ const getforeign_language =() =>{
     return foreign_language ? (typeof (user) == 'object' ? foreign_language : JSON.parse(foreign_language)) : null;
 }
 
-export { getAllUser,setAllUser,getjob,setjob,isUserAuthenticated, setLoggedInUser, getLoggedInUser,setProfessions,getProfessions,getjob_search_profiles,setjob_search_profiles,getdriver_licenses,setdriver_licenses,getlanguages,setlanguages,getforeign_language, setjob_search_profiles_all };
+export { getAllUser,setAllUser,getjob,setjob,isUserAuthenticated, setLoggedInUser, getLoggedInUser,setProfessions,getProfessions,getjob_search_profiles,setjob_search_profiles,getdriver_licenses,setdriver_licenses,getlanguages,setlanguages,getforeign_language, setjob_search_profiles_all,getjob_search_profiles_all };
