@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getLoggedInUser } from '../../../helpers/authUtils';
 import { Avatar } from 'antd';
 
-import { connect } from "react-redux";
+import { connect} from "react-redux";
 import { setActiveTab } from "../../../redux/actions";
 import SerchCenterWachlistModal from '../Modal/SerchCenterWachlistModal';
 import { APIClient } from '../../../helpers/apiClient';
@@ -23,6 +23,7 @@ function SearchCenterDisplay(props) {
     const admin = getLoggedInUser()[0];
     const [isWatchlist, setIsWatchlist] = useState({});
     const { t } = useTranslation();
+
     useEffect(() => {
         // This function will run after the component renders
         const timer = setTimeout(() => {
@@ -34,6 +35,20 @@ function SearchCenterDisplay(props) {
         return () => clearTimeout(timer);
     });
 
+    useEffect(() => {
+        JsonData.forEach(info => {
+            new APIClient().get('user/' + admin.user_id + '/user_watchlist').then(res => {
+                if (res.length > 0) {
+                    let check = res.filter(x => { return x.user_add_id == info.user.user_id });
+                    if (check.length > 0 && !isWatchlist[info.user.user_id]) {
+                        const upd = { ...isWatchlist };
+                        upd[info.user.user_id] = true;
+                        setIsWatchlist(upd);
+                    }
+                }
+            });
+        });
+    },[props.activeTab])
     /*try {
         setTimeout(props.component.setState({ loading: false }), 2000);
     } catch (error) {
@@ -121,18 +136,7 @@ function SearchCenterDisplay(props) {
         /**/
     }
     const rows = [...Array(Math.ceil(JsonData.length / 4))];
-    JsonData.forEach(info => {
-        new APIClient().get('user/' + admin.user_id + '/user_watchlist').then(res => {
-            if (res.length > 0) {
-                let check = res.filter(x => { return x.user_add_id == info.user.user_id });
-                if (check.length > 0 && !isWatchlist[info.user.user_id]) {
-                    const upd = { ...isWatchlist };
-                    upd[info.user.user_id] = true;
-                    setIsWatchlist(upd);
-                }
-            }
-        });
-    });
+    
     const productRows = rows.length > 0 && rows.map((row, idx) => JsonData.slice(idx * 4, idx * 4 + 4));
     const DisplayData = productRows.length > 0 && productRows.map((row, idx) => (
         <div className='row' key={idx}>
