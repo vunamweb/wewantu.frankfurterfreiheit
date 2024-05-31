@@ -143,26 +143,22 @@ function Watchlist(props) {
 		let userProfile;
 		try {
 			listUserProfile.map((item, index) => {
-				if (item.user.user_id == info.user_add_id )
+				if (item.user.user_id == info.user_add_id)
 					userProfile = item;
 			})
 		} catch (error) {
 			userProfile = {};
 		}
-		if (jobSearchProfile){
+		if (jobSearchProfile) {
 			userProfile.profiles = userProfile.profiles.filter(item => item.job_id == jobSearchProfile.job_id);
 		}
-		
+
 		setcurrentUser(userProfile);
 	}
 
 	const handleSendMessage = (info, type) => {
-		let listUserProfile = localStorage.getItem('listUserProfile');
 		let userProfile;
-
 		try {
-			listUserProfile = JSON.parse(listUserProfile);
-
 			listUserProfile.map((item, index) => {
 				if (item.user.user_id == info.user_add_id)
 					userProfile = item;
@@ -415,14 +411,7 @@ function Watchlist(props) {
 	}
 
 	const onClickJobProfile = (item) => {
-		let listUserProfile = localStorage.getItem('listUserProfile');
-
-		try {
-			listUserProfile = JSON.parse(listUserProfile);
-		} catch (error) {
-			listUserProfile = [];
-		}
-
+	
 		let filterSearch = functions.getListUser(listUserProfile, item);
 
 		let watchListFilter = [];
@@ -473,21 +462,26 @@ function Watchlist(props) {
 
 						<div className="row w-title">
 							<div className="col-md"><span className="w-title-l">{t("t_watchlist").toUpperCase()}/{watchListFilter.length} {t("t_results")}</span> </div>
-							<div className="col-md"><span className="w-title-r">
-								<Select
-									showSearch
-									id="category"
-									name="category"
-									className="form-control searchcenterselect title"
-									placeholder={t('t_category').toUpperCase()}
-									onChange={onChange}
-								>
-									<Select.Option value="all">{t("t_all").toUpperCase()}</Select.Option>
-									{professions !== null && professions.map((item) => (
-										<Select.Option value={item.profession_id}>{item.profession}</Select.Option>
-									))}
+							<div className="col-md">
+								<span className="w-title-r">
+									<Select
+										showSearch
+										id="category"
+										name="category"
+										className="form-control searchcenterselect title"
+										placeholder={t('t_category').toUpperCase()}
+										onChange={onChange}
+									>
+										<Select.Option value="all">{t("t_all").toUpperCase()}</Select.Option>
+										{professions !== null && professions.map((item) => (
+											<Select.Option value={item.profession_id}>{item.profession}</Select.Option>
+										))}
 
-								</Select></span> </div>
+									</Select>
+									{(jobSearchProfile) && <span>{jobSearchProfile.job_decription}</span>}
+								</span>
+
+							</div>
 						</div>
 						<div className="row">
 							<div className="col-md">

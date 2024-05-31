@@ -42,7 +42,7 @@ class Index extends Component {
         let allUserDriveList = await new APIClient().get('all/user_driver');
         let allUserLanguageList = await new APIClient().get('all/user_language');
         let jobList = await new APIClient().get('user/' + admin.user_id + '/job_search_profiles');
-        // let watchlist = await new APIClient().get('user/' + admin.user_id + '/user_watchlist');
+        let watchlist = await new APIClient().get('user/' + admin.user_id + '/user_watchlist');
         this.renData(addresslist, searchJob, companylist, allUserDriveList, allUserLanguageList, jobList);
 
         // let currentage = this.capitalizeFirstLetter(this.props.router.location.pathname);
@@ -55,7 +55,7 @@ class Index extends Component {
 
         let newsearchJob = [...searchJob]
         const jobSearchIds = jobList.map(job => job.job_search_profile_id);
-        
+
         // watchlist.length > 0 && watchlist.map(itemwl => {
 
         //     newsearchJob = newsearchJob.filter(item => item.user.user_id !== itemwl.user_add_id && itemwl.type == 1)

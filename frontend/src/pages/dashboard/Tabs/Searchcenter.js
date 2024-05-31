@@ -22,6 +22,7 @@ class Searchcenter extends Component {
             searchItem: {},
             filter: false,
             categoryID: 'all',
+            watchlist: [],
             limit: 5,
         };
     }
@@ -34,13 +35,15 @@ class Searchcenter extends Component {
 
     async componentDidUpdate(prevProps, prevState) {
         if (prevProps != this.props) {
+            const admin = getLoggedInUser()[0];
             if (this.props.data) {
                 const data = this.props.data;
                 // this.setState({searchItem:data,search:true,showListJob:false});
                 this.state.searchItem = this.props.data;
                 this.state.search = true;
             }
-            this.setState({ showListJob: this.props.showListJob, listJobProfileMobile: this.props.listJobProfileMobile });
+            let watchlist = await new APIClient().get('user/' + admin.user_id + '/user_watchlist');
+            this.setState({ showListJob: this.props.showListJob, listJobProfileMobile: this.props.listJobProfileMobile,watchlist: watchlist });
         }
 
     }
@@ -75,9 +78,10 @@ class Searchcenter extends Component {
                 filterSearch.map((item) => {
                     item.profiles = item.profiles.filter(profile => profile.job_id == this.state.searchItem.job_id);
                 });
-            }
-
-            
+            }            
+            //remove block list
+            const blockIds = this.state.watchlist.filter(w=>w.type==0).map(w => w.user_add_id);
+            filterSearch = filterSearch.filter(f => !blockIds.includes(f.user.user_id));
         }
         // if click search center
         else if (search == 'null' && !this.state.search)

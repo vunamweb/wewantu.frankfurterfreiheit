@@ -65,8 +65,9 @@ function SearchCenterDisplay(props) {
 
     const handleDTClick = (id, index) => {
         setcurrentIndex(index)
-        setIsModalOpenDetail(true)
         setcurrentUser(id)
+        setIsModalOpenDetail(true)
+        
         // setIsModalOpen(true)
     }
     const handleWLClick = (id, index) => {

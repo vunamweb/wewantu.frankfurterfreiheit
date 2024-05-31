@@ -15,6 +15,7 @@ class Index extends Component {
         super(props);
 
         this.state = {
+            messages_count:0,
             loading: false,
             users: [],
             limit: 5,
@@ -42,6 +43,7 @@ class Index extends Component {
     async componentDidMount() {
         this.onListenForMessages();
 
+        const admin = getLoggedInUser()[0];
         const resp = ref(getDatabase(), 'messages/');
         const getSnapshotChildren = (snapshot) => {
             const children = [];
@@ -158,6 +160,13 @@ class Index extends Component {
 
         });
 
+        new APIClient().get(config.API_URL + "chat").then((res) => {
+            if (res.length>0){
+                let messages = res.filter(x => x.user_id_from == admin.user_id || x.user_id_to == admin.user_id);
+                this.setState({messages_count:messages.length});
+            }
+        })
+
     }
 
     
@@ -185,7 +194,7 @@ class Index extends Component {
                                 <div className="row g-0">
                                     <div className="col-md-6 werist-l"></div>
                                     <div className="col-md-3 werist  center-block text-center">
-                                        <div className="title">{curUser.messages_count} {t('t_messages').toUpperCase()}</div>
+                                        <div className="title">{this.state.messages_count} {t('t_messages').toUpperCase()}</div>
                                     </div>
                                     <div className="col-md werist-r"></div>
                                 </div>

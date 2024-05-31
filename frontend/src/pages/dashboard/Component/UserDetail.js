@@ -70,7 +70,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
             });
         }
 
-    }, [currentUser])
+    }, [currentUser,isModalOpen])
 
     useEffect(() => {
         setLoading(true);
@@ -102,7 +102,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
 
         fecthData();
 
-    }, [currentUser])
+    }, [currentUser,isModalOpen])
 
     const rendereducational_stageskey = (element) => {
         return typeof element !== 'undefined' && element !== null && element.map(val => {
