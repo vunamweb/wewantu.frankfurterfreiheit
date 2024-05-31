@@ -4,13 +4,14 @@ import { Avatar } from 'antd';
 
 import { connect } from "react-redux";
 import { setActiveTab } from "../../../redux/actions";
-import SerchCenterModal from '../Modal/SerchCenterModal';
 import SerchCenterWachlistModal from '../Modal/SerchCenterWachlistModal';
 import { APIClient } from '../../../helpers/apiClient';
 import { toast } from 'react-toastify';
 import RatingStar from '../Component/RatingStar';
 
 import { useTranslation } from 'react-i18next';
+import UserItem from '../Component/UserItem';
+import UserDetail from '../Component/UserDetail';
 
 function SearchCenterDisplay(props) {
     const JsonData = props.searchData;
@@ -148,7 +149,9 @@ function SearchCenterDisplay(props) {
 
                     // 
                     return (
-                        <div className='col-md-3'>
+                        <>
+                        <UserItem info={info} index={idx * 4 + index} handleDTClick={handleDTClick} handleWLClick={handleWLClick} watchlisted={isWatchlist[info.user.user_id]} />
+                        {/* <div className='col-md-3'>
                             <div className="info">
                                 <div className="row">
                                     <div className="col-md-6">
@@ -169,7 +172,8 @@ function SearchCenterDisplay(props) {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
+                        </>
                     )
                 }
                 )
@@ -186,7 +190,7 @@ function SearchCenterDisplay(props) {
                     {DisplayData}
                 </div>
             </div>
-            {Object.keys(currentUser).length > 0 && (<SerchCenterModal currentUser={currentUser} handleWLClick={handleWLClick} handleBlockClick={handleBlockClick} handleHiddenClick={handleHiddenClick} currentIndex={currentIndex} JsonData={JsonData ? JsonData : null} isModalOpenDetail={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />)}
+            {Object.keys(currentUser).length > 0 && (<UserDetail user={currentUser} handleWLClick={handleWLClick} handleBlockClick={handleBlockClick} handleHiddenClick={handleHiddenClick} currentIndex={currentIndex} isModalOpen={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />)}
             {Object.keys(currentUser).length > 0 && (<SerchCenterWachlistModal currentUser={currentUser} JsonData={JsonData ? JsonData : null} isModalOpen={isModalOpen} handleCancel={handleCancel} />)}
         </React.Fragment>
 

@@ -75,7 +75,7 @@ function SerchCenterModal(props) {
 
     }, [currentUser])
     useEffect(() => {
-        let data = [...job_search_profile].filter(x=>x.user.user_id === currentUser.user.user_id);
+        let data = [...job_search_profile].filter(x => x.user.user_id === currentUser.user.user_id);
         data.forEach((element, index) => {
             new APIClient().get('user/' + element.user.user_id + '/languages').then(val => val.length > 0 ? data[index].languages = val : data[index].languages = null)
             new APIClient().get('user/' + element.user.user_id + '/educational_stages').then(val => val.length > 0 ? data[index].educational_stages = val : data[index].educational_stages = null);
@@ -170,7 +170,7 @@ function SerchCenterModal(props) {
                                         <div className='popup-infor'><img src="assets/img/location.svg" alt='' />{item.address[0].city} {item.address[0].country ? ',' + item.address[0].country : ''}</div>
 
                                         <RatingStar user_id={item.user.user_id} />
-                                        
+
                                         <div className="modal-footer">
                                             <button type="button" className="btn btn-primary btn-sm button-search" onClick={() => { blockwatclist() }}><span className='profile-search'>{t('t_dont_show_again').toUpperCase()}</span></button>
                                             <button type="primary" className="btn btn-primary btn-sm button-search" onClick={() => { addwatclist() }}><span className='profile-search'>{t('t_add_to_watchlist').toUpperCase()}</span></button>
@@ -187,7 +187,7 @@ function SerchCenterModal(props) {
 
                                                     let jobLabel = getNameJobFromId(item.job_id);
                                                     let ambition = "";
-                                                    if (item.ambitions){
+                                                    if (item.ambitions) {
                                                         let ambitions = JSON.parse(item.ambitions.ambition);
                                                         ambition = ambitions[language];
                                                     }
@@ -268,6 +268,4 @@ const mapStatetoProps = state => {
     };
 };
 
-export default connect(mapStatetoProps, {
-    setActiveTab
-})(SerchCenterModal);
+export default connect(mapStatetoProps, {setActiveTab})(SerchCenterModal);

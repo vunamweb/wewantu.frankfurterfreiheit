@@ -61,12 +61,11 @@ function Blocklist(props) {
 		const result = window.confirm("Do you want to proceed?");
 
 		if (result) {
-			let tmp = [...watchlistData];
-			console.log(info.user_watchlist_id);
+			let tmp = [...watchListFilter];
 			new APIClient().delete('user_watchlist/' + info.user_watchlist_id).then(res => {
 				tmp.splice(index, 1)
 				setwatchlistData(tmp)
-				setwatchListFilter(res);
+				setwatchListFilter(tmp);
 			})
 		}
 	};
@@ -109,10 +108,12 @@ function Blocklist(props) {
 		setwatchListFilter(watchListFilter);
 	}
 
-	const renderUserinfo = (values) => {
+	const renderUserinfo = (values,index) => {
 		const currentUser = allUser.filter(val => (val.user_id === values.user_add_id))[0];
 
 		if (currentUser != undefined) {
+			currentUser.user_watchlist_id = values.user_watchlist_id;
+			
 			let hobbiesList, hobbies = '';
 
 			try {
@@ -148,19 +149,19 @@ function Blocklist(props) {
 								</div>
 
 								<div className="col-md-6">
-									<button onClick={(e) => { }} data-id={'detail_' + currentUser.user_id} className="btn btn-primary form-control" type="submit" data-bs-toggle="modal" data-bs-target="#idDeitals">{t("t_details").toUpperCase()}</button>
-									<button onClick={(e) => { }} data-id={'watchlist_' + currentUser.user_id} className="btn btn-primary form-control" type="submit" data-bs-toggle="modal" data-bs-target="#idWatchList">{t("t_delete").toUpperCase()}</button>
+									{/* <button onClick={(e) => { }} data-id={'detail_' + currentUser.user_id} className="btn btn-primary form-control" type="submit" data-bs-toggle="modal" data-bs-target="#idDeitals">{t("t_details").toUpperCase()}</button> */}
+									<button onClick={(e) => { ondeleteWL(currentUser,index)}} data-id={'watchlist_' + currentUser.user_id} className="btn btn-primary form-control" type="submit" data-bs-toggle="modal" data-bs-target="#idWatchList">{t("t_delete").toUpperCase()}</button>
 								</div>
 							</div>
 							<div className="row">
 								<div className='col-md'>
 									<div className="name1"><h4>{currentUser.prename} {currentUser.lastname}</h4></div>
-									<div><img src="assets/img/location.svg" alt='' />
-										{/* {info.address[0].street} {info.address[0].city} {info.address[0].country === null ? '' : ',' + info.address[0].country} */}
+									{/* <div><img src="assets/img/location.svg" alt='' />
+										{info.address[0].street} {info.address[0].city} {info.address[0].country === null ? '' : ',' + info.address[0].country}
 									</div>
 									<div><img src="assets/img/year.svg" alt='' />
-										{/* {info.address[0].year_birthday} */}
-									</div>
+										{info.address[0].year_birthday}
+									</div> */}
 									<RatingStar user_id={currentUser.user_id} />
 								</div>
 							</div>
@@ -220,7 +221,7 @@ function Blocklist(props) {
 													<td>
 														<div className="info_watchlist">
 															<div className="row">
-																{renderUserinfo(info)}
+																{renderUserinfo(info,index)}
 
 																{/* <div className="col-md-2">
 																	<Button className="btn btn-primary form-control" size="sm" type="submit" onClick={(e) => ondeleteWL(info, index)}>DELETE</Button>

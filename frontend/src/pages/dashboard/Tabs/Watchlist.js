@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { getProfessions } from '../../../helpers/authUtils';
 import { Button, Input, Modal, Select } from "antd";
-import { FaRegStar } from "react-icons/fa";
 import { t } from 'i18next';
 import { Checkbox } from 'antd';
-import SerchCenterModal from '../Modal/SerchCenterModal';
 import { getLoggedInUser, getAllUser } from '../../../helpers/authUtils';
-import Data from '../../../data/watchlist.json';
 import { Avatar } from 'antd';
 // import { Button } from 'reactstrap';
 import { APIClient } from '../../../helpers/apiClient';
-import WatchListModal from '../Modal/WatchListModal';
 import jsPDF from 'jspdf';
 import functions from '../../../function/function';
-import Chats from "./Chats";
-import UserChat from "../UserChat/index";
-import UserTemplate from './UserTemplate';
 import WatchListSendMessageModal from '../Modal/WatchListSendMessageModal';
 import WatchListSendMessageAllModal from '../Modal/WatchListSendMessageAllModal';
 import { toast } from 'react-toastify';
@@ -23,11 +16,14 @@ import RatingStar from '../Component/RatingStar';
 import TextArea from 'antd/es/input/TextArea';
 import { useSelector } from 'react-redux';
 import JobSearchProfile from '../Component/JobSearchProfile';
+import UserDetail from '../Component/UserDetail';
 
 function Watchlist(props) {
 
 	document.title = "Watchlist | WEWANTU"
 	const language = useSelector(state => state.Layout.language);
+	const listUserProfile = useSelector(state => state.Layout.listUserProfile);
+
 	const admin = getLoggedInUser()[0];
 	const allUser = getAllUser();
 	const loadwatchlist = props.loadwatchlist;
@@ -43,7 +39,7 @@ function Watchlist(props) {
 	const [isModalOpenSendMessage, setIsModalOpenSendMessage] = useState(false);
 	const [isModalOpenSendMail, setIsModalOpenSendMail] = useState(false);
 	const [isModalOpenSendMessageAll, setIsModalOpenSendMessageAll] = useState(false);
-	const [userChatList, setUserChatList] = useState([]);
+	const [jobSearchProfile, setJobSearchProfile] = useState(null);
 	const [checkAll, setCheckAll] = useState(false);
 	const [notes, setNotes] = useState({});
 
@@ -79,28 +75,6 @@ function Watchlist(props) {
 		setIsModalOpenSendMail(false);
 	}
 
-	const rendervalue = (lang) => {
-		return typeof lang !== 'undefined' && lang.map(val => {
-			switch (val.level) {
-				case 1:
-					return (<><span>{t('business_fluent_in_spoken_and_written')}</span><br /></>);
-				case 2:
-					return (<><span>{t('school_level')}</span><br /></>);
-				case 3:
-					return (<><span>{t('Can_order_a_pizza')}</span><br /></>);
-				default:
-					return (<><span>{t('mother_tongue')}</span><br /></>);
-			}
-
-		})
-	};
-
-	const rendereducational_stagesvalue = (element) => {
-		return typeof element !== 'undefined' && element !== null && element.map(val => {
-			return (<><span>{val.institute}</span><br /></>)
-		})
-	};
-
 	const getNameJobFromId = (id) => {
 		let jobs = localStorage.getItem('job');
 
@@ -119,20 +93,6 @@ function Watchlist(props) {
 		return name;
 	}
 
-	const renderdriver_licenses = (element) => {
-		if (typeof element === 'undefined' || element === null)
-			return (<><span>Emty</span></>)
-		return typeof element !== 'undefined' && element !== null && element.map((val, index) => {
-			if (index > 0)
-				if (index === element.length - 1)
-					return (<><span>, {val.driver_license}</span></>)
-				else
-					return (<><span>, {val.driver_license}</span></>)
-			else
-				return (<><span>{val.driver_license}</span></>)
-		})
-
-	};
 
 	useEffect(() => {
 
@@ -142,6 +102,7 @@ function Watchlist(props) {
 				if (res.length > 0) {
 
 					setwatchlistData(res)
+					setwatchListFilter(res);
 				}
 			});
 		}
@@ -179,19 +140,19 @@ function Watchlist(props) {
 	const handleDTClick = (info) => {
 		setIsModalOpenDetail(true)
 
-		let listUserProfile = localStorage.getItem('listUserProfile');
 		let userProfile;
 		try {
-			listUserProfile = JSON.parse(listUserProfile);
-
 			listUserProfile.map((item, index) => {
-				if (item.user.user_id == info.user_add_id)
+				if (item.user.user_id == info.user_add_id )
 					userProfile = item;
 			})
 		} catch (error) {
 			userProfile = {};
 		}
-
+		if (jobSearchProfile){
+			userProfile.profiles = userProfile.profiles.filter(item => item.job_id == jobSearchProfile.job_id);
+		}
+		
 		setcurrentUser(userProfile);
 	}
 
@@ -478,7 +439,7 @@ function Watchlist(props) {
 		} catch (error) {
 			console.log(error);
 		}
-
+		setJobSearchProfile(item);
 		setwatchListFilter(watchListFilter);
 	}
 
@@ -511,7 +472,7 @@ function Watchlist(props) {
 					<div className="container-fluid px-0">
 
 						<div className="row w-title">
-							<div className="col-md"><span className="w-title-l">{t("t_watchlist").toUpperCase()}</span> </div>
+							<div className="col-md"><span className="w-title-l">{t("t_watchlist").toUpperCase()}/{watchListFilter.length} {t("t_results")}</span> </div>
 							<div className="col-md"><span className="w-title-r">
 								<Select
 									showSearch
@@ -593,7 +554,7 @@ function Watchlist(props) {
 							: null
 					}
 				</div>
-				<WatchListModal currentUser={currentUser} JsonData={null} isModalOpenDetail={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />
+				<UserDetail user={currentUser} isModalOpen={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />
 				{Object.keys(currentUserSendMessage).length > 0 && (<WatchListSendMessageModal type="message" currentUser={currentUserSendMessage} JsonData={null} isModalOpen={isModalOpenSendMessage} handleCancel={handleCancelSendMessage} />)}
 				{Object.keys(currentUserSendMail).length > 0 && (<WatchListSendMessageModal type="mail" currentUser={currentUserSendMail} JsonData={null} isModalOpen={isModalOpenSendMail} handleCancel={handleCancelSendMail} />)}
 				{checkedListUsers.length > 0 && (<WatchListSendMessageAllModal listUser={checkedListUsers} JsonData={null} isModalOpen={isModalOpenSendMessageAll} handleCancel={handleCancelSendMessageAll} />)}

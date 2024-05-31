@@ -51,9 +51,9 @@ class Functions {
 
         try {
             jobListChild.map((item, index) => {
-                if(item.is_activate == 1)
-                  if (jobListParent == item.job_id || (Array.isArray(jobListParent) && jobListParent.indexOf(item.job_id) !== -1))
-                    exist = true;
+                if (item.is_activate == 1)
+                    if (jobListParent == item.job_id || (Array.isArray(jobListParent) && jobListParent.indexOf(item.job_id) !== -1))
+                        exist = true;
             })
         } catch (error) {
             console.log(error);
@@ -92,7 +92,7 @@ class Functions {
     getListUser = (listAllUser, conditionSearch) => {
         let filterSearch = [];
 
-       try {
+        try {
             listAllUser.map((item, index) => {
                 if (this.checkMapJob(conditionSearch, item))
                     filterSearch.push(item);
@@ -102,6 +102,68 @@ class Functions {
         }
 
         return filterSearch;
+    }
+    
+    checkExistUser(jobList, user_id) {
+        let position = -1;
+
+        jobList.map((item, index) => {
+            if (item.user.user_id == user_id)
+                position = index;
+        })
+
+        return position;
+    }
+
+    mixJobProfile(jobProfileList) {
+        let result = [];
+
+        jobProfileList.map((item, index) => {
+            // if result is empty
+            if (result.length == 0) {
+                try {
+                    let obj = {};
+
+                    obj.user = item.user;
+
+                    obj.profiles = [];
+                    obj.profiles.push(item);
+                    delete obj.profiles[0].user;
+
+                    result.push(obj);
+                } catch (error) {
+                    console.log(error);
+                }
+            } else { // if ready to have data
+                let countResult = result.length;
+
+                try {
+                    let position = this.checkExistUser(result, item.user.user_id);
+                    // if user is exist 
+                    if (position >= 0) {
+                        let obj = item;
+                        delete obj.user;
+
+                        // add profile for user
+                        result[position].profiles.push(obj);
+                    } else { // if user not exist
+                        let obj = {};
+
+                        obj.user = item.user;
+
+                        obj.profiles = [];
+                        obj.profiles.push(item);
+                        delete obj.profiles[0].user;
+
+                        result.push(obj);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        })
+
+        return result;
     }
 }
 

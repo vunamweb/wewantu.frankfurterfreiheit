@@ -6,16 +6,18 @@ import {
 	SET_CONVERSATION_NAME_IN_OPEN_CHAT,
 	SET_LAYOUT_MODE,
 	SET_SEARCH_DATA,
-	CHANGE_LANGUAGE
+	CHANGE_LANGUAGE,
+	SET_LIST_USER_PROFILE
 } from "./constants";
 
 const INIT_STATE = {
-	activeTab : "jobs",
-	userSidebar : false,
-	conversationName : "Admin",
-	layoutMode : "light",
+	activeTab: "jobs",
+	userSidebar: false,
+	conversationName: "Admin",
+	layoutMode: "light",
 	dataSearch: null,
-	language: "de"
+	language: "de",
+	listUserProfile: null
 };
 
 const Layout = (state = INIT_STATE, action) => {
@@ -28,9 +30,9 @@ const Layout = (state = INIT_STATE, action) => {
 
 		case SET_SEARCH_DATA:
 			return {
-					...state,
-					dataSearch: action.payload
-			};	
+				...state,
+				dataSearch: action.payload
+			};
 
 		case OPEN_USER_PROFILE_SIDEBAR:
 			return {
@@ -56,10 +58,15 @@ const Layout = (state = INIT_STATE, action) => {
 				language: action.payload
 			}
 		case SET_LAYOUT_MODE:
-		return {
-			...state,
-			layoutMode: action.payload
-		};
+			return {
+				...state,
+				layoutMode: action.payload
+			};
+		case SET_LIST_USER_PROFILE:
+			return {
+				...state,
+				listUserProfile: action.payload
+			}
 		default:
 			return state;
 	}

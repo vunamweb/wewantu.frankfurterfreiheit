@@ -13,7 +13,7 @@ class Searchcenter extends Component {
         super(props);
         this.state = {
             //loading: false,
-            showListJob:true,
+            showListJob: true,
             searchData: [],
             listuser: [],
             listJobProfile: [],
@@ -30,179 +30,19 @@ class Searchcenter extends Component {
         this.state.searchItem = this.props.data;
         this.state.search = true;
 
-        const admin = getLoggedInUser()[0];
-        let companylist = await new APIClient().get('companylist');
-        let addresslist = await new APIClient().get('addresslist');
-        let searchJob = await new APIClient().get('list_job_search_profiles');
-        let allUserDriveList = await new APIClient().get('all/user_driver');
-        let allUserLanguageList = await new APIClient().get('all/user_language');
-        let jobList = await new APIClient().get('user/' + admin.user_id + '/job_search_profiles');
-        let watchlist = await new APIClient().get('user/' + admin.user_id + '/user_watchlist');
-        this.renData(addresslist, searchJob, companylist, watchlist, allUserDriveList, allUserLanguageList, jobList);
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        if (prevProps != this.props){
-            if (this.props.data){
+        if (prevProps != this.props) {
+            if (this.props.data) {
                 const data = this.props.data;
                 // this.setState({searchItem:data,search:true,showListJob:false});
                 this.state.searchItem = this.props.data;
                 this.state.search = true;
             }
-            this.setState({showListJob:this.props.showListJob});
+            this.setState({ showListJob: this.props.showListJob, listJobProfileMobile: this.props.listJobProfileMobile });
         }
-       
-    }
 
-    renData(addresslist, searchJob, companylist, watchlist, allUserDriveList, allUserLanguageList, jobList) {
-        const admin = getLoggedInUser()[0];
-        let newsearchJob = [...searchJob]
-
-        watchlist.length > 0 && watchlist.map(itemwl => {
-
-            newsearchJob = newsearchJob.filter(item => item.user.user_id !== itemwl.user_add_id || itemwl.type == 1)
-        })
-
-
-        // get list of user from web
-        newsearchJob = newsearchJob.filter(item => {
-            return item.user.firebase_token != null
-        })
-
-        // set drive license for user
-        newsearchJob.length > 0 && newsearchJob.map(job => {
-            try {
-                job.user.drive = [];
-
-                allUserDriveList.length > 0 && allUserDriveList.map(drive => {
-                    if (job.user.user_id == drive.user_id)
-                        job.user.drive.push(drive.driver_license_id)
-                })
-            } catch (error) {
-                console.log(error)
-            }
-        })
-
-        // set language for user
-        newsearchJob.length > 0 && newsearchJob.map(job => {
-            try {
-                job.user.language = {};
-                job.user.language.mother = [];
-                job.user.language.foreign = [];
-
-                allUserLanguageList.length > 0 && allUserLanguageList.map(language => {
-                    if (job.user.user_id == language.user_id) {
-                        if (language.level == 0)
-                            job.user.language.mother.push(language.language_id)
-                        else
-                            job.user.language.foreign.push(language.language_id)
-                    }
-                })
-            } catch (error) {
-                console.log(error)
-            }
-        })
-
-        newsearchJob = this.mixJobProfile(newsearchJob);
-
-        newsearchJob.map((serJob, index) => {
-            let addr = {};
-            let company = {};
-            addr = addresslist !== null && addresslist.filter(item => item.address_id !== null && item.address_id.includes(serJob.user.address_id));
-            if (addr.length > 0)
-                newsearchJob[index].address = addr;
-            //let addr = addresslist !==null && addresslist.filter(item => item.address_id === );  
-            company = companylist !== null && companylist.filter(item => item.company_id !== null && item.company_id.includes(serJob.user.company_id))
-            if (company.length > 0)
-                newsearchJob[index].company = company;
-
-
-
-            /*
-            let checkinwatchlist = watchlist.filter(item => item.job_search_profile.job_search_profile_id.includes(serJob.job_search_profile_id)).length >0
-            if(checkinwatchlist){
-                try {
-                  //  newsearchJob[index] !== null && newsearchJob.splice(0,1);
-                   console.log(newsearchJob[index])
-                } catch (e) {
-                    throw new Error('No neighbour found.');
-                }
-            }
-            */
-
-        });
-
-        localStorage.setItem('listUserProfile', JSON.stringify(newsearchJob));
-
-        this.setState({
-            // listuser: listuser,
-            listJobProfileAll: searchJob,
-            listJobProfileMobile: newsearchJob.filter(val => val.user.user_id !== admin.user_id),
-            jobList: jobList,
-            //loading: true
-        })
-    }
-
-    checkExistUser(jobList, user_id) {
-        let position = -1;
-
-        jobList.map((item, index) => {
-            if (item.user.user_id == user_id)
-                position = index;
-        })
-
-        return position;
-    }
-
-    mixJobProfile(jobProfileList) {
-        let result = [];
-
-        jobProfileList.map((item, index) => {
-            // if result is empty
-            if (result.length == 0) {
-                try {
-                    let obj = {};
-
-                    obj.user = item.user;
-
-                    obj.profiles = [];
-                    obj.profiles.push(item);
-                    delete obj.profiles[0].user;
-
-                    result.push(obj);
-                } catch (error) {
-                    console.log(error);
-                }
-            } else { // if ready to have data
-                let countResult = result.length;
-
-                try {
-                    let position = this.checkExistUser(result, item.user.user_id);
-                    // if user is exist 
-                    if (position >= 0) {
-                        let obj = item;
-                        delete obj.user;
-
-                        // add profile for user
-                        result[position].profiles.push(obj);
-                    } else { // if user not exist
-                        let obj = {};
-
-                        obj.user = item.user;
-
-                        obj.profiles = [];
-                        obj.profiles.push(item);
-                        delete obj.profiles[0].user;
-
-                        result.push(obj);
-                    }
-                } catch (error) {
-                    console.log(error);
-                }
-            }
-        })
-
-        return result;
     }
 
     onClickJobProfile = (item) => {
@@ -213,6 +53,7 @@ class Searchcenter extends Component {
         document.title = "SEARCH CENTER | WEWANTU"
         const professions = getProfessions();
 
+        this.state.listJobProfileMobile = this.props.listJobProfileMobile;
 
         const onChange = (categoryID) => {
             //let resultSearch = this.getJobProfile(values);
@@ -226,10 +67,17 @@ class Searchcenter extends Component {
 
         //if search
         if (this.state.search) {
-            filterSearch = functions.getListUser(this.state.listJobProfileMobile, this.state.searchItem);
-            filterSearch.map((item) => {
-                item.profiles = item.profiles.filter(profile => profile.job_id == this.state.searchItem.job_id);
-            });
+            if (this.state.searchItem == null) {
+                filterSearch = this.state.listJobProfileMobile;
+            }
+            else {
+                filterSearch = functions.getListUser(this.state.listJobProfileMobile, this.state.searchItem);
+                filterSearch.map((item) => {
+                    item.profiles = item.profiles.filter(profile => profile.job_id == this.state.searchItem.job_id);
+                });
+            }
+
+            
         }
         // if click search center
         else if (search == 'null' && !this.state.search)
@@ -297,7 +145,8 @@ class Searchcenter extends Component {
 const mapStateToProps = (state) => {
     return {
         data: state.SearchCenter.searchFilterData,
-        showListJob: state.SearchCenter.showJobFilter
+        showListJob: state.SearchCenter.showJobFilter,
+        listJobProfileMobile: state.Layout.listUserProfile
     };
 };
 

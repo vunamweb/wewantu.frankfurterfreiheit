@@ -5,7 +5,8 @@ import {
 	SET_CONVERSATION_NAME_IN_OPEN_CHAT,
 	SET_LAYOUT_MODE,
 	SET_SEARCH_DATA,
-	CHANGE_LANGUAGE
+	CHANGE_LANGUAGE,
+	SET_LIST_USER_PROFILE
 } from "./constants";
 
 export const setActiveTab = (tabId) => ({
@@ -40,4 +41,9 @@ export const changeLayoutMode = layoutMode => ({
 export const changeLanguage = (language) =>({
 	type: CHANGE_LANGUAGE,
 	payload: language
+})
+
+export const setListUserProfile = (listUserProfile) => ({
+	type: SET_LIST_USER_PROFILE,
+	payload: listUserProfile
 })
