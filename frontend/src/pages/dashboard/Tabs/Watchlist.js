@@ -387,7 +387,8 @@ function Watchlist(props) {
 			return (
 				<>
 					<div className="col-md-2">
-						<Checkbox value={id} /><Avatar className='avatar' size={80}>{(currentUser.prename.slice(0, 1)).toUpperCase()}{(currentUser.lastname.slice(0, 1)).toUpperCase()}</Avatar>
+						{/* <Checkbox value={id} /> */}
+						<Avatar className='avatar' size={80}>{(currentUser.prename.slice(0, 1)).toUpperCase()}{(currentUser.lastname.slice(0, 1)).toUpperCase()}</Avatar>
 						<div className="name">{currentUser.prename} {currentUser.lastname}</div>
 					</div>
 					<div className="col-md-4">
@@ -456,7 +457,7 @@ function Watchlist(props) {
 		// console.log(filterSearch);
 		return (
 			<React.Fragment>
-				<JobSearchProfile categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
+				<JobSearchProfile onSelect={onChange} categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
 				<div className="main-mes">
 					<div className="container-fluid px-0">
 
@@ -464,20 +465,7 @@ function Watchlist(props) {
 							<div className="col-md"><span className="w-title-l">{t("t_watchlist").toUpperCase()}/{watchListFilter.length} {t("t_results")}</span> </div>
 							<div className="col-md">
 								<span className="w-title-r">
-									<Select
-										showSearch
-										id="category"
-										name="category"
-										className="form-control searchcenterselect title"
-										placeholder={t('t_category').toUpperCase()}
-										onChange={onChange}
-									>
-										<Select.Option value="all">{t("t_all").toUpperCase()}</Select.Option>
-										{professions !== null && professions.map((item) => (
-											<Select.Option value={item.profession_id}>{item.profession}</Select.Option>
-										))}
-
-									</Select>
+									
 									{(jobSearchProfile) && <span>{jobSearchProfile.job_decription}</span>}
 								</span>
 
@@ -499,17 +487,17 @@ function Watchlist(props) {
 							<div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{ position: 'relative', height: '600px' }}>
 								<form>
 									<div className="row w-checkall">
-										<div className="col-md-7">
+										{/* <div className="col-md-7">
 											<Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>
 												{t("t_check_all")}
 											</Checkbox>
-										</div>
+										</div> */}
 										<div className="col-md-2">
 											<button className="btn btn-primary form-control btn-sm" onClick={(e) => exportPDF(null)}>{t("t_export_pdf")}</button>
 										</div>
-										<div className="col-md-3">
+										{/* <div className="col-md-3">
 											<button className="btn btn-primary form-control btn-sm" onClick={(e) => handleSendMessageAll()}>{t("t_send_message_all").toUpperCase()}</button>
-										</div>
+										</div> */}
 									</div>
 								</form>
 								<CheckboxGroup value={checkedList} onChange={onChangecheckbox} className='row'>

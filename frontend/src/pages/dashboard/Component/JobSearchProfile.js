@@ -1,9 +1,10 @@
 import functions from "../../../function/function";
+import { getProfessions } from "../../../helpers/authUtils";
 
-function JobSearchProfile({categoryID,onClickJobProfile}) {
+function JobSearchProfile({categoryID,onClickJobProfile,onSelect}) {
     let listJobProfileAll = localStorage.getItem('job_search_profiles_all');
     let listJobProfileUser = localStorage.getItem("job_search_profile");
-
+    const professions = getProfessions();
     try {
         listJobProfileAll = JSON.parse(listJobProfileAll);
         listJobProfileUser = JSON.parse(listJobProfileUser);
@@ -14,7 +15,7 @@ function JobSearchProfile({categoryID,onClickJobProfile}) {
     }
 
     let listJobProfile = functions.getListJobProfileCurrent(categoryID, listJobProfileAll, onClickJobProfile);
-    let headerJobProfile = functions.HeaderJobPfofile();
+    let headerJobProfile = functions.HeaderJobPfofile(professions,onSelect);
 
     return (
         <>

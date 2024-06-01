@@ -175,27 +175,14 @@ function Blocklist(props) {
 
 	return (
 		<React.Fragment>
-			<JobSearchProfile categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
+			<JobSearchProfile onSelect={onChange} categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
 
 			<div className="main-mes">
 				<div className="container-fluid px-0">
 					<div className="row w-title">
 						<div className="col-md"><span className="w-title-l">BLOCKLIST</span> </div>
 						<div className="col-md"><span className="w-title-r">
-							<Select
-								showSearch
-								id="category"
-								name="category"
-								className="form-control searchcenterselect title"
-								placeholder={t('t_category').toUpperCase()}
-								onChange={onChange}
-							>
-								<Select.Option value="all">All</Select.Option>
-								{professions !== null && professions.map((item) => (
-									<Select.Option value={item.profession_id}>{item.profession}</Select.Option>
-								))}
-
-							</Select></span> </div>
+							</span> </div>
 					</div>
 					<div className="row">
 						<div className="col-md">

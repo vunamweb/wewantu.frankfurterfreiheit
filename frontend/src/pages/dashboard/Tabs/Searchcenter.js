@@ -108,30 +108,13 @@ class Searchcenter extends Component {
             <>
                 <React.Fragment>
                     {loading && (<div className="loader"></div>)}
-                    {(showListJob) && <JobSearchProfile categoryID={this.state.categoryID} onClickJobProfile={this.onClickJobProfile} />}
+                    {(showListJob) && <JobSearchProfile onSelect={onChange} categoryID={this.state.categoryID} onClickJobProfile={this.onClickJobProfile} />}
                     <div class="main-mes">
                         <div className="main_job">
                             <div className='row g-3 title'>
                                 <div className="col-md">{t('t_search_center').toUpperCase()}{filterSearch.length > 0 ? "(" + filterSearch.length + ")" : "(" + t("t_no_data_found") + ")"}</div>
                                 <div className="col-md-4 align-middle">
-                                    <Select
-                                        showSearch
-                                        id="category"
-                                        name="category"
-                                        className="form-control searchcenterselect title"
-                                        placeholder={t('t_category').toUpperCase()}
-                                        onChange={onChange}
-                                    //options={professions.map((item) => ({
-                                    // label: item.profession,
-                                    //    value: item.profession_id
-                                    // }))}
-                                    >
-                                        <Select.Option value="all">All</Select.Option>
-                                        {professions !== null && professions.map((item) => (
-                                            <Select.Option value={item.profession_id}>{item.profession}</Select.Option>
-                                        ))}
-
-                                    </Select>
+                                    
                                 </div>
                             </div>
                             <div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{ position: 'relative', height: '600px' }}>

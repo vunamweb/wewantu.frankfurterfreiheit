@@ -1,3 +1,4 @@
+import { Select } from 'antd';
 import { t } from 'i18next';
 
 class Functions {
@@ -22,8 +23,28 @@ class Functions {
         return body;
     }
 
-    HeaderJobPfofile = () => {
-        let header = (<tr><th>{t('t_job_id').toUpperCase()}</th><th>{t('t_job_description').toUpperCase()}</th><th>{t('t_category').toUpperCase()}</th></tr>);
+    HeaderJobPfofile = (professions,onChange) => {
+        let header = (<tr>
+            <th>{t('t_job_id').toUpperCase()}</th>
+            <th>{t('t_job_description').toUpperCase()}</th>
+            <th>{
+                <Select
+                    showSearch
+                    id="category"
+                    name="category"
+                    className="form-control searchcenterselect title"
+                    placeholder={t('t_category').toUpperCase()}
+                    onChange={onChange}
+                >
+                    <Select.Option value="all">{t("t_all").toUpperCase()}</Select.Option>
+                    {professions !== null && professions.map((item) => (
+                        <Select.Option value={item.profession_id}>{item.profession}</Select.Option>
+                    ))}
+
+                </Select>
+            }
+            </th>
+        </tr>);
 
         return header;
     }
@@ -103,7 +124,7 @@ class Functions {
 
         return filterSearch;
     }
-    
+
     checkExistUser(jobList, user_id) {
         let position = -1;
 

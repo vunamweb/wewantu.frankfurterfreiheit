@@ -205,7 +205,9 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                                         </div>
                                         <div className="col-md-10 about-1">
                                             <div className="row" style={{ "paddingTop": "2%" }}>
-                                                <div className='popup-infor-1'><img src="assets/img/location.svg" alt='' /> {item.address[0].house_number} {item.address[0].street} {item.address[0].state} {item.address[0].city} {item.plz_at_job_location} {item.address[0].postal_code}</div>
+                                                {/* <div className='popup-infor-1'>
+                                                    <img src="assets/img/location.svg" alt='' /> {item.address[0].house_number} {item.address[0].street} {item.address[0].state} {item.address[0].city} {item.plz_at_job_location} {item.address[0].postal_code}
+                                                    </div> */}
                                                 <span>{t('t_job_profile')}</span><br /><br />
                                                 {
                                                     item.profiles.map((item, index) => {
