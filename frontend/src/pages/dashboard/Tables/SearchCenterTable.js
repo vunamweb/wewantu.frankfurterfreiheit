@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getLoggedInUser } from '../../../helpers/authUtils';
 import { Avatar } from 'antd';
 
-import { connect} from "react-redux";
+import { connect } from "react-redux";
 import { setActiveTab } from "../../../redux/actions";
 import SerchCenterWachlistModal from '../Modal/SerchCenterWachlistModal';
 import { APIClient } from '../../../helpers/apiClient';
@@ -48,7 +48,7 @@ function SearchCenterDisplay(props) {
                 }
             });
         });
-    },[props.activeTab])
+    }, [props.activeTab])
     /*try {
         setTimeout(props.component.setState({ loading: false }), 2000);
     } catch (error) {
@@ -67,7 +67,7 @@ function SearchCenterDisplay(props) {
         setcurrentIndex(index)
         setcurrentUser(id)
         setIsModalOpenDetail(true)
-        
+
         // setIsModalOpen(true)
     }
     const handleWLClick = (id, index) => {
@@ -78,7 +78,7 @@ function SearchCenterDisplay(props) {
 
     const handleBlockClick = (id, index) => {
         blockwatclist(id)
-        JsonData.splice(index, 1);
+        //JsonData.splice(index, 1);
         setIsModalOpenDetail(false);
     }
 
@@ -117,14 +117,25 @@ function SearchCenterDisplay(props) {
             new APIClient().get('user/ce5ed1af-adb5-4336-bc04-e70f17f30a16/user_template')
                 .then(res => {
                     if (res) {
+                        let job_search_profile_id;
+
+                        try {
+                            job_search_profile_id = props.component.state.searchItem.job_search_profile_id;
+                        } catch (error) {
+                            job_search_profile_id = null;
+                        }
+
                         let tmp = values.user.prename + ' ' + values.user.lastname + ',\r' + res[0].description;
                         let obj_watchlist = {
                             message: tmp,
                             user_add_id: values.user.user_id,
                             user_id: admin.user_id,
-                            type: 0
+                            type: 0,
+                            job_search_profile_id: job_search_profile_id
                         };
+
                         console.log(obj_watchlist);
+
                         new APIClient().create('user_watchlist', obj_watchlist).then(val => {
                             if (val) {
                                 toast.success('Block successfully')
@@ -137,7 +148,7 @@ function SearchCenterDisplay(props) {
         /**/
     }
     const rows = [...Array(Math.ceil(JsonData.length / 4))];
-    
+
     const productRows = rows.length > 0 && rows.map((row, idx) => JsonData.slice(idx * 4, idx * 4 + 4));
     const DisplayData = productRows.length > 0 && productRows.map((row, idx) => (
         <div className='row' key={idx}>
@@ -155,8 +166,8 @@ function SearchCenterDisplay(props) {
                     // 
                     return (
                         <>
-                        <UserItem info={info} index={idx * 4 + index} handleDTClick={handleDTClick} handleWLClick={handleWLClick} watchlisted={isWatchlist[info.user.user_id]} />
-                        {/* <div className='col-md-3'>
+                            <UserItem info={info} index={idx * 4 + index} handleDTClick={handleDTClick} handleWLClick={handleWLClick} watchlisted={isWatchlist[info.user.user_id]} />
+                            {/* <div className='col-md-3'>
                             <div className="info">
                                 <div className="row">
                                     <div className="col-md-6">
@@ -195,7 +206,7 @@ function SearchCenterDisplay(props) {
                     {DisplayData}
                 </div>
             </div>
-            {Object.keys(currentUser).length > 0 && (<UserDetail user={currentUser} handleWLClick={handleWLClick} handleBlockClick={handleBlockClick} handleHiddenClick={handleHiddenClick} currentIndex={currentIndex} isModalOpen={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />)}
+            {Object.keys(currentUser).length > 0 && (<UserDetail isWatchlist={isWatchlist[currentUser.user.user_id]}  user={currentUser} handleWLClick={handleWLClick} handleBlockClick={handleBlockClick} handleHiddenClick={handleHiddenClick} currentIndex={currentIndex} isModalOpen={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />)}
             {Object.keys(currentUser).length > 0 && (<SerchCenterWachlistModal currentUser={currentUser} JsonData={JsonData ? JsonData : null} isModalOpen={isModalOpen} handleCancel={handleCancel} />)}
         </React.Fragment>
 

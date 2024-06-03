@@ -80,8 +80,8 @@ class Searchcenter extends Component {
                 });
             }            
             //remove block list
-            const blockIds = this.state.watchlist.filter(w=>w.type==0).map(w => w.user_add_id);
-            filterSearch = filterSearch.filter(f => !blockIds.includes(f.user.user_id));
+            /*const blockIds = this.state.watchlist.filter(w=>w.type==0).map(w => w.user_add_id);
+            filterSearch = filterSearch.filter(f => !blockIds.includes(f.user.user_id));*/
         }
         // if click search center
         else if (search == 'null' && !this.state.search)

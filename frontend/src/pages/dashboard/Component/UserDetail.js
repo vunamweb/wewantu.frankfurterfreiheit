@@ -12,7 +12,7 @@ import RatingStar from '../Component/RatingStar';
 import { useSelector } from 'react-redux';
 
 
-function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClick, handleBlockClick, setActiveTab }) {
+function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClick, handleBlockClick, setActiveTab, isWatchlist }) {
     // const job_search_profile = job_search_profile
     const currentUser = user;
     const currentIndex = index;
@@ -196,8 +196,8 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
 
                                             {(handleWLClick) &&  // chỉ hiển thị với detail từ search center
                                             <div className="modal-footer">
-                                                <button type="button" className="btn btn-primary btn-sm button-search" onClick={() => { blockwatclist() }}><span className='profile-search'>{t('t_dont_show_again').toUpperCase()}</span></button>
-                                                <button type="primary" className="btn btn-primary btn-sm button-search" onClick={() => { addwatclist() }}><span className='profile-search'>{t('t_add_to_watchlist').toUpperCase()}</span></button>
+                                                <button disabled={isWatchlist} type="button" className="btn btn-primary btn-sm button-search" onClick={() => { blockwatclist() }}><span className='profile-search'>{t('t_dont_show_again').toUpperCase()}</span></button>
+                                                <button disabled={isWatchlist} type="primary" className="btn btn-primary btn-sm button-search" onClick={() => { addwatclist() }}><span className='profile-search'>{t('t_add_to_watchlist').toUpperCase()}</span></button>
                                                 <button type="button" className="btn btn-primary btn-sm button-search" onClick={() => { toggleTab('credits') }}><span className='profile-search'>{t('t_get_lead_for_x_credit').toUpperCase()}</span></button>
                                             </div>
                                             }
