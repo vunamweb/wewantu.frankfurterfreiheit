@@ -31,8 +31,9 @@ function JobsTable(props) {
         setIsModalOpenadd(false);
     };
 
-    const toggleTab = (tab, search) => {
+    const toggleTab = (tab, data) => {
         
+        dispatch(setSearchFilterData(data));
         props.setActiveTab(tab);
         //props.setSearch(search);
     }
@@ -171,7 +172,7 @@ function JobsTable(props) {
             });
             settableData(dataBody);
             setIsModalOpenadd(false);
-            toggleTab('searchcenter', JSON.stringify(row));
+            toggleTab('searchcenter', row);
         })
         //window.location.reload();
     };
