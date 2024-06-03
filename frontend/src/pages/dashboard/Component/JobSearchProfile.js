@@ -1,7 +1,7 @@
 import functions from "../../../function/function";
 import { getProfessions } from "../../../helpers/authUtils";
 
-function JobSearchProfile({categoryID,onClickJobProfile,onSelect}) {
+function JobSearchProfile({ categoryID, onClickJobProfile, onSelect, listJobProfileMobile, watchListFilter, type }) {
     let listJobProfileAll = localStorage.getItem('job_search_profiles_all');
     let listJobProfileUser = localStorage.getItem("job_search_profile");
     const professions = getProfessions();
@@ -14,8 +14,41 @@ function JobSearchProfile({categoryID,onClickJobProfile,onSelect}) {
         listJobProfileAll = [];
     }
 
+    if (listJobProfileMobile != undefined && Array.isArray(watchListFilter)) {
+        let listJobProfileAllFinal = [];
+
+        try {
+            listJobProfileAll.map((item, index) => {
+                let userList = functions.getListUser(listJobProfileMobile, item);
+                let checkExist = false;
+
+                // if in watchlist
+                if (Array.isArray(userList) && userList.length > 0) {
+                    // if is searchcenter
+                    if(watchListFilter == null) 
+                    checkExist = true;
+                    else {
+                        userList = userList.map((item, index) => item.user.user_id);
+
+                        watchListFilter.map((item1, index) => {
+                            if (userList.includes(item1.user_add_id) && item1.type == type)
+                                checkExist = true;
+                        })
+                    }
+                }
+                // end
+
+                if (checkExist)
+                    listJobProfileAllFinal.push(item);
+            })
+        } catch (error) {
+
+        }
+        listJobProfileAll = listJobProfileAllFinal;
+    }
+
     let listJobProfile = functions.getListJobProfileCurrent(categoryID, listJobProfileAll, onClickJobProfile);
-    let headerJobProfile = functions.HeaderJobPfofile(professions,onSelect);
+    let headerJobProfile = functions.HeaderJobPfofile(professions, onSelect);
 
     return (
         <>

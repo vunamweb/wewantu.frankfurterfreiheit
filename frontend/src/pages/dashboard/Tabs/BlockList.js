@@ -4,6 +4,7 @@ import { Select } from "antd";
 import { FaRegStar } from "react-icons/fa";
 import { t } from 'i18next';
 import { Checkbox } from 'antd';
+import { connect, useSelector } from 'react-redux';
 import { getLoggedInUser, getAllUser } from '../../../helpers/authUtils';
 import Data from '../../../data/watchlist.json';
 import { Avatar } from 'antd';
@@ -172,10 +173,11 @@ function Blocklist(props) {
 		}
 	}
 
+	let listJobProfileMobile = props.listJobProfileMobile;
 
-	return (
+    return (
 		<React.Fragment>
-			<JobSearchProfile onSelect={onChange} categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
+			<JobSearchProfile type={0} watchListFilter={watchListFilter} listJobProfileMobile={listJobProfileMobile} onSelect={onChange} categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
 
 			<div className="main-mes">
 				<div className="container-fluid px-0">
@@ -233,5 +235,11 @@ function Blocklist(props) {
 
 }
 
+const mapStateToProps = (state) => {
+    return {
+        listJobProfileMobile: state.Layout.listUserProfile
+    };
+};
 
-export default Blocklist;
+
+export default connect(mapStateToProps) (Blocklist);

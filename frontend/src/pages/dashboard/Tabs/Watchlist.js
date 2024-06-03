@@ -5,6 +5,7 @@ import { t } from 'i18next';
 import { Checkbox } from 'antd';
 import { getLoggedInUser, getAllUser } from '../../../helpers/authUtils';
 import { Avatar } from 'antd';
+import { connect } from 'react-redux';
 // import { Button } from 'reactstrap';
 import { APIClient } from '../../../helpers/apiClient';
 import jsPDF from 'jspdf';
@@ -454,10 +455,13 @@ function Watchlist(props) {
 	if (watchlistData.length > 0) {
 		let filterSearch = [];
 		filterSearch = functions.getListUser(allUser, {});
+
+		let listJobProfileMobile = props.listJobProfileMobile;
+
 		// console.log(filterSearch);
 		return (
 			<React.Fragment>
-				<JobSearchProfile onSelect={onChange} categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
+				<JobSearchProfile type={1} watchListFilter={watchListFilter} listJobProfileMobile={listJobProfileMobile} onSelect={onChange} categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
 				<div className="main-mes">
 					<div className="container-fluid px-0">
 
@@ -547,5 +551,11 @@ function Watchlist(props) {
 
 }
 
+const mapStateToProps = (state) => {
+    return {
+        listJobProfileMobile: state.Layout.listUserProfile
+    };
+};
 
-export default Watchlist;
+
+export default connect(mapStateToProps) (Watchlist);
