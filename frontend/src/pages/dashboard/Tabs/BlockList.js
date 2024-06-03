@@ -39,6 +39,7 @@ function Blocklist(props) {
 	const onCheckAllChange = (e) => {
 		setCheckedList(e.target.checked ? plainOptions : []);
 	};
+	const listUserProfile = useSelector(state => state.Layout.listUserProfile);
 
 	useEffect(() => {
 
@@ -83,14 +84,6 @@ function Blocklist(props) {
 	}
 
 	const onClickJobProfile = (item) => {
-		let listUserProfile = localStorage.getItem('listUserProfile');
-
-		try {
-			listUserProfile = JSON.parse(listUserProfile);
-		} catch (error) {
-			listUserProfile = [];
-		}
-
 		let filterSearch = functions.getListUser(listUserProfile, item);
 
 		let watchListFilter = [];
@@ -177,7 +170,7 @@ function Blocklist(props) {
 
     return (
 		<React.Fragment>
-			<JobSearchProfile type={0} watchListFilter={watchListFilter} listJobProfileMobile={listJobProfileMobile} onSelect={onChange} categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
+			<JobSearchProfile type={0} watchListFilter={watchlistData} listJobProfileMobile={listJobProfileMobile} onSelect={onChange} categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
 
 			<div className="main-mes">
 				<div className="container-fluid px-0">

@@ -16,11 +16,12 @@ function JobSearchProfile({ categoryID, onClickJobProfile, onSelect, listJobProf
 
     if (listJobProfileMobile != undefined && Array.isArray(watchListFilter)) {
         let listJobProfileAllFinal = [];
+        let userList, checkExist;
 
         try {
             listJobProfileAll.map((item, index) => {
-                let userList = functions.getListUser(listJobProfileMobile, item);
-                let checkExist = false;
+                userList = functions.getListUser(listJobProfileMobile, item);
+                checkExist = false;
 
                 // if in watchlist
                 if (Array.isArray(userList) && userList.length > 0) {
@@ -28,10 +29,10 @@ function JobSearchProfile({ categoryID, onClickJobProfile, onSelect, listJobProf
                     if(watchListFilter == null) 
                     checkExist = true;
                     else {
-                        userList = userList.map((item, index) => item.user.user_id);
+                        userList = userList.map((item1, index) => item1.user.user_id);
 
-                        watchListFilter.map((item1, index) => {
-                            if (userList.includes(item1.user_add_id) && item1.type == type)
+                        watchListFilter.map((item2, index) => {
+                            if (userList.includes(item2.user_add_id) && item2.type == type)
                                 checkExist = true;
                         })
                     }

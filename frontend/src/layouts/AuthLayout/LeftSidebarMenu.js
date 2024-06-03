@@ -51,12 +51,12 @@ function LeftSidebarMenu(props) {
                             <NavLink className={classnames({ active: activeTab === 'jobs' }) + " mb-2"} onClick={() => { toggleTab('jobs'); }}>
                                 {t('t_current_enquiries').toUpperCase()}
                             </NavLink>
-                        </NavItem>{/**
-                        <NavItem id="addnewjob">
-                            <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'addnewjob' }) + " mb-2"} onClick={() => { toggleTab('addnewjob'); }}>
-                            ADD NEW JOB
+                        </NavItem>
+                        <NavItem id="archivejobs">
+                            <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'archivejobs' }) + " mb-2"} onClick={() => { toggleTab('archivejobs'); }}>
+                            Archive
                             </NavLink>
-                        </NavItem> */}
+                        </NavItem>
                         
                         <NavItem id="addnewcategory">
                             <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'addnewcategory' }) + " mb-2"} onClick={() => { toggleTab('addnewcategory'); }}>

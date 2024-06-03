@@ -8,6 +8,7 @@ import { APIClient } from '../../helpers/apiClient';
 import Searchcenter from './Tabs/Searchcenter';
 import AddCategory from './Tabs/AddCategory';
 import Jobs from './Tabs/Jobs';
+import ArchiveJob from './Tabs/ArchiveJob';
 import Watchlist from './Tabs/Watchlist';
 import Blocklist from './Tabs/BlockList';
 import Chats from "./Tabs/Chats";
@@ -118,6 +119,9 @@ function ChatLeftSidebar(props) {
             <TabContent activeTab={activeTab}  >
                 <TabPane tabId="jobs" id="pills-jobs"   >
                     <Jobs activeTab={activeTab} setSearch={setSearch} />
+                </TabPane>
+                <TabPane tabId="archivejobs" id="pills-jobs"   >
+                    <ArchiveJob activeTab={activeTab} setSearch={setSearch} />
                 </TabPane>
                 <TabPane tabId="addnewjob" id="pills-addnewjob">
                     <Jobs activeTab={activeTab} />

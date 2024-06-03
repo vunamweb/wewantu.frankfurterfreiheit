@@ -461,7 +461,7 @@ function Watchlist(props) {
 		// console.log(filterSearch);
 		return (
 			<React.Fragment>
-				<JobSearchProfile type={1} watchListFilter={watchListFilter} listJobProfileMobile={listJobProfileMobile} onSelect={onChange} categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
+				<JobSearchProfile type={1} watchListFilter={watchlistData} listJobProfileMobile={listJobProfileMobile} onSelect={onChange} categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
 				<div className="main-mes">
 					<div className="container-fluid px-0">
 

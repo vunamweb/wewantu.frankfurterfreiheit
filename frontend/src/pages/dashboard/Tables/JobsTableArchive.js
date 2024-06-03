@@ -1,14 +1,14 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { Modal } from 'antd';
 import AddJob from '../Tabs/AddJob';
-import TableBody from "./TableBody";
+import TableBodyArchive from "./TableBodyArchive";
 import TableHead from "./TableHead";
 import { APIClient } from '../../../helpers/apiClient';
 import { getLoggedInUser } from '../../../helpers/authUtils';
 import { useTranslation } from 'react-i18next';
 import { setSearchFilterData } from '../../../redux/search/actions';
 import { useDispatch } from 'react-redux';
-function JobsTable(props) {
+function JobsTableArchive(props) {
     const admin = getLoggedInUser()[0];
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenadd, setIsModalOpenadd] = useState(false);
@@ -70,7 +70,7 @@ function JobsTable(props) {
                // console.log(dataBody)
         })*/
             new APIClient().get('user/' + admin.user_id + '/job_search_profiles').then(res => {
-                const dataBody = res && res.filter(val => val.is_delete !== 1).map(info => {
+                const dataBody = res && res.filter(val => val.is_delete == 1).map(info => {
                     return {
                         job_search_profile_id: info.job_search_profile_id,
                         job_id: info.job_id,
@@ -128,7 +128,7 @@ function JobsTable(props) {
         //alert('Remove '+dataRow[index].job_id);
         let datapost = {
             'job_search_profile_id': job_search_profile_id,
-            'is_delete': 1,
+            'is_delete': 0,
         }
         new APIClient().put('job_search_profile', datapost).then(val => {
             dataRow.splice(index, 1);
@@ -197,8 +197,6 @@ function JobsTable(props) {
         { label: t('t_job_id').toUpperCase(), accessor: "job_id", sortable: true },
         { label: t('t_job_description').toUpperCase(), accessor: "job_decription", sortable: true },
         { label: t('t_category').toUpperCase(), accessor: "profession", sortable: false },
-        { label: t('t_requested').toUpperCase(), accessor: "requested", sortable: false },
-        { label: t('t_messages').toUpperCase(), accessor: "messages", sortable: false },
     ];
 
     !loadlang && (<div className="loader"></div>)
@@ -207,17 +205,6 @@ function JobsTable(props) {
     //if(props.activeTab === 'jobs'){
     return (
         <React.Fragment>
-            <div className="addjob">
-                <div className="container-fluid px-0">
-                    <div className="row">
-                        <div className="col-md">
-                            <button className="text_addjobs" onClick={() => { setIsModalOpenadd(true) }} disabled={(admin.add_job || admin.userType == 0) ? false : true}>
-                                <img src={`${process.env.PUBLIC_URL}/img/plus.svg`} alt='' /><span className='text'>{t('t_add_new_job').toUpperCase()}</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div className="main_job">
                 <div className='row g-3'>
                     <span className="title">{t('t_current_enquiries').toUpperCase()}</span>
@@ -226,16 +213,9 @@ function JobsTable(props) {
 
                     <table className="table">
                         <TableHead setCategoryID={setCategoryID} columns={columns} handleSorting={handleSorting} />
-                        <TableBody columns={columns} tableName='JobsTable' handleClickRow={handleClickRow} tableRowEdit={tableRowEdit} tableRowRemove={tableRowRemove} tableRowArchive={tableRowArchive} tableData={filterTableData} tableDataadd={filterTableData} />
+                        <TableBodyArchive columns={columns} tableName='JobsTable' handleClickRow={handleClickRow} tableRowEdit={tableRowEdit} tableRowRemove={tableRowRemove} tableRowArchive={tableRowArchive} tableData={filterTableData} tableDataadd={filterTableData} />
                     </table>
-
-                    <Modal open={isModalOpen} onCancel={handleCancel} width={1000} footer=" ">
-                        <AddJob action="edit" job_search_profile_id={job_search_profile_id} setIsModalOpen={setIsModalOpen} updateRowEdit={updateRowEdit} AddRow={AddRow}  />
-                    </Modal>
-                    <Modal open={isModalOpenadd} onCancel={handleCanceladd} width={1000} footer=" ">
-                        <AddJob setIsModalOpen={setIsModalOpen} updateRowEdit={updateRowEdit} AddRow={AddRow} />
-                    </Modal>
-                </div>
+              </div>
             </div>
         </React.Fragment>
 
@@ -252,4 +232,4 @@ function JobsTable(props) {
 
 }
 
-export default JobsTable;
+export default JobsTableArchive;

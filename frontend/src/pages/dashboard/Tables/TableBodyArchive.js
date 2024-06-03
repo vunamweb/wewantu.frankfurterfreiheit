@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import {  Popconfirm } from 'antd';
 import { pointer } from '@testing-library/user-event/dist/cjs/pointer/index.js';
 
-const TableBody = ({ tableName,tableData, columns,tableRowEdit ,tableRowRemove, tableRowArchive, handleClickRow }) => {
+const TableBodyArchive = ({ tableName,tableData, columns,tableRowEdit ,tableRowRemove, tableRowArchive, handleClickRow }) => {
 
     return (
      <tbody>
@@ -39,25 +39,14 @@ const TableBody = ({ tableName,tableData, columns,tableRowEdit ,tableRowRemove, 
                  })}
                 
                     <td>
-                        <Link href="#" onClick={()=>tableRowEdit(index)}><img src={`${process.env.PUBLIC_URL}/img/edit.svg`} alt="EDIT" /></Link>
                         <Popconfirm
                             title="Archive Job ID"
-                            description={"Are you sure to Archive this Job ID "+ data.job_id}
+                            description={"Are you sure to No Archive this Job ID "+ data.job_id}
                             okText="Yes"
                             cancelText="No"
                             onConfirm={() => tableRowArchive(index,data.job_search_profile_id)}
                         >
-                            <Link className='m-1'><img src={`${process.env.PUBLIC_URL}/img/print.svg`} alt="PRINT" /></Link>
-                        </Popconfirm>
-                        
-                        <Popconfirm
-                            title="Delete Job ID"
-                            description={"Are you sure to delete this Job ID "+ data.job_id}
-                            okText="Yes"
-                            cancelText="No"
-                            onConfirm={() => tableRowRemove(index,data.job_search_profile_id)}
-                        >
-                            <Link><img src={`${process.env.PUBLIC_URL}/img/del.svg`} alt="DELETE" /></Link>
+                            <Link className='m-1'><img src={`${process.env.PUBLIC_URL}/img/del.svg`} alt="PRINT" /></Link>
                         </Popconfirm>
                     </td>
                 </tr>
@@ -81,4 +70,4 @@ const TableBody = ({ tableName,tableData, columns,tableRowEdit ,tableRowRemove, 
     );
    };
    
-   export default TableBody;
+   export default TableBodyArchive;
