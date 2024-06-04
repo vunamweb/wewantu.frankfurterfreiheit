@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import config from '../../../config';
 import UserAdministration from './UserAdministration';
 import { toast } from 'react-toastify';
+import CompanyVCard from '../Component/CompanyVCard';
 
 const UserAccount = (props) => {
 
@@ -44,7 +45,7 @@ const UserAccount = (props) => {
     };
 
     const handleChangeFile = (info) => {
-        
+
     }
 
     const customRequest = async ({ file }) => {
@@ -53,7 +54,7 @@ const UserAccount = (props) => {
 
         try {
             new APIClient().create(urlApiUpload, formData).then(res => {
-                setImageUrl(config.API_BASE_URL + "/"+res);
+                setImageUrl(config.API_BASE_URL + "/" + res);
                 setProfilePicture(res);
                 // toast.success(t("t_successfully"));
             });
@@ -171,14 +172,14 @@ const UserAccount = (props) => {
     }
 
     useEffect(() => {
-        if (admin.profilePicture){
+        if (admin.profilePicture) {
             setProfilePicture(admin.profilePicture);
-            setImageUrl(config.API_BASE_URL+"/"+admin.profilePicture);
+            setImageUrl(config.API_BASE_URL + "/" + admin.profilePicture);
         }
-        else{
+        else {
             setImageUrl(process.env.PUBLIC_URL + "/img/avatar.png");
         }
-        
+
         new APIClient().get('countries').then(res => {
             if (res.length > 0) {
                 let countryList = [];
@@ -415,7 +416,9 @@ const UserAccount = (props) => {
                         <div className={`tab-pane ${activeTab === 'tab2' ? 'active' : ''}`}>
                             {(admin.userType == 0) && <UserAdministration users={users} />}
                         </div>
-                        <div className={`tab-pane ${activeTab === 'tab3' ? 'active' : ''}`}></div>
+                        <div className={`tab-pane ${activeTab === 'tab3' ? 'active' : ''}`}>
+                            <CompanyVCard />
+                        </div>
                         <div className={`tab-pane ${activeTab === 'tab4' ? 'active' : ''}`}></div>
                         <div className={`tab-pane ${activeTab === 'tab5' ? 'active' : ''}`}></div>
                     </div>

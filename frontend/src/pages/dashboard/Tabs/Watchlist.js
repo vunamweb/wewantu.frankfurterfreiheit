@@ -18,6 +18,7 @@ import TextArea from 'antd/es/input/TextArea';
 import { useSelector } from 'react-redux';
 import JobSearchProfile from '../Component/JobSearchProfile';
 import UserDetail from '../Component/UserDetail';
+import config from '../../../config';
 
 function Watchlist(props) {
 
@@ -96,12 +97,14 @@ function Watchlist(props) {
 
 
 	useEffect(() => {
-
 		if (props.activeTab === 'watchlist') {
-			new APIClient().get('user/' + admin.user_id + '/user_watchlist').then(res => {
-				// console.log(res);
+			new APIClient().get('user/' + admin.user_id + '/user_watchlist').then(res => {				
 				if (res.length > 0) {
-
+					let noteupd = new Object();
+					res.forEach(element => {
+						noteupd[element.user_add_id] = element.note;
+					});
+					setNotes(noteupd);					
 					setwatchlistData(res)
 					setwatchListFilter(res);
 				}
@@ -364,6 +367,8 @@ function Watchlist(props) {
 
 
 	const renderUserinfo = (values, index) => {
+
+
 		const currentUser = allUser.filter(val => (val.user_id === values.user_add_id))[0];
 		let id = currentUser.user_id + "-" + index;
 		plainOptions.push(id);
@@ -413,7 +418,7 @@ function Watchlist(props) {
 	}
 
 	const onClickJobProfile = (item) => {
-	
+
 		let filterSearch = functions.getListUser(listUserProfile, item);
 
 		let watchListFilter = [];
@@ -421,7 +426,7 @@ function Watchlist(props) {
 		try {
 			watchlistData.map((item, index) => {
 				let upd = { ...notes };
-				upd[item.user_add_id] = "";
+				upd[item.user_add_id] = item.note;
 				setNotes(upd);
 
 				if (existIntoWatchList(filterSearch, item.user_add_id))
@@ -443,6 +448,14 @@ function Watchlist(props) {
 		upd[user_id] = event.target.value;
 		setNotes(upd);
 		// console.log(event.target.value);
+	}
+
+	const saveNote = (user_watchlist_id, user_id) => {
+		const note = notes[user_id];
+		const dataput = { user_watchlist_id: user_watchlist_id, note: note };
+		new APIClient().put(config.API_URL + "user_watchlist", dataput).then(res => {
+			// console.log(res);
+		});
 	}
 
 	const updateRating = (user_id, rate) => {
@@ -469,7 +482,7 @@ function Watchlist(props) {
 							<div className="col-md"><span className="w-title-l">{t("t_watchlist").toUpperCase()}/{watchListFilter.length} {t("t_results")}</span> </div>
 							<div className="col-md">
 								<span className="w-title-r">
-									
+
 									{(jobSearchProfile) && <span>{jobSearchProfile.job_decription}</span>}
 								</span>
 
@@ -508,6 +521,7 @@ function Watchlist(props) {
 									<table className="table">
 										<tbody className='table-watchlist'>
 											{watchListFilter.map((info, index) => {
+												console.log(notes[info.user_add_id]);
 												if (info.type == 1)
 													return (
 														<tr>
@@ -518,7 +532,7 @@ function Watchlist(props) {
 																		{renderUserinfo(info, index)}
 
 																		<div className="col-md-4">
-																			<TextArea name='note' value={notes[info.user_add_id]} onChange={updateNotes(info.user_add_id)} cols={10} rows={10} placeholder='Write a note' />
+																			<TextArea name='note' value={notes[info.user_add_id]} onBlur={() => saveNote(info.user_watchlist_id, info.user_add_id)} onChange={updateNotes(info.user_add_id)} cols={10} rows={10} placeholder='Write a note' />
 																		</div>
 																		<div className="col-md-2">
 																			<button class="btn btn-primary form-control btn-sm" type="submit" data-bs-toggle="modal" onClick={(e) => handleDTClick(info)} data-bs-target="#idDeitals">{t("t_details").toUpperCase()}</button>
@@ -552,10 +566,10 @@ function Watchlist(props) {
 }
 
 const mapStateToProps = (state) => {
-    return {
-        listJobProfileMobile: state.Layout.listUserProfile
-    };
+	return {
+		listJobProfileMobile: state.Layout.listUserProfile
+	};
 };
 
 
-export default connect(mapStateToProps) (Watchlist);
+export default connect(mapStateToProps)(Watchlist);

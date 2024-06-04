@@ -27,7 +27,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
     }
     const { t } = useTranslation();
     const [tableData, settableData] = useState([]);
-    const [loading,setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
     const addwatclist = (values) => {
         handleWLClick(currentUser, currentIndex)
@@ -70,7 +70,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
             });
         }
 
-    }, [currentUser,isModalOpen])
+    }, [currentUser, isModalOpen])
 
     useEffect(() => {
         setLoading(true);
@@ -102,7 +102,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
 
         fecthData();
 
-    }, [currentUser,isModalOpen])
+    }, [currentUser, isModalOpen])
 
     const rendereducational_stageskey = (element) => {
         return typeof element !== 'undefined' && element !== null && element.map(val => {
@@ -195,11 +195,11 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                                             <RatingStar user_id={item.user.user_id} />
 
                                             {(handleWLClick) &&  // chỉ hiển thị với detail từ search center
-                                            <div className="modal-footer">
-                                                <button disabled={isWatchlist} type="button" className="btn btn-primary btn-sm button-search" onClick={() => { blockwatclist() }}><span className='profile-search'>{t('t_dont_show_again').toUpperCase()}</span></button>
-                                                <button disabled={isWatchlist} type="primary" className="btn btn-primary btn-sm button-search" onClick={() => { addwatclist() }}><span className='profile-search'>{t('t_add_to_watchlist').toUpperCase()}</span></button>
-                                                <button type="button" className="btn btn-primary btn-sm button-search" onClick={() => { toggleTab('credits') }}><span className='profile-search'>{t('t_get_lead_for_x_credit').toUpperCase()}</span></button>
-                                            </div>
+                                                <div className="modal-footer">
+                                                    <button disabled={isWatchlist} type="button" className="btn btn-primary btn-sm button-search" onClick={() => { blockwatclist() }}><span className='profile-search'>{t('t_dont_show_again').toUpperCase()}</span></button>
+                                                    <button disabled={isWatchlist} type="primary" className="btn btn-primary btn-sm button-search" onClick={() => { addwatclist() }}><span className='profile-search'>{t('t_add_to_watchlist').toUpperCase()}</span></button>
+                                                    <button type="button" className="btn btn-primary btn-sm button-search" onClick={() => { toggleTab('credits') }}><span className='profile-search'>{t('t_get_lead_for_x_credit').toUpperCase()}</span></button>
+                                                </div>
                                             }
 
                                         </div>
@@ -219,6 +219,11 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                                                             let ambitions = JSON.parse(item.ambitions.ambition);
                                                             ambition = ambitions[language];
                                                         }
+                                                        let salary = new Intl.NumberFormat('de-DE', {
+                                                            style: 'currency',
+                                                            currency: 'EUR'
+                                                        }).format(item.desired_salary * 500);
+
                                                         return (
                                                             <div class="row">
 
@@ -235,16 +240,15 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                                                                     <span>{t('t_ambitions')}</span><br />
                                                                 </div>
                                                                 <div className="col-md-9">
-                                                                    <span>{
-                                                                        jobLabel}</span><br />
-                                                                    <span>{item.max_distance} km PLZ {item.postalcode}</span><br />
-                                                                    <span>{item.desired_salary * 500}</span><br />
-                                                                    <span>{item.desired_weekly_hours}</span><br />
-                                                                    <span>{item.desired_working_days_per_week}</span><br />
-                                                                    <span>{item.desired_holiday_days_per_year}</span><br />
-                                                                    <span>{item.desired_work_at_home.value}</span><br />
-                                                                    <span>{item.desired_work_at_weekend.value}</span><br />
-                                                                    <span>{item.desired_work_at_night.value}</span><br />
+                                                                    <span>{jobLabel}</span><br />
+                                                                    <span>{item.max_distance} km {t("t_distance_to")} {item.postalcode}</span><br />
+                                                                    <span>{salary}</span><br />
+                                                                    <span>{item.desired_weekly_hours} {t("t_hours")}</span><br />
+                                                                    <span>{item.desired_working_days_per_week} {t("t_days")}</span><br />
+                                                                    <span>{item.desired_holiday_days_per_year} {t("t_days")}</span><br />
+                                                                    <span>{t(item.desired_work_at_home.value.toLowerCase())}</span><br />
+                                                                    <span>{t(item.desired_work_at_weekend.value.toLowerCase())}</span><br />
+                                                                    <span>{t(item.desired_work_at_night.value.toLowerCase())}</span><br />
                                                                     <span>{ambition}</span><br />
 
                                                                 </div>
