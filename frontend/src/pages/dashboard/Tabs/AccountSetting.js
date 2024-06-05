@@ -270,7 +270,6 @@ const UserAccount = (props) => {
                                                 <div className="col-md-9">
                                                     <div className="row">
                                                         <div className="col-md">
-                                                            {/* <Field type="text" name="prename" className="form-control" required placeholder="FIRST NAME" onInvalid="this.setCustomValidity('Please enter COMPANY NAME')" oninput="setCustomValidity('')" /> */}
                                                             <Input
                                                                 type="text"
                                                                 name="prename"
@@ -279,7 +278,6 @@ const UserAccount = (props) => {
                                                                 onChange={formik.handleChange}
                                                                 onBlur={formik.handleBlur}
                                                                 value={formik.values.prename}
-                                                            // invalid={formik.touched.password && formik.errors.password ? true : false}
                                                             />
                                                         </div>
                                                     </div>

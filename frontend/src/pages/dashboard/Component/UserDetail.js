@@ -189,8 +189,8 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                                         <div className="col-md-2 pleft">
                                             <Avatar className='avatar' size={80}>{(item.user.prename.slice(0, 1)).toUpperCase()}{(item.user.lastname.slice(0, 1)).toUpperCase()}</Avatar>
                                             <div className="name">{item.user.prename} {item.user.lastname}</div>
-                                            <div className='popup-infor' style={{ "paddingTop": "%5" }}><img src="assets/img/year.svg" alt='' />{item.address[0].year_birthday}</div>
-                                            <div className='popup-infor'><img src="assets/img/location.svg" alt='' />{item.address[0].city} {item.address[0].country ? ',' + item.address[0].country : ''}</div>
+                                            <div className='popup-infor' style={{ "paddingTop": "%5" }}><img src="assets/img/year.svg" alt='' /><span style={{"paddingLeft":"10px"}}>{item.address[0].year_birthday}</span></div>
+                                            <div className='popup-infor'><img src="assets/img/location.svg" alt='' /><span  style={{"paddingLeft":"10px"}}>{item.address[0].city} {item.address[0].country ? ',' + item.address[0].country : ''}</span></div>
 
                                             <RatingStar user_id={item.user.user_id} />
 
