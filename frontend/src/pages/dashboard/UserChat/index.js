@@ -44,7 +44,7 @@ function UserChat(props) {
     const [chatMessages, setchatMessages] = useState(props.recentChatList[props.active_user].messages);
     const [countid] = useState(props.recentChatList[props.active_user].messages.length);
     const fireBaseBackend = getFirebaseBackend();
-  
+
     /*
         useEffect(() => {
             if (!currentGroup) {
@@ -86,9 +86,9 @@ function UserChat(props) {
         },[currentGroup]);
     */
 
-    useEffect(()=>{
+    useEffect(() => {
         // console.log(props.users);
-        if (props.hasMessage){
+        if (props.hasMessage) {
             setchatMessages(props.recentChatList[props.active_user].messages);
             refC.current.recalculate();
             if (refC.current.el) {
@@ -96,8 +96,8 @@ function UserChat(props) {
             }
             props.readMessage();
         }
-        
-    },[props.hasMessage,props.active_user]);
+
+    }, [props.hasMessage, props.active_user]);
 
     const toggle = () => setModal(!modal);
 
@@ -205,7 +205,7 @@ function UserChat(props) {
 
     return (
         <React.Fragment>
-            <div className="col-md-5 user-chat overflow-hidden">
+            <div className="col-md-5 user-chat overflow-hidden scroller rs-right">
 
                 <div className="d-lg-flex">
 
@@ -443,7 +443,7 @@ const mapStateToProps = (state) => {
     const { active_user } = state.Chat;
     const { userSidebar } = state.Layout;
     const hasMessage = state.Chat.hasMessage;
-    return { active_user, userSidebar,hasMessage };
+    return { active_user, userSidebar, hasMessage };
 };
 
 export default connect(mapStateToProps, { openUserSidebar, setFullUser, readMessage })(UserChat);

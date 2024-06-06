@@ -196,7 +196,7 @@
 
 /*---END WATCHLIST---*/
 .scroller {
-  height: 500px;
+  height: calc(100vh - 350px);
   overflow-y: scroll;
 }
 
@@ -220,7 +220,7 @@
 }
 
 .modal-header-line {
-  border: solid 1px #BFBDBD;
+  border: solid 1px #BFBDBD; 
   margin-right: 40px;
   margin-left: 30px;
 }

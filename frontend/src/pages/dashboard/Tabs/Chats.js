@@ -290,7 +290,7 @@ class Chats extends Component {
                         )}
                     </ul>
                 </div>
-                <div className='col-md-4 s-center'> {/*
+                <div className='col-md-4 scroller s-center'> {/*
                     <div className="px-4 pt-4">
                         <div className="search-box chat-search-box">
                             <InputGroup className="mb-3 rounded-3">

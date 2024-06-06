@@ -1,10 +1,10 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { Modal } from 'antd';
+import { Modal, Select } from 'antd';
 import AddJob from '../Tabs/AddJob';
 import TableBody from "./TableBody";
 import TableHead from "./TableHead";
 import { APIClient } from '../../../helpers/apiClient';
-import { getLoggedInUser } from '../../../helpers/authUtils';
+import { getLoggedInUser, getProfessions } from '../../../helpers/authUtils';
 import { useTranslation } from 'react-i18next';
 import { setSearchFilterData } from '../../../redux/search/actions';
 import { useDispatch } from 'react-redux';
@@ -18,6 +18,7 @@ function JobsTable(props) {
     const { t } = useTranslation();
     const [tableData, settableData] = useState([]);
     const [categoryID, setCategoryID] = useState('all');
+    const professions = getProfessions();
 
     const dispatch = useDispatch();
 
@@ -32,7 +33,7 @@ function JobsTable(props) {
     };
 
     const toggleTab = (tab, data) => {
-        
+
         dispatch(setSearchFilterData(data));
         props.setActiveTab(tab);
         //props.setSearch(search);
@@ -116,7 +117,7 @@ function JobsTable(props) {
             'job_search_profile_id': job_search_profile_id,
             'is_delete': 1,
         }
-        new APIClient().delete('job_search_profile/'+job_search_profile_id+'', datapost).then(val => {
+        new APIClient().delete('job_search_profile/' + job_search_profile_id + '', datapost).then(val => {
             dataRow.splice(index, 1);
             settableData(dataRow);
         })
@@ -219,8 +220,22 @@ function JobsTable(props) {
                 </div>
             </div>
             <div className="main_job">
-                <div className='row g-3'>
-                    <span className="title">{t('t_current_enquiries').toUpperCase()}</span>
+                <div className='row title g-3'>
+                    <span className="col-md-8">{t('t_current_enquiries').toUpperCase()}</span>
+                    <Select
+                        showSearch
+                        id="category"
+                        name="category"
+                        className="form-control searchcenterselect title col-md"
+                        placeholder={t('t_category').toUpperCase()}
+                        onChange={setCategoryID}
+                    >
+                        <Select.Option value="all">All</Select.Option>
+                        {professions !== null && professions.map((item) => (
+                            <Select.Option value={item.profession_id}>{item.profession}</Select.Option>
+                        ))}
+
+                    </Select>
                 </div>
                 <div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{ position: 'relative', height: '600px' }}>
 
@@ -230,7 +245,7 @@ function JobsTable(props) {
                     </table>
 
                     <Modal open={isModalOpen} onCancel={handleCancel} width={1000} footer=" ">
-                        <AddJob action="edit" job_search_profile_id={job_search_profile_id} setIsModalOpen={setIsModalOpen} updateRowEdit={updateRowEdit} AddRow={AddRow}  />
+                        <AddJob action="edit" job_search_profile_id={job_search_profile_id} setIsModalOpen={setIsModalOpen} updateRowEdit={updateRowEdit} AddRow={AddRow} />
                     </Modal>
                     <Modal open={isModalOpenadd} onCancel={handleCanceladd} width={1000} footer=" ">
                         <AddJob setIsModalOpen={setIsModalOpen} updateRowEdit={updateRowEdit} AddRow={AddRow} />

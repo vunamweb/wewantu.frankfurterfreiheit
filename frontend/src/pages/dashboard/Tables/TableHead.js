@@ -29,28 +29,24 @@ const TableHead = ({ columns, handleSorting, setCategoryID }) => {
                     const cl = sortable
                         ? sortField === accessor && order === "asc"
                             ? "up" : sortField === accessor && order === "desc" ? "down" : "default" : "";
-                    if (label == t('t_category').toUpperCase())
-                        return <th className={cl} key={accessor} onClick={sortable ? () => handleSortingChange(accessor) : null}>
-                            <Select
-                                showSearch
-                                id="category"
-                                name="category"
-                                className="form-control searchcenterselect title"
-                                placeholder={t('t_category').toUpperCase()}
-                                onChange={onChange}
-                            //options={professions.map((item) => ({
-                            // label: item.profession,
-                            //    value: item.profession_id
-                            // }))}
-                            >
-                                <Select.Option value="all">All</Select.Option>
-                                {professions !== null && professions.map((item) => (
-                                    <Select.Option value={item.profession_id}>{item.profession}</Select.Option>
-                                ))}
+                    // if (label == t('t_category').toUpperCase())
+                    //     return <th className={cl} key={accessor} onClick={sortable ? () => handleSortingChange(accessor) : null}>
+                    //         <Select
+                    //             showSearch
+                    //             id="category"
+                    //             name="category"
+                    //             className="form-control searchcenterselect title"
+                    //             placeholder={t('t_category').toUpperCase()}
+                    //             onChange={onChange}
+                    //         >
+                    //             <Select.Option value="all">All</Select.Option>
+                    //             {professions !== null && professions.map((item) => (
+                    //                 <Select.Option value={item.profession_id}>{item.profession}</Select.Option>
+                    //             ))}
 
-                            </Select>
-                        </th>;
-                    else
+                    //         </Select>
+                    //     </th>;
+                    // else
                         return <th className={cl} key={accessor} onClick={sortable ? () => handleSortingChange(accessor) : null}>{label}</th>;
                 })}
                 <th ></th>
