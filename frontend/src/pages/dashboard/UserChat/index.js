@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { DropdownMenu, DropdownItem, DropdownToggle, UncontrolledDropdown, Modal, ModalHeader, ModalBody, CardBody, Button, ModalFooter } from "reactstrap";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 
 import SimpleBar from "simplebar-react";
 
@@ -15,7 +15,7 @@ import ChatInput from "./ChatInput";
 import FileList from "./FileList";
 
 //actions
-import { openUserSidebar, setFullUser } from "../../../redux/actions";
+import { openUserSidebar, readMessage, setFullUser } from "../../../redux/actions";
 import { getLoggedInUser } from '../../../helpers/authUtils';
 
 //Import Images
@@ -44,15 +44,7 @@ function UserChat(props) {
     const [chatMessages, setchatMessages] = useState(props.recentChatList[props.active_user].messages);
     const [countid] = useState(props.recentChatList[props.active_user].messages.length);
     const fireBaseBackend = getFirebaseBackend();
-
-
-    useEffect(() => {
-        setchatMessages(props.recentChatList[props.active_user].messages);
-        refC.current.recalculate();
-        if (refC.current.el) {
-            refC.current.getScrollElement().scrollTop = refC.current.getScrollElement().scrollHeight;
-        }
-    }, [props.active_user, props.recentChatList]);
+  
     /*
         useEffect(() => {
             if (!currentGroup) {
@@ -93,6 +85,19 @@ function UserChat(props) {
                 
         },[currentGroup]);
     */
+
+    useEffect(()=>{
+        // console.log(props.users);
+        if (props.hasMessage){
+            setchatMessages(props.recentChatList[props.active_user].messages);
+            refC.current.recalculate();
+            if (refC.current.el) {
+                refC.current.getScrollElement().scrollTop = refC.current.getScrollElement().scrollHeight;
+            }
+            props.readMessage();
+        }
+        
+    },[props.hasMessage,props.active_user]);
 
     const toggle = () => setModal(!modal);
 
@@ -162,12 +167,6 @@ function UserChat(props) {
                 break;
         }
 
-
-
-
-
-
-
         setchatMessages([...chatMessages, messageObj]);
 
         let copyallUsers = [...allUsers];
@@ -203,8 +202,6 @@ function UserChat(props) {
 
         setchatMessages(filtered);
     }
-
-
 
     return (
         <React.Fragment>
@@ -445,8 +442,9 @@ function UserChat(props) {
 const mapStateToProps = (state) => {
     const { active_user } = state.Chat;
     const { userSidebar } = state.Layout;
-    return { active_user, userSidebar };
+    const hasMessage = state.Chat.hasMessage;
+    return { active_user, userSidebar,hasMessage };
 };
 
-export default withRouter(connect(mapStateToProps, { openUserSidebar, setFullUser })(UserChat));
+export default connect(mapStateToProps, { openUserSidebar, setFullUser, readMessage })(UserChat);
 

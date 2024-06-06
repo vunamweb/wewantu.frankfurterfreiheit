@@ -1,5 +1,7 @@
 import {
-    CHAT_USER, ACTIVE_USER,FULL_USER, ADD_LOGGED_USER, CREATE_GROUP
+    CHAT_USER, ACTIVE_USER,FULL_USER, ADD_LOGGED_USER, CREATE_GROUP,
+    NEW_MESSAGE,
+    READ_MESSAGE
 } from './constants';
 
 
@@ -13,6 +15,7 @@ import avatar8 from "../../assets/images/users/avatar-8.jpg";
 
 const INIT_STATE = {
 	active_user : 0,
+    hasMessage: false,
     users: [
         //admin is sender and user in receiver
         { id : 0, name : "Admin", profilePicture : avatar2, status : "online", unRead : 0, roomType : "contact", isGroup: false, 
@@ -121,6 +124,18 @@ const Chat = (state = INIT_STATE, action) => {
             return { 
             	...state,
                 users : action.payload };
+        
+        case NEW_MESSAGE:
+            return {
+                ...state,
+                hasMessage: true
+            }
+
+        case READ_MESSAGE:
+            return {
+                ...state,
+                hasMessage: false
+            }
 
         case ADD_LOGGED_USER:
             const newUser =  action.payload

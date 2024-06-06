@@ -104,10 +104,11 @@ const UserAccount = (props) => {
         }
 
         new APIClient().put("user", dataPut).then((res) => {
-            admin.prename = values.prename;
-            admin.lastname = values.lastname;
-
-            setLoggedInUser(admin);
+            
+            let adminUpd = { ...admin };
+            adminUpd.prename = values.prename;
+            adminUpd.lastname = values.lastname;
+            setLoggedInUser([adminUpd]);
 
             toast.success(t("t_success"));
         });

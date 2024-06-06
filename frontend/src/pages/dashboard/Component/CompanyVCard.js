@@ -15,8 +15,8 @@ function CompanyVCard(props) {
     const admin = getLoggedInUser()[0];
     const [data, setData] = useState({});
     const [avatar, setAvatar] = useState("");
-    const [checkedSameCompanyAddress,setCheckedSameCompanyAddress] = useState(false);
-    const urlApiUpload = config.API_URL + "user/changecompanylogo";
+    const [checkedSameCompanyAddress, setCheckedSameCompanyAddress] = useState(false);
+    const urlApiUpload = config.API_URL + "user/changeavatar";
 
     useEffect(() => {
         if (admin.company_v_card) {
@@ -24,8 +24,8 @@ function CompanyVCard(props) {
         }
         else {
             setData({
-                prename: "",
-                lastname: "",
+                name1: "",
+                name2: "",
                 email: "",
                 tax_id: "",
                 zip_code: "",
@@ -39,7 +39,7 @@ function CompanyVCard(props) {
                 phone_number1: "",
                 phone_number2: "",
                 number_of_employees: "",
-                same_company_address:false,
+                same_company_address: false,
                 description: ""
             });
         }
@@ -104,11 +104,11 @@ function CompanyVCard(props) {
 
     const handleChecked = (e) => {
         setCheckedSameCompanyAddress(!checkedSameCompanyAddress);
-        if (!checkedSameCompanyAddress){
-            formik.setFieldValue("invoice_zip_code",formik.values.zip_code);
-            formik.setFieldValue("invoice_city",formik.values.city);
-            formik.setFieldValue("invoice_street",formik.values.street);
-            formik.setFieldValue("invoice_street_no",formik.values.street_no);
+        if (!checkedSameCompanyAddress) {
+            formik.setFieldValue("invoice_zip_code", formik.values.zip_code);
+            formik.setFieldValue("invoice_city", formik.values.city);
+            formik.setFieldValue("invoice_street", formik.values.street);
+            formik.setFieldValue("invoice_street_no", formik.values.street_no);
         }
     }
 
@@ -125,20 +125,18 @@ function CompanyVCard(props) {
                     <span>{t("t_company_vcard").toUpperCase()}</span>
                     <div className="row">
                         <div className="col-md-4 content">
-                            <div className="col-md-1"></div>
-                            <div className="col-md-11">
-
+                            <div className="col-md-12">
                                 <div className="row">
                                     <div className="col-md">
                                         <Input
                                             type="text"
-                                            name="prename"
+                                            name="name1"
                                             required
                                             className="form-control"
-                                            placeholder={t('t_prename').toUpperCase()}
+                                            placeholder={t('t_name').toUpperCase()}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            value={formik.values.prename}
+                                            value={formik.values.name1}
                                         />
                                     </div>
                                 </div>
@@ -146,13 +144,13 @@ function CompanyVCard(props) {
                                     <div className="col-md">
                                         <Input
                                             type="text"
-                                            name="lastname"
+                                            name="nam2"
                                             required
                                             className="form-control"
-                                            placeholder={t('t_lastname').toUpperCase()}
+                                            placeholder={t('t_name').toUpperCase()+" (LINE 2)"} 
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
-                                            value={formik.values.lastname}
+                                            value={formik.values.name2}
                                         />
                                     </div>
                                 </div>
@@ -175,12 +173,27 @@ function CompanyVCard(props) {
                                         <Input
                                             type="text"
                                             name="number_of_employees"
-                                            required
                                             className="form-control"
                                             placeholder={t('t_number_of_employees').toUpperCase()}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             value={formik.values.number_of_employees}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md">
+                                        <div className="row">
+                                            <span>&nbsp;</span>
+                                        </div>
+                                        <Input type="textarea"
+                                            name="description"
+                                            className="form-control"
+                                            rows="10"
+                                            placeholder={t("t_description").toUpperCase()}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            value={formik.values.description}
                                         />
                                     </div>
                                 </div>
@@ -246,43 +259,7 @@ function CompanyVCard(props) {
                                         />
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div className="col-md-2"></div>
-                        <div className="col-md-2">
-                            <span>{t("t_logo").toUpperCase()}</span>
-                            <Upload
-                                name="avatar"
-                                listType="picture-card"
-                                className="avatar-uploader"
-                                showUploadList={false}
-                                onChange={handleChangeFile}
-                                customRequest={customRequest}
-                            >
-                                {avatar ? <img src={avatar} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-                            </Upload>
-                            <br />
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-4">
-                            <div className="col-md-12">
-                                <div className="row">
-                                    <span>&nbsp;</span>
-                                </div>
-                                <Input type="textarea"
-                                    name="description"
-                                    className="form-control"
-                                    rows="10"
-                                    placeholder={t("t_description").toUpperCase()}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.description}
-                                />
-                            </div>
-                        </div>
-                        <div className="col-md-4">
-                            <div className="col-md-12">
+
                                 <div className="row">
                                     <span className="col-md-6">{t("t_invoice_address").toUpperCase()}</span>
                                     <div className="col-md d-flex">
@@ -354,13 +331,72 @@ function CompanyVCard(props) {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-6"></div>
-                        <div className="col-md-2">
-                            <button type="submit" className="btn btn-primary form-control btn-sm">{t('save').toUpperCase()}</button>
+                        <div className="col-md-4 content">
+                            <div className="row">
+                                <span>{t("t_logo").toUpperCase()}</span>
+                                <Upload
+                                    name="avatar"
+                                    listType="picture-card"
+                                    className="avatar-uploader"
+                                    showUploadList={false}
+                                    onChange={handleChangeFile}
+                                    customRequest={customRequest}
+                                >
+                                    {avatar ? <img src={avatar} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                                </Upload>
+                                <br />
+
+                            </div>
+
+                            <div className="row">
+                                <div className="col-md">
+                                    <Input
+                                        type="text"
+                                        name="phone_number1"
+                                        required
+                                        className="form-control"
+                                        placeholder={t('t_phone').toUpperCase()}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.phone_number1}
+                                    />
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md">
+                                    <Input
+                                        type="text"
+                                        name="phone_number2"
+                                        className="form-control"
+                                        placeholder={t('t_phone').toUpperCase()+' (LINE 2)'}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.phone_number2}
+                                    />
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md">
+                                    <Input
+                                        type="text"
+                                        name="email"
+                                        className="form-control"
+                                        placeholder={t('t_mail').toUpperCase()}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.email}
+                                    />
+                                </div>
+                            </div>
+                            <div className="row">
+                                
+                                <div className="col-md">
+                                    <button type="submit" className="btn btn-primary form-control btn-sm">{t('save').toUpperCase()}</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 </Form>
             </Formik>
         </>

@@ -4,7 +4,7 @@ import ChatLeftSidebar from "./ChatLeftSidebar";
 import { APIClient } from '../../helpers/apiClient';
 import { connect } from "react-redux";
 
-import { openUserSidebar, setFullUser, setListUserProfile } from "../../redux/actions";
+import { newMessage, openUserSidebar, setFullUser, setListUserProfile } from "../../redux/actions";
 import { getLoggedInUser } from '../../helpers/authUtils';
 import { getDatabase, onValue, ref } from "firebase/database";
 import { t } from 'i18next';
@@ -141,6 +141,7 @@ class Index extends Component {
                             users: copyallUsers
                         })
                         this.props.setFullUser(copyallUsers);
+                        this.props.newMessage();
                     }
                     if (messages.length > 0) {
                         messages.forEach(res => {
@@ -228,4 +229,4 @@ const mapStateToProps = (state) => {
     return { users };
 };
 
-export default connect(mapStateToProps, { openUserSidebar, setFullUser })(Index);
+export default connect(mapStateToProps, { openUserSidebar, setFullUser,newMessage })(Index);
