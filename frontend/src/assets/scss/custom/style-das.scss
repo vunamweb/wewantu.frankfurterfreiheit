@@ -737,5 +737,13 @@ textarea {
 
 .button-search {
     width: 100%;
-    margin: 5% 5% 5% 0;
+    margin: .5em 2em .5em 0;
 }
+
+// Bjoern extensions
+
+.bold span { font-weight: 600; }
+.gray span { color: var(--gold); }
+.hide { display: none; }
+.rating { margin: 1em 0; }
+.rating svg { margin-right: .5em; }

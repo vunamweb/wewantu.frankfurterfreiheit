@@ -59,10 +59,12 @@
 
 /*---endnewjob---*/
 /*---search center---*/
-.menuSearchCenter .lang > a, .menuSearchCenter .lang > a:hover {
+.menuSearchCenter .lang > a,
+.menuSearchCenter .lang > a:hover {
   color: #898989;
 }
-.menuSearchCenter .nav-link, .menuSearchCenter .nav-link:hover {
+.menuSearchCenter .nav-link,
+.menuSearchCenter .nav-link:hover {
   color: #898989;
   margin-right: 30px;
 }
@@ -196,7 +198,7 @@
 
 /*---END WATCHLIST---*/
 .scroller {
-  height: calc(100vh - 350px);
+  height: calc(100vh - 320px);
   overflow-y: scroll;
 }
 
@@ -220,7 +222,7 @@
 }
 
 .modal-header-line {
-  border: solid 1px #BFBDBD; 
+  border: solid 1px #BFBDBD;
   margin-right: 40px;
   margin-left: 30px;
 }
@@ -342,6 +344,11 @@ textarea {
 .main-mes .content ul {
   list-style-type: none;
   margin-left: -20px;
+}
+.main-mes .content li {
+  margin-top: 10px;
+  border-top: #BFBDBD 1px solid;
+  list-style-type: none;
 }
 .main-mes .s-center li {
   background-color: #f8f8f8;
@@ -615,7 +622,27 @@ textarea {
 
 .button-search {
   width: 100%;
-  margin: 5% 5% 5% 0;
+  margin: 0.5em 2em 0.5em 0;
+}
+
+.bold span {
+  font-weight: 600;
+}
+
+.gray span {
+  color: var(--gold);
+}
+
+.hide {
+  display: none;
+}
+
+.rating {
+  margin: 1em 0;
+}
+
+.rating svg {
+  margin-right: 0.5em;
 }
 
 /*# sourceMappingURL=style-das.css.map */
