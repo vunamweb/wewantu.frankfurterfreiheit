@@ -690,9 +690,9 @@ textarea {
 }
 
 .name {
-    padding: 10% 10% 0;
+    padding: 1em 0 1em 1.35em;
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 600; color: var(--gold)
 }
 
 .write-msg {
@@ -747,3 +747,4 @@ textarea {
 .hide { display: none; }
 .rating { margin: 1em 0; }
 .rating svg { margin-right: .5em; }
+.ant-modal-title { text-transform: uppercase; }
