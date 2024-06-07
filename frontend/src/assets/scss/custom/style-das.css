@@ -112,7 +112,7 @@
   padding-right: 10px;
   padding-bottom: 10px;
   color: #414141;
-  font-size: 18px;
+  font-size: 1.1em;
 }
 .info .avatar {
   border: 3px solid #898166;
@@ -134,10 +134,9 @@
 .info button {
   background-color: #898166;
   color: #f0f0f0;
-  font-size: 10px;
+  font-size: 0.8em;
   font-weight: bold;
-  margin-top: 20px;
-  padding-right: 20px;
+  margin-top: 1em;
 }
 
 .main-das {
@@ -182,6 +181,15 @@
 .table {
   background-color: #f0f0f0 !important;
   --bs-table-bg: #f0f0f0;
+}
+
+.table th {
+  font-weight: 400;
+  padding: 2px 8px;
+}
+
+.table tr:first-child th {
+  font-weight: 600;
 }
 
 .table tr {
@@ -329,9 +337,9 @@ textarea {
   text-align: right;
 }
 .main-mes .avatar {
-  margin-top: 5px;
-  margin-left: 10px;
-  margin-bottom: 5px;
+  margin-top: .5em;
+  margin-left: .25em;
+  /* margin-bottom: 5px; */
 }
 .main-mes .mess-l {
   color: #414141;
@@ -630,7 +638,7 @@ textarea {
   font-weight: 600;
 }
 
-.gray span {
+.gray span, .gold {
   color: var(--gold);
 }
 
@@ -648,6 +656,22 @@ textarea {
 
 .ant-modal-title {
   text-transform: uppercase;
+}
+
+.loc {
+  margin: 0.35em 0;
+}
+
+.loc img {
+  margin-right: 0.5em;
+  vertical-align: text-bottom;
+}
+
+.gold h1,
+.gold h2,
+.gold h3,
+.gold h4 {
+  color: var(--gold);
 }
 
 /*# sourceMappingURL=style-das.css.map */
