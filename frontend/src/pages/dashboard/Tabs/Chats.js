@@ -36,6 +36,13 @@ class Chats extends Component {
         // if (this.state.jobSearchProfiles.count>0){
         //     this.searchUser(this.state.jobSearchProfiles[0]);
         // }
+        const admin = getLoggedInUser()[0];
+
+        let payments = await new APIClient().get('user/' + admin.user_id + '/user_payment');
+        const user_id_payment = payments.map(p => p.user_id_payment);
+        const chatListFilter = this.state.chatList.filter((c) => user_id_payment.includes(c.user_id));
+        this.setState({chatList:chatListFilter,recentChatList: chatListFilter});
+
         let companylist = await new APIClient().get('companylist');
         let addresslist = await new APIClient().get('addresslist');
         let searchJob = await new APIClient().get('list_job_search_profiles');
@@ -175,7 +182,7 @@ class Chats extends Component {
                 // recentChatList: this.props.recentChatList,
                 jobSearchProfiles: this.props.jobSearchProfiles
             });
-            
+
         }
     }
 
@@ -259,32 +266,32 @@ class Chats extends Component {
         const userIds = searchResult.map(item => item.user.user_id);
         const users = this.state.recentChatList.filter(item => userIds.includes(item.user_id));
         setTimeout(() => {
-            this.setState({ chatList: users,loading:false });    
+            this.setState({ chatList: users, loading: false });
         }, 1000);
-        
+
     }
 
     handleJobProfileClick(item) {
-        this.setState({loading:true});
+        this.setState({ loading: true });
 
-        if (item == "All"){
-            
+        if (item == "All") {
+
             setTimeout(() => {
-                this.setState({chatList:this.state.recentChatList,loading:false});
+                this.setState({ chatList: this.state.recentChatList, loading: false });
             }, 1000);
-        }else{
+        } else {
             this.searchUser(item);
         }
-        
+
     }
 
     render() {
         return (
             <React.Fragment>
-                {(this.state.loading) &&<div className='loader'></div>}
+                {(this.state.loading) && <div className='loader'></div>}
                 <div className='col-md-3 scroller mess-l'>
                     <ul className='content'>
-                        <li style={{ cursor: "pointer" }} onClick={()=>{this.handleJobProfileClick("All")}}>{t("t_all").toUpperCase()}</li>
+                        <li style={{ cursor: "pointer" }} onClick={() => { this.handleJobProfileClick("All") }}>{t("t_all").toUpperCase()}</li>
                         {this.state.jobSearchProfiles.map((item) =>
                             <li style={{ cursor: "pointer" }} onClick={() => { this.handleJobProfileClick(item) }}><a>{item.job_decription}</a></li>
                         )}
@@ -380,7 +387,7 @@ class Chats extends Component {
                                     }
                                 </ul>
                             }
-                            {this.state.chatList.length ==0 && <h6>No User</h6>}
+                            {this.state.chatList.length == 0 && <h6>No User</h6>}
                         </SimpleBar>
 
                     </div>

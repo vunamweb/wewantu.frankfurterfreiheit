@@ -28,7 +28,7 @@ function WatchListSendMessageModal(props) {
     const [form2] = Form.useForm();
 
     const admin = getLoggedInUser()[0];
-    const [isBuyCredit,setIsBuyCredit] = useState(false);
+    const [isBuyCredit, setIsBuyCredit] = useState(false);
     const [isModalOpenUserTemplate, setIsModalOpenUserTemplate] = useState(false);
     const [loadlang, setloadlang] = useState(true);
     const [templateData, settemplateData] = useState([]);
@@ -141,24 +141,24 @@ function WatchListSendMessageModal(props) {
 
 
     useEffect(() => {
-        setIsBuyCredit((admin.userType==0?true:admin.buy_credit));
+        setIsBuyCredit((admin.userType == 0 ? true : admin.buy_credit));
         if (currentUser) {
             //set address
             if (currentUser.address && currentUser.address.length > 0)
                 setAddress(currentUser.address[0]);
 
             //check payment
-            if (admin.userType !=0)
-            new APIClient().get('user/' + admin.user_id + '/user_payment').then(res => {
-                if (res.length > 0) {
-                    let user_payment_list = res.filter((payment) => { return payment.user_id_payment == user.user_id && payment.type == type });
-                    if (user_payment_list.length > 0) {
-                        setHasPayment(true);
+            if (admin.userType != 0)
+                new APIClient().get('user/' + admin.user_id + '/user_payment').then(res => {
+                    if (res.length > 0) {
+                        let user_payment_list = res.filter((payment) => { return payment.user_id_payment == user.user_id && payment.type == type });
+                        if (user_payment_list.length > 0) {
+                            setHasPayment(true);
+                        }
+                    } else {
+                        setHasPayment(false);
                     }
-                } else {
-                    setHasPayment(false);
-                }
-            })
+                })
             new APIClient().get('user/' + admin.user_id + '/user_template').then(res => {
                 if (res.length > 0) {
                     let tmp = user.prename + ' ' + user.lastname + ',\r' + res[0].description;

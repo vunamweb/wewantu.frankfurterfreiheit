@@ -186,7 +186,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                             return (
                                 <SwiperSlide>
                                     <div className="row details">
-                                        <div className="col-md-2 pleft">
+                                        <div className="col-md-4 pleft">
                                             <Avatar className='avatar' size={80}>{(item.user.prename.slice(0, 1)).toUpperCase()}{(item.user.lastname.slice(0, 1)).toUpperCase()}</Avatar>
                                             <div className="name">{item.user.prename} {item.user.lastname}</div>
                                             <div className='popup-infor' style={{ "paddingTop": "%5" }}><img src="assets/img/year.svg" alt='' /><span style={{"paddingLeft":"10px"}}>{item.address[0].year_birthday}</span></div>
@@ -203,7 +203,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                                             }
 
                                         </div>
-                                        <div className="col-md-10 about-1">
+                                        <div className="col-md about-1">
                                             <div className="row" style={{ "paddingTop": "2%" }}>
                                                 {/* <div className='popup-infor-1'>
                                                     <img src="assets/img/location.svg" alt='' /> {item.address[0].house_number} {item.address[0].street} {item.address[0].state} {item.address[0].city} {item.plz_at_job_location} {item.address[0].postal_code}

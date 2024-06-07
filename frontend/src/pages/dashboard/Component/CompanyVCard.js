@@ -40,11 +40,12 @@ function CompanyVCard(props) {
                 phone_number2: "",
                 number_of_employees: "",
                 same_company_address: false,
-                description: ""
+                description: "",
+                avatar: ""
             });
         }
-        if (admin.profilePicture) {
-            setAvatar(admin.profilePicture);
+        if (data.avatar) {
+            setAvatar(data.avatar);
         }
         else {
             setAvatar(process.env.PUBLIC_URL + "/img/avatar.png");
@@ -66,7 +67,7 @@ function CompanyVCard(props) {
         try {
             new APIClient().create(urlApiUpload, formData).then(res => {
                 setAvatar(config.API_BASE_URL + "/" + res);
-                setData({ ...data, logo: avatar });
+                setData({ ...data, avatar: avatar });
             });
         } catch (error) {
             toast.error(error);
@@ -128,6 +129,7 @@ function CompanyVCard(props) {
                             <div className="col-md-12">
                                 <div className="row">
                                     <div className="col-md">
+                                        <label>{t('t_name')}</label>
                                         <Input
                                             type="text"
                                             name="name1"
@@ -142,6 +144,7 @@ function CompanyVCard(props) {
                                 </div>
                                 <div className="row">
                                     <div className="col-md">
+                                        <label>{t('t_name')} (line 2)</label>
                                         <Input
                                             type="text"
                                             name="nam2"
@@ -156,6 +159,7 @@ function CompanyVCard(props) {
                                 </div>
                                 <div className="row">
                                     <div className="col-md">
+                                        <label>{t('t_tax_id')}</label>
                                         <Input
                                             type="text"
                                             name="tax_id"
@@ -170,6 +174,7 @@ function CompanyVCard(props) {
                                 </div>
                                 <div className="row">
                                     <div className="col-md">
+                                        <label>{t('t_phone')}</label>
                                         <Input
                                             type="text"
                                             name="phone_number1"
@@ -181,9 +186,8 @@ function CompanyVCard(props) {
                                             value={formik.values.phone_number1}
                                         />
                                     </div>
-                                </div>
-                                <div className="row">
                                     <div className="col-md">
+                                        <label>{t('t_phone')} (line 2)</label>
                                         <Input
                                             type="text"
                                             name="phone_number2"
@@ -197,6 +201,7 @@ function CompanyVCard(props) {
                                 </div>
                                 <div className="row">
                                     <div className="col-md">
+                                        <label>{t('t_mail')}</label>
                                         <Input
                                             type="text"
                                             name="email"
@@ -221,6 +226,7 @@ function CompanyVCard(props) {
 
                                 <div className="row">
                                     <div className="col-md-4">
+                                        <label>{t('t_zip')}</label>
                                         <Input
                                             type="text"
                                             name="zip_code"
@@ -234,6 +240,7 @@ function CompanyVCard(props) {
 
                                     </div>
                                     <div className="col-md">
+                                        <label>{t('t_city')}</label>
                                         <Input
                                             type="text"
                                             name="city"
@@ -248,6 +255,7 @@ function CompanyVCard(props) {
                                 </div>
                                 <div className="row">
                                     <div className="col-md">
+                                        <label>{t('t_street')}</label>
                                         <Input
                                             type="text"
                                             name="street"
@@ -259,9 +267,8 @@ function CompanyVCard(props) {
                                             value={formik.values.street}
                                         />
                                     </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-md">
+                                    <div className="col-md-4">
+                                        <label>{t('t_street_no')}</label>
                                         <Input
                                             type="text"
                                             required
@@ -275,7 +282,7 @@ function CompanyVCard(props) {
                                     </div>
                                 </div>
 
-                                <div className="row" style={{paddingBottom:"7px"}}>
+                                <div className="row" style={{ paddingBottom: "7px", paddingTop: "12px" }}>
                                     <div className="col-md-6">{t("t_invoice_address").toUpperCase()}</div>
                                     <div className="col-md d-flex">
                                         <Input type="checkbox"
@@ -289,6 +296,7 @@ function CompanyVCard(props) {
                                 </div>
                                 <div className="row">
                                     <div className="col-md-4">
+                                        <label>{t('t_zip')}</label>
                                         <Input
                                             type="text"
                                             required
@@ -302,6 +310,7 @@ function CompanyVCard(props) {
 
                                     </div>
                                     <div className="col-md">
+                                        <label>{t('t_city')}</label>
                                         <Input
                                             type="text"
                                             required
@@ -316,6 +325,7 @@ function CompanyVCard(props) {
                                 </div>
                                 <div className="row">
                                     <div className="col-md">
+                                        <label>{t('t_street')}</label>
                                         <Input
                                             type="text"
                                             required
@@ -327,9 +337,8 @@ function CompanyVCard(props) {
                                             value={formik.values.invoice_street}
                                         />
                                     </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-md">
+                                    <div className="col-md-4">
+                                        <label>{t('t_street_no')}</label>
                                         <Input
                                             type="text"
                                             required
@@ -346,23 +355,24 @@ function CompanyVCard(props) {
                         </div>
                         <div className="col-md-4 content">
                             <div className="row">
-                                {/* <span>{t("t_logo").toUpperCase()}</span> */}
-                                <Upload
-                                    name="avatar"
-                                    listType="picture-card"
-                                    className="avatar-uploader"
-                                    showUploadList={false}
-                                    onChange={handleChangeFile}
-                                    customRequest={customRequest}
-                                >
-                                    {avatar ? <img src={avatar} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-                                </Upload>
-                                <br />
-
+                                
+                                <div className="d-flex center">
+                                    <Upload
+                                        name="avatar"
+                                        listType="picture-card"
+                                        className="avatar-uploader"
+                                        showUploadList={false}
+                                        onChange={handleChangeFile}
+                                        customRequest={customRequest}
+                                    >
+                                        {avatar ? <img src={avatar} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                                    </Upload>
+                                </div>
                             </div>
 
                             <div className="row">
                                 <div className="col-md">
+                                    <label>{t('t_number_of_employees')}</label>
                                     <Input
                                         type="text"
                                         name="number_of_employees"
@@ -376,6 +386,7 @@ function CompanyVCard(props) {
                             </div>
                             <div className="row">
                                 <div className="col-md">
+                                    <label>{t('t_description')}</label>
                                     <Input type="textarea"
                                         name="description"
                                         className="form-control"
