@@ -3,6 +3,7 @@ import firebase from 'firebase/compat/app';
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
 import { getDatabase, ref, onValue,push } from "firebase/database";
+import 'firebase/compat/messaging';
 import config from '../config';
 
 //import admin from 'firebase-admin';
@@ -13,11 +14,15 @@ class FirebaseAuthBackend {
             firebase.initializeApp(firebaseConfig);
 
            // this.db= firebase.database();
-            //this.message = firebase.messaging();
+        this.message = firebase.messaging();
             
         }
     }
-    
+
+    getMessaging = () => {
+       return this.message;
+    }
+
     GetMessages = () => {
         return new Promise((resolve, reject) => {
             const starCountRef = ref(getDatabase(), 'messages/9633bf81-e387-47ad-a7e7-5106433af8ff_40b4e9b9-e508-473c-b75d-75cd10adee79');
