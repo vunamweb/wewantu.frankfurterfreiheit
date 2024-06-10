@@ -1,3 +1,9 @@
+:root {
+  --gray: #414141;
+  --lightgray: #e4e4e4;
+  --gold: #898166;
+}
+
 a {
   text-decoration: none;
   color: #414141;
@@ -42,7 +48,6 @@ input[type=radio] {
   text-align: center;
   border-radius: 0;
   border: 1px solid #707070;
-  color: #414141;
 }
 
 .loader {

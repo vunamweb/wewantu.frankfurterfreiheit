@@ -52,7 +52,7 @@ function RatingStar({user_id,updateRating}) {
             <FaRegStar
                 key={value}
                 onClick={() => handleRatingClick(userId, value)}
-                style={{ cursor: 'pointer', color: value <= rate ? 'gold' : 'gray' }}
+                style={{ cursor: 'pointer', color: value <= rate ? '#898166' : 'silver' }}
             />
         ))}
     </>);

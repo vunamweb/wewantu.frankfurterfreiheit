@@ -2,6 +2,9 @@ import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 
 import { APIClient } from '../../helpers/apiClient';
 
+//firebase
+import { getFirebaseBackend } from "../../helpers/firebase";
+
 
 import {
     LOGIN_USER,
@@ -22,15 +25,13 @@ import {
 } from './actions';
 import { toast } from 'react-toastify';
 
-
-
-
 /**
  * Sets the session
  * @param {*} user 
  */
 
 const create = new APIClient().create;
+const vapidKey = 'BFbUxUhsl2AN7BAnB-iQBJVhRDSCIBZiMS3ab3CFAApXYrpvRdFKOcM8tMvl3vJn1k98GDRDxIW1Qe8EqhKN4vs';
 
 /**
  * Login the user
@@ -42,6 +43,30 @@ function* login({ payload: { username, password, history } }) {
         //yield call(fireBaseBackend.G, username, password);
         const response_auth = yield call(new APIClient().auth, 'login', { username: username, password: password });
         if (response_auth) {
+            // get instace of firebase
+            const fireBaseBackend = getFirebaseBackend();
+
+            try {
+                //const messaging = fireBaseBackend.getMessaging();
+
+                fireBaseBackend.getMessaging().getToken({ vapidKey: vapidKey})
+                    .then(function (token) {
+                        console.log(token);
+
+                        fireBaseBackend.getMessaging().onMessage((payload) => {
+                            console.log('Message received. ', payload);
+                            // Show notification using the Notification API
+                            new Notification(payload.notification.title, {
+                                body: payload.notification.body,
+                                icon: payload.notification.icon,
+                            });
+                        });
+
+                    })
+            } catch (error) {
+                console.log(error);
+            }
+
             //setAuthorization(response_auth.session_secret)
             localStorage.setItem("session_secret", JSON.stringify(response_auth));
             const user = yield call(new APIClient().get, 'user/' + response_auth.user_id);

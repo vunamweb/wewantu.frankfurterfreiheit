@@ -190,25 +190,26 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                                             <Avatar className='avatar' size={80}>{(item.user.prename.slice(0, 1)).toUpperCase()}{(item.user.lastname.slice(0, 1)).toUpperCase()}</Avatar>
                                             <div className="name">{item.user.prename} {item.user.lastname}</div>
                                             <div className='popup-infor' style={{ "paddingTop": "%5" }}><img src="assets/img/year.svg" alt='' /><span style={{"paddingLeft":"10px"}}>{item.address[0].year_birthday}</span></div>
-                                            <div className='popup-infor'><img src="assets/img/location.svg" alt='' /><span  style={{"paddingLeft":"10px"}}>{item.address[0].city} {item.address[0].country ? ',' + item.address[0].country : ''}</span></div>
+                                            <div className='popup-infor'><img src="assets/img/location.svg" alt='' /><span  style={{"paddingLeft":"10px"}}>{item.address[0].postal_code ? item.address[0].postal_code : ''} {item.address[0].city} {item.address[0].country ? ',' + item.address[0].country : ''}</span></div>
 
-                                            <RatingStar user_id={item.user.user_id} />
+                                            <div class="rating"><RatingStar user_id={item.user.user_id} /></div>
 
                                             {(handleWLClick) &&  // chỉ hiển thị với detail từ search center
                                                 <div className="modal-footer">
                                                     <button disabled={isWatchlist} type="button" className="btn btn-primary btn-sm button-search" onClick={() => { blockwatclist() }}><span className='profile-search'>{t('t_dont_show_again').toUpperCase()}</span></button>
                                                     <button disabled={isWatchlist} type="primary" className="btn btn-primary btn-sm button-search" onClick={() => { addwatclist() }}><span className='profile-search'>{t('t_add_to_watchlist').toUpperCase()}</span></button>
-                                                    <button type="button" className="btn btn-primary btn-sm button-search" onClick={() => { toggleTab('credits') }}><span className='profile-search'>{t('t_get_lead_for_x_credit').toUpperCase()}</span></button>
+                                                    <button type="button" className="btn btn-primary btn-sm button-search" onClick={() => { toggleTab('credits') }}><span className='profile-search'>send E-Mail ? check Credit?</span></button>
+													<button type="button" className="hide btn btn-primary btn-sm button-search" onClick={() => { toggleTab('credits') }}><span className='profile-search'>{t('t_get_lead_for_x_credit').toUpperCase()}</span></button>
                                                 </div>
                                             }
 
                                         </div>
-                                        <div className="col-md about-1">
+                                        <div className="col-md-8 about-1">
                                             <div className="row" style={{ "paddingTop": "2%" }}>
                                                 {/* <div className='popup-infor-1'>
                                                     <img src="assets/img/location.svg" alt='' /> {item.address[0].house_number} {item.address[0].street} {item.address[0].state} {item.address[0].city} {item.plz_at_job_location} {item.address[0].postal_code}
                                                     </div> */}
-                                                <span>{t('t_job_profile')}</span><br /><br />
+                                                <span class="hide">{t('t_job_profile')}</span><br /><br />
                                                 {
                                                     item.profiles.map((item, index) => {
                                                         item.job_id = (item.job_id != undefined) ? item.job_id : 0;
@@ -227,7 +228,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                                                         return (
                                                             <div class="row">
 
-                                                                <div className="col-md-3">
+                                                                <div className="col-md-4 gray">
                                                                     <span>{t('t_job_desire')}</span><br />
                                                                     <span>{t('t_location')}</span><br />
                                                                     <span>{t('t_salary_request')}</span><br />
@@ -239,7 +240,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                                                                     <span>{t('t_night_work')}</span><br />
                                                                     <span>{t('t_ambitions')}</span><br />
                                                                 </div>
-                                                                <div className="col-md-9">
+                                                                <div className="col-md-8 bold">
                                                                     <span>{jobLabel}</span><br />
                                                                     <span>{item.max_distance} km {t("t_distance_to")} {item.postalcode}</span><br />
                                                                     <span>{salary}</span><br />
@@ -260,28 +261,30 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                                                 }
                                             </div>
                                             <div className="row" style={{ "paddingTop": "2%" }}>
-                                                <div className="col-md-3">
-                                                    <span>{t('t_place_of_residence')}</span><br />
-                                                    <span>{t('t_language_knowledge')}</span><br />
-                                                    {
-                                                        item.languages !== null ? renderlang(item.languages) : ''
-                                                    }
-                                                    {rendereducational_stageskey(item.educational_stages)}
-                                                    <span>{t("t_driver_s_license")}</span><br />
-                                                    <span>{t('t_passenger_transport')}</span><br />
-                                                    <span>{t('t_hobbies')}</span><br />
-                                                </div>
-                                                <div className="col-md-9">
-                                                    <span>{item.address[0].house_number} {item.address[0].street} {item.address[0].state} {item.address[0].city}{item.address[0].country ? ', ' + item.address[0].country : ''}</span><br /><br />
-                                                    {
-                                                        item.languages !== null ? rendervalue(item.languages) : ''
-                                                    }
-                                                    {rendereducational_stagesvalue(item.educational_stages)}
-                                                    <span>{renderdriver_licenses(item.driver_licenses)}</span><br />
-                                                    <span>{item.user.passenger_transport === 0 ? t('that_s_obvious') : t('people_what')}</span><br />
-                                                    <span>{hobbies}</span>
-                                                </div>
-                                            </div>
+                                                <div className="row">
+													<div className="col-md-4 gray">
+                                                    	<span>{t('t_place_of_residence')}</span><br />
+                                                    	<span>{t('t_language_knowledge')}</span><br />
+                                                    	{
+                                                        	item.languages !== null ? renderlang(item.languages) : ''
+                                                    	}
+                                                    	{rendereducational_stageskey(item.educational_stages)}
+                                                    	<span>{t("t_driver_s_license")}</span><br />
+                                                    	<span>{t('t_passenger_transport')}</span><br />
+                                                    	<span>{t('t_hobbies')}</span><br />
+                                                	</div>
+                                                	<div className="col-md-8 bold">
+                                                    	<span>{item.address[0].house_number} {item.address[0].street} {item.address[0].state} {item.address[0].city}{item.address[0].country ? ', ' + item.address[0].country : ''}</span><br /><br />
+                                                    	{
+                                                        	item.languages !== null ? rendervalue(item.languages) : ''
+                                                    	}
+                                                    	{rendereducational_stagesvalue(item.educational_stages)}
+                                                    	<span>{renderdriver_licenses(item.driver_licenses)}</span><br />
+                                                    	<span>{item.user.passenger_transport === 0 ? t('that_s_obvious') : t('people_what')}</span><br />
+                                                    	<span>{hobbies}</span>
+                                                	</div>
+                                            	</div>
+											</div>
                                         </div>
                                     </div>
                                 </SwiperSlide>
