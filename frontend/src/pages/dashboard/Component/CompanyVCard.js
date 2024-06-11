@@ -1,6 +1,6 @@
 
 import { t } from "i18next"
-import { getLoggedInUser, setLoggedInUser } from "../../../helpers/authUtils";
+import { getAllUser, getLoggedInUser, setAllUser, setLoggedInUser } from "../../../helpers/authUtils";
 import { useEffect, useState } from "react";
 import { Form, Formik, useFormik } from "formik";
 import { Input, Label } from "reactstrap";
@@ -12,11 +12,15 @@ import { toast } from "react-toastify";
 
 
 function CompanyVCard(props) {
-    const admin = getLoggedInUser()[0];
+    let admin = getLoggedInUser()[0];
+    if (props.user){
+        admin = props.user;
+    }
     const [data, setData] = useState({});
     const [avatar, setAvatar] = useState("");
     const [checkedSameCompanyAddress, setCheckedSameCompanyAddress] = useState(false);
     const urlApiUpload = config.API_URL + "user/changeavatar";
+    
 
     useEffect(() => {
         if (admin.company_v_card) {
@@ -50,7 +54,7 @@ function CompanyVCard(props) {
         else {
             setAvatar(process.env.PUBLIC_URL + "/img/avatar.png");
         }
-    }, []);
+    }, [admin]);
 
     const uploadButton = () => {
         return (
@@ -91,9 +95,22 @@ function CompanyVCard(props) {
         // console.log(JSON.stringify(values));
         const dataput = { user_id: admin.user_id, company_v_card: JSON.stringify(values) };
         new APIClient().put(config.API_URL + "user", dataput).then(res => {
-            let adminUpd = { ...admin };
-            adminUpd.company_v_card = dataput.company_v_card;
-            setLoggedInUser([adminUpd]);
+            if (!props.user){
+                let adminUpd = { ...admin };
+                adminUpd.company_v_card = dataput.company_v_card;
+                setLoggedInUser([adminUpd]);
+            }
+            else
+            {
+                let usersUpdate = getAllUser();
+                usersUpdate.map((item) => {
+                    if (item.user_id == admin.user_id){
+                        item.company_v_card = dataput.company_v_card;
+                    }
+                });
+                setAllUser(usersUpdate);
+            }
+            
 
             toast.success(t("t_success"));
         });
@@ -147,7 +164,7 @@ function CompanyVCard(props) {
                                         <label>{t('t_name')} (line 2)</label>
                                         <Input
                                             type="text"
-                                            name="nam2"
+                                            name="name2"
                                             required
                                             className="form-control"
                                             placeholder={t('t_name').toUpperCase() + " (LINE 2)"}

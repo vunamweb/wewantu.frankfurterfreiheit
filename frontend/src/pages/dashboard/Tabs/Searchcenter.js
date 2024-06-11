@@ -103,7 +103,7 @@ class Searchcenter extends Component {
             localStorage.setItem('search_job_profile', null);
         }
 
-        const { loading, searchData, searchJob, showListJob } = this.state;
+        const { loading, showListJob } = this.state;
         return (
             <>
                 <React.Fragment>
