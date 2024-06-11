@@ -25,6 +25,8 @@ import {
 } from './actions';
 import { toast } from 'react-toastify';
 
+import config from "../../../src/config";
+
 /**
  * Sets the session
  * @param {*} user 
@@ -49,9 +51,14 @@ function* login({ payload: { username, password, history } }) {
             try {
                 //const messaging = fireBaseBackend.getMessaging();
 
-                fireBaseBackend.getMessaging().getToken({ vapidKey: vapidKey})
+                fireBaseBackend.getMessaging().getToken({ vapidKey: vapidKey })
                     .then(function (token) {
                         console.log(token);
+
+                        const dataput = { user_id: response_auth.user_id, firebase_token_web: token };
+                        new APIClient().put(config.API_URL + "user", dataput).then(res => {
+                            console.log('success');
+                        });
 
                         fireBaseBackend.getMessaging().onMessage((payload) => {
                             console.log('Message received. ', payload);
