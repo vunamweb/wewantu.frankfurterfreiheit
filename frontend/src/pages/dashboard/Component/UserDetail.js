@@ -10,6 +10,7 @@ import 'swiper/css/scrollbar';
 import { APIClient } from '../../../helpers/apiClient';
 import RatingStar from '../Component/RatingStar';
 import { useSelector } from 'react-redux';
+import config from '../../../config';
 
 
 function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClick, handleBlockClick, setActiveTab, isWatchlist }) {
@@ -59,7 +60,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
     useEffect(() => {
         if (currentUser && currentUser.user) {
             new APIClient().get('user/' + admin.user_id + '/user_template').then(res => {
-                if (res) {
+                if (res.length>0) {
                     let tmp = currentUser.user.prename + ' ' + currentUser.user.lastname + ',\r' + res[0].description;
                     form2.setFieldsValue({
                         message: tmp,
@@ -169,6 +170,14 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                         {tableData && tableData.map((item, idx) => {
                             let hobbiesList, hobbies = '';
 
+                            let fieldsHide = config.USER_FIELD_HIDE;
+                            let prename = fieldsHide.includes("prename") ? "*****" : item.user.prename;
+                            let lastname = fieldsHide.includes("lastname") ? "*****" : item.user.lastname;
+                            let city = fieldsHide.includes("city") ? "*****" : item.address[0].city;
+                            let postal_code = fieldsHide.includes("postal_code") ? "*****" : item.address[0].postal_code;
+                            let country = fieldsHide.includes("country") ? "*****" : item.address[0].country;
+                            let year_birthday = fieldsHide.includes("year_birthday") ? "*****" : item.address[0].year_birthday;
+
                             try {
                                 hobbiesList = item.user.hobbies;
                                 hobbiesList = JSON.parse(hobbiesList);
@@ -188,9 +197,9 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                                     <div className="row details">
                                         <div className="col-md-4 pleft">
                                             <Avatar className='avatar' size={80}>{(item.user.prename.slice(0, 1)).toUpperCase()}{(item.user.lastname.slice(0, 1)).toUpperCase()}</Avatar>
-                                            <div className="name">{item.user.prename} {item.user.lastname}</div>
-                                            <div className='popup-infor' style={{ "paddingTop": "%5" }}><img src="assets/img/year.svg" alt='' /><span style={{"paddingLeft":"10px"}}>{item.address[0].year_birthday}</span></div>
-                                            <div className='popup-infor'><img src="assets/img/location.svg" alt='' /><span  style={{"paddingLeft":"10px"}}>{item.address[0].postal_code ? item.address[0].postal_code : ''} {item.address[0].city} {item.address[0].country ? ',' + item.address[0].country : ''}</span></div>
+                                            <div className="name">{prename} {lastname}</div>
+                                            <div className='popup-infor' style={{ "paddingTop": "%5" }}><img src="assets/img/year.svg" alt='' /><span style={{ "paddingLeft": "10px" }}>{year_birthday}</span></div>
+                                            <div className='popup-infor'><img src="assets/img/location.svg" alt='' /><span style={{ "paddingLeft": "10px" }}>{postal_code} {city} {country ? ',' + country : ''}</span></div>
 
                                             <div class="rating"><RatingStar user_id={item.user.user_id} /></div>
 
@@ -199,7 +208,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                                                     <button disabled={isWatchlist} type="button" className="btn btn-primary btn-sm button-search" onClick={() => { blockwatclist() }}><span className='profile-search'>{t('t_dont_show_again').toUpperCase()}</span></button>
                                                     <button disabled={isWatchlist} type="primary" className="btn btn-primary btn-sm button-search" onClick={() => { addwatclist() }}><span className='profile-search'>{t('t_add_to_watchlist').toUpperCase()}</span></button>
                                                     <button type="button" className="btn btn-primary btn-sm button-search" onClick={() => { toggleTab('credits') }}><span className='profile-search'>send E-Mail ? check Credit?</span></button>
-													<button type="button" className="hide btn btn-primary btn-sm button-search" onClick={() => { toggleTab('credits') }}><span className='profile-search'>{t('t_get_lead_for_x_credit').toUpperCase()}</span></button>
+                                                    <button type="button" className="hide btn btn-primary btn-sm button-search" onClick={() => { toggleTab('credits') }}><span className='profile-search'>{t('t_get_lead_for_x_credit').toUpperCase()}</span></button>
                                                 </div>
                                             }
 
@@ -262,29 +271,29 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                                             </div>
                                             <div className="row" style={{ "paddingTop": "2%" }}>
                                                 <div className="row">
-													<div className="col-md-4 gray">
-                                                    	<span>{t('t_place_of_residence')}</span><br />
-                                                    	<span>{t('t_language_knowledge')}</span><br />
-                                                    	{
-                                                        	item.languages !== null ? renderlang(item.languages) : ''
-                                                    	}
-                                                    	{rendereducational_stageskey(item.educational_stages)}
-                                                    	<span>{t("t_driver_s_license")}</span><br />
-                                                    	<span>{t('t_passenger_transport')}</span><br />
-                                                    	<span>{t('t_hobbies')}</span><br />
-                                                	</div>
-                                                	<div className="col-md-8 bold">
-                                                    	<span>{item.address[0].house_number} {item.address[0].street} {item.address[0].state} {item.address[0].city}{item.address[0].country ? ', ' + item.address[0].country : ''}</span><br /><br />
-                                                    	{
-                                                        	item.languages !== null ? rendervalue(item.languages) : ''
-                                                    	}
-                                                    	{rendereducational_stagesvalue(item.educational_stages)}
-                                                    	<span>{renderdriver_licenses(item.driver_licenses)}</span><br />
-                                                    	<span>{item.user.passenger_transport === 0 ? t('that_s_obvious') : t('people_what')}</span><br />
-                                                    	<span>{hobbies}</span>
-                                                	</div>
-                                            	</div>
-											</div>
+                                                    <div className="col-md-4 gray">
+                                                        <span>{t('t_place_of_residence')}</span><br />
+                                                        <span>{t('t_language_knowledge')}</span><br />
+                                                        {
+                                                            item.languages !== null ? renderlang(item.languages) : ''
+                                                        }
+                                                        {rendereducational_stageskey(item.educational_stages)}
+                                                        <span>{t("t_driver_s_license")}</span><br />
+                                                        <span>{t('t_passenger_transport')}</span><br />
+                                                        <span>{t('t_hobbies')}</span><br />
+                                                    </div>
+                                                    <div className="col-md-8 bold">
+                                                        <span>{item.address[0].house_number} {item.address[0].street} {item.address[0].state} {item.address[0].city}{item.address[0].country ? ', ' + item.address[0].country : ''}</span><br /><br />
+                                                        {
+                                                            item.languages !== null ? rendervalue(item.languages) : ''
+                                                        }
+                                                        {rendereducational_stagesvalue(item.educational_stages)}
+                                                        <span>{renderdriver_licenses(item.driver_licenses)}</span><br />
+                                                        <span>{item.user.passenger_transport === 0 ? t('that_s_obvious') : t('people_what')}</span><br />
+                                                        <span>{hobbies}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </SwiperSlide>

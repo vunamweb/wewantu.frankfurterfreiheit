@@ -1,10 +1,18 @@
 import { Avatar } from 'antd';
 import React, { useState, useEffect } from 'react';
 import RatingStar from './RatingStar';
-import {t} from "i18next";
+import { t } from "i18next";
+import config from '../../../config';
 
-function UserItem({info, index, handleDTClick, handleWLClick, watchlisted}) {
-    
+function UserItem({ info, index, handleDTClick, handleWLClick, watchlisted }) {
+    const fieldsHide = config.USER_FIELD_HIDE;
+    const prename = fieldsHide.includes("prename")?"*****":info.user.prename;
+    const lastname = fieldsHide.includes("lastname")?"*****":info.user.lastname;
+    const city = fieldsHide.includes("city")?"*****":info.address[0].city;
+    const postal_code = fieldsHide.includes("postal_code")?"*****":info.address[0].postal_code;
+    const country = fieldsHide.includes("country")?"*****":info.address[0].country;
+    const year_birthday = fieldsHide.includes("year_birthday")?"*****":info.address[0].year_birthday;
+
     return (
         <>
             <div className='col-md-3'>
@@ -21,9 +29,16 @@ function UserItem({info, index, handleDTClick, handleWLClick, watchlisted}) {
                     </div>
                     <div className="row">
                         <div className='col-12'>
-                            <div className="gold name1"><h4>{info.user.prename} {info.user.lastname}</h4></div>
-                            <div class="loc"><img src="assets/img/location.svg" alt='' /> {info.address[0].postal_code} {info.address[0].city} {info.address[0].country === null ? '' : ',' + info.address[0].country}</div>
-                            <div class="loc"><img src="assets/img/year.svg" alt='' />{info.address[0].year_birthday}</div>
+                            {fieldsHide.includes("prename")}
+                            <div className="gold name1"><h4>{prename} {lastname}</h4></div>
+                            <div class="loc">
+                                <img src="assets/img/location.svg" alt='' />
+                                {postal_code} {city}
+                                {country === null ? '' : ',' + country}
+                            </div>
+                            <div class="loc"><img src="assets/img/year.svg" alt='' />
+                                {year_birthday}
+                            </div>
                             <RatingStar user_id={info.user.user_id} />
                         </div>
                     </div>

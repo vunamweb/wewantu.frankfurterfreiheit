@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Input, FormFeedback, InputGroup } from 'reactstrap';
-import { Button, Select } from "antd";
+import { Button, Modal, Select } from "antd";
 import { Link, UNSAFE_LocationContext } from "react-router-dom";
 import { Field, FieldArray, Formik, useFormik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { APIClient } from '../../../helpers/apiClient';
 import { getAllUser, getLoggedInUser, setAllUser } from '../../../helpers/authUtils';
 import { toast } from 'react-toastify';
+import CompanyVCard from '../Component/CompanyVCard';
 
 const UserAdministration = (props) => {
 
@@ -19,6 +20,8 @@ const UserAdministration = (props) => {
     const { t, i18n } = useTranslation();
     const [rowStatus, setRowStatus] = useState({});
     const [userData, setUserData] = useState([]);
+    const [isOpenVCard,setIsOpenVCard] = useState(false);
+    const [userForEdit,setUserForEdit] = useState(null);
 
     const admin = getLoggedInUser()[0];
 
@@ -46,6 +49,12 @@ const UserAdministration = (props) => {
         usersUpd[index].isReadonly = (edit ? false : true);
         setUserData(usersUpd);
     }
+
+    const handleOpenCompanyVCard = (index, edit) => {
+        setUserForEdit(userData[index]);
+        setIsOpenVCard(true);
+    }
+
 
     const handleUpdateUser = (values, index) => {
         const dataPut = {
@@ -136,7 +145,7 @@ const UserAdministration = (props) => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="col-md-5 useradmin-right">
+                                            <div className="col-md-4 useradmin-right">
                                                 <div className='row line1'>
                                                     <div className="col-md-6">
                                                         <div className="row">
@@ -189,8 +198,9 @@ const UserAdministration = (props) => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className='col-md-1 useradmin-right'>
-                                                {(user.isReadonly) && <Link href="#" onClick={() => { handleEditUser(index, true); }}><img src={`${process.env.PUBLIC_URL}/img/edit.svg`} alt="EDIT" /></Link>}
+                                            <div className='col-md-2 useradmin-right'>
+                                                {(user.isReadonly) && <><button type='button' className='btn btn-sm btn-primary' onClick={() => { handleEditUser(index, true); }}><img src={`${process.env.PUBLIC_URL}/img/edit.svg`} alt="EDIT" /></button></>}
+                                                {(user.userType==1) && <button type='button' className='btn-primary btn-sm btn ml-5' onClick={() => { handleOpenCompanyVCard(index, true); }}>Edit V-Card</button>}
                                                 {(!user.isReadonly) && <button type='submit' className='btn btn-primary btn-sm form-control'>{t("t_save").toUpperCase()}</button>}
                                                 {(!user.isReadonly) && <button type='button' onClick={() => { handleEditUser(index, false) }} className='btn btn-danger btn-sm form-control'>{t("t_cancel").toUpperCase()}</button>}
                                             </div>
@@ -200,9 +210,10 @@ const UserAdministration = (props) => {
                             </div>
                         ))}
                     </div>
-
-
                 </div>
+                <Modal open={isOpenVCard} width={1000} onOk={() => {setIsOpenVCard(false)}} onCancel={()=> setIsOpenVCard(false)}>
+                    {(userForEdit != null) && <CompanyVCard user={userForEdit} />}
+                </Modal>
             </div>
         </React.Fragment>
     );
