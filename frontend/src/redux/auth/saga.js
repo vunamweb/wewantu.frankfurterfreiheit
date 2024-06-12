@@ -45,31 +45,36 @@ function* login({ payload: { username, password, history } }) {
         //yield call(fireBaseBackend.G, username, password);
         const response_auth = yield call(new APIClient().auth, 'login', { username: username, password: password });
         if (response_auth) {
-            // get instace of firebase
             const fireBaseBackend = getFirebaseBackend();
+            const message = fireBaseBackend.getMessaging();
 
             try {
-                //const messaging = fireBaseBackend.getMessaging();
+                Notification.requestPermission().then((permission) => {
+                    if (permission === 'granted') {
+                        console.log('Notification permission granted.');
+                        // Get the token
+                        message.getToken({ vapidKey: vapidKey })
+                        .then(function (token) {
+                            console.log(token);
 
-                fireBaseBackend.getMessaging().getToken({ vapidKey: vapidKey })
-                    .then(function (token) {
-                        console.log(token);
-
-                        const dataput = { user_id: response_auth.user_id, firebase_token_web: token };
-                        new APIClient().put(config.API_URL + "user", dataput).then(res => {
-                            console.log('success');
-                        });
-
-                        fireBaseBackend.getMessaging().onMessage((payload) => {
-                            console.log('Message received. ', payload);
-                            // Show notification using the Notification API
-                            new Notification(payload.notification.title, {
-                                body: payload.notification.body,
-                                icon: payload.notification.icon,
+                            message.onMessage((payload) => {
+                                console.log('Message received. ', payload);
+                                // Show notification using the Notification API
+                                new Notification(payload.notification.title, {
+                                    body: payload.notification.body,
+                                    icon: payload.notification.icon,
+                                });
                             });
-                        });
 
-                    })
+                            const dataput = { user_id: response_auth.user_id, firebase_token_web: token };
+                            new APIClient().put(config.API_URL + "user", dataput).then(res => {
+                                console.log('success');
+                            });
+                        })
+                    } else {
+                        console.log('Unable to get permission to notify.');
+                      }
+                })
             } catch (error) {
                 console.log(error);
             }
