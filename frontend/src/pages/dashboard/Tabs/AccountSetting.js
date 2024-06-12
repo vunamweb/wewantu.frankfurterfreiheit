@@ -108,6 +108,7 @@ const UserAccount = (props) => {
             let adminUpd = { ...admin };
             adminUpd.prename = values.prename;
             adminUpd.lastname = values.lastname;
+            adminUpd.profilePicture = profilePicture;
             setLoggedInUser([adminUpd]);
 
             toast.success(t("t_success"));
@@ -233,7 +234,7 @@ const UserAccount = (props) => {
                                                 </li>
                                             }
                                             {
-                                                (admin.userType == 0 || admin.userType == 1) &&
+                                                (admin.userType == 1) &&
                                                 <li className="nav-item">
                                                     <Link className={`nav-link ${activeTab === 'tab3' ? 'active' : ''}`} onClick={() => handleTabChange('tab3')} href="#">{t("t_company_vcard").toUpperCase()}</Link>
                                                 </li>

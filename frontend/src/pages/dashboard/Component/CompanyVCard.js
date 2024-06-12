@@ -23,7 +23,9 @@ function CompanyVCard(props) {
     
 
     useEffect(() => {
+        let vCard = null;
         if (admin.company_v_card) {
+            vCard = JSON.parse(admin.company_v_card);
             setData(JSON.parse(admin.company_v_card));
         }
         else {
@@ -48,13 +50,13 @@ function CompanyVCard(props) {
                 avatar: ""
             });
         }
-        if (data.avatar) {
-            setAvatar(data.avatar);
+        if (vCard.avatar) {
+            setAvatar(vCard.avatar);
         }
         else {
             setAvatar(process.env.PUBLIC_URL + "/img/avatar.png");
         }
-    }, [admin]);
+    }, [props.user]);
 
     const uploadButton = () => {
         return (
@@ -93,6 +95,7 @@ function CompanyVCard(props) {
 
     const handleSubmitForm = (values) => {
         // console.log(JSON.stringify(values));
+        values.avatar = avatar;
         const dataput = { user_id: admin.user_id, company_v_card: JSON.stringify(values) };
         new APIClient().put(config.API_URL + "user", dataput).then(res => {
             if (!props.user){

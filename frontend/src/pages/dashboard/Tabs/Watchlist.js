@@ -98,13 +98,13 @@ function Watchlist(props) {
 
 	useEffect(() => {
 		if (props.activeTab === 'watchlist') {
-			new APIClient().get('user/' + admin.user_id + '/user_watchlist').then(res => {				
+			new APIClient().get('user/' + admin.user_id + '/user_watchlist').then(res => {
 				if (res.length > 0) {
 					let noteupd = new Object();
 					res.forEach(element => {
 						noteupd[element.user_add_id] = element.note;
 					});
-					setNotes(noteupd);					
+					setNotes(noteupd);
 					setwatchlistData(res)
 					setwatchListFilter(res);
 				}
@@ -465,103 +465,103 @@ function Watchlist(props) {
 	}
 
 
-	if (watchlistData.length > 0) {
-		let filterSearch = [];
-		filterSearch = functions.getListUser(allUser, {});
+	// if (watchlistData.length > 0) {
+	let filterSearch = [];
+	filterSearch = functions.getListUser(allUser, {});
 
-		let listJobProfileMobile = props.listJobProfileMobile;
+	let listJobProfileMobile = props.listJobProfileMobile;
 
-		// console.log(filterSearch);
-		return (
-			<React.Fragment>
-				<JobSearchProfile type={1} watchListFilter={watchlistData} listJobProfileMobile={listJobProfileMobile} onSelect={onChange} categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
-				<div className="main-mes">
-					<div className="container-fluid px-0">
+	// console.log(filterSearch);
+	return (
+		<React.Fragment>
+			<JobSearchProfile type={1} watchListFilter={watchlistData} listJobProfileMobile={listJobProfileMobile} onSelect={onChange} categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
+			<div className="main-mes">
+				<div className="container-fluid px-0">
 
-						<div className="row w-title">
-							<div className="col-md"><span className="w-title-l">{t("t_watchlist").toUpperCase()}/{watchListFilter.length} {t("t_results")}</span> </div>
-							<div className="col-md">
-								<span className="w-title-r">
+					<div className="row w-title">
+						<div className="col-md"><span className="w-title-l">{t("t_watchlist").toUpperCase()}/{watchListFilter.length} {t("t_results")}</span> </div>
+						<div className="col-md">
+							<span className="w-title-r">
 
-									{(jobSearchProfile) && <span>{jobSearchProfile.job_decription}</span>}
-								</span>
+								{(jobSearchProfile) && <span>{jobSearchProfile.job_decription}</span>}
+							</span>
 
-							</div>
-						</div>
-						<div className="row">
-							<div className="col-md">
-								<nav className="navbar navbar-expand-sm navbar-light">
-									<div className="container-fluid ">
-										<Button className="navbar-toggler" type="Button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-											aria-label="Toggle navigation"> <span className="navbar-toggler-icon"></span> </Button>
-									</div>
-								</nav>
-							</div>
 						</div>
 					</div>
-					{
-						(watchListFilter.length > 0) ?
-							<div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{ position: 'relative', height: '600px' }}>
-								<form>
-									<div className="row w-checkall">
-										{/* <div className="col-md-7">
+					<div className="row">
+						<div className="col-md">
+							<nav className="navbar navbar-expand-sm navbar-light">
+								<div className="container-fluid ">
+									<Button className="navbar-toggler" type="Button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+										aria-label="Toggle navigation"> <span className="navbar-toggler-icon"></span> </Button>
+								</div>
+							</nav>
+						</div>
+					</div>
+				</div>
+				{
+					(watchListFilter.length > 0) ?
+						<div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{ position: 'relative', height: '600px' }}>
+							<form>
+								<div className="row w-checkall">
+									{/* <div className="col-md-7">
 											<Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>
 												{t("t_check_all")}
 											</Checkbox>
 										</div> */}
-										<div className="col-md-2">
-											<button className="btn btn-primary form-control btn-sm" onClick={(e) => exportPDF(null)}>{t("t_export_pdf")}</button>
-										</div>
-										{/* <div className="col-md-3">
+									<div className="col-md-2">
+										<button className="btn btn-primary form-control btn-sm" onClick={(e) => exportPDF(null)}>{t("t_export_pdf")}</button>
+									</div>
+									{/* <div className="col-md-3">
 											<button className="btn btn-primary form-control btn-sm" onClick={(e) => handleSendMessageAll()}>{t("t_send_message_all").toUpperCase()}</button>
 										</div> */}
-									</div>
-								</form>
-								<CheckboxGroup value={checkedList} onChange={onChangecheckbox} className='row'>
-									<table className="table">
-										<tbody className='table-watchlist'>
-											{watchListFilter.map((info, index) => {
-												console.log(notes[info.user_add_id]);
-												if (info.type == 1)
-													return (
-														<tr>
-															<td data-checkbox="true"></td>
-															<td>
-																<div className="info_watchlist">
-																	<div className="row">
-																		{renderUserinfo(info, index)}
+								</div>
+							</form>
+							<CheckboxGroup value={checkedList} onChange={onChangecheckbox} className='row'>
+								<table className="table">
+									<tbody className='table-watchlist'>
+										{watchListFilter.map((info, index) => {
+											console.log(notes[info.user_add_id]);
+											if (info.type == 1)
+												return (
+													<tr>
+														<td data-checkbox="true"></td>
+														<td>
+															<div className="info_watchlist">
+																<div className="row">
+																	{renderUserinfo(info, index)}
 
-																		<div className="col-md-4">
-																			<TextArea name='note' value={notes[info.user_add_id]} onBlur={() => saveNote(info.user_watchlist_id, info.user_add_id)} onChange={updateNotes(info.user_add_id)} cols={10} rows={10} placeholder='Write a note' />
-																		</div>
-																		<div className="col-md-2">
-																			<button class="btn btn-primary form-control btn-sm" type="submit" data-bs-toggle="modal" onClick={(e) => handleDTClick(info)} data-bs-target="#idDeitals">{t("t_details").toUpperCase()}</button>
-																			<button class="btn btn-primary form-control btn-sm" data-bs-toggle="modal" onClick={(e) => handleSendMessage(info, "message")} data-bs-target="#idWatchList">{t("t_send_message").toUpperCase()}</button>
-																			<button class="btn btn-primary form-control btn-sm" data-bs-toggle="modal" onClick={(e) => handleSendMessage(info, "mail")} >{t("t_send_mail").toUpperCase()}</button>
-																			<button class="btn btn-primary form-control btn-sm" onClick={(e) => ondeleteWL(info, index)}>{t("t_delete").toUpperCase()}</button>
-																		</div>
+																	<div className="col-md-4">
+																		<TextArea name='note' value={notes[info.user_add_id]} onBlur={() => saveNote(info.user_watchlist_id, info.user_add_id)} onChange={updateNotes(info.user_add_id)} cols={10} rows={10} placeholder='Write a note' />
 																	</div>
-
+																	<div className="col-md-2">
+																		<button class="btn btn-primary form-control btn-sm" type="submit" data-bs-toggle="modal" onClick={(e) => handleDTClick(info)} data-bs-target="#idDeitals">{t("t_details").toUpperCase()}</button>
+																		<button class="btn btn-primary form-control btn-sm" data-bs-toggle="modal" onClick={(e) => handleSendMessage(info, "message")} data-bs-target="#idWatchList">{t("t_send_message").toUpperCase()}</button>
+																		<button class="btn btn-primary form-control btn-sm" data-bs-toggle="modal" onClick={(e) => handleSendMessage(info, "mail")} >{t("t_send_mail").toUpperCase()}</button>
+																		<button class="btn btn-primary form-control btn-sm" onClick={(e) => ondeleteWL(info, index)}>{t("t_delete").toUpperCase()}</button>
+																	</div>
 																</div>
-															</td>
-														</tr>
-													)
-											})}
-										</tbody>
-									</table>
-								</CheckboxGroup>
-							</div>
-							: null
-					}
-				</div>
-				<UserDetail user={currentUser} isModalOpen={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />
-				{Object.keys(currentUserSendMessage).length > 0 && (<WatchListSendMessageModal type="message" currentUser={currentUserSendMessage} JsonData={null} isModalOpen={isModalOpenSendMessage} handleCancel={handleCancelSendMessage} />)}
-				{Object.keys(currentUserSendMail).length > 0 && (<WatchListSendMessageModal type="mail" currentUser={currentUserSendMail} JsonData={null} isModalOpen={isModalOpenSendMail} handleCancel={handleCancelSendMail} />)}
-				{checkedListUsers.length > 0 && (<WatchListSendMessageAllModal listUser={checkedListUsers} JsonData={null} isModalOpen={isModalOpenSendMessageAll} handleCancel={handleCancelSendMessageAll} />)}
-			</React.Fragment>
-		);
-	}
-	return (<div className="loader"></div>)
+
+															</div>
+														</td>
+													</tr>
+												)
+										})}
+									</tbody>
+								</table>
+							</CheckboxGroup>
+						</div>
+						: null
+				}
+			</div>
+			<UserDetail user={currentUser} isModalOpen={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />
+			{Object.keys(currentUserSendMessage).length > 0 && (<WatchListSendMessageModal type="message" currentUser={currentUserSendMessage} JsonData={null} isModalOpen={isModalOpenSendMessage} handleCancel={handleCancelSendMessage} />)}
+			{Object.keys(currentUserSendMail).length > 0 && (<WatchListSendMessageModal type="mail" currentUser={currentUserSendMail} JsonData={null} isModalOpen={isModalOpenSendMail} handleCancel={handleCancelSendMail} />)}
+			{checkedListUsers.length > 0 && (<WatchListSendMessageAllModal listUser={checkedListUsers} JsonData={null} isModalOpen={isModalOpenSendMessageAll} handleCancel={handleCancelSendMessageAll} />)}
+		</React.Fragment>
+	);
+	// }
+	// return (<div className="loader"></div>)
 
 }
 

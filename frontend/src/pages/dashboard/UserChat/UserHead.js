@@ -19,7 +19,7 @@ function UserHead(props) {
 
     const openUserSidebar = (e) => {
         e.preventDefault();
-        props.openUserSidebar();
+        // props.openUserSidebar();
     }
 
     function closeUserChat(e) {
@@ -30,8 +30,7 @@ function UserHead(props) {
         }
     }
 
-    
-
+    if (props.users.length>0)
     return (
         <React.Fragment>
             <div className="p-3 p-lg-4 border-bottom user-chat-topbar">
@@ -99,72 +98,6 @@ function UserHead(props) {
                     
                 </Row>
             </div>
-
-            {/* Start Audiocall Modal */}
-            <Modal tabIndex="-1" isOpen={Callmodal} toggle={toggleCallModal} centered>
-                <ModalBody>
-                    <div className="text-center p-4">
-                        <div className="avatar-lg mx-auto mb-4">
-                            <img src={user} alt="" className="img-thumbnail rounded-circle" />
-                        </div>
-
-                        <h5 className="text-truncate">Doris Brown</h5>
-                        <p className="text-muted">Start Audio Call</p>
-
-                        <div className="mt-5">
-                            <ul className="list-inline mb-1">
-                                <li className="list-inline-item px-2 me-2 ms-0">
-                                    <button type="button" className="btn btn-danger avatar-sm rounded-circle" onClick={toggleCallModal}>
-                                        <span className="avatar-title bg-transparent font-size-20">
-                                            <i className="ri-close-fill"></i>
-                                        </span>
-                                    </button>
-                                </li>
-                                <li className="list-inline-item px-2">
-                                    <button type="button" className="btn btn-success avatar-sm rounded-circle">
-                                        <span className="avatar-title bg-transparent font-size-20">
-                                            <i className="ri-phone-fill"></i>
-                                        </span>
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </ModalBody>
-            </Modal>
-
-            {/* Start VideoCall Modal */}
-            <Modal tabIndex="-1" isOpen={Videomodal} toggle={toggleVideoModal} centered>
-                <ModalBody>
-                    <div className="text-center p-4">
-                        <div className="avatar-lg mx-auto mb-4">
-                            <img src={user} alt="" className="img-thumbnail rounded-circle" />
-                        </div>
-
-                        <h5 className="text-truncate">Doris Brown</h5>
-                        <p className="text-muted">Start Video Call</p>
-
-                        <div className="mt-5">
-                            <ul className="list-inline mb-1">
-                                <li className="list-inline-item px-2 me-2 ms-0">
-                                    <button type="button" className="btn btn-danger avatar-sm rounded-circle" onClick={toggleVideoModal}>
-                                        <span className="avatar-title bg-transparent font-size-20">
-                                            <i className="ri-close-fill"></i>
-                                        </span>
-                                    </button>
-                                </li>
-                                <li className="list-inline-item px-2">
-                                    <button type="button" className="btn btn-success avatar-sm rounded-circle">
-                                        <span className="avatar-title bg-transparent font-size-20">
-                                            <i className="ri-vidicon-fill"></i>
-                                        </span>
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </ModalBody>
-            </Modal>
         </React.Fragment>
     );
 }

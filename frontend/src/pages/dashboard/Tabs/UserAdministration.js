@@ -10,6 +10,7 @@ import { APIClient } from '../../../helpers/apiClient';
 import { getAllUser, getLoggedInUser, setAllUser } from '../../../helpers/authUtils';
 import { toast } from 'react-toastify';
 import CompanyVCard from '../Component/CompanyVCard';
+import config from '../../../config';
 
 const UserAdministration = (props) => {
 
@@ -38,6 +39,12 @@ const UserAdministration = (props) => {
                 user.use_lead = (user.use_lead? true : false);
                 user.password = "";
                 user.isReadonly = true;
+                if (user.profilePicture){
+                    user.profilePicture = config.API_BASE_URL + "/" + user.profilePicture;
+                }
+                else{
+                    user.profilePicture = process.env.PUBLIC_URL+ "/img/avatar.png";
+                }
             });
             setUserData(usersMap);
         }
@@ -114,7 +121,7 @@ const UserAdministration = (props) => {
 
                                                 <div className="row line1">
                                                     <div className="col-md-2">
-                                                        <img src={`${process.env.PUBLIC_URL}/img/avatar.png`} className="avatar" alt="avatar" /> <br />
+                                                        <img src={user.profilePicture} className="avatar" alt="avatar" /> <br />
                                                     </div>
                                                     <div className="col-md-5">
                                                         <Field

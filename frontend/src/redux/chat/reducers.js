@@ -107,7 +107,7 @@ const INIT_STATE = {
         { id : 18, name : "Simon Velez" },
         { id : 19, name : "Steve Walker" },
         { id : 20, name : "Hanah Mile" },
-    ]
+    ],
 };
 
 const Chat = (state = INIT_STATE, action) => {

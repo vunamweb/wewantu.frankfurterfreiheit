@@ -17,7 +17,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
     // const job_search_profile = job_search_profile
     const currentUser = user;
     const currentIndex = index;
-
+    const [hasPayment, setHasPayment] = useState(true);
     const language = useSelector(state => state.Layout.language);
 
     const admin = getLoggedInUser()[0];
@@ -60,8 +60,8 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
     useEffect(() => {
         if (currentUser && currentUser.user) {
             new APIClient().get('user/' + admin.user_id + '/user_template').then(res => {
-                if (res.length>0) {
-                    let tmp = currentUser.user.prename + ' ' + currentUser.user.lastname + ',\r' + res[0].description;
+                if (res.length > 0) {
+                    let tmp = currentUser.user.prename + ' ' + currentUser.user.lastname ; //+ ',\r' + res[0].description;
                     form2.setFieldsValue({
                         message: tmp,
                         job_search_profile_id: currentUser.job_search_profile_id,
@@ -70,6 +70,17 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                 }
             });
         }
+        if (admin.userType != 0)
+            new APIClient().get('user/' + admin.user_id + '/user_payment').then(res => {
+                if (res.length > 0) {
+                    let user_payment_list = res.filter((payment) => { return payment.user_id_payment == user.user_id && payment.type == "message" });
+                    if (user_payment_list.length > 0) {
+                        setHasPayment(true);
+                    }
+                } else {
+                    setHasPayment(false);
+                }
+            })
 
     }, [currentUser, isModalOpen])
 
@@ -134,7 +145,11 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
 
     const renderlang = (lang) => {
         return typeof lang !== 'undefined' && lang.map(val => {
-            return (<><span>{val.language.language}</span><br /></>)
+            let lang = val.language.language;
+            if (language == "de"){
+                lang = val.language.de;
+            }
+            return (<><span>{lang}</span><br /></>)
         })
     };
 
@@ -171,12 +186,13 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                             let hobbiesList, hobbies = '';
 
                             let fieldsHide = config.USER_FIELD_HIDE;
-                            let prename = fieldsHide.includes("prename") ? "*****" : item.user.prename;
-                            let lastname = fieldsHide.includes("lastname") ? "*****" : item.user.lastname;
-                            let city = fieldsHide.includes("city") ? "*****" : item.address[0].city;
-                            let postal_code = fieldsHide.includes("postal_code") ? "*****" : item.address[0].postal_code;
-                            let country = fieldsHide.includes("country") ? "*****" : item.address[0].country;
-                            let year_birthday = fieldsHide.includes("year_birthday") ? "*****" : item.address[0].year_birthday;
+        
+                            let prename = (!hasPayment && fieldsHide.includes("prename")) ? "*****" : item.user.prename;
+                            let lastname = (!hasPayment && fieldsHide.includes("lastname")) ? "*****" : item.user.lastname;
+                            let city = (!hasPayment && fieldsHide.includes("city")) ? "*****" : item.address[0].city;
+                            let postal_code = (!hasPayment && fieldsHide.includes("postal_code")) ? "*****" : item.address[0].postal_code;
+                            let country = (!hasPayment && fieldsHide.includes("country")) ? "*****" : item.address[0].country;
+                            let year_birthday = (!hasPayment && fieldsHide.includes("year_birthday")) ? "*****" : item.address[0].year_birthday;
 
                             try {
                                 hobbiesList = item.user.hobbies;
@@ -274,16 +290,17 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                                                     <div className="col-md-4 gray">
                                                         <span>{t('t_place_of_residence')}</span><br />
                                                         <span>{t('t_language_knowledge')}</span><br />
-                                                        {
-                                                            item.languages !== null ? renderlang(item.languages) : ''
-                                                        }
+                                                        
                                                         {rendereducational_stageskey(item.educational_stages)}
                                                         <span>{t("t_driver_s_license")}</span><br />
                                                         <span>{t('t_passenger_transport')}</span><br />
                                                         <span>{t('t_hobbies')}</span><br />
                                                     </div>
                                                     <div className="col-md-8 bold">
-                                                        <span>{item.address[0].house_number} {item.address[0].street} {item.address[0].state} {item.address[0].city}{item.address[0].country ? ', ' + item.address[0].country : ''}</span><br /><br />
+                                                        <span>{item.address[0].house_number} {item.address[0].street} {item.address[0].state} {item.address[0].city}{item.address[0].country ? ', ' + item.address[0].country : ''}</span><br />
+                                                        {
+                                                            item.languages !== null ? renderlang(item.languages) : ''
+                                                        }
                                                         {
                                                             item.languages !== null ? rendervalue(item.languages) : ''
                                                         }

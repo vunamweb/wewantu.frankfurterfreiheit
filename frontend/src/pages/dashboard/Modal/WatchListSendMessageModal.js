@@ -161,7 +161,7 @@ function WatchListSendMessageModal(props) {
                 })
             new APIClient().get('user/' + admin.user_id + '/user_template').then(res => {
                 if (res.length > 0) {
-                    let tmp = user.prename + ' ' + user.lastname + ',\r' + res[0].description;
+                    let tmp = user.prename + ' ' + user.lastname ;// + ',\r' + res[0].description;
                     form2.setFieldsValue({
                         message: tmp,
                         job_search_profile_id: user.job_search_profile_id,

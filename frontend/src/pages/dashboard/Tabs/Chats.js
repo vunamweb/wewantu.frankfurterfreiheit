@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import SimpleBar from "simplebar-react";
 
 //actions
-import { setconversationNameInOpenChat, activeUser } from "../../../redux/actions";
+import { setconversationNameInOpenChat, activeUser, setFullUser } from "../../../redux/actions";
 import functions from '../../../function/function';
 import { getAllUser, getLoggedInUser, getjob_search_profiles_all } from '../../../helpers/authUtils';
 import { APIClient } from '../../../helpers/apiClient';
@@ -40,8 +40,10 @@ class Chats extends Component {
 
         let payments = await new APIClient().get('user/' + admin.user_id + '/user_payment');
         const user_id_payment = payments.map(p => p.user_id_payment);
-        const chatListFilter = this.state.chatList.filter((c) => user_id_payment.includes(c.user_id));
+        const chatListFilter = this.state.chatList.filter((c) => (user_id_payment.includes(c.user_id) || admin.userType == 0 ));
         this.setState({chatList:chatListFilter,recentChatList: chatListFilter});
+
+        this.props.setFullUser(chatListFilter);
 
         let companylist = await new APIClient().get('companylist');
         let addresslist = await new APIClient().get('addresslist');
@@ -260,6 +262,7 @@ class Chats extends Component {
             unread.style.display = "none";
         }
     }
+
     searchUser(item) {
         // const listJobProfileMobile = getjob_search_profiles_all();
         const searchResult = functions.getListUser(this.state.searchJob, item);
@@ -369,9 +372,6 @@ class Chats extends Component {
                                                                             }
                                                                         </>
                                                                 }
-
-
-
                                                             </p>
                                                         </div>
                                                         <div className="font-size-11">{chat.messages && chat.messages.length > 0 ? chat.messages[(chat.messages).length - 1].time : null}</div>
@@ -403,4 +403,4 @@ const mapStateToProps = (state) => {
     return { active_user };
 };
 
-export default connect(mapStateToProps, { setconversationNameInOpenChat, activeUser })(Chats);
+export default connect(mapStateToProps, { setconversationNameInOpenChat, activeUser, setFullUser })(Chats);
