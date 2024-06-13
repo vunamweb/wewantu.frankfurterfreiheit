@@ -50,7 +50,7 @@ function CompanyVCard(props) {
                 avatar: ""
             });
         }
-        if (vCard.avatar) {
+        if (vCard!= null && vCard.avatar) {
             setAvatar(vCard.avatar);
         }
         else {
