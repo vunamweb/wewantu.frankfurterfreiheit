@@ -16,6 +16,7 @@ class Index extends Component {
 
         this.state = {
             messages_count:0,
+            credit_amount:0,
             loading: false,
             users: [],
             limit: 5,
@@ -44,6 +45,8 @@ class Index extends Component {
         this.onListenForMessages();
 
         const admin = getLoggedInUser()[0];
+        this.setState({credit_amount:admin.credits});
+
         const resp = ref(getDatabase(), 'messages/');
         const getSnapshotChildren = (snapshot) => {
             const children = [];
@@ -202,7 +205,7 @@ class Index extends Component {
                                 <div className="row g-0">
                                     <div className="col-md-8 werist-l"></div>
                                     <div className="col-md-3 werist  center-block text-center">
-                                        <div className="title">{curUser.credits} {t('t_credits').toUpperCase()}</div>
+                                        <div className="title">{this.state.credit_amount} {t('t_credits').toUpperCase()}</div>
                                     </div>
                                     <div className="col-md werist-r"></div>
                                 </div>
@@ -226,6 +229,7 @@ class Index extends Component {
 
 const mapStateToProps = (state) => {
     const { users } = state.Chat;
+    const { user } = state.Auth;
     return { users };
 };
 
