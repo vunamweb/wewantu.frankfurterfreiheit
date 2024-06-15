@@ -11,7 +11,8 @@ import {
     REDIRECT_TO_LOGIN,
     REGISTER_VALIDATE,
     REGISTER_INVALID,
-    REGISTER_VALID
+    REGISTER_VALID,
+    UPDATE_CREDITS
 } from './constants';
 
 export const loginUser = (username, password, history) => ({
@@ -79,4 +80,9 @@ export const registerInvalid = (error) => ({
 export const registerValid = () => ({
     type: REGISTER_VALID,
     payload: {}
+})
+
+export const updateCredits = (user) => ({
+    type: UPDATE_CREDITS,
+    payload: user
 })

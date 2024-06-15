@@ -45,6 +45,7 @@ function ChatLeftSidebar(props) {
         if (loadlang && admin) {
             //load professions
             new APIClient().get('user').then(res => {
+                console.log(res);
                 if (res) {
                     setAllUser(res);
                 }
@@ -163,7 +164,6 @@ function ChatLeftSidebar(props) {
                         </div>
                     </div>
                 </TabPane>
-
                 <TabPane tabId="subcribe" id="pills-subcribe">
                     <Subcribe />
                 </TabPane>

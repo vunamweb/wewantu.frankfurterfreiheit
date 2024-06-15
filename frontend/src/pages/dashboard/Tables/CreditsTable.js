@@ -1,8 +1,8 @@
 import React from 'react';
 import JsonData from '../../../data/credits.json';
 
- function CreditsDisplay(){
-                    
+ function CreditsDisplay(props){
+    const handlePayment = props.onBuy;                
     const rows = [...Array( Math.ceil(JsonData.length / 5) )];    
     const productRows = rows.map( (row, idx) => JsonData.slice(idx * 5, idx * 5 + 5) ); 
     const DisplayData = productRows.map((row, idx) => (
@@ -20,7 +20,7 @@ import JsonData from '../../../data/credits.json';
                             </div>
                             <div className="row">
                                 <div className="col-md">
-                                    <button className="btn btn-primary form-control" id="addcredit-grey" type="submit">KAUFEN</button>
+                                    <button className="btn btn-primary form-control" id="addcredit-grey" type="submit" onClick={()=> handlePayment(info)}>KAUFEN</button>
                                 </div>
                             </div>
                         </div>

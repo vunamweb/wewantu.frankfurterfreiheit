@@ -13,6 +13,7 @@ import config from '../../../config';
 import UserAdministration from './UserAdministration';
 import { toast } from 'react-toastify';
 import CompanyVCard from '../Component/CompanyVCard';
+import PaymentsTable from '../Tables/PaymentsTable';
 
 const UserAccount = (props) => {
 
@@ -419,7 +420,9 @@ const UserAccount = (props) => {
                         <div className={`tab-pane ${activeTab === 'tab3' ? 'active' : ''}`}>
                             <CompanyVCard />
                         </div>
-                        <div className={`tab-pane ${activeTab === 'tab4' ? 'active' : ''}`}></div>
+                        <div className={`tab-pane ${activeTab === 'tab4' ? 'active' : ''}`}>
+                            <PaymentsTable />
+                        </div>
                         <div className={`tab-pane ${activeTab === 'tab5' ? 'active' : ''}`}></div>
                     </div>
                 </div>

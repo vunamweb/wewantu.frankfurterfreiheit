@@ -30,6 +30,16 @@ const TableBody = ({ tableName,tableData, columns,tableRowEdit ,tableRowRemove, 
 
                );
         }
+        if(tableName === 'PaymentsTable') {
+            return (
+                <tr key={data.payment_id}>
+                 {columns.map(({ accessor }) => {
+                  const tData = data[accessor] ? data[accessor] : "0";
+                  return <td key={accessor}>{tData}</td>;
+                 })}
+                </tr>
+               );
+        }
         if(tableName === 'JobsTable') {
             return (
                 <tr key={data.job_search_profile_id}>

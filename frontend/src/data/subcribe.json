@@ -3,18 +3,21 @@
       "SUBCRIBE_ID": "10001",
       "TYPE": "BASIC",
       "PRICES": "270",
+      "AMOUNT":270,
       "LEAD": "10"
     },
     {
      "SUBCRIBE_ID": "10002",
      "TYPE": "PREMIUM",
      "PRICES": "500",
+     "AMOUNT":500,
      "LEAD": "20"
     },
     {
      "SUBCRIBE_ID": "10003",
      "TYPE": "EXCLUSIV",
      "PRICES": "900",
+     "AMOUNT":900,
      "LEAD": "35"
     }
 ]
