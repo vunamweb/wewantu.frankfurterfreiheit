@@ -58,7 +58,7 @@ function* login({ payload: { username, password, history } }) {
                             console.log(token);
 
                             message.onMessage((payload) => {
-                                console.log('Message received. ', payload);
+                                console.log('Message receivedzzz. ', payload);
                                 // Show notification using the Notification API
                                 new Notification(payload.notification.title, {
                                     body: payload.notification.body,
