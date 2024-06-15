@@ -3,9 +3,12 @@ import { Form, Formik, useFormik } from "formik";
 import { useState } from "react";
 import * as Yup from 'yup';
 import { t } from "i18next"
+import { APIClient } from "../../../helpers/apiClient";
+import { getLoggedInUser } from "../../../helpers/authUtils";
+import { toast } from "react-toastify";
 
 function CreditPayment({ creditPackage, isOpen, onCloseModal }) {
-
+    const admin = getLoggedInUser()[0];
     const [message, setMessage] = useState('');
     const [openModal, setOpenModal] = useState(isOpen);
 
@@ -35,7 +38,18 @@ function CreditPayment({ creditPackage, isOpen, onCloseModal }) {
             amount: creditPackage.AMOUNT
         },
         onSubmit: (values) => {
-            console.log(values);
+            var datapost = {
+                user_id: admin.user_id,
+                price: creditPackage.PRICES,
+                credit: creditPackage.AMOUNT,
+                package: "",
+                type: 0
+            }
+            new APIClient().create("payment",datapost).then((res) => {
+                toast.success(t("t_success"));
+                //update credit for user
+                
+            });
             setOpenModal(false);
             onCloseModal();
             // handleSubmit(values);

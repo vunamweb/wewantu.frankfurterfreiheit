@@ -11,11 +11,11 @@ function PaymentsTable(props) {
     const columns = [
         { label: t('t_payment_id').toUpperCase(), accessor: "payment_id", sortable: true },
         { label: t('t_time').toUpperCase(), accessor: "created", sortable: true },
-        { label: t('t_user_pay').toUpperCase(), accessor: "user_pay", sortable: true },
-        { label: t('t_amount').toUpperCase(), accessor: "amount", sortable: false },
-        { label: t('t_credit_amount').toUpperCase(), accessor: "credit_amount", sortable: false },
-        { label: t('t_package_name').toUpperCase(), accessor: "package_name", sortable: false },
-        { label: t('t_status').toUpperCase(), accessor: "status", sortable: false },
+        { label: t('t_user_pay').toUpperCase(), accessor: "user_id", sortable: true },
+        { label: t('t_amount').toUpperCase(), accessor: "price", sortable: false },
+        { label: t('t_credit_amount').toUpperCase(), accessor: "credit", sortable: false },
+        { label: t('t_package_name').toUpperCase(), accessor: "package", sortable: false },
+        // { label: t('t_status').toUpperCase(), accessor: "status", sortable: false },
     ];
     const handleSorting = () => {
 
@@ -27,9 +27,13 @@ function PaymentsTable(props) {
 
     //get payment list buy user
     useEffect(()=>{
-        new APIClient().get("payments/"+admin.user_id).then((res) => {
+        new APIClient().get("payments").then((res) => {
+            // console.log(res);
             if (res.length>0){
-                setTableData([]);
+                setTableData(res);
+            }
+            else{
+                setTableData([res]);
             }
         });
         
