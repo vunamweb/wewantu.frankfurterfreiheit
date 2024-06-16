@@ -57,14 +57,14 @@ function* login({ payload: { username, password, history } }) {
                         .then(function (token) {
                             console.log(token);
 
-                            message.onMessage((payload) => {
+                            /*message.onMessage((payload) => {
                                 console.log('Message receivedzzz. ', payload);
                                 // Show notification using the Notification API
                                 new Notification(payload.notification.title, {
                                     body: payload.notification.body,
-                                    icon: payload.notification.icon,
+                                    //icon: payload.notification.icon,
                                 });
-                            });
+                            });*/
 
                             const dataput = { user_id: response_auth.user_id, firebase_token_web: token };
                             new APIClient().put(config.API_URL + "user", dataput).then(res => {

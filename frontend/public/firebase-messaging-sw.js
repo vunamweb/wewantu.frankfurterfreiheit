@@ -29,3 +29,22 @@ messaging.onBackgroundMessage(function(payload) {
   //return self.registration.showNotification('test', options);
 });
 
+self.addEventListener('notificationclick', function(event) {
+  event.notification.close();
+  clients.openWindow('/dashboard');
+  /*const url = event.notification.data.url || '/'; // Default to home if no URL in data
+  event.waitUntil(
+    clients.matchAll({ type: 'window' }).then(windowClients => {
+      for (let i = 0; i < windowClients.length; i++) {
+        const client = windowClients[i];
+        if (client.url === url && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(url);
+      }
+    })
+  ); */
+});
+
