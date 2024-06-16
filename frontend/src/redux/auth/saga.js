@@ -54,26 +54,50 @@ function* login({ payload: { username, password, history } }) {
                         console.log('Notification permission granted.');
                         // Get the token
                         message.getToken({ vapidKey: vapidKey })
-                        .then(function (token) {
-                            console.log(token);
+                            .then(function (token) {
+                                console.log(token);
 
-                            /*message.onMessage((payload) => {
-                                console.log('Message receivedzzz. ', payload);
-                                // Show notification using the Notification API
-                                new Notification(payload.notification.title, {
-                                    body: payload.notification.body,
-                                    //icon: payload.notification.icon,
+                                /*message.onMessage((payload) => {
+                                    console.log('Message receivedzzz. ', payload);
+                                    // Show notification using the Notification API
+                                    new Notification(payload.notification.title, {
+                                        body: payload.notification.body,
+                                        //icon: payload.notification.icon,
+                                    });
+                                });*/
+
+                                const dataput = { user_id: response_auth.user_id, firebase_token_web: token };
+                                new APIClient().put(config.API_URL + "user", dataput).then(res => {
+                                    console.log('success');
                                 });
-                            });*/
+                            }).catch(function (err) {
+                                console.log('Service worker registration failed, error:', err);
 
-                            const dataput = { user_id: response_auth.user_id, firebase_token_web: token };
-                            new APIClient().put(config.API_URL + "user", dataput).then(res => {
-                                console.log('success');
+                                // Get the token again
+                                message.getToken({ vapidKey: vapidKey })
+                                    .then(function (token) {
+                                        console.log(token);
+
+                                        /*message.onMessage((payload) => {
+                                            console.log('Message receivedzzz. ', payload);
+                                            // Show notification using the Notification API
+                                            new Notification(payload.notification.title, {
+                                                body: payload.notification.body,
+                                                //icon: payload.notification.icon,
+                                            });
+                                        });*/
+
+                                        const dataput = { user_id: response_auth.user_id, firebase_token_web: token };
+                                        new APIClient().put(config.API_URL + "user", dataput).then(res => {
+                                            console.log('success');
+                                        });
+                                    }).catch(function (err) {
+                                        console.log('Service worker registration failed, error:', err);
+                                    });
                             });
-                        })
                     } else {
                         console.log('Unable to get permission to notify.');
-                      }
+                    }
                 })
             } catch (error) {
                 console.log(error);
