@@ -15,8 +15,8 @@ class Index extends Component {
         super(props);
 
         this.state = {
-            messages_count:0,
-            credit_amount:0,
+            messages_count: 0,
+            credit_amount: 0,
             loading: false,
             users: [],
             limit: 5,
@@ -45,7 +45,7 @@ class Index extends Component {
         this.onListenForMessages();
 
         const admin = getLoggedInUser()[0];
-        this.setState({credit_amount:admin.credits});
+        this.setState({ credit_amount: admin.credits });
 
         const resp = ref(getDatabase(), 'messages/');
         const getSnapshotChildren = (snapshot) => {
@@ -165,15 +165,21 @@ class Index extends Component {
         });
 
         new APIClient().get(config.API_URL + "chat").then((res) => {
-            if (res.length>0){
+            if (res.length > 0) {
                 let messages = res.filter(x => x.user_id_from == admin.user_id || x.user_id_to == admin.user_id);
-                this.setState({messages_count:messages.length});
+                this.setState({ messages_count: messages.length });
             }
         })
 
     }
 
-    
+    async componentDidUpdate(prevProps) {
+        if (this.props.user !== prevProps.user) {
+            const admin = getLoggedInUser()[0];
+            console.log(admin);
+            this.setState({ credit_amount: admin.credits });
+        }
+    }
 
     render() {
         document.title = "Dashboard | WEWANTU"
@@ -230,7 +236,7 @@ class Index extends Component {
 const mapStateToProps = (state) => {
     const { users } = state.Chat;
     const { user } = state.Auth;
-    return { users };
+    return { users,user };
 };
 
-export default connect(mapStateToProps, { openUserSidebar, setFullUser,newMessage })(Index);
+export default connect(mapStateToProps, { openUserSidebar, setFullUser, newMessage })(Index);

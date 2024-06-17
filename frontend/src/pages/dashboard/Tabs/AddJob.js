@@ -390,6 +390,4 @@ const AddJob = (props) => {
     );
 }
 
-
-
 export default AddJob;

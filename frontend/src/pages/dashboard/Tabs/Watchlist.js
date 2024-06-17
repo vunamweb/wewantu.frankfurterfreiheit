@@ -521,7 +521,6 @@ function Watchlist(props) {
 								<table className="table">
 									<tbody className='table-watchlist'>
 										{watchListFilter.map((info, index) => {
-											console.log(notes[info.user_add_id]);
 											if (info.type == 1)
 												return (
 													<tr>

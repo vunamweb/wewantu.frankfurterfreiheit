@@ -3,11 +3,13 @@ import { Form, Formik, useFormik } from "formik";
 import { useState } from "react";
 import * as Yup from 'yup';
 import { t } from "i18next"
-import { APIClient } from "../../../helpers/apiClient";
-import { getLoggedInUser } from "../../../helpers/authUtils";
+import { getLoggedInUser, setLoggedInUser } from "../../../helpers/authUtils";
 import { toast } from "react-toastify";
+import { connect } from "react-redux";
+import { updateCredits } from "../../../redux/actions";
+import { APIClient } from "../../../helpers/apiClient";
 
-function CreditPayment({ creditPackage, isOpen, onCloseModal }) {
+function CreditPayment({ creditPackage, isOpen, onCloseModal, user, updateCredits }) {
     const admin = getLoggedInUser()[0];
     const [message, setMessage] = useState('');
     const [openModal, setOpenModal] = useState(isOpen);
@@ -28,7 +30,10 @@ function CreditPayment({ creditPackage, isOpen, onCloseModal }) {
     const formik = useFormik({
         enableReinitialize: true,
         validationSchema: Yup.object({
-
+            cardNumber: Yup.string().required(t('Please enter your card number')),
+            name: Yup.string().required(t('Please enter Name')),
+            expiryDate: Yup.string().required(t('Please enter expiry Date')),
+            cvv: Yup.string().required(t('Please enter CVV'))
         }),
         initialValues: {
             cardNumber: "",
@@ -45,11 +50,18 @@ function CreditPayment({ creditPackage, isOpen, onCloseModal }) {
                 package: "",
                 type: 0
             }
-            new APIClient().create("payment",datapost).then((res) => {
+
+
+            new APIClient().create("payment", datapost).then((res) => {
                 toast.success(t("t_success"));
                 //update credit for user
-                
+                let userUpd = admin;
+                userUpd.credits = parseInt(userUpd.credits) + parseInt(creditPackage.AMOUNT);
+                setLoggedInUser([userUpd]);
+
+                updateCredits(userUpd);
             });
+
             setOpenModal(false);
             onCloseModal();
             // handleSubmit(values);
@@ -59,10 +71,10 @@ function CreditPayment({ creditPackage, isOpen, onCloseModal }) {
     return (
         <Modal className="payment-form" open={openModal}
             onCancel={() => { setOpenModal(false); onCloseModal() }}
-            footer={<button type="submit" onClick={() => formik.submitForm()} className="btn btn-primary form-control btn-sm">{"Pay $" + creditPackage.AMOUNT}</button>}
+            footer={<button type="submit" onClick={() => formik.submitForm()} className="btn btn-primary form-control btn-sm">{"Pay $" + creditPackage.PRICES}</button>}
         >
             <div className="App">
-                <h5>Payment Form</h5>
+                <h5>{t("t_payment_form")}</h5>
                 <Formik enableReinitialize={true} initialValues={formik.initialValues}>
                     <Form onSubmit={(e) => {
                         e.preventDefault();
@@ -72,10 +84,10 @@ function CreditPayment({ creditPackage, isOpen, onCloseModal }) {
                             <div className="col-md">
                                 <Input
                                     type="text"
-                                    required
+                                    required={true}
                                     name="cardNumber"
                                     className="form-control"
-                                    placeholder={"Card Number"}
+                                    placeholder={t("t_card_number")}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.cardNumber}
@@ -86,10 +98,10 @@ function CreditPayment({ creditPackage, isOpen, onCloseModal }) {
                             <div className="col-md">
                                 <Input
                                     type="text"
-                                    required
+                                    required={true}
                                     name="name"
                                     className="form-control"
-                                    placeholder={"Name"}
+                                    placeholder={t("t_name")}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.name}
@@ -100,10 +112,10 @@ function CreditPayment({ creditPackage, isOpen, onCloseModal }) {
                             <div className="col-md">
                                 <Input
                                     type="text"
-                                    required
+                                    required={true}
                                     name="expiryDate"
                                     className="form-control"
-                                    placeholder={"Expiry Date"}
+                                    placeholder={t("t_expiry_date")}
                                     maxLength={5}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
@@ -113,9 +125,10 @@ function CreditPayment({ creditPackage, isOpen, onCloseModal }) {
                             <div className="col-md">
                                 <Input
                                     type="text"
+                                    required={true}
                                     name="cvv"
                                     className="form-control"
-                                    placeholder={"CVV"}
+                                    placeholder={t("t_cvv")}
                                     maxLength={3}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
@@ -123,21 +136,20 @@ function CreditPayment({ creditPackage, isOpen, onCloseModal }) {
                                 />
                             </div>
                         </div>
-                        {/* <div className="row">
+                        <div className="row">
                             <div className="col-md">
                                 <Input
                                     type="text"
                                     name="amount"
                                     disabled
                                     className="form-control"
-                                    placeholder={"Amount"}
+                                    placeholder={t("t_credits")}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.amount}
                                 />
                             </div>
-                        </div> */}
-                        {message && <p>{message}</p>}
+                        </div>
                     </Form>
 
                 </Formik>
@@ -147,4 +159,11 @@ function CreditPayment({ creditPackage, isOpen, onCloseModal }) {
     );
 }
 
-export default CreditPayment;
+
+const mapStateToProps = (state) => {
+
+    const { user } = state.Auth;
+    return { user };
+};
+
+export default connect(mapStateToProps, { updateCredits })(CreditPayment);
