@@ -24,6 +24,7 @@ class Searchcenter extends Component {
             categoryID: 'all',
             watchlist: [],
             limit: 5,
+            countSearch: 0,
         };
     }
 
@@ -78,7 +79,17 @@ class Searchcenter extends Component {
                 filterSearch.map((item) => {
                     item.profiles = item.profiles.filter(profile => profile.job_id == this.state.searchItem.job_id);
                 });
-            }            
+            }
+            
+            // set count of search
+            try {
+                filterSearch = functions.filterFromBlockList(filterSearch);
+
+                this.state.countSearch = filterSearch.length;
+            } catch(error) {
+                console.log(error);
+            }
+            // end
             //remove block list
             /*const blockIds = this.state.watchlist.filter(w=>w.type==0).map(w => w.user_add_id);
             filterSearch = filterSearch.filter(f => !blockIds.includes(f.user.user_id));*/
@@ -108,11 +119,11 @@ class Searchcenter extends Component {
             <>
                 <React.Fragment>
                     {loading && (<div className="loader"></div>)}
-                    {(showListJob) && <JobSearchProfile watchListFilter={null} listJobProfileMobile={this.state.listJobProfileMobile} onSelect={onChange} categoryID={this.state.categoryID} onClickJobProfile={this.onClickJobProfile} />}
+                    {(showListJob) && <JobSearchProfile watchListFilter={null} listJobProfileMobile={filterSearch} onSelect={onChange} categoryID={this.state.categoryID} onClickJobProfile={this.onClickJobProfile} />}
                     <div class="main-mes">
                         <div className="main_job">
                             <div className='row g-3 title'>
-                                <div className="col-md">{t('t_search_center').toUpperCase()}{filterSearch.length > 0 ? "(" + filterSearch.length + ")" : "(" + t("t_no_data_found") + ")"}</div>
+                                <div className="col-md">{t('t_search_center').toUpperCase()}{this.state.countSearch > 0 ? "(" + this.state.countSearch + ")" : "(" + t("t_no_data_found") + ")"}</div>
                                 <div className="col-md-4 align-middle">
                                     
                                 </div>

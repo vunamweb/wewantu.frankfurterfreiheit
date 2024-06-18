@@ -51,6 +51,14 @@ function ChatLeftSidebar(props) {
                 }
             });
 
+            // load watchlist and save local
+            new APIClient().get('user/' + admin.user_id + '/user_watchlist').then(res => {
+                console.log(res);
+                if (res) {
+                    localStorage.setItem('watchlist', JSON.stringify(res));
+                }
+            });
+
             new APIClient().get('professions').then(res => {
                 if (res) {
                     //const professionsData = res.map((item) => ({

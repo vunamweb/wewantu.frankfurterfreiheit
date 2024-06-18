@@ -1,5 +1,6 @@
 import { Select } from 'antd';
 import { t } from 'i18next';
+import Watchlist from '../pages/dashboard/Tabs/Watchlist';
 
 class Functions {
     getListJobProfileCurrent = (category_id, list, callBack) => {
@@ -23,7 +24,7 @@ class Functions {
         return body;
     }
 
-    HeaderJobPfofile = (professions,onChange) => {
+    HeaderJobPfofile = (professions, onChange) => {
         let header = (<tr>
             <th>{t('t_job_id').toUpperCase()}</th>
             <th>{t('t_job_description').toUpperCase()}</th>
@@ -123,6 +124,35 @@ class Functions {
         }
 
         return filterSearch;
+    }
+
+    filterFromBlockList = (filter) => {
+        let result = [];
+
+        let watchlistLocal = localStorage.getItem('watchlist');
+        let watchlist;
+
+        let checkAdd
+
+        try {
+            watchlist = JSON.parse(watchlistLocal);
+
+            filter.map((item, index) => {
+                checkAdd = true;
+
+                watchlist.map((item1, index1) => {
+                    if (item.user.user_id == item1.user_add_id && item1.job_search_profile_id == null)
+                        checkAdd = false;
+                })
+
+                if (checkAdd)
+                    result.push(item);
+            })
+        } catch (error) {
+            console.log(error);
+        }
+
+        return result;
     }
 
     checkExistUser(jobList, user_id) {

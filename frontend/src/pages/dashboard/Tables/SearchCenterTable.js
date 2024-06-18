@@ -78,8 +78,15 @@ function SearchCenterDisplay(props) {
 
     const handleBlockClick = (id, index) => {
         blockwatclist(id)
-        //JsonData.splice(index, 1);
+        JsonData.splice(index, 1);
         setIsModalOpenDetail(false);
+
+        // update count of search
+        try {
+            props.component.setState({ countSearch: JsonData.length });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const handleHiddenClick = (id, index) => {
@@ -206,7 +213,7 @@ function SearchCenterDisplay(props) {
                     {DisplayData}
                 </div>
             </div>
-            {Object.keys(currentUser).length > 0 && (<UserDetail isWatchlist={isWatchlist[currentUser.user.user_id]}  user={currentUser} handleWLClick={handleWLClick} handleBlockClick={handleBlockClick} handleHiddenClick={handleHiddenClick} currentIndex={currentIndex} isModalOpen={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />)}
+            {Object.keys(currentUser).length > 0 && (<UserDetail isWatchlist={isWatchlist[currentUser.user.user_id]} user={currentUser} handleWLClick={handleWLClick} handleBlockClick={handleBlockClick} handleHiddenClick={handleHiddenClick} currentIndex={currentIndex} isModalOpen={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />)}
             {Object.keys(currentUser).length > 0 && (<SerchCenterWachlistModal currentUser={currentUser} JsonData={JsonData ? JsonData : null} isModalOpen={isModalOpen} handleCancel={handleCancel} />)}
         </React.Fragment>
 

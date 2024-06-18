@@ -14,7 +14,7 @@ function JobSearchProfile({ categoryID, onClickJobProfile, onSelect, listJobProf
         listJobProfileAll = [];
     }
 
-    if (listJobProfileMobile != undefined && Array.isArray(watchListFilter)) {
+    if ((listJobProfileMobile != undefined && Array.isArray(watchListFilter)) || type == undefined){
         let listJobProfileAllFinal = [];
         let userList, checkExist;
 

@@ -22,7 +22,7 @@ function Blocklist(props) {
 	const allUser = getAllUser();
 	const loadwatchlist = props.loadwatchlist;
 	const professions = getProfessions();
-	
+
 	const [loadlang, setloadlang] = useState(true);
 	const CheckboxGroup = Checkbox.Group;
 	const plainOptions = ['A', 'B', 'C'];
@@ -30,7 +30,7 @@ function Blocklist(props) {
 	const [watchlistData, setwatchlistData] = useState([]);
 	const [watchListFilter, setwatchListFilter] = useState([]);
 	const [checkedList, setCheckedList] = useState([]);
-	const [categoryID,setCategoryID] = useState("all");
+	const [categoryID, setCategoryID] = useState("all");
 	const checkAll = plainOptions.length === checkedList.length;
 	const indeterminate = checkedList.length > 0 && checkedList.length < plainOptions.length;
 	const onChangecheckbox = (list) => {
@@ -44,17 +44,23 @@ function Blocklist(props) {
 	useEffect(() => {
 
 		if (props.activeTab === 'blocklist') {
-			new APIClient().get('user/' + admin.user_id + '/user_watchlist').then(res => {
+			let watchlistLocal = localStorage.getItem('watchlist');
+			let watchlist = JSON.parse(watchlistLocal);
+
+			setwatchlistData(watchlist);
+			setwatchListFilter(watchlist);
+
+			/*new APIClient().get('user/' + admin.user_id + '/user_watchlist').then(res => {
 				if (res.length > 0) {
 
 					setwatchlistData(res)
 					setwatchListFilter(res);
 				}
-			});
+			});*/
 		}
 	}, [props.activeTab])
 
-	const onChange = (values) => { 
+	const onChange = (values) => {
 		setCategoryID(values);
 
 	}
@@ -102,12 +108,12 @@ function Blocklist(props) {
 		setwatchListFilter(watchListFilter);
 	}
 
-	const renderUserinfo = (values,index) => {
+	const renderUserinfo = (values, index) => {
 		const currentUser = allUser.filter(val => (val.user_id === values.user_add_id))[0];
 
 		if (currentUser != undefined) {
 			currentUser.user_watchlist_id = values.user_watchlist_id;
-			
+
 			let hobbiesList, hobbies = '';
 
 			try {
@@ -144,7 +150,7 @@ function Blocklist(props) {
 
 								<div className="col-md-6">
 									{/* <button onClick={(e) => { }} data-id={'detail_' + currentUser.user_id} className="btn btn-primary form-control" type="submit" data-bs-toggle="modal" data-bs-target="#idDeitals">{t("t_details").toUpperCase()}</button> */}
-									<button onClick={(e) => { ondeleteWL(currentUser,index)}} data-id={'watchlist_' + currentUser.user_id} className="btn btn-primary form-control" type="submit" data-bs-toggle="modal" data-bs-target="#idWatchList">{t("t_delete").toUpperCase()}</button>
+									<button onClick={(e) => { ondeleteWL(currentUser, index) }} data-id={'watchlist_' + currentUser.user_id} className="btn btn-primary form-control" type="submit" data-bs-toggle="modal" data-bs-target="#idWatchList">{t("t_delete").toUpperCase()}</button>
 								</div>
 							</div>
 							<div className="row">
@@ -168,7 +174,7 @@ function Blocklist(props) {
 
 	let listJobProfileMobile = props.listJobProfileMobile;
 
-    return (
+	return (
 		<React.Fragment>
 			<JobSearchProfile type={0} watchListFilter={watchlistData} listJobProfileMobile={listJobProfileMobile} onSelect={onChange} categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
 
@@ -177,7 +183,7 @@ function Blocklist(props) {
 					<div className="row w-title">
 						<div className="col-md"><span className="w-title-l">BLOCKLIST</span> </div>
 						<div className="col-md"><span className="w-title-r">
-							</span> </div>
+						</span> </div>
 					</div>
 					<div className="row">
 						<div className="col-md">
@@ -203,7 +209,7 @@ function Blocklist(props) {
 													<td>
 														<div className="info_watchlist">
 															<div className="row">
-																{renderUserinfo(info,index)}
+																{renderUserinfo(info, index)}
 
 																{/* <div className="col-md-2">
 																	<Button className="btn btn-primary form-control" size="sm" type="submit" onClick={(e) => ondeleteWL(info, index)}>DELETE</Button>
@@ -229,10 +235,10 @@ function Blocklist(props) {
 }
 
 const mapStateToProps = (state) => {
-    return {
-        listJobProfileMobile: state.Layout.listUserProfile
-    };
+	return {
+		listJobProfileMobile: state.Layout.listUserProfile
+	};
 };
 
 
-export default connect(mapStateToProps) (Blocklist);
+export default connect(mapStateToProps)(Blocklist);
