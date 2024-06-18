@@ -187,9 +187,9 @@ function ChatLeftSidebar(props) {
                 {/* <TabPane tabId="useradministration" id="pills-useradministration">
                         <UserAdministration />
                     </TabPane> */}
-                <TabPane tabId="payments" id="pills-useradministration">
+                {/* <TabPane tabId="payments" id="pills-useradministration">
                     <PayMents />
-                </TabPane>
+                </TabPane> */}
             </TabContent>
         </React.Fragment>
     );
