@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import { updateCredits } from "../../../redux/actions";
 import { APIClient } from "../../../helpers/apiClient";
+import { FormFeedback, InputGroup } from "reactstrap";
 
 function CreditPayment({ creditPackage, isOpen, onCloseModal, user, updateCredits }) {
     const admin = getLoggedInUser()[0];
@@ -82,16 +83,22 @@ function CreditPayment({ creditPackage, isOpen, onCloseModal, user, updateCredit
                     }}>
                         <div className="row">
                             <div className="col-md">
-                                <Input
-                                    type="text"
-                                    required={true}
-                                    name="cardNumber"
-                                    className="form-control"
-                                    placeholder={t("t_card_number")}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.cardNumber}
-                                />
+                                <InputGroup className="input-group bg-soft-light rounded-3 mb-3">
+                                    <Input
+                                        type="text"
+                                        required={true}
+                                        name="cardNumber"
+                                        className="form-control"
+                                        placeholder={t("t_card_number")}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.cardNumber}
+                                        invalid={formik.touched.cardNumber && formik.errors.cardNumber ? true : false}
+                                    />
+                                    {formik.touched.cardNumber && formik.errors.cardNumber ? (
+                                        <FormFeedback type="invalid">{formik.errors.cardNumber}</FormFeedback>
+                                    ) : null}
+                                </InputGroup>
                             </div>
                         </div>
                         <div className="row">
@@ -105,6 +112,7 @@ function CreditPayment({ creditPackage, isOpen, onCloseModal, user, updateCredit
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.name}
+                                    invalid={formik.touched.name && formik.errors.name ? true : false}
                                 />
                             </div>
                         </div>
@@ -120,6 +128,7 @@ function CreditPayment({ creditPackage, isOpen, onCloseModal, user, updateCredit
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.expiryDate}
+                                    invalid={formik.touched.expiryDate && formik.errors.expiryDate ? true : false}
                                 />
                             </div>
                             <div className="col-md">
@@ -128,11 +137,12 @@ function CreditPayment({ creditPackage, isOpen, onCloseModal, user, updateCredit
                                     required={true}
                                     name="cvv"
                                     className="form-control"
-                                    placeholder={t("t_cvv")}
+                                    placeholder={"CVV"}
                                     maxLength={3}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.cvv}
+                                    invalid={formik.touched.cvv && formik.errors.cvv ? true : false}
                                 />
                             </div>
                         </div>

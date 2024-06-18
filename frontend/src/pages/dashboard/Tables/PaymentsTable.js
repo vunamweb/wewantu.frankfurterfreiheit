@@ -4,16 +4,19 @@ import TableBody from "./TableBody";
 import { t } from "i18next";
 import { getLoggedInUser } from "../../../helpers/authUtils";
 import { APIClient } from "../../../helpers/apiClient";
+import { useSelector } from "react-redux";
 
 function PaymentsTable(props) {
     const admin = getLoggedInUser()[0];
+    const userSettingActiveTab = useSelector(state => state.Layout.userSettingActiveTab);
+
     const [tableData,setTableData] = useState([]);
     const columns = [
         { label: t('t_payment_id').toUpperCase(), accessor: "payment_id", sortable: true },
         { label: t('t_time').toUpperCase(), accessor: "created", sortable: true },
         { label: t('t_user_pay').toUpperCase(), accessor: "user_id", sortable: true },
-        { label: t('t_amount').toUpperCase(), accessor: "price", sortable: false },
-        { label: t('t_credit_amount').toUpperCase(), accessor: "credit", sortable: false },
+        { label: t('t_prices').toUpperCase(), accessor: "price", sortable: false },
+        { label: t('t_credits').toUpperCase(), accessor: "credit", sortable: false },
         { label: t('t_package_name').toUpperCase(), accessor: "package", sortable: false },
         // { label: t('t_status').toUpperCase(), accessor: "status", sortable: false },
     ];
@@ -27,17 +30,21 @@ function PaymentsTable(props) {
 
     //get payment list buy user
     useEffect(()=>{
-        new APIClient().get("payments").then((res) => {
-            // console.log(res);
-            if (res.length>0){
-                setTableData(res);
+        if (userSettingActiveTab == "tab4"){
+            let url = "paymentlist/"+admin.user_id;
+            if (admin.userType == "0"){
+                url = "paymentlist"
             }
-            else{
-                setTableData([res]);
-            }
-        });
-        
-    },[admin]);
+            new APIClient().get(url).then((res) => {
+                if (res.length>0){
+                    setTableData(res);
+                }
+                else{
+                    setTableData([res]);
+                }
+            });
+        } 
+    },[userSettingActiveTab]);
     
     return (
         <React.Fragment>

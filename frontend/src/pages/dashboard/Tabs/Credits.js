@@ -64,17 +64,17 @@ const Credits = (props) => {
                         <div className="col-md">
                             <nav className="navbar navbar-expand-sm navbar-light">
                                 <div className="container-fluid title-useracc">
-                                    <span className="title">CREDITS</span>
+                                    <span className="title">{t("t_credits").toUpperCase()}</span>
                                     <div className="collapse navbar-collapse " id="navbarSupportedContent">
                                         <ul className="navbar-nav ms-auto">
                                             <li className="nav-item">
-                                                <Link className="nav-link" href="#" alt="">BUY CREDITS</Link>
+                                                <Link className="nav-link" href="#" alt="">{t("t_buy_credits").toUpperCase()}</Link>
                                             </li>
                                             <li className="nav-item">
-                                                <Link className="nav-link" href="#">STATISTIK</Link>
+                                                <Link className="nav-link" href="#">{t("t_statistics").toUpperCase()}</Link>
                                             </li>
                                             <li className="nav-item">
-                                                <Link className="nav-link" href="#">HELP-CENTER</Link>
+                                                <Link className="nav-link" href="#">{t("t_help_center").toUpperCase()}</Link>
                                             </li>
                                         </ul>
                                     </div>

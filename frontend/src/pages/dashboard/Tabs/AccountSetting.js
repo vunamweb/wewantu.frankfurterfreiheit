@@ -8,12 +8,13 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { APIClient } from '../../../helpers/apiClient';
 import { getAllUser, getLoggedInUser, setLoggedInUser } from '../../../helpers/authUtils';
-import { useSelector } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import config from '../../../config';
 import UserAdministration from './UserAdministration';
 import { toast } from 'react-toastify';
 import CompanyVCard from '../Component/CompanyVCard';
 import PaymentsTable from '../Tables/PaymentsTable';
+import { setUserSettingActiveTab } from '../../../redux/actions';
 
 const UserAccount = (props) => {
 
@@ -66,6 +67,7 @@ const UserAccount = (props) => {
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
+        props.setUserSettingActiveTab(tab);
     };
 
     const currentLang = i18n.language;
@@ -436,6 +438,10 @@ const UserAccount = (props) => {
     );
 }
 
+const mapStateToProps = (state) => {
+    
+}
 
 
-export default UserAccount;
+
+export default connect(mapStateToProps,{setUserSettingActiveTab})(UserAccount);

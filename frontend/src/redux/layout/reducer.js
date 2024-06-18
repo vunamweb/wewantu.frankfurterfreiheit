@@ -7,7 +7,8 @@ import {
 	SET_LAYOUT_MODE,
 	SET_SEARCH_DATA,
 	CHANGE_LANGUAGE,
-	SET_LIST_USER_PROFILE
+	SET_LIST_USER_PROFILE,
+	SET_USER_SETTING_ACTIVE_TAB
 } from "./constants";
 
 const INIT_STATE = {
@@ -17,7 +18,8 @@ const INIT_STATE = {
 	layoutMode: "light",
 	dataSearch: null,
 	language: "de",
-	listUserProfile: null
+	listUserProfile: null,
+	userSettingActiveTab: "tab1"
 };
 
 const Layout = (state = INIT_STATE, action) => {
@@ -27,7 +29,11 @@ const Layout = (state = INIT_STATE, action) => {
 				...state,
 				activeTab: action.payload
 			};
-
+		case SET_USER_SETTING_ACTIVE_TAB:
+			return {
+				...state,
+				userSettingActiveTab: action.payload
+			};
 		case SET_SEARCH_DATA:
 			return {
 				...state,

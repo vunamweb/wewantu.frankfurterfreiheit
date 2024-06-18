@@ -6,7 +6,8 @@ import {
 	SET_LAYOUT_MODE,
 	SET_SEARCH_DATA,
 	CHANGE_LANGUAGE,
-	SET_LIST_USER_PROFILE
+	SET_LIST_USER_PROFILE,
+	SET_USER_SETTING_ACTIVE_TAB
 } from "./constants";
 
 export const setActiveTab = (tabId) => ({
@@ -47,3 +48,8 @@ export const setListUserProfile = (listUserProfile) => ({
 	type: SET_LIST_USER_PROFILE,
 	payload: listUserProfile
 })
+
+export const setUserSettingActiveTab = (tabId) => ({
+	type: SET_USER_SETTING_ACTIVE_TAB,
+	payload: tabId
+});
