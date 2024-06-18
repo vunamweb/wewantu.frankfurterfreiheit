@@ -61,7 +61,14 @@ function SerchCenterWachlistModal(props) {
         if (currentUser) {
             new APIClient().get('user/' + admin.user_id + '/user_template').then(res => {
                 if (res) {
-                    let tmp = currentUser.user.prename + ' ' + currentUser.user.lastname + ',\r' + res[0].description;
+                    let tmp;
+
+                    try {
+                        tmp = currentUser.user.prename + ' ' + currentUser.user.lastname + ',\r' + res[0].description;
+                    } catch (error) {
+                        tmp = currentUser.user.prename + ' ' + currentUser.user.lastname;
+                    }
+
                     form2.setFieldsValue({
                         message: tmp,
                         job_search_profile_id: currentUser.job_search_profile_id,
