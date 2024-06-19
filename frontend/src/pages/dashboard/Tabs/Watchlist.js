@@ -99,7 +99,10 @@ function Watchlist(props) {
 	useEffect(() => {
 		if (props.activeTab === 'watchlist') {
 			new APIClient().get('user/' + admin.user_id + '/user_watchlist').then(res => {
+				res = res.filter(item => item.type == 1);
+
 				if (res.length > 0) {
+
 					let noteupd = new Object();
 					res.forEach(element => {
 						noteupd[element.user_add_id] = element.note;
@@ -474,7 +477,7 @@ function Watchlist(props) {
 	// console.log(filterSearch);
 	return (
 		<React.Fragment>
-			<JobSearchProfile type={1} watchListFilter={watchlistData} listJobProfileMobile={listJobProfileMobile} onSelect={onChange} categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
+			<JobSearchProfile watchListFilter={watchlistData} listJobProfileMobile={listJobProfileMobile} onSelect={onChange} categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
 			<div className="main-mes">
 				<div className="container-fluid px-0">
 

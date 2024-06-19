@@ -1,6 +1,7 @@
 import { Select } from 'antd';
 import { t } from 'i18next';
 import Watchlist from '../pages/dashboard/Tabs/Watchlist';
+import { getLoggedInUser, getAllUser } from '../helpers/authUtils';
 
 class Functions {
     getListJobProfileCurrent = (category_id, list, callBack) => {
@@ -100,7 +101,10 @@ class Functions {
             let seachJobID = (search.job_id == undefined) ? search.job : search.job_id;
             let jobList = job.profiles;
 
-            if (this.exist(searchDrive, jobDrive) && this.exist(searchLanguageMother, jobLanguageMother)
+            let job_search_profile_id = search.job_search_profile_id;
+            let user_id = job.user.user_id;
+
+            if (!this.intoBlocklList(job_search_profile_id, user_id) && this.exist(searchDrive, jobDrive) && this.exist(searchLanguageMother, jobLanguageMother)
                 && this.exist(searchLanguageForeign, jobLanguageForeign) && this.existJOBID(seachJobID, jobList))
 
                 check = true;
@@ -126,6 +130,21 @@ class Functions {
         return filterSearch;
     }
 
+    addItemIntoWatchList = (item) => {
+        let watchlistLocal = localStorage.getItem('watchlist');
+        let watchlist;
+
+        try {
+            watchlist = JSON.parse(watchlistLocal);
+            watchlist.push(item);
+
+            localStorage.setItem('watchlist', JSON.stringify(watchlist));
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+
     filterFromBlockList = (filter) => {
         let result = [];
 
@@ -141,7 +160,7 @@ class Functions {
                 checkAdd = true;
 
                 watchlist.map((item1, index1) => {
-                    if (item.user.user_id == item1.user_add_id && item1.job_search_profile_id == null)
+                    if (item.user.user_id == item1.user_add_id && item1.job_search_profile_id == null && item1.type == 0)
                         checkAdd = false;
                 })
 
@@ -153,6 +172,29 @@ class Functions {
         }
 
         return result;
+    }
+
+    intoBlocklList = (job_search_profile_id, user_id) => {
+        const admin = getLoggedInUser()[0];
+        let into = false;
+
+        let watchlistLocal = localStorage.getItem('watchlist');
+        let watchlist;
+
+        try {
+            watchlist = JSON.parse(watchlistLocal);
+            watchlist = watchlist.filter(item => item.type == 0);
+
+            watchlist.map((item, index) => {
+                //if ((item.user_add_id == user_id && item.job_search_profile_id == job_search_profile_id) || (item.user_add_id == user_id))
+                if ((item.user_add_id == user_id && item.job_search_profile_id == job_search_profile_id))
+                  into = true;
+            })
+        } catch (error) {
+            console.log(error);
+        }
+
+        return into;
     }
 
     checkExistUser(jobList, user_id) {

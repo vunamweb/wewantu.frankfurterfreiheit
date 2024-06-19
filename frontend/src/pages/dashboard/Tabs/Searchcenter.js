@@ -115,11 +115,12 @@ class Searchcenter extends Component {
         }
 
         const { loading, showListJob } = this.state;
+
         return (
             <>
                 <React.Fragment>
                     {loading && (<div className="loader"></div>)}
-                    {(showListJob) && <JobSearchProfile watchListFilter={null} listJobProfileMobile={filterSearch} onSelect={onChange} categoryID={this.state.categoryID} onClickJobProfile={this.onClickJobProfile} />}
+                    {(showListJob) && <JobSearchProfile listJobProfileMobile={filterSearch} onSelect={onChange} categoryID={this.state.categoryID} onClickJobProfile={this.onClickJobProfile} />}
                     <div class="main-mes">
                         <div className="main_job">
                             <div className='row g-3 title'>

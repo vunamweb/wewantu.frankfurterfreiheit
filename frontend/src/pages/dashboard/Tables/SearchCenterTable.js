@@ -12,6 +12,7 @@ import RatingStar from '../Component/RatingStar';
 import { useTranslation } from 'react-i18next';
 import UserItem from '../Component/UserItem';
 import UserDetail from '../Component/UserDetail';
+import functions from '../../../function/function';
 
 function SearchCenterDisplay(props) {
     const JsonData = props.searchData;
@@ -80,13 +81,6 @@ function SearchCenterDisplay(props) {
         blockwatclist(id)
         JsonData.splice(index, 1);
         setIsModalOpenDetail(false);
-
-        // update count of search
-        try {
-            props.component.setState({ countSearch: JsonData.length });
-        } catch (error) {
-            console.log(error);
-        }
     }
 
     const handleHiddenClick = (id, index) => {
@@ -141,11 +135,24 @@ function SearchCenterDisplay(props) {
                             job_search_profile_id: job_search_profile_id
                         };
 
-                        console.log(obj_watchlist);
-
                         new APIClient().create('user_watchlist', obj_watchlist).then(val => {
                             if (val) {
-                                toast.success('Block successfully')
+                                toast.success('Block successfully');
+
+                                obj_watchlist.user_watchlist_id = val.user_watchlist_id;
+
+                                console.log(obj_watchlist);
+
+                                // update local value of watchlist
+                                functions.addItemIntoWatchList(obj_watchlist);
+
+                                // update count of search
+                                try {
+                                    props.component.setState({ countSearch: JsonData.length });
+                                } catch (error) {
+                                    console.log(error);
+                                }
+                                // end
                             }
                         })
                     }

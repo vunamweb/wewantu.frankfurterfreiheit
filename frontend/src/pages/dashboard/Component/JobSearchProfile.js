@@ -14,7 +14,7 @@ function JobSearchProfile({ categoryID, onClickJobProfile, onSelect, listJobProf
         listJobProfileAll = [];
     }
 
-    if ((listJobProfileMobile != undefined && Array.isArray(watchListFilter)) || type == undefined){
+    if (listJobProfileMobile != undefined) {
         let listJobProfileAllFinal = [];
         let userList, checkExist;
 
@@ -26,13 +26,14 @@ function JobSearchProfile({ categoryID, onClickJobProfile, onSelect, listJobProf
                 // if in watchlist
                 if (Array.isArray(userList) && userList.length > 0) {
                     // if is searchcenter
-                    if(watchListFilter == null) 
-                    checkExist = true;
+                    if (watchListFilter == null)
+                        checkExist = true;
+                    // if is block or watchlist
                     else {
                         userList = userList.map((item1, index) => item1.user.user_id);
 
                         watchListFilter.map((item2, index) => {
-                            if (userList.includes(item2.user_add_id) && item2.type == type)
+                            if (userList.includes(item2.user_add_id))
                                 checkExist = true;
                         })
                     }

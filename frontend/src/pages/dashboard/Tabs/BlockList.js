@@ -47,6 +47,8 @@ function Blocklist(props) {
 			let watchlistLocal = localStorage.getItem('watchlist');
 			let watchlist = JSON.parse(watchlistLocal);
 
+			watchlist = watchlist.filter(item => item.type == 0);
+
 			setwatchlistData(watchlist);
 			setwatchListFilter(watchlist);
 
@@ -176,7 +178,7 @@ function Blocklist(props) {
 
 	return (
 		<React.Fragment>
-			<JobSearchProfile type={0} watchListFilter={watchlistData} listJobProfileMobile={listJobProfileMobile} onSelect={onChange} categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
+			<JobSearchProfile watchListFilter={watchlistData} listJobProfileMobile={listJobProfileMobile} onSelect={onChange} categoryID={categoryID} onClickJobProfile={onClickJobProfile} />
 
 			<div className="main-mes">
 				<div className="container-fluid px-0">
