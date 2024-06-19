@@ -14,10 +14,10 @@ function PaymentsTable(props) {
     const columns = [
         { label: t('t_payment_id').toUpperCase(), accessor: "payment_id", sortable: true },
         { label: t('t_time').toUpperCase(), accessor: "created", sortable: true },
-        { label: t('t_user_pay').toUpperCase(), accessor: "user_id", sortable: true },
+        { label: t('t_user_pay').toUpperCase(), accessor: "mail", sortable: true },
         { label: t('t_prices').toUpperCase(), accessor: "price", sortable: false },
         { label: t('t_credits').toUpperCase(), accessor: "credit", sortable: false },
-        { label: t('t_package_name').toUpperCase(), accessor: "package", sortable: false },
+        // { label: t('t_package_name').toUpperCase(), accessor: "package", sortable: false },
         // { label: t('t_status').toUpperCase(), accessor: "status", sortable: false },
     ];
     const handleSorting = () => {
@@ -32,15 +32,11 @@ function PaymentsTable(props) {
     useEffect(()=>{
         if (userSettingActiveTab == "tab4"){
             let url = "paymentlist/"+admin.user_id;
-            if (admin.userType == "0"){
-                url = "paymentlist"
-            }
+            
             new APIClient().get(url).then((res) => {
                 if (res.length>0){
+                    res.map((item) => item.mail = item.user.mail);
                     setTableData(res);
-                }
-                else{
-                    setTableData([res]);
                 }
             });
         } 

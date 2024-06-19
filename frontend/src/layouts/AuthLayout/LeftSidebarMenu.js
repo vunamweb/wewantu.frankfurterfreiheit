@@ -103,11 +103,11 @@ function LeftSidebarMenu(props) {
                             {t('t_user_administration').toUpperCase()}
                             </NavLink>
                         </NavItem> */}
-                        <NavItem id="payments">
+                        {/* <NavItem id="payments">
                             <NavLink id="pills-user-tab" className={classnames({ active: activeTab === 'payments' }) + " mb-2"} onClick={() => { toggleTab('payments'); }}>
                             {t('t_payments').toUpperCase()}
                             </NavLink>
-                        </NavItem>
+                        </NavItem> */}
                         <NavItem id="wewantu">
                             <NavLink href='/home#main_werist' id="pills-user-tab" className={classnames({ active: activeTab === 'wewantu' }) + " mb-2"} onClick={() => { toggleTab('wewantu'); }}>
                             {t('t_whats_wewantu').toUpperCase()}
