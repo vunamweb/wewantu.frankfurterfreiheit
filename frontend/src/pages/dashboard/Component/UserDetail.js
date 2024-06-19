@@ -28,7 +28,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
     }
     const { t } = useTranslation();
     const [tableData, settableData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loadingDetail, setLoadingDetail] = useState(true);
 
     const addwatclist = (values) => {
         handleWLClick(currentUser, currentIndex)
@@ -61,7 +61,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
         if (currentUser && currentUser.user) {
             new APIClient().get('user/' + admin.user_id + '/user_template').then(res => {
                 if (res.length > 0) {
-                    let tmp = currentUser.user.prename + ' ' + currentUser.user.lastname ; //+ ',\r' + res[0].description;
+                    let tmp = currentUser.user.prename + ' ' + currentUser.user.lastname; //+ ',\r' + res[0].description;
                     form2.setFieldsValue({
                         message: tmp,
                         job_search_profile_id: currentUser.job_search_profile_id,
@@ -69,23 +69,28 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                     });
                 }
             });
-        }
-        if (admin.userType != 0)
-            new APIClient().get('user/' + admin.user_id + '/user_payment').then(res => {
-                if (res.length > 0) {
-                    let user_payment_list = res.filter((payment) => { return payment.user_id_payment == user.user_id && payment.type == "message" });
-                    if (user_payment_list.length > 0) {
-                        setHasPayment(true);
+
+            if (admin.userType != 0)
+                new APIClient().get('user/' + admin.user_id + '/user_payment').then(res => {
+                    if (res.length > 0) {
+                        let user_payment_list = res.filter((payment) => { return payment.user_id_payment == currentUser.user.user_id && payment.type == "message" });
+                        if (user_payment_list.length > 0) {
+                            setHasPayment(true);
+                        }
+                        else {
+                            setHasPayment(false);
+                        }
+                    } else {
+                        setHasPayment(false);
                     }
-                } else {
-                    setHasPayment(false);
-                }
-            })
+                })
+        }
+
 
     }, [currentUser, isModalOpen])
 
     useEffect(() => {
-        setLoading(true);
+        setLoadingDetail(true);
         const fecthData = async () => {
             if (currentUser.user) {
                 let data = { ...currentUser };
@@ -108,7 +113,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                 await new APIClient().get('user/' + currentUser.user.user_id + '/driver_licenses').then(val => val.length > 0 ? data.driver_licenses = val : data.driver_licenses = null);
 
                 settableData([data]);
-                setLoading(false);
+                setLoadingDetail(false);
             }
         }
 
@@ -146,7 +151,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
     const renderlang = (lang) => {
         return typeof lang !== 'undefined' && lang.map(val => {
             let lang = val.language.language;
-            if (language == "de"){
+            if (language == "de") {
                 lang = val.language.de;
             }
             return (<><span>{lang}</span><br /></>)
@@ -172,8 +177,8 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
         <React.Fragment>
 
             <Modal title={'Search for /in '} open={isModalOpen} onCancel={handleCancelDetail} width={1000} footer=" ">
-                {(loading) && <div className='loader'></div>}
-                {(!loading) &&
+                {(loadingDetail) && <div className='loader'></div>}
+                {(!loadingDetail) &&
                     <Swiper
                         scrollbar={{
                             hide: true,
@@ -186,7 +191,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                             let hobbiesList, hobbies = '';
 
                             let fieldsHide = config.USER_FIELD_HIDE;
-        
+
                             let prename = (!hasPayment && fieldsHide.includes("prename")) ? "*****" : item.user.prename;
                             let lastname = (!hasPayment && fieldsHide.includes("lastname")) ? "*****" : item.user.lastname;
                             let city = (!hasPayment && fieldsHide.includes("city")) ? "*****" : item.address[0].city;
@@ -290,7 +295,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                                                     <div className="col-md-4 gray">
                                                         <span>{t('t_place_of_residence')}</span><br />
                                                         <span>{t('t_language_knowledge')}</span><br />
-                                                        
+
                                                         {rendereducational_stageskey(item.educational_stages)}
                                                         <span>{t("t_driver_s_license")}</span><br />
                                                         <span>{t('t_passenger_transport')}</span><br />

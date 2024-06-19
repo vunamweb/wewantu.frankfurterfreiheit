@@ -25,30 +25,42 @@ function SearchCenterDisplay(props) {
     const [isWatchlist, setIsWatchlist] = useState({});
     const { t } = useTranslation();
 
+    const [userPayments, setUserPayments] = useState([]);
+
     useEffect(() => {
         // This function will run after the component renders
-        const timer = setTimeout(() => {
-            if (props.component.state.loading)
-                props.component.setState({ loading: false })
-        }, 200);
+        // const timer = setTimeout(() => {
+        //     if (props.component.state.loading)
+        //         props.component.setState({ loading: false })
+        // }, 200);
 
         // Cleanup function to clear the timer when the component unmounts
-        return () => clearTimeout(timer);
+        // return () => clearTimeout(timer);
     });
 
     useEffect(() => {
-        JsonData.forEach(info => {
-            new APIClient().get('user/' + admin.user_id + '/user_watchlist').then(res => {
-                if (res.length > 0) {
-                    let check = res.filter(x => { return x.user_add_id == info.user.user_id });
-                    if (check.length > 0 && !isWatchlist[info.user.user_id]) {
-                        const upd = { ...isWatchlist };
-                        upd[info.user.user_id] = true;
-                        setIsWatchlist(upd);
+        if (props.activeTab == "searchcenter") {
+            JsonData.forEach(info => {
+                new APIClient().get('user/' + admin.user_id + '/user_watchlist').then(res => {
+                    if (res.length > 0) {
+                        let check = res.filter(x => { return x.user_add_id == info.user.user_id });
+                        if (check.length > 0 && !isWatchlist[info.user.user_id]) {
+                            const upd = { ...isWatchlist };
+                            upd[info.user.user_id] = true;
+                            setIsWatchlist(upd);
+                        }
                     }
-                }
+                });
             });
-        });
+
+            new APIClient().get('user/' + admin.user_id + '/user_payment').then(res => {
+                if (res.length > 0) {
+                    setUserPayments(res);
+                }
+            })
+
+        }
+
     }, [props.activeTab])
     /*try {
         setTimeout(props.component.setState({ loading: false }), 2000);
@@ -164,7 +176,7 @@ function SearchCenterDisplay(props) {
     const rows = [...Array(Math.ceil(JsonData.length / 4))];
 
     const productRows = rows.length > 0 && rows.map((row, idx) => JsonData.slice(idx * 4, idx * 4 + 4));
-    const DisplayData = productRows.length > 0 && productRows.map((row, idx) => (
+    let DisplayData = productRows.length > 0 && productRows.map((row, idx) => (
         <div className='row' key={idx}>
             {
                 row.map((info, index) => {
@@ -180,29 +192,7 @@ function SearchCenterDisplay(props) {
                     // 
                     return (
                         <>
-                            <UserItem info={info} index={idx * 4 + index} handleDTClick={handleDTClick} handleWLClick={handleWLClick} watchlisted={isWatchlist[info.user.user_id]} />
-                            {/* <div className='col-md-3'>
-                            <div className="info">
-                                <div className="row">
-                                    <div className="col-md-6">
-                                        <Avatar className='avatar' size={80}>{(info.user.prename.slice(0, 1)).toUpperCase()}{(info.user.lastname.slice(0, 1)).toUpperCase()}</Avatar>
-                                    </div>
-
-                                    <div className="col-md-6">
-                                        <button onClick={(e) => handleDTClick(info, idx * 4 + index)} data-id={'detail_' + info.job_search_profile_id} className="btn btn-primary form-control" type="submit" data-bs-toggle="modal" data-bs-target="#idDeitals">{t("t_details").toUpperCase()}</button>
-                                        <button disabled={isWatchlist[info.user.user_id]} onClick={(e) => handleWLClick(info, idx * 4 + index)} data-id={'watchlist_' + info.job_search_profile_id} className="btn btn-primary form-control" type="submit" data-bs-toggle="modal" data-bs-target="#idWatchList">{t("t_add_to_watchlist").toUpperCase()}</button>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className='col-md'>
-                                        <div className="name1"><h4>{info.user.prename} {info.user.lastname}</h4></div>
-                                        <div><img src="assets/img/location.svg" alt='' /> {info.address[0].street} {info.address[0].city} {info.address[0].country === null ? '' : ',' + info.address[0].country}</div>
-                                        <div><img src="assets/img/year.svg" alt='' />{info.address[0].year_birthday}</div>
-                                        <RatingStar user_id={info.user.user_id} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div> */}
+                            <UserItem info={info} index={idx * 4 + index} handleDTClick={handleDTClick} handleWLClick={handleWLClick} userPayments={userPayments} watchlisted={isWatchlist[info.user.user_id]} />
                         </>
                     )
                 }
@@ -218,6 +208,7 @@ function SearchCenterDisplay(props) {
             <div className="table table-searchcenter">
                 <div>
                     {DisplayData}
+                    
                 </div>
             </div>
             {Object.keys(currentUser).length > 0 && (<UserDetail isWatchlist={isWatchlist[currentUser.user.user_id]} user={currentUser} handleWLClick={handleWLClick} handleBlockClick={handleBlockClick} handleHiddenClick={handleHiddenClick} currentIndex={currentIndex} isModalOpen={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />)}
