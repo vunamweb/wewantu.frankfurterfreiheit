@@ -40,8 +40,8 @@ class Chats extends Component {
 
         let payments = await new APIClient().get('user/' + admin.user_id + '/user_payment');
         const user_id_payment = payments.map(p => p.user_id_payment);
-        const chatListFilter = this.state.chatList.filter((c) => (user_id_payment.includes(c.user_id) || admin.userType == 0 ));
-        this.setState({chatList:chatListFilter,recentChatList: chatListFilter});
+        const chatListFilter = this.state.chatList.filter((c) => (user_id_payment.includes(c.user_id) || admin.userType == 0));
+        this.setState({ chatList: chatListFilter, recentChatList: chatListFilter });
 
         this.props.setFullUser(chatListFilter);
 
@@ -110,9 +110,23 @@ class Chats extends Component {
             if (company.length > 0)
                 newsearchJob[index].company = company;
         });
+        let jobListFinal = [];
+        jobList.map((item) => {
+            let userList = functions.getListUser(this.state.searchJob, item);
+            let checkExist = false;
+            if (Array.isArray(userList) && userList.length > 0) {
+                checkExist = true;
+            }
+
+            if (checkExist)
+                jobListFinal.push(item);
+        });
+
+
 
         this.setState({
-            searchJob: newsearchJob.filter(val => val.user.user_id !== admin.user_id)
+            searchJob: newsearchJob.filter(val => val.user.user_id !== admin.user_id),
+            jobSearchProfiles: jobListFinal
         })
     }
 
@@ -180,9 +194,23 @@ class Chats extends Component {
 
     async componentDidUpdate(prevProps) {
         if (prevProps !== this.props) {
+
+            let jobListFinal = [];
+            this.props.jobSearchProfiles.map((item) => {
+                let userList = functions.getListUser(this.state.searchJob, item);
+                let checkExist = false;
+                if (Array.isArray(userList) && userList.length > 0) {
+                    checkExist = true;
+                }
+
+                if (checkExist)
+                    jobListFinal.push(item);
+            });
+
+
             this.setState({
                 // recentChatList: this.props.recentChatList,
-                jobSearchProfiles: this.props.jobSearchProfiles
+                jobSearchProfiles: jobListFinal
             });
 
         }

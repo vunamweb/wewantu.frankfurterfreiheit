@@ -292,10 +292,43 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                                             </div>
                                             <div className="row" style={{ "paddingTop": "2%" }}>
                                                 <div className="row">
-                                                    <div className="col-md-4 gray">
+                                                    <div className='row'>
+                                                        <div className='col-md-4 gray'><span>{t('t_place_of_residence')}</span></div>
+                                                        <div className="col-md-8 bold"><span>{item.address[0].house_number} {item.address[0].street} {item.address[0].state} {item.address[0].city}{item.address[0].country ? ', ' + item.address[0].country : ''}</span></div>
+                                                    </div>
+
+
+                                                    <div className='row'>
+                                                        <div className='col-md-4 gray'><span>{t('t_language_knowledge')}</span></div>
+                                                        <div className="col-md-8 bold">
+                                                            {
+                                                                item.languages !== null ? renderlang(item.languages) : ''
+                                                            }
+                                                            {
+                                                                item.languages !== null ? rendervalue(item.languages) : ''
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <div className='row'>
+                                                        <div className='col-md-4 gray'>{rendereducational_stageskey(item.educational_stages)}</div>
+                                                        <div className="col-md-8 bold">{rendereducational_stagesvalue(item.educational_stages)}</div>
+                                                    </div>
+                                                    <div className='row'>
+                                                        <div className='col-md-4 gray'><span>{t("t_driver_s_license")}</span></div>
+                                                        <div className="col-md-8 bold"><span>{renderdriver_licenses(item.driver_licenses)}</span></div>
+                                                    </div>
+                                                    <div className='row'>
+                                                        <div className='col-md-4 gray'><span>{t('t_passenger_transport')}</span></div>
+                                                        <div className="col-md-8 bold"><span>{item.user.passenger_transport === 0 ? t('that_s_obvious') : t('people_what')}</span></div>
+                                                    </div>
+                                                    <div className='row'>
+                                                        <div className='col-md-4 gray'><span>{t('t_hobbies')}</span></div>
+                                                        <div className="col-md-8 bold"> <span>{hobbies}</span></div>
+                                                    </div>
+
+                                                    {/* <div className="col-md-4 gray">
                                                         <span>{t('t_place_of_residence')}</span><br />
                                                         <span>{t('t_language_knowledge')}</span><br />
-
                                                         {rendereducational_stageskey(item.educational_stages)}
                                                         <span>{t("t_driver_s_license")}</span><br />
                                                         <span>{t('t_passenger_transport')}</span><br />
@@ -313,7 +346,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                                                         <span>{renderdriver_licenses(item.driver_licenses)}</span><br />
                                                         <span>{item.user.passenger_transport === 0 ? t('that_s_obvious') : t('people_what')}</span><br />
                                                         <span>{hobbies}</span>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                             </div>
                                         </div>

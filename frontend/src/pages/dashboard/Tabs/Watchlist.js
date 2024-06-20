@@ -417,7 +417,7 @@ function Watchlist(props) {
 		let prename = (!hasPayment && fieldsHide.includes("prename")) ? "*****" : currentUser.prename;
 		let lastname = (!hasPayment && fieldsHide.includes("lastname")) ? "*****" : currentUser.lastname;
 
-		let showButton = (admin.use_lead == 1 || admin.credits>0 || admin.userType == 0);
+		let showButton = ((admin.use_lead == 1 && admin.credits>0) || admin.userType == 0);
 	
 		if (currentUser != undefined)
 			return (
