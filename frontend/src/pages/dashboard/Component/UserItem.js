@@ -6,23 +6,26 @@ import config from '../../../config';
 import { getLoggedInUser } from '../../../helpers/authUtils';
 import { APIClient } from '../../../helpers/apiClient';
 
-function UserItem({ info, index, handleDTClick, handleWLClick, watchlisted }) {
+function UserItem({ info, index, handleDTClick, handleWLClick, watchlisted, userPayments }) {
     const admin = getLoggedInUser()[0];
     const [hasPayment, setHasPayment] = useState(true);
     useEffect(() => {
-        if (admin.userType != 0)
-            new APIClient().get('user/' + admin.user_id + '/user_payment').then(res => {
-                if (res.length > 0) {
-                    let user_payment_list = res.filter((payment) => { return payment.user_id_payment == info.user.user_id && payment.type == "message" });
-                    if (user_payment_list.length > 0) {
-                        setHasPayment(true);
-                    }
-                } else {
+        if (admin.userType != 0) {
+            if (userPayments && userPayments.length>0) {
+                let user_payment_list = userPayments.filter((payment) => { return payment.user_id_payment == info.user.user_id && payment.type == "message" });
+                if (user_payment_list.length > 0) {
+                    setHasPayment(true);
+                }
+                else {
                     setHasPayment(false);
                 }
-            })
-            
-    }, [info]);
+            }
+            else{
+                setHasPayment(false);
+            }
+
+        }
+    }, [info,userPayments]);
     const fieldsHide = config.USER_FIELD_HIDE;
     const prename = (!hasPayment && fieldsHide.includes("prename")) ? "*****" : info.user.prename;
     const lastname = (!hasPayment && fieldsHide.includes("lastname")) ? "*****" : info.user.lastname;

@@ -55,6 +55,7 @@ function Watchlist(props) {
 	const indeterminate = checkedList.length > 0 && checkedList.length < plainOptions.length;
 	const [checkedListUsers, setCheckedListUsers] = useState([]);
 	const [userRating, setUserRating] = useState({});
+	const [userPayments, setUserPayments] = useState([]);
 
 	const onChangecheckbox = (list) => {
 		setCheckedList(list);
@@ -112,6 +113,14 @@ function Watchlist(props) {
 					setwatchListFilter(res);
 				}
 			});
+
+
+			new APIClient().get('user/' + admin.user_id + '/user_payment').then(res => {
+				if (res.length > 0) {
+					setUserPayments(res);
+				}
+			})
+
 		}
 	}, [props.activeTab])
 
@@ -371,7 +380,8 @@ function Watchlist(props) {
 
 	const renderUserinfo = (values, index) => {
 
-
+		let info = values;
+		let hasPayment = false;
 		const currentUser = allUser.filter(val => (val.user_id === values.user_add_id))[0];
 		let id = currentUser.user_id + "-" + index;
 		plainOptions.push(id);
@@ -392,18 +402,44 @@ function Watchlist(props) {
 			hobbies = currentUser.hobbies;
 		}
 
+		if (admin.userType != 0) {
+			const user_payment_message = userPayments.filter((payment) => { return payment.user_id_payment == info.user_add_id && payment.type == "message" });
+			if (user_payment_message.length > 0) {
+				hasPayment = true;
+			}
+		}
+		else {
+			hasPayment = true;
+		}
+
+		let fieldsHide = config.USER_FIELD_HIDE;
+
+		let prename = (!hasPayment && fieldsHide.includes("prename")) ? "*****" : currentUser.prename;
+		let lastname = (!hasPayment && fieldsHide.includes("lastname")) ? "*****" : currentUser.lastname;
+
+		let showButton = (admin.use_lead == 1 || admin.credits>0 || admin.userType == 0);
+	
 		if (currentUser != undefined)
 			return (
 				<>
 					<div className="col-md-2">
 						{/* <Checkbox value={id} /> */}
 						<Avatar className='avatar' size={80}>{(currentUser.prename.slice(0, 1)).toUpperCase()}{(currentUser.lastname.slice(0, 1)).toUpperCase()}</Avatar>
-						<div className="name">{currentUser.prename} {currentUser.lastname}</div>
+						<div className="name">{prename} {lastname}</div>
 					</div>
 					<div className="col-md-4">
 						<p className="about">{hobbies}</p>
 
 						<RatingStar user_id={currentUser.user_id} updateRating={updateRating} />
+					</div>
+					<div className="col-md-4">
+						<TextArea name='note' value={notes[info.user_add_id]} onBlur={() => saveNote(info.user_watchlist_id, info.user_add_id)} onChange={updateNotes(info.user_add_id)} cols={10} rows={10} placeholder='Write a note' />
+					</div>
+					<div className="col-md-2">
+						<button class="btn btn-primary form-control btn-sm" type="submit" data-bs-toggle="modal" onClick={(e) => handleDTClick(info)} data-bs-target="#idDeitals">{t("t_details").toUpperCase()}</button>
+						<button class="btn btn-primary form-control btn-sm" disabled={!showButton} data-bs-toggle="modal" onClick={(e) => handleSendMessage(info, "message")} data-bs-target="#idWatchList">{t("t_send_message").toUpperCase()}</button>
+						<button class="btn btn-primary form-control btn-sm" disabled={!showButton} data-bs-toggle="modal" onClick={(e) => handleSendMessage(info, "mail")} >{t("t_send_mail").toUpperCase()}</button>
+						<button class="btn btn-primary form-control btn-sm" onClick={(e) => ondeleteWL(info, index)}>{t("t_delete").toUpperCase()}</button>
 					</div>
 				</>
 			)
@@ -532,16 +568,6 @@ function Watchlist(props) {
 															<div className="info_watchlist">
 																<div className="row">
 																	{renderUserinfo(info, index)}
-
-																	<div className="col-md-4">
-																		<TextArea name='note' value={notes[info.user_add_id]} onBlur={() => saveNote(info.user_watchlist_id, info.user_add_id)} onChange={updateNotes(info.user_add_id)} cols={10} rows={10} placeholder='Write a note' />
-																	</div>
-																	<div className="col-md-2">
-																		<button class="btn btn-primary form-control btn-sm" type="submit" data-bs-toggle="modal" onClick={(e) => handleDTClick(info)} data-bs-target="#idDeitals">{t("t_details").toUpperCase()}</button>
-																		<button class="btn btn-primary form-control btn-sm" data-bs-toggle="modal" onClick={(e) => handleSendMessage(info, "message")} data-bs-target="#idWatchList">{t("t_send_message").toUpperCase()}</button>
-																		<button class="btn btn-primary form-control btn-sm" data-bs-toggle="modal" onClick={(e) => handleSendMessage(info, "mail")} >{t("t_send_mail").toUpperCase()}</button>
-																		<button class="btn btn-primary form-control btn-sm" onClick={(e) => ondeleteWL(info, index)}>{t("t_delete").toUpperCase()}</button>
-																	</div>
 																</div>
 
 															</div>

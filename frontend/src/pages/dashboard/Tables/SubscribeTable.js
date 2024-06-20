@@ -1,10 +1,14 @@
 import React from 'react';
 import JsonData from '../../../data/subcribe.json';
+import { getLoggedInUser } from '../../../helpers/authUtils';
 
 function SubcribeDisplay(props) {
     const handlePayment = props.onBuy;
     const rows = [...Array(Math.ceil(JsonData.length / 5))];
     const productRows = rows.map((row, idx) => JsonData.slice(idx * 5, idx * 5 + 5));
+    const admin = getLoggedInUser()[0];
+    const showButton = (admin.buy_credit == 1 || admin.userType == 0)
+
     const DisplayData = productRows.map((row, idx) => (
         row.map((info) =>
         (
@@ -21,7 +25,7 @@ function SubcribeDisplay(props) {
                     </div>
                     <div className="row">
                         <div className="col-md">
-                            <button className="btn btn-primary form-control" id="addcredit-grey" type="submit" onClick={() => handlePayment(info)}>KAUFEN</button>
+                            <button disabled={!showButton} className="btn btn-primary form-control" id="addcredit-grey" type="submit" onClick={() => handlePayment(info)}>KAUFEN</button>
                         </div>
                     </div>
                 </div>

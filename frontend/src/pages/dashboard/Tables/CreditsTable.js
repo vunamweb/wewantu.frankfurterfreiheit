@@ -1,11 +1,14 @@
 import React from 'react';
 import JsonData from '../../../data/credits.json';
 import { t } from "i18next"
+import { getLoggedInUser } from '../../../helpers/authUtils';
 
 function CreditsDisplay(props) {
+    const admin = getLoggedInUser()[0];
     const handlePayment = props.onBuy;
     const rows = [...Array(Math.ceil(JsonData.length / 5))];
     const productRows = rows.map((row, idx) => JsonData.slice(idx * 5, idx * 5 + 5));
+    const showButton = (admin.buy_credit == 1 || admin.userType == 0)
     const DisplayData = productRows.map((row, idx) => (
         row.map((info) => (
             <div className="col-md-2">
@@ -21,7 +24,7 @@ function CreditsDisplay(props) {
                     </div>
                     <div className="row">
                         <div className="col-md">
-                            <button className="btn btn-primary form-control" id="addcredit-grey" type="submit" onClick={() => handlePayment(info)}>KAUFEN</button>
+                            <button disabled={!showButton} className="btn btn-primary form-control" id="addcredit-grey" type="submit" onClick={() => handlePayment(info)}>KAUFEN</button>
                         </div>
                     </div>
                 </div>
