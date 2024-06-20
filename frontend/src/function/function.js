@@ -186,8 +186,8 @@ class Functions {
             watchlist = watchlist.filter(item => item.type == 0);
 
             watchlist.map((item, index) => {
-                //if ((item.user_add_id == user_id && item.job_search_profile_id == job_search_profile_id) || (item.user_add_id == user_id))
-                if ((item.user_add_id == user_id && item.job_search_profile_id == job_search_profile_id))
+                if ((item.user_add_id == user_id && item.job_search_profile_id == job_search_profile_id) || (item.user.user_id == admin.user_id && item.job_search_profile_id == null))
+                //if ((item.user_add_id == user_id && item.job_search_profile_id == job_search_profile_id))
                   into = true;
             })
         } catch (error) {
