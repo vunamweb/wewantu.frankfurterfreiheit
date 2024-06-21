@@ -1,5 +1,5 @@
 import { Input, Modal } from "antd";
-import { Form, Formik, useFormik } from "formik";
+import { ErrorMessage, Form, Formik, useFormik } from "formik";
 import { useState } from "react";
 import * as Yup from 'yup';
 import { t } from "i18next"
@@ -83,22 +83,20 @@ function CreditPayment({ creditPackage, isOpen, onCloseModal, user, updateCredit
                     }}>
                         <div className="row">
                             <div className="col-md">
-                                <InputGroup className="input-group bg-soft-light rounded-3 mb-3">
-                                    <Input
-                                        type="text"
-                                        required={true}
-                                        name="cardNumber"
-                                        className="form-control"
-                                        placeholder={t("t_card_number")}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        value={formik.values.cardNumber}
-                                        invalid={formik.touched.cardNumber && formik.errors.cardNumber ? true : false}
-                                    />
-                                    {formik.touched.cardNumber && formik.errors.cardNumber ? (
-                                        <FormFeedback type="invalid">{formik.errors.cardNumber}</FormFeedback>
-                                    ) : null}
-                                </InputGroup>
+                                <Input
+                                    type="text"
+                                    required={true}
+                                    name="cardNumber"
+                                    className="form-control"
+                                    placeholder={t("t_card_number")}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.cardNumber}
+                                    invalid={formik.touched.cardNumber && formik.errors.cardNumber ? true : false}
+                                />
+                                {formik.touched.cardNumber && formik.errors.cardNumber ? (
+                                    <span type="invalid" className="invalid">{formik.errors.cardNumber}</span>
+                                ) : null}
                             </div>
                         </div>
                         <div className="row">
@@ -114,6 +112,9 @@ function CreditPayment({ creditPackage, isOpen, onCloseModal, user, updateCredit
                                     value={formik.values.name}
                                     invalid={formik.touched.name && formik.errors.name ? true : false}
                                 />
+                                {formik.touched.name && formik.errors.name ? (
+                                    <span type="invalid" className="invalid">{formik.errors.name}</span>
+                                ) : null}
                             </div>
                         </div>
                         <div className="row">
@@ -130,6 +131,9 @@ function CreditPayment({ creditPackage, isOpen, onCloseModal, user, updateCredit
                                     value={formik.values.expiryDate}
                                     invalid={formik.touched.expiryDate && formik.errors.expiryDate ? true : false}
                                 />
+                                {formik.touched.expiryDate && formik.errors.expiryDate ? (
+                                    <span type="invalid" className="invalid">{formik.errors.expiryDate}</span>
+                                ) : null}
                             </div>
                             <div className="col-md">
                                 <Input
@@ -144,6 +148,9 @@ function CreditPayment({ creditPackage, isOpen, onCloseModal, user, updateCredit
                                     value={formik.values.cvv}
                                     invalid={formik.touched.cvv && formik.errors.cvv ? true : false}
                                 />
+                                 {formik.touched.cvv && formik.errors.cvv ? (
+                                    <span type="invalid" className="invalid">{formik.errors.cvv}</span>
+                                ) : null}
                             </div>
                         </div>
                         <div className="row">
