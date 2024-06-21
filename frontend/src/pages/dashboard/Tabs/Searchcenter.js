@@ -25,6 +25,7 @@ class Searchcenter extends Component {
             watchlist: [],
             limit: 5,
             countSearch: 0,
+            callBack: false
         };
     }
 
@@ -65,7 +66,7 @@ class Searchcenter extends Component {
             this.setState({ categoryID: categoryID });
         }
 
-        let filterSearch = [];
+        let filterSearch, listUser = [];
 
         let search = localStorage.getItem('search_job_profile');
 
@@ -73,12 +74,15 @@ class Searchcenter extends Component {
         if (this.state.search) {
             if (this.state.searchItem == null) {
                 filterSearch = this.state.listJobProfileMobile;
+                listUser = [];
             }
             else {
-                filterSearch = functions.getListUser(this.state.listJobProfileMobile, this.state.searchItem);
+                filterSearch = functions.getListUser(this.state.listJobProfileMobile, this.state.searchItem, this.state.callBack);
                 filterSearch.map((item) => {
                     item.profiles = item.profiles.filter(profile => profile.job_id == this.state.searchItem.job_id);
                 });
+
+                listUser = filterSearch;
             }
             
             // set count of search
@@ -124,13 +128,17 @@ class Searchcenter extends Component {
                     <div class="main-mes">
                         <div className="main_job">
                             <div className='row g-3 title'>
-                                <div className="col-md">{t('t_search_center').toUpperCase()}{this.state.countSearch > 0 ? "(" + this.state.countSearch + ")" : "(" + t("t_no_data_found") + ")"}</div>
+                                {
+                                    this.state.searchItem != null ?
+<div className="col-md">{t('t_search_center').toUpperCase()}{this.state.countSearch > 0 ? "(" + this.state.countSearch + ")" : "(" + t("t_no_data_found") + ")"}</div>
+                                : null
+                                }
                                 <div className="col-md-4 align-middle">
                                     
                                 </div>
                             </div>
                             <div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{ position: 'relative', height: '600px' }}>
-                                <SearchCenterTable searchData={filterSearch} component={this} />
+                                <SearchCenterTable searchData={listUser} component={this} />
                             </div>
                         </div>
 
