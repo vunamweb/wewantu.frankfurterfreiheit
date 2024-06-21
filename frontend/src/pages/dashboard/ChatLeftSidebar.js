@@ -22,6 +22,7 @@ import Subcribe from './Tabs/Subcribe';
 import config from '../../config';
 import { Input } from 'antd';
 import { t } from 'i18next';
+import StaticPage from './Tabs/StaticPage';
 
 function ChatLeftSidebar(props) {
     const activeTab = props.activeTab;
@@ -45,7 +46,7 @@ function ChatLeftSidebar(props) {
         if (loadlang && admin) {
             //load professions
             new APIClient().get('user').then(res => {
-                console.log(res);
+                
                 if (res) {
                     setAllUser(res);
                 }
@@ -53,7 +54,7 @@ function ChatLeftSidebar(props) {
 
             // load watchlist and save local
             new APIClient().get('user/' + admin.user_id + '/user_watchlist').then(res => {
-                console.log(res);
+                
                 if (res) {
                     localStorage.setItem('watchlist', JSON.stringify(res));
                 }
@@ -75,7 +76,6 @@ function ChatLeftSidebar(props) {
             //load job_search_profiles
             new APIClient().get('user/' + admin.user_id + '/job_search_profiles').then(res => {
                 if (res) {
-                    console.log(res);
                     setJobSearchProfiles(res);
                     setjob_search_profiles(res)
                 }
@@ -184,6 +184,22 @@ function ChatLeftSidebar(props) {
                 <TabPane tabId="accountsetting" id="pills-accountsetting">
                     <AccountSetting />
                 </TabPane>
+                <TabPane tabId="wewantu" id='pills-wewantu'>
+                    <StaticPage pageName="wewantu" />
+                </TabPane>
+                <TabPane tabId="investorrelations" id='pills-investorrelations'>
+                    <StaticPage pageName="investorrelations" />
+                </TabPane>
+                <TabPane tabId="theapp" id='pills-theapp'>
+                    <StaticPage pageName="theapp" />
+                </TabPane>
+                <TabPane tabId="impressum" id='pills-impressum'>
+                    <StaticPage pageName="impressum" />
+                </TabPane>
+                <TabPane tabId="datenschutz" id='pills-datenschutz'>
+                    <StaticPage pageName="datenschutz" />
+                </TabPane>
+                
                 {/* <TabPane tabId="useradministration" id="pills-useradministration">
                         <UserAdministration />
                     </TabPane> */}

@@ -325,28 +325,6 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                                                         <div className='col-md-4 gray'><span>{t('t_hobbies')}</span></div>
                                                         <div className="col-md-8 bold"> <span>{hobbies}</span></div>
                                                     </div>
-
-                                                    {/* <div className="col-md-4 gray">
-                                                        <span>{t('t_place_of_residence')}</span><br />
-                                                        <span>{t('t_language_knowledge')}</span><br />
-                                                        {rendereducational_stageskey(item.educational_stages)}
-                                                        <span>{t("t_driver_s_license")}</span><br />
-                                                        <span>{t('t_passenger_transport')}</span><br />
-                                                        <span>{t('t_hobbies')}</span><br />
-                                                    </div>
-                                                    <div className="col-md-8 bold">
-                                                        <span>{item.address[0].house_number} {item.address[0].street} {item.address[0].state} {item.address[0].city}{item.address[0].country ? ', ' + item.address[0].country : ''}</span><br />
-                                                        {
-                                                            item.languages !== null ? renderlang(item.languages) : ''
-                                                        }
-                                                        {
-                                                            item.languages !== null ? rendervalue(item.languages) : ''
-                                                        }
-                                                        {rendereducational_stagesvalue(item.educational_stages)}
-                                                        <span>{renderdriver_licenses(item.driver_licenses)}</span><br />
-                                                        <span>{item.user.passenger_transport === 0 ? t('that_s_obvious') : t('people_what')}</span><br />
-                                                        <span>{hobbies}</span>
-                                                    </div> */}
                                                 </div>
                                             </div>
                                         </div>

@@ -90,8 +90,19 @@ function SearchCenterDisplay(props) {
     }
 
     const handleBlockClick = (id, index) => {
-        blockwatclist(id)
-        JsonData.splice(index, 1);
+        let job_search_profile_id = null;
+
+        try {
+            job_search_profile_id = props.component.state.searchItem.job_search_profile_id;
+        } catch (error) {
+            job_search_profile_id = null;
+        }
+
+        blockwatclist(id);
+
+        if (job_search_profile_id == null)
+            JsonData.splice(index, 1);
+
         setIsModalOpenDetail(false);
     }
 
@@ -156,11 +167,14 @@ function SearchCenterDisplay(props) {
                                 console.log(obj_watchlist);
 
                                 // update local value of watchlist
+                                obj_watchlist.user = {};
+                                obj_watchlist.user.user_id = admin.user_id;
+
                                 functions.addItemIntoWatchList(obj_watchlist);
 
                                 // update count of search
                                 try {
-                                    props.component.setState({ countSearch: JsonData.length });
+                                    props.component.setState({ countSearch: JsonData.length, callBack: true });
                                 } catch (error) {
                                     console.log(error);
                                 }
@@ -208,7 +222,7 @@ function SearchCenterDisplay(props) {
             <div className="table table-searchcenter">
                 <div>
                     {DisplayData}
-                    
+
                 </div>
             </div>
             {Object.keys(currentUser).length > 0 && (<UserDetail isWatchlist={isWatchlist[currentUser.user.user_id]} user={currentUser} handleWLClick={handleWLClick} handleBlockClick={handleBlockClick} handleHiddenClick={handleHiddenClick} currentIndex={currentIndex} isModalOpen={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />)}

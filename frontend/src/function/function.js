@@ -85,7 +85,7 @@ class Functions {
         return exist;
     }
 
-    checkMapJob(search, job) {
+    checkMapJob(search, job, callBack) {
         let check = false;
 
         try {
@@ -104,7 +104,7 @@ class Functions {
             let job_search_profile_id = search.job_search_profile_id;
             let user_id = job.user.user_id;
 
-            if (!this.intoBlocklList(job_search_profile_id, user_id) && this.exist(searchDrive, jobDrive) && this.exist(searchLanguageMother, jobLanguageMother)
+            if ((!this.intoBlocklList(job_search_profile_id, user_id) || callBack) && this.exist(searchDrive, jobDrive) && this.exist(searchLanguageMother, jobLanguageMother)
                 && this.exist(searchLanguageForeign, jobLanguageForeign) && this.existJOBID(seachJobID, jobList))
 
                 check = true;
@@ -115,12 +115,12 @@ class Functions {
         return check;
     }
 
-    getListUser = (listAllUser, conditionSearch) => {
+    getListUser = (listAllUser, conditionSearch, callBack = false) => {
         let filterSearch = [];
 
         try {
             listAllUser.map((item, index) => {
-                if (this.checkMapJob(conditionSearch, item))
+                if (this.checkMapJob(conditionSearch, item, callBack))
                     filterSearch.push(item);
             })
         } catch (error) {

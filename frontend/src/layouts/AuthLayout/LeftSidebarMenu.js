@@ -109,27 +109,27 @@ function LeftSidebarMenu(props) {
                             </NavLink>
                         </NavItem> */}
                         <NavItem id="wewantu">
-                            <NavLink href='/home#main_werist' id="pills-user-tab" className={classnames({ active: activeTab === 'wewantu' }) + " mb-2"} onClick={() => { toggleTab('wewantu'); }}>
+                            <NavLink id="pills-wewantu" className={classnames({ active: activeTab === 'wewantu' }) + " mb-2"} onClick={() => { toggleTab('wewantu'); }}>
                             {t('t_whats_wewantu').toUpperCase()}
                             </NavLink>
                         </NavItem>
                         <NavItem id="investorrelations">
-                            <NavLink href='/home#main_werist' id="pills-user-tab" className={classnames({ active: activeTab === 'investorrelations' }) + " mb-2"} onClick={() => { toggleTab('investorrelations'); }}>
+                            <NavLink id="pills-investorrelations" className={classnames({ active: activeTab === 'investorrelations' }) + " mb-2"} onClick={() => { toggleTab('investorrelations'); }}>
                             {t('t_user_account').toUpperCase()}
                             </NavLink>
                         </NavItem>
                         <NavItem id="theapp">
-                            <NavLink href='/home#main_werist' id="pills-user-tab" className={classnames({ active: activeTab === 'theapp' }) + " mb-2"} onClick={() => { toggleTab('theapp'); }}>
+                            <NavLink id="pills-theapp" className={classnames({ active: activeTab === 'theapp' }) + " mb-2"} onClick={() => { toggleTab('theapp'); }}>
                             {t('t_the_app').toUpperCase()}
                             </NavLink>
                         </NavItem>
                         <NavItem id="impressum">
-                            <NavLink href='/home#main_werist' id="pills-user-tab" className={classnames({ active: activeTab === 'impressum' }) + " mb-2"} onClick={() => { toggleTab('impressum'); }}>
+                            <NavLink id="pills-impressum" className={classnames({ active: activeTab === 'impressum' }) + " mb-2"} onClick={() => { toggleTab('impressum'); }}>
                             {t('imprint').toUpperCase()}
                             </NavLink>
                         </NavItem>
                         <NavItem id="datenschutz">
-                            <NavLink href='/home#main_werist' id="pills-user-tab" className={classnames({ active: activeTab === 'datenschutz' }) + " mb-2"} onClick={() => { toggleTab('datenschutz'); }}>
+                            <NavLink id="pills-datenschutz" className={classnames({ active: activeTab === 'datenschutz' }) + " mb-2"} onClick={() => { toggleTab('datenschutz'); }}>
                             {t('data_protection').toUpperCase()}
                             </NavLink>
                         </NavItem>

@@ -12,6 +12,7 @@ import { getAllUser, getLoggedInUser, getjob_search_profiles_all } from '../../.
 import { APIClient } from '../../../helpers/apiClient';
 
 import { t } from 'i18next';
+import config from '../../../config';
 
 class Chats extends Component {
     constructor(props) {
@@ -244,7 +245,7 @@ class Chats extends Component {
     }
 
     openUserChat(e, chat) {
-
+        console.log(chat);
         e.preventDefault();
 
         //find index of current chat in array
@@ -367,7 +368,7 @@ class Chats extends Component {
                                                                 </div>
                                                                 :
                                                                 <div className={"chat-user-img " + chat.status + " align-self-center ms-0"}>
-                                                                    <img src={chat.profilePicture} className="rounded-circle avatar-xs" alt="chatvia" />
+                                                                    <img src={config.API_BASE_URL + "/" + chat.profilePicture} className="rounded-circle avatar-xs" alt="chatvia" />
                                                                     {
                                                                         chat.status && <span className="user-status"></span>
 

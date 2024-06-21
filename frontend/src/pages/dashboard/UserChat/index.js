@@ -27,6 +27,7 @@ import { useTranslation } from 'react-i18next';
 
 //firebase
 import { getFirebaseBackend } from "../../../helpers/firebase";
+import config from '../../../config';
 
 
 function UserChat(props) {
@@ -45,48 +46,8 @@ function UserChat(props) {
     const [countid,setCountid] = useState(0);
     const fireBaseBackend = getFirebaseBackend();
 
-    /*
-        useEffect(() => {
-            if (!currentGroup) {
-                return
-            }
-            //console.log(currentGroup);
-            const admin=getLoggedInUser()[0];
-            let tagId=admin.user_id+'_'+currentGroup.user_id;
-            const resp = ref(getDatabase(), 'messages/'+tagId);
-            const unSub = onValue(resp, (snap) => { // <--- return the unsubscriber!
-                
-                if (snap.exists()) {
-                    const messages = getSnapshotChildren(snap)
-                         .map(child => ({
-                             id: child.key,
-                             //group: currentGroup.user_id,
-                             ...child.val()
-                         }));
-                         
-                         //console.log(messages[messages.length -1].message);
-                        if(admin.user_id === messages[messages.length -1].fromUser)
-                            console.log('is admin');
-                        else{
-                                addMessage(messages[messages.length -1].message,'textMessage',"receiver");
-                                    //const users = fetch('https://api.topazvn.vn/listChat.php?admin_id='+admin.user_id)
-                                    //console.log(users);
-                                    //setchatMessages(users[props.active_user].messages);
-                                }
-                            //
-    
-                    return
-                }
-                
-            });
-            return () => {
-                unSub();
-              };   
-                
-        },[currentGroup]);
-    */
-
     useEffect(() => {
+        console.log(props.users);
         if (props.users.length > 0){
             setchatMessages(props.users[props.active_user].messages);
             setCountid(props.users[props.active_user].messages.length);
@@ -251,7 +212,7 @@ function UserChat(props) {
                                                                                 </span>
                                                                             </div>
                                                                         </div>
-                                                                        : <img src={props.recentChatList[props.active_user].profilePicture} alt="chatvia" />
+                                                                        : <img src={config.API_BASE_URL + props.recentChatList[props.active_user].profilePicture} alt="chatvia" />
                                                                 }
                                                             </div>
 
@@ -332,7 +293,7 @@ function UserChat(props) {
                                                                                         </span>
                                                                                     </div>
                                                                                 </div>
-                                                                                : <img src={props.recentChatList[props.active_user].profilePicture} alt="chatvia" />
+                                                                                : <img src={config.API_BASE_URL + props.recentChatList[props.active_user].profilePicture} alt="chatvia" />
                                                                         }
                                                                     </div>
                                                                     : <div className="chat-avatar">
@@ -345,7 +306,7 @@ function UserChat(props) {
                                                                                         </span>
                                                                                     </div>
                                                                                 </div>
-                                                                                : <img src={props.recentChatList[props.active_user].profilePicture} alt="chatvia" />
+                                                                                : <img src={ config.API_BASE_URL + props.recentChatList[props.active_user].profilePicture} alt="chatvia" />
                                                                         }
                                                                     </div>
                                                             }
