@@ -45,7 +45,7 @@ class Searchcenter extends Component {
                 this.state.search = true;
             }
             let watchlist = await new APIClient().get('user/' + admin.user_id + '/user_watchlist');
-            this.setState({ showListJob: this.props.showListJob, listJobProfileMobile: this.props.listJobProfileMobile, watchlist: watchlist });
+            this.setState({ showListJob: this.props.showListJob, listJobProfileMobile: this.props.listJobProfileMobile,watchlist: watchlist });
         }
 
     }
@@ -84,13 +84,13 @@ class Searchcenter extends Component {
 
                 listUser = filterSearch;
             }
-
+            
             // set count of search
             try {
                 filterSearch = functions.filterFromBlockList(filterSearch);
 
                 this.state.countSearch = filterSearch.length;
-            } catch (error) {
+            } catch(error) {
                 console.log(error);
             }
             // end
@@ -130,11 +130,11 @@ class Searchcenter extends Component {
                             <div className='row g-3 title'>
                                 {
                                     this.state.searchItem != null ?
-                                        <div className="col-md">{t('t_search_center').toUpperCase()}{this.state.countSearch > 0 ? "(" + this.state.countSearch + ")" : "(" + t("t_no_data_found") + ")"}</div>
-                                        : null
+<div className="col-md">{t('t_search_center').toUpperCase()}{this.state.countSearch > 0 ? "(" + this.state.countSearch + ")" : "(" + t("t_no_data_found") + ")"}</div>
+                                : null
                                 }
                                 <div className="col-md-4 align-middle">
-
+                                    
                                 </div>
                             </div>
                             <div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{ position: 'relative', height: '600px' }}>
