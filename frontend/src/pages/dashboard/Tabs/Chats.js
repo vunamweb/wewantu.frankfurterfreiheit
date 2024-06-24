@@ -27,6 +27,7 @@ class Chats extends Component {
         }
         this.openUserChat = this.openUserChat.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.user_id_payment = [];
     }
 
     async componentDidMount() {
@@ -40,7 +41,10 @@ class Chats extends Component {
         const admin = getLoggedInUser()[0];
 
         let payments = await new APIClient().get('user/' + admin.user_id + '/user_payment');
+
         const user_id_payment = payments.map(p => p.user_id_payment);
+        this.user_id_payment = user_id_payment;
+
         const chatListFilter = this.state.chatList.filter((c) => (user_id_payment.includes(c.user_id) || admin.userType == 0));
         this.setState({ chatList: chatListFilter, recentChatList: chatListFilter });
 
@@ -112,8 +116,16 @@ class Chats extends Component {
                 newsearchJob[index].company = company;
         });
         let jobListFinal = [];
+        let listJobProfileMobileFilter = [];
+
+        try {
+            listJobProfileMobileFilter = this.props.listJobProfileMobile.filter((c) => (this.user_id_payment.includes(c.user.user_id) || admin.userType == 0));
+        } catch (error) {
+            console.log(error);
+        }
+
         jobList.map((item) => {
-            let userList = functions.getListUser(this.state.searchJob, item);
+            let userList = functions.getListUser(listJobProfileMobileFilter, item);
             let checkExist = false;
             if (Array.isArray(userList) && userList.length > 0) {
                 checkExist = true;
@@ -194,11 +206,21 @@ class Chats extends Component {
     }
 
     async componentDidUpdate(prevProps) {
+        const admin = getLoggedInUser()[0];
+
         if (prevProps !== this.props) {
 
             let jobListFinal = [];
+            let listJobProfileMobileFilter = [];
+
+            try {
+                listJobProfileMobileFilter = this.props.listJobProfileMobile.filter((c) => (this.user_id_payment.includes(c.user.user_id) || admin.userType == 0));
+            } catch (error) {
+                console.log(error);
+            }
+
             this.props.jobSearchProfiles.map((item) => {
-                let userList = functions.getListUser(this.state.searchJob, item);
+                let userList = functions.getListUser(listJobProfileMobileFilter, item);
                 let checkExist = false;
                 if (Array.isArray(userList) && userList.length > 0) {
                     checkExist = true;
@@ -429,7 +451,9 @@ class Chats extends Component {
 
 const mapStateToProps = (state) => {
     const { active_user } = state.Chat;
-    return { active_user };
+    const listJobProfileMobile = state.Layout.listUserProfile;
+
+    return { active_user, listJobProfileMobile };
 };
 
 export default connect(mapStateToProps, { setconversationNameInOpenChat, activeUser, setFullUser })(Chats);
