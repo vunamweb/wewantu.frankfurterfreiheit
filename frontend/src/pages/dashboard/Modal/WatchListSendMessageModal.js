@@ -17,6 +17,7 @@ import { getFirebaseBackend } from '../../../helpers/firebase';
 import { toast } from 'react-toastify';
 import ConfirmModal from './ConfirmModal';
 import RatingStar from '../Component/RatingStar';
+import config from '../../../config';
 
 function WatchListSendMessageModal(props) {
     const currentUser = props.currentUser
@@ -35,6 +36,12 @@ function WatchListSendMessageModal(props) {
     const [hasPayment, setHasPayment] = useState(true);
     const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
     const [address, setAddress] = useState({});
+    const [prename, setPrename] = useState("");
+    const [lastname, setLastname] = useState("");
+    const [city, setCity] = useState("");
+    const [postal_code, setPostal_code] = useState("");
+    const [country, setCountry] = useState("");
+    const [yearBirthDay,setYearBirthDay] = useState("");
 
     // const [user,setUser] = useState(null);
     let user = null;
@@ -155,13 +162,16 @@ function WatchListSendMessageModal(props) {
                         if (user_payment_list.length > 0) {
                             setHasPayment(true);
                         }
+                        else {
+                            setHasPayment(false);
+                        }
                     } else {
                         setHasPayment(false);
                     }
                 })
             new APIClient().get('user/' + admin.user_id + '/user_template').then(res => {
                 if (res.length > 0) {
-                    let tmp = user.prename + ' ' + user.lastname ;// + ',\r' + res[0].description;
+                    let tmp = user.prename + ' ' + user.lastname;// + ',\r' + res[0].description;
                     form2.setFieldsValue({
                         message: tmp,
                         job_search_profile_id: user.job_search_profile_id,
@@ -170,9 +180,25 @@ function WatchListSendMessageModal(props) {
                     settemplateData(res);
                 }
             });
+
+            
         }
 
     }, [currentUser])
+
+    useEffect(()=>{
+        let fieldsHide = config.USER_FIELD_HIDE;
+
+        setPrename((!hasPayment && fieldsHide.includes("prename")) ? "*****" : user.prename);
+        setLastname((!hasPayment && fieldsHide.includes("lastname")) ? "*****" : user.lastname);
+        if (currentUser.address && currentUser.address.length > 0){
+            let address = currentUser.address;
+            setCity((!hasPayment && fieldsHide.includes("city")) ? "*****" : address[0].city);
+            setPostal_code((!hasPayment && fieldsHide.includes("postal_code")) ? "*****" : address[0].postal_code);
+            setCountry((!hasPayment && fieldsHide.includes("country")) ? "*****" : address[0].country);
+            setYearBirthDay((!hasPayment && fieldsHide.includes("year_birthday")) ? "*****" : address[0].year_birthday);
+        }
+    },[hasPayment])
 
     if (!user || Object.keys(user).length == 0) {
         return null;
@@ -184,9 +210,9 @@ function WatchListSendMessageModal(props) {
                 <div className="row write-msg">
                     <div className="col-md-3 pleft">
                         <Avatar className='avatar' size={80}>{(user.prename.slice(0, 1)).toUpperCase()}{(user.lastname.slice(0, 1)).toUpperCase()}</Avatar>
-                        <div className="name">{user.prename} {user.lastname}</div>
-                        <div className='popup-infor'><img src="assets/img/year.svg" alt='' />{user.year_of_birth}</div>
-                        <div className='popup-infor' style={{ "paddingTop": "10%" }}><img src="assets/img/location.svg" alt='' />{address.city} {address.postal_code ? ',' + address.postal_code : ''}</div>
+                        <div className="name">{prename} {lastname}</div>
+                        <div className='popup-infor'><img src="assets/img/year.svg" alt='' />{yearBirthDay}</div>
+                        <div className='popup-infor' style={{ "paddingTop": "10%" }}><img src="assets/img/location.svg" alt='' />{city} {postal_code ? ',' + postal_code : ''}</div>
                         <div className='popup-infor'><img src="assets/img/hand.svg" alt='' /></div>
                         {/* <div className='popup-infor'><img src="assets/img/safari.svg" alt=''/></div> */}
                         <RatingStar user_id={user.user_id} />

@@ -47,7 +47,7 @@ function UserChat(props) {
     const fireBaseBackend = getFirebaseBackend();
 
     useEffect(() => {
-        console.log(props.users);
+        // console.log(props.users);
         if (props.users.length > 0){
             setchatMessages(props.users[props.active_user].messages);
             setCountid(props.users[props.active_user].messages.length);

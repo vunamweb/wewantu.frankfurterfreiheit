@@ -67,6 +67,7 @@ class Index extends Component {
 
                 if (getLoggedInUser().length > 0) {
                     let copyallUsers = this.state.users;
+                    console.log(copyallUsers);
                     const admin = getLoggedInUser()[0].user_id;
                     if (copyallUsers.length > 0) {
 
@@ -178,6 +179,9 @@ class Index extends Component {
             const admin = getLoggedInUser()[0];
             console.log(admin);
             this.setState({ credit_amount: admin.credits });
+        }
+        if (this.props.users !== prevProps.users){
+            this.setState({ users: this.props.users});
         }
     }
 
