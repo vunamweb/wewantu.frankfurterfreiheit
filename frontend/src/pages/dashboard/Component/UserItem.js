@@ -12,7 +12,7 @@ function UserItem({ info, index, handleDTClick, handleWLClick, watchlisted, user
     useEffect(() => {
         if (admin.userType != 0) {
             if (userPayments && userPayments.length>0) {
-                let user_payment_list = userPayments.filter((payment) => { return payment.user_id_payment == info.user.user_id && payment.type == "message" });
+                let user_payment_list = userPayments.filter((payment) => { return payment.user_id_payment == info.user.user_id });
                 if (user_payment_list.length > 0) {
                     setHasPayment(true);
                 }

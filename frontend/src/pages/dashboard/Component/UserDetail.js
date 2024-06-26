@@ -73,7 +73,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
             if (admin.userType != 0)
                 new APIClient().get('user/' + admin.user_id + '/user_payment').then(res => {
                     if (res.length > 0) {
-                        let user_payment_list = res.filter((payment) => { return payment.user_id_payment == currentUser.user.user_id && payment.type == "message" });
+                        let user_payment_list = res.filter((payment) => { return payment.user_id_payment == currentUser.user.user_id  });
                         if (user_payment_list.length > 0) {
                             setHasPayment(true);
                         }

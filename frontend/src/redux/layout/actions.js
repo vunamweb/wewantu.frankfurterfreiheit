@@ -7,7 +7,8 @@ import {
 	SET_SEARCH_DATA,
 	CHANGE_LANGUAGE,
 	SET_LIST_USER_PROFILE,
-	SET_USER_SETTING_ACTIVE_TAB
+	SET_USER_SETTING_ACTIVE_TAB,
+	SET_USER_PAYMENT
 } from "./constants";
 
 export const setActiveTab = (tabId) => ({
@@ -53,3 +54,8 @@ export const setUserSettingActiveTab = (tabId) => ({
 	type: SET_USER_SETTING_ACTIVE_TAB,
 	payload: tabId
 });
+
+export const setUserPayments = (userPayments) => ({
+	type: SET_USER_PAYMENT,
+	payload: userPayments
+})

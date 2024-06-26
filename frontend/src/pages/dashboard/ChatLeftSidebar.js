@@ -23,6 +23,7 @@ import config from '../../config';
 import { Input } from 'antd';
 import { t } from 'i18next';
 import StaticPage from './Tabs/StaticPage';
+import { setUserPayments } from '../../redux/actions';
 
 function ChatLeftSidebar(props) {
     const activeTab = props.activeTab;
@@ -46,15 +47,23 @@ function ChatLeftSidebar(props) {
         if (loadlang && admin) {
             //load professions
             new APIClient().get('user').then(res => {
-                
+
                 if (res) {
                     setAllUser(res);
                 }
             });
 
+            //load payments
+            new APIClient().get('user/' + admin.user_id + '/user_payment').then(res => {
+                if (res.length > 0) {
+                    setUserPayments(res);
+                }
+            })
+
+
             // load watchlist and save local
             new APIClient().get('user/' + admin.user_id + '/user_watchlist').then(res => {
-                
+
                 if (res) {
                     localStorage.setItem('watchlist', JSON.stringify(res));
                 }
@@ -199,7 +208,7 @@ function ChatLeftSidebar(props) {
                 <TabPane tabId="datenschutz" id='pills-datenschutz'>
                     <StaticPage pageName="datenschutz" />
                 </TabPane>
-                
+
                 {/* <TabPane tabId="useradministration" id="pills-useradministration">
                         <UserAdministration />
                     </TabPane> */}
@@ -217,4 +226,4 @@ const mapStatetoProps = state => {
     };
 };
 
-export default connect(mapStatetoProps, null)(ChatLeftSidebar);
+export default connect(mapStatetoProps, {setUserPayments})(ChatLeftSidebar);

@@ -124,7 +124,7 @@ class Searchcenter extends Component {
             <>
                 <React.Fragment>
                     {loading && (<div className="loader"></div>)}
-                    {(showListJob) && <JobSearchProfile listJobProfileMobile={filterSearch} onSelect={onChange} categoryID={this.state.categoryID} onClickJobProfile={this.onClickJobProfile} />}
+                    {(showListJob) && <JobSearchProfile listJobProfileMobile={this.state.listJobProfileMobile} onSelect={onChange} categoryID={this.state.categoryID} onClickJobProfile={this.onClickJobProfile} />}
                     <div class="main-mes">
                         <div className="main_job">
                             <div className='row g-3 title'>

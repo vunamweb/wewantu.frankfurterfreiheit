@@ -113,16 +113,18 @@ function Watchlist(props) {
 					setwatchListFilter(res);
 				}
 			});
-
-
 			new APIClient().get('user/' + admin.user_id + '/user_payment').then(res => {
 				if (res.length > 0) {
 					setUserPayments(res);
 				}
 			})
-
 		}
 	}, [props.activeTab])
+
+	// useEffect(()=>{
+	// 	console.log(props.userPayments);
+	// 	setUserPayments(props.userPayments);
+	// },[props]);
 
 	const ondeleteWL = (info, index) => {
 		const result = window.confirm("Do you want to proceed?");
@@ -403,7 +405,7 @@ function Watchlist(props) {
 		}
 
 		if (admin.userType != 0) {
-			const user_payment_message = userPayments.filter((payment) => { return payment.user_id_payment == info.user_add_id && payment.type == "message" });
+			const user_payment_message = userPayments.filter((payment) => { return payment.user_id_payment == info.user_add_id  });
 			if (user_payment_message.length > 0) {
 				hasPayment = true;
 			}
@@ -595,7 +597,8 @@ function Watchlist(props) {
 
 const mapStateToProps = (state) => {
 	return {
-		listJobProfileMobile: state.Layout.listUserProfile
+		listJobProfileMobile: state.Layout.listUserProfile,
+		userPayments: state.Layout.userPayments
 	};
 };
 

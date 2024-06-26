@@ -132,7 +132,7 @@ function WatchListSendMessageModal(props) {
                 user_id: admin.user_id,
                 user_id_payment: user.user_id,
                 credit: 1,
-                type: type
+                type: ""
             }
             new APIClient().create("user_payment", user_payment_data).then((res) => {
                 setHasPayment(true);
@@ -158,7 +158,7 @@ function WatchListSendMessageModal(props) {
             if (admin.userType != 0)
                 new APIClient().get('user/' + admin.user_id + '/user_payment').then(res => {
                     if (res.length > 0) {
-                        let user_payment_list = res.filter((payment) => { return payment.user_id_payment == user.user_id && payment.type == type });
+                        let user_payment_list = res.filter((payment) => { return payment.user_id_payment == user.user_id });
                         if (user_payment_list.length > 0) {
                             setHasPayment(true);
                         }

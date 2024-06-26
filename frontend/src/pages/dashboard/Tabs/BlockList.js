@@ -13,6 +13,7 @@ import { APIClient } from '../../../helpers/apiClient';
 import RatingStar from '../Component/RatingStar';
 import JobSearchProfile from '../Component/JobSearchProfile';
 import functions from '../../../function/function';
+import config from '../../../config';
 
 
 function Blocklist(props) {
@@ -31,6 +32,8 @@ function Blocklist(props) {
 	const [watchListFilter, setwatchListFilter] = useState([]);
 	const [checkedList, setCheckedList] = useState([]);
 	const [categoryID, setCategoryID] = useState("all");
+	const [userPayments, setUserPayments] = useState([]);
+
 	const checkAll = plainOptions.length === checkedList.length;
 	const indeterminate = checkedList.length > 0 && checkedList.length < plainOptions.length;
 	const onChangecheckbox = (list) => {
@@ -59,6 +62,12 @@ function Blocklist(props) {
 					setwatchListFilter(res);
 				}
 			});*/
+
+			new APIClient().get('user/' + admin.user_id + '/user_payment').then(res => {
+				if (res.length > 0) {
+					setUserPayments(res);
+				}
+			})
 		}
 	}, [props.activeTab])
 
@@ -112,6 +121,7 @@ function Blocklist(props) {
 
 	const renderUserinfo = (values, index) => {
 		const currentUser = allUser.filter(val => (val.user_id === values.user_add_id))[0];
+		let hasPayment = false;
 
 		if (currentUser != undefined) {
 			currentUser.user_watchlist_id = values.user_watchlist_id;
@@ -131,6 +141,22 @@ function Blocklist(props) {
 			} catch (error) {
 				hobbies = currentUser.hobbies;
 			}
+
+			if (admin.userType != 0) {
+				const user_payment_message = userPayments.filter((payment) => { return payment.user_id_payment == values.user_add_id });
+				if (user_payment_message.length > 0) {
+					hasPayment = true;
+				}
+			}
+			else {
+				hasPayment = true;
+			}
+
+			let fieldsHide = config.USER_FIELD_HIDE;
+
+			let prename = (!hasPayment && fieldsHide.includes("prename")) ? "*****" : currentUser.prename;
+			let lastname = (!hasPayment && fieldsHide.includes("lastname")) ? "*****" : currentUser.lastname;
+
 
 			return (
 				<>
@@ -157,7 +183,7 @@ function Blocklist(props) {
 							</div>
 							<div className="row">
 								<div className='col-md'>
-									<div className="name1"><h4>{currentUser.prename} {currentUser.lastname}</h4></div>
+									<div className="name1"><h4>{prename} {lastname}</h4></div>
 									{/* <div><img src="assets/img/location.svg" alt='' />
 										{info.address[0].street} {info.address[0].city} {info.address[0].country === null ? '' : ',' + info.address[0].country}
 									</div>
