@@ -177,6 +177,7 @@ class Index extends Component {
     async componentDidUpdate(prevProps) {
         if (this.props.user !== prevProps.user) {
             const admin = getLoggedInUser()[0];
+            // console.log(admin);
             this.setState({ credit_amount: admin.credits });
         }
         // if (this.props.users !== prevProps.users){
