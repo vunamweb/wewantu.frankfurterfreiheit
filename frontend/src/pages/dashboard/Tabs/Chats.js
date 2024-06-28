@@ -21,7 +21,7 @@ class Chats extends Component {
         this.state = {
             loading: false,
             searchChat: "",
-            chatList: this.props.recentChatList,
+            chatList: Array.isArray(this.props.recentChatList) ? this.props.recentChatList : [],
             recentChatList: this.props.recentChatList,
             jobSearchProfiles: this.props.jobSearchProfiles
         }

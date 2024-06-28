@@ -49,8 +49,8 @@ function UserChat(props) {
     useEffect(() => {
         // console.log(props.users);
         if (props.users.length > 0){
-            setchatMessages(props.users[props.active_user].messages);
-            setCountid(props.users[props.active_user].messages.length);
+            setchatMessages(Array.isArray(props.users[props.active_user].messages) ? props.users[props.active_user].messages : [] );
+            setCountid(Array.isArray(props.users[props.active_user].messages) ? props.users[props.active_user].messages.length : 0);
         }
             
     }, [props.users]);

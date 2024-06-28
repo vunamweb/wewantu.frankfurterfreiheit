@@ -66,7 +66,7 @@ class Index extends Component {
                     }));
 
                 if (getLoggedInUser().length > 0) {
-                    let copyallUsers = this.state.users;
+                    let copyallUsers = Array.isArray(this.state.users) ? this.state.users : [];
                     console.log(copyallUsers);
                     const admin = getLoggedInUser()[0].user_id;
                     if (copyallUsers.length > 0) {
