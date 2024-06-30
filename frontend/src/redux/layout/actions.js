@@ -8,7 +8,8 @@ import {
 	CHANGE_LANGUAGE,
 	SET_LIST_USER_PROFILE,
 	SET_USER_SETTING_ACTIVE_TAB,
-	SET_USER_PAYMENT
+	SET_USER_PAYMENT,
+	SET_LIST_JOB_SEARCH_PROFILE
 } from "./constants";
 
 export const setActiveTab = (tabId) => ({
@@ -48,6 +49,11 @@ export const changeLanguage = (language) =>({
 export const setListUserProfile = (listUserProfile) => ({
 	type: SET_LIST_USER_PROFILE,
 	payload: listUserProfile
+})
+
+export const setListJobSearchProfile = (listJobSearchProfile) => ({
+	type: SET_LIST_JOB_SEARCH_PROFILE,
+	payload: listJobSearchProfile
 })
 
 export const setUserSettingActiveTab = (tabId) => ({

@@ -46,12 +46,12 @@ function ChatLeftSidebar(props) {
 
         if (loadlang && admin) {
             //load professions
-            new APIClient().get('user').then(res => {
+            // new APIClient().get('user').then(res => {
 
-                if (res) {
-                    setAllUser(res);
-                }
-            });
+            //     if (res) {
+            //         setAllUser(res);
+            //     }
+            // });
 
             //load payments
             new APIClient().get('user/' + admin.user_id + '/user_payment').then(res => {
@@ -135,79 +135,110 @@ function ChatLeftSidebar(props) {
     return (
         <React.Fragment>
             <TabContent activeTab={activeTab}  >
-                <TabPane tabId="jobs" id="pills-jobs"   >
-                    <Jobs activeTab={activeTab} setSearch={setSearch} />
-                </TabPane>
-                <TabPane tabId="archivejobs" id="pills-jobs"   >
-                    <ArchiveJob activeTab={activeTab} setSearch={setSearch} />
-                </TabPane>
-                <TabPane tabId="addnewjob" id="pills-addnewjob">
-                    <Jobs activeTab={activeTab} />
-                </TabPane>
-
-                <TabPane tabId="addnewcategory" id="pills-addnewcategory">
-                    <AddCategory professions={[professions, setprofessions]} />
-                </TabPane>
-                <TabPane tabId="searchcenter" id="pills-searchcenter">
-                    <Searchcenter professions={professions} />
-                </TabPane>
-                <TabPane tabId="watchlist" id="pills-watchlist">
-                    <Watchlist recentChatList={props.recentChatList} loadwatchlist={loadwatchlist} setwatchlist={setwatchlist} activeTab={activeTab} />
-                </TabPane>
-                <TabPane tabId="blocklist" id="pills-blocklist">
-                    <Blocklist loadwatchlist={loadwatchlist} setwatchlist={setwatchlist} activeTab={activeTab} />
-                </TabPane>
-                <TabPane tabId="mess" id="pills-mess">
-                    <div class="main-mes">
-                        <div class="row">
+                {(activeTab == "jobs") &&
+                    <TabPane tabId="jobs" id="pills-jobs"   >
+                        <Jobs activeTab={activeTab} setSearch={setSearch} />
+                    </TabPane>
+                }
+                {(activeTab == "archivejobs") &&
+                    <TabPane tabId="archivejobs" id="pills-jobs"   >
+                        <ArchiveJob activeTab={activeTab} setSearch={setSearch} />
+                    </TabPane>
+                }
+                {(activeTab == "addnewjob") &&
+                    <TabPane tabId="addnewjob" id="pills-addnewjob">
+                        <Jobs activeTab={activeTab} />
+                    </TabPane>
+                }
+                {(activeTab == "addnewcategory") &&
+                    <TabPane tabId="addnewcategory" id="pills-addnewcategory">
+                        <AddCategory professions={[professions, setprofessions]} />
+                    </TabPane>
+                }
+                {(activeTab == "searchcenter") &&
+                    <TabPane tabId="searchcenter" id="pills-searchcenter">
+                        <Searchcenter professions={professions} />
+                    </TabPane>
+                }
+                {(activeTab == "watchlist") &&
+                    <TabPane tabId="watchlist" id="pills-watchlist">
+                        <Watchlist recentChatList={props.recentChatList} loadwatchlist={loadwatchlist} setwatchlist={setwatchlist} activeTab={activeTab} />
+                    </TabPane>
+                }
+                {(activeTab == "blocklist") &&
+                    <TabPane tabId="blocklist" id="pills-blocklist">
+                        <Blocklist loadwatchlist={loadwatchlist} setwatchlist={setwatchlist} activeTab={activeTab} />
+                    </TabPane>
+                }
+                {(activeTab == "mess") &&
+                    <TabPane tabId="mess" id="pills-mess">
+                        <div class="main-mes">
                             <div class="row">
-                                <div class="col-md">
+                                <div class="row">
+                                    <div class="col-md">
 
-                                    <nav class="navbar navbar-expand-md navbar-light">
-                                        <div class="container-fluid ">
-                                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                                <span class="navbar-toggler-icon"></span>
-                                            </button>
+                                        <nav class="navbar navbar-expand-md navbar-light">
+                                            <div class="container-fluid ">
+                                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                                    <span class="navbar-toggler-icon"></span>
+                                                </button>
 
-                                            <div class="title">{t("t_massage_center").toUpperCase()}</div>
-                                        </div>
-                                    </nav>
+                                                <div class="title">{t("t_massage_center").toUpperCase()}</div>
+                                            </div>
+                                        </nav>
+                                    </div>
                                 </div>
                             </div>
+                            <div className="row">
+                                <Chats jobSearchProfiles={jobSearchProfiles} recentChatList={props.recentChatList} />
+                                <UserChat recentChatList={props.recentChatList} />
+                            </div>
                         </div>
-                        <div className="row">
-                            <Chats jobSearchProfiles={jobSearchProfiles} recentChatList={props.recentChatList} />
-                            <UserChat recentChatList={props.recentChatList} />
-                        </div>
-                    </div>
-                </TabPane>
-                <TabPane tabId="subcribe" id="pills-subcribe">
-                    <Subcribe />
-                </TabPane>
-                <TabPane tabId="credits" id="pills-credits">
-                    <Credits />
-                </TabPane>
+                    </TabPane>
+                }
+                {(activeTab == "subcribe") &&
+                    <TabPane tabId="subcribe" id="pills-subcribe">
+                        <Subcribe />
+                    </TabPane>
+                }
+                {(activeTab == "credits") &&
+                    <TabPane tabId="credits" id="pills-credits">
+                        <Credits />
+                    </TabPane>
+                }
                 {/* <TabPane tabId="useraccount" id="pills-useraccount">
                         <UserAccount />
                     </TabPane>   */}
-                <TabPane tabId="accountsetting" id="pills-accountsetting">
-                    <AccountSetting />
-                </TabPane>
-                <TabPane tabId="wewantu" id='pills-wewantu'>
-                    <StaticPage pageName="wewantu" />
-                </TabPane>
-                <TabPane tabId="investorrelations" id='pills-investorrelations'>
-                    <StaticPage pageName="investorrelations" />
-                </TabPane>
-                <TabPane tabId="theapp" id='pills-theapp'>
-                    <StaticPage pageName="theapp" />
-                </TabPane>
-                <TabPane tabId="impressum" id='pills-impressum'>
-                    <StaticPage pageName="impressum" />
-                </TabPane>
-                <TabPane tabId="datenschutz" id='pills-datenschutz'>
-                    <StaticPage pageName="datenschutz" />
-                </TabPane>
+                {(activeTab == "accountsetting") &&
+                    <TabPane tabId="accountsetting" id="pills-accountsetting">
+                        <AccountSetting />
+                    </TabPane>
+                }
+                {(activeTab == "wewantu") &&
+                    <TabPane tabId="wewantu" id='pills-wewantu'>
+                        <StaticPage pageName="wewantu" />
+                    </TabPane>
+                }
+                {(activeTab == "investorrelations") &&
+                    <TabPane tabId="investorrelations" id='pills-investorrelations'>
+                        <StaticPage pageName="investorrelations" />
+                    </TabPane>
+                }
+                {(activeTab == "theapp") &&
+                    <TabPane tabId="theapp" id='pills-theapp'>
+                        <StaticPage pageName="theapp" />
+                    </TabPane>
+                }
+                {(activeTab == "impressum") &&
+                    <TabPane tabId="impressum" id='pills-impressum'>
+                        <StaticPage pageName="impressum" />
+                    </TabPane>
+                }
+                {(activeTab == "datenschutz") &&
+                    <TabPane tabId="datenschutz" id='pills-datenschutz'>
+                        <StaticPage pageName="datenschutz" />
+                    </TabPane>
+                }
 
                 {/* <TabPane tabId="useradministration" id="pills-useradministration">
                         <UserAdministration />
@@ -226,4 +257,4 @@ const mapStatetoProps = state => {
     };
 };
 
-export default connect(mapStatetoProps, {setUserPayments})(ChatLeftSidebar);
+export default connect(mapStatetoProps, { setUserPayments })(ChatLeftSidebar);

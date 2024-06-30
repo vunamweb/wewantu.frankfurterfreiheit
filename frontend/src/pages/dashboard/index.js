@@ -27,7 +27,7 @@ class Index extends Component {
         //this.setState({ loading: true });
         if (getLoggedInUser().length > 0) {
             const admin = getLoggedInUser()[0];
-            const users = await new APIClient().get(config.API_BASE_URL + '/listChat.php?admin_id=' + admin.user_id)
+            const users = await new APIClient().get(config.API_BASE_URL + '/listChat2.php?admin_id=' + admin.user_id)
             //console.log(user);
             if (users.length > 0) {
                 this.props.setFullUser(users);

@@ -9,7 +9,8 @@ import {
 	CHANGE_LANGUAGE,
 	SET_LIST_USER_PROFILE,
 	SET_USER_SETTING_ACTIVE_TAB,
-	SET_USER_PAYMENT
+	SET_USER_PAYMENT,
+	SET_LIST_JOB_SEARCH_PROFILE
 } from "./constants";
 
 const INIT_STATE = {
@@ -20,6 +21,7 @@ const INIT_STATE = {
 	dataSearch: null,
 	language: "de",
 	listUserProfile: null,
+	listJobSearchProfile: null,
 	userSettingActiveTab: "tab1",
 	userPayments: []
 };
@@ -74,6 +76,11 @@ const Layout = (state = INIT_STATE, action) => {
 			return {
 				...state,
 				listUserProfile: action.payload
+			}
+		case SET_LIST_JOB_SEARCH_PROFILE:
+			return {
+				...state,
+				listJobSearchProfile: action.payload
 			}
 		case SET_USER_PAYMENT:
 			return {
