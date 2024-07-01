@@ -11,6 +11,7 @@ import { getAllUser, getLoggedInUser, setAllUser } from '../../../helpers/authUt
 import { toast } from 'react-toastify';
 import CompanyVCard from '../Component/CompanyVCard';
 import config from '../../../config';
+import AddCompany from '../Modal/AddCompany';
 
 const UserAdministration = (props) => {
 
@@ -22,6 +23,7 @@ const UserAdministration = (props) => {
     const [rowStatus, setRowStatus] = useState({});
     const [userData, setUserData] = useState([]);
     const [isOpenVCard,setIsOpenVCard] = useState(false);
+    const [isOpenAddCompany,setIsOpenAddCompany] = useState(false);
     const [userForEdit,setUserForEdit] = useState(null);
 
     const admin = getLoggedInUser()[0];
@@ -91,11 +93,16 @@ const UserAdministration = (props) => {
         setAllUser(usersStoreUpd);
     }
 
+    const handleAddCompany = () => {
+
+    }
+
     const currentLang = i18n.language;
 
     if (!userData.length || !userData) {
         return null;
     }
+    
 
     document.title = "user administration | WEWANTU"
 
@@ -105,7 +112,7 @@ const UserAdministration = (props) => {
                 <div className="container-fluid px-0 main">
                     <div className="row useradmin">
                         <div className='row setting-title'>{t("t_user_administration").toUpperCase()}</div>
-
+                        <button className='btn btn-sm' onClick={handleAddCompany}>{t("t_create_company").toUpperCase()}</button>
                         {userData.map((user, index) => (
                             <div >
                                 <Formik
@@ -156,15 +163,6 @@ const UserAdministration = (props) => {
                                                 <div className='row line1'>
                                                     <div className="col-md-6">
                                                         <div className="row">
-                                                            {/* <div className="form-check">
-                                                                <Field
-                                                                    type="checkbox"
-                                                                    className="form-check-input"
-                                                                    name="admin"
-                                                                    disabled={user.isReadonly}
-                                                                />
-                                                                <label className="form-check-label" for="weekend_work">ADMIN</label>
-                                                            </div> */}
                                                             <div className="form-check">
                                                                 <Field
                                                                     type="checkbox"
@@ -220,6 +218,9 @@ const UserAdministration = (props) => {
                 </div>
                 <Modal open={isOpenVCard} width={1000} onOk={() => {setIsOpenVCard(false)}} onCancel={()=> setIsOpenVCard(false)}>
                     {(userForEdit != null) && <CompanyVCard user={userForEdit} />}
+                </Modal>
+                <Modal open={isOpenAddCompany} width={800} onOk={()=>{setIsOpenAddCompany(false)}} onCancel={()=>{setIsOpenAddCompany(false)}}>
+                    <AddCompany />
                 </Modal>
             </div>
         </React.Fragment>
