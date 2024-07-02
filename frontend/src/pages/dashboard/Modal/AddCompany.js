@@ -2,11 +2,18 @@ import { connect, useSelector } from 'react-redux';
 import { Alert, Form, Input, Button, FormFeedback, InputGroup } from 'reactstrap';
 import { registerUser } from '../../../redux/actions';
 import { useFormik } from 'formik';
+import { useEffect, useState } from 'react';
+import { t } from 'i18next';
+import * as Yup from 'yup';
+import { APIClient } from '../../../helpers/apiClient';
+import { createSelector } from 'reselect';
+import { getLoggedInUser } from '../../../helpers/authUtils';
 
 function AddCompany(props) {
     const language = useSelector(state => state.Layout.language);
     const [countries, setCountries] = useState([]);
-    
+    const admin = getLoggedInUser()[0];
+
     // validation
     const formik = useFormik({
 
@@ -26,7 +33,8 @@ function AddCompany(props) {
             username: '',
             mobile_phone_number: '',
             mail: '',
-            password: ''
+            password: '',
+            parent_user_id: admin.user_id
         },
         validationSchema: Yup.object({
             company: Yup.string().required('Enter proper company'),
@@ -47,6 +55,17 @@ function AddCompany(props) {
             props.registerUser(values);
         },
     });
+
+    const selectAccount = createSelector(
+        (state) => state.Auth,
+        (account) => ({
+            user: account.user,
+            success: account.success,
+            error: account.error,
+            loading: account.loading
+        })
+    );
+    const { user, success, error, loading } = useSelector(selectAccount);
 
     useEffect(() => {
         new APIClient().get('countries').then(res => {
@@ -79,8 +98,6 @@ function AddCompany(props) {
                     <div className="row">
                         <div className="col-md-1"></div>
                         <div className="col-md-10">
-                            <div className="title_v2">{t("t_REGISTER_NOW_AND_GET_STARTED")}</div>
-                            <p>{t("t_register_description")}</p>
                             <div className="row">
                                 <div className="col-md">
                                     <InputGroup className="input-group bg-soft-light rounded-3 mb-3">
@@ -212,16 +229,7 @@ function AddCompany(props) {
                     <div className="row">
                         <div className="col-md-1"></div>
                         <div className="col-md-10">
-                            <div className="row">
-                                <div className="col-md">
-                                    <div className="embed-responsive embed-responsive-16by9">
-                                        <video controls>
-                                            <source src="#" type="video/mp4" />
-                                            Your browser does not support the video tag.
-                                        </video>
-                                    </div>
-                                </div>
-                            </div>
+
                             <div className="row">
                                 <div className="col-md-6">
                                     <InputGroup className="input-group bg-soft-light rounded-3 mb-3">
@@ -393,4 +401,8 @@ function AddCompany(props) {
     );
 }
 
-export default connect({}, { registerUser })(AddCompany);
+const mapStateToProps = (state) => {
+
+}
+
+export default connect(mapStateToProps, { registerUser })(AddCompany);

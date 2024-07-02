@@ -22,9 +22,9 @@ const UserAdministration = (props) => {
     const { t, i18n } = useTranslation();
     const [rowStatus, setRowStatus] = useState({});
     const [userData, setUserData] = useState([]);
-    const [isOpenVCard,setIsOpenVCard] = useState(false);
-    const [isOpenAddCompany,setIsOpenAddCompany] = useState(false);
-    const [userForEdit,setUserForEdit] = useState(null);
+    const [isOpenVCard, setIsOpenVCard] = useState(false);
+    const [isOpenAddCompany, setIsOpenAddCompany] = useState(false);
+    const [userForEdit, setUserForEdit] = useState(null);
 
     const admin = getLoggedInUser()[0];
 
@@ -36,16 +36,16 @@ const UserAdministration = (props) => {
             let usersMap = [...users];
             usersMap = usersMap.filter(user => user.firebase_token == null);
             usersMap.map((user) => {
-                user.buy_credit = (user.buy_credit? true : false);
-                user.add_job = (user.add_job? true : false);
-                user.use_lead = (user.use_lead? true : false);
+                user.buy_credit = (user.buy_credit ? true : false);
+                user.add_job = (user.add_job ? true : false);
+                user.use_lead = (user.use_lead ? true : false);
                 user.password = "";
                 user.isReadonly = true;
-                if (user.profilePicture){
+                if (user.profilePicture) {
                     user.profilePicture = config.API_BASE_URL + "/" + user.profilePicture;
                 }
-                else{
-                    user.profilePicture = process.env.PUBLIC_URL+ "/img/avatar.png";
+                else {
+                    user.profilePicture = process.env.PUBLIC_URL + "/img/avatar.png";
                 }
             });
             setUserData(usersMap);
@@ -94,7 +94,7 @@ const UserAdministration = (props) => {
     }
 
     const handleAddCompany = () => {
-
+        setIsOpenAddCompany(true);
     }
 
     const currentLang = i18n.language;
@@ -102,7 +102,7 @@ const UserAdministration = (props) => {
     if (!userData.length || !userData) {
         return null;
     }
-    
+
 
     document.title = "user administration | WEWANTU"
 
@@ -111,8 +111,11 @@ const UserAdministration = (props) => {
             <div className="main_job">
                 <div className="container-fluid px-0 main">
                     <div className="row useradmin">
-                        <div className='row setting-title'>{t("t_user_administration").toUpperCase()}</div>
-                        <button className='btn btn-sm' onClick={handleAddCompany}>{t("t_create_company").toUpperCase()}</button>
+                        <div className='row setting-title'>
+                            {t("t_user_administration").toUpperCase()}
+                            <button className='btn btn-sm' onClick={handleAddCompany}>{t("t_create_company").toUpperCase()}</button>
+                        </div>
+
                         {userData.map((user, index) => (
                             <div >
                                 <Formik
@@ -205,7 +208,7 @@ const UserAdministration = (props) => {
                                             </div>
                                             <div className='col-md-2 useradmin-right'>
                                                 {(user.isReadonly) && <><button type='button' className='btn btn-sm btn-primary' onClick={() => { handleEditUser(index, true); }}><img src={`${process.env.PUBLIC_URL}/img/edit.svg`} alt="EDIT" /></button></>}
-                                                {(user.userType==1) && <button type='button' className='btn-primary btn-sm btn ml-5' onClick={() => { handleOpenCompanyVCard(index, true); }}>Edit V-Card</button>}
+                                                {(user.userType == 1) && <button type='button' className='btn-primary btn-sm btn ml-5' onClick={() => { handleOpenCompanyVCard(index, true); }}>Edit V-Card</button>}
                                                 {(!user.isReadonly) && <button type='submit' className='btn btn-primary btn-sm form-control'>{t("t_save").toUpperCase()}</button>}
                                                 {(!user.isReadonly) && <button type='button' onClick={() => { handleEditUser(index, false) }} className='btn btn-danger btn-sm form-control'>{t("t_cancel").toUpperCase()}</button>}
                                             </div>
@@ -216,10 +219,10 @@ const UserAdministration = (props) => {
                         ))}
                     </div>
                 </div>
-                <Modal open={isOpenVCard} width={1000} onOk={() => {setIsOpenVCard(false)}} onCancel={()=> setIsOpenVCard(false)}>
+                <Modal open={isOpenVCard} width={1000} onOk={() => { setIsOpenVCard(false) }} onCancel={() => setIsOpenVCard(false)}>
                     {(userForEdit != null) && <CompanyVCard user={userForEdit} />}
                 </Modal>
-                <Modal open={isOpenAddCompany} width={800} onOk={()=>{setIsOpenAddCompany(false)}} onCancel={()=>{setIsOpenAddCompany(false)}}>
+                <Modal open={isOpenAddCompany} width={1000} onOk={() => { setIsOpenAddCompany(false) }} onCancel={() => { setIsOpenAddCompany(false) }}>
                     <AddCompany />
                 </Modal>
             </div>
