@@ -2,16 +2,17 @@ import functions from "../../../function/function";
 import { getProfessions } from "../../../helpers/authUtils";
 
 function JobSearchProfile({ categoryID, onClickJobProfile, onSelect, listJobProfileMobile, watchListFilter, type }) {
-    let listJobProfileAll = localStorage.getItem('job_search_profiles_all');
+    let listJobProfileAll = []; //localStorage.getItem('job_search_profiles_all');
     let listJobProfileUser = localStorage.getItem("job_search_profile");
     const professions = getProfessions();
     try {
-        listJobProfileAll = JSON.parse(listJobProfileAll);
+        //listJobProfileAll = JSON.parse(listJobProfileAll);
         listJobProfileUser = JSON.parse(listJobProfileUser);
-        const listJobProfileUserIds = listJobProfileUser.map(item => item.job_search_profile_id);
-        listJobProfileAll = listJobProfileAll.filter(item => listJobProfileUserIds.includes(item.job_search_profile_id));
+        //const listJobProfileUserIds = listJobProfileUser.map(item => item.job_search_profile_id);
+        //listJobProfileAll = listJobProfileAll.filter(item => listJobProfileUserIds.includes(item.job_search_profile_id));
     } catch (error) {
-        listJobProfileAll = [];
+        console.log(error);
+        //listJobProfileAll = [];
     }
 
     if (listJobProfileMobile != undefined) {
@@ -19,7 +20,7 @@ function JobSearchProfile({ categoryID, onClickJobProfile, onSelect, listJobProf
         let userList, checkExist;
 
         try {
-            listJobProfileAll.map((item, index) => {
+            listJobProfileUser.map((item, index) => {
                 userList = functions.getListUser(listJobProfileMobile, item);
                 checkExist = false;
 

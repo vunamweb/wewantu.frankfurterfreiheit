@@ -91,11 +91,11 @@ function ChatLeftSidebar(props) {
             });
 
             //load job_search_profiles_all
-            new APIClient().get('list_job_search_profiles').then(res => {
+            /*new APIClient().get('list_job_search_profiles').then(res => {
                 if (res) {
                     setjob_search_profiles_all(res)
                 }
-            });
+            });*/
 
             //load driver_licenses
             new APIClient().get('driver_licenses').then(res => {

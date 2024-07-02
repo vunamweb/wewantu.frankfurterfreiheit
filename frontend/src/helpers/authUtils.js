@@ -63,7 +63,7 @@ const getProfessions = () => {
 }
 
 const setjob_search_profiles =(job_search_profile) =>{
-    const dataBody=job_search_profile && job_search_profile.map(info=>{
+    /*const dataBody=job_search_profile && job_search_profile.map(info=>{
         return {
             job_search_profile_id:info.job_search_profile_id,
             job_id:info.job_id,
@@ -72,8 +72,8 @@ const setjob_search_profiles =(job_search_profile) =>{
             requested:info.requested,
             messages:info.messages,
         }
-    })
-    localStorage.setItem('job_search_profile', JSON.stringify(dataBody));
+    })*/
+    localStorage.setItem('job_search_profile', JSON.stringify(job_search_profile));
 }
 
 const getjob_search_profiles =() =>{
