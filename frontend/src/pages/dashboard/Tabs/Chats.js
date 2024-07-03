@@ -62,59 +62,7 @@ class Chats extends Component {
     renData(addresslist, searchJob, companylist, watchlist, allUserDriveList, allUserLanguageList, jobList) {
         const admin = getLoggedInUser()[0];
         let newsearchJob = [...searchJob]
-
-        const jobIds = jobList.map(item => item.job_search_profile_id);
-
-        // newsearchJob = newsearchJob.filter(item => jobIds.includes(item.job_search_profile_id));
-
-
-        // set drive license for user
-        newsearchJob.length > 0 && newsearchJob.map(job => {
-            try {
-                job.user.drive = [];
-
-                allUserDriveList.length > 0 && allUserDriveList.map(drive => {
-                    if (job.user.user_id == drive.user_id)
-                        job.user.drive.push(drive.driver_license_id)
-                })
-            } catch (error) {
-                console.log(error)
-            }
-        })
-
-        // set language for user
-        newsearchJob.length > 0 && newsearchJob.map(job => {
-            try {
-                job.user.language = {};
-                job.user.language.mother = [];
-                job.user.language.foreign = [];
-
-                allUserLanguageList.length > 0 && allUserLanguageList.map(language => {
-                    if (job.user.user_id == language.user_id) {
-                        if (language.level == 0)
-                            job.user.language.mother.push(language.language_id)
-                        else
-                            job.user.language.foreign.push(language.language_id)
-                    }
-                })
-            } catch (error) {
-                console.log(error)
-            }
-        })
-
-        newsearchJob = this.mixJobProfile(newsearchJob);
-
-        newsearchJob.map((serJob, index) => {
-            let addr = {};
-            let company = {};
-            addr = addresslist !== null && addresslist.filter(item => item.address_id !== null && item.address_id.includes(serJob.user.address_id));
-            if (addr.length > 0)
-                newsearchJob[index].address = addr;
-            //let addr = addresslist !==null && addresslist.filter(item => item.address_id === );  
-            company = companylist !== null && companylist.filter(item => item.company_id !== null && item.company_id.includes(serJob.user.company_id))
-            if (company.length > 0)
-                newsearchJob[index].company = company;
-        });
+        
         let jobListFinal = [];
         let listJobProfileMobileFilter = [];
 

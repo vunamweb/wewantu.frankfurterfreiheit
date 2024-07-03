@@ -82,6 +82,11 @@ function AddCompany(props) {
         });
     }, [language]);
 
+    useEffect(()=>{
+        if (success){
+            props.onRegisterSuccess();
+        }
+    },[success])
     return (
         <>
             <Form
@@ -92,9 +97,7 @@ function AddCompany(props) {
                     // return false;
                 }}
             >
-
-                <div className="col-md-1"></div>
-                <div className="col-md-5 content">
+                <div className="col-md-6 content">
                     <div className="row">
                         <div className="col-md-1"></div>
                         <div className="col-md-10">
@@ -225,7 +228,7 @@ function AddCompany(props) {
                         <div className="col-md-1"></div>
                     </div>
                 </div>
-                <div className="col-md-5 center-block text-center content">
+                <div className="col-md-6 center-block text-center content">
                     <div className="row">
                         <div className="col-md-1"></div>
                         <div className="col-md-10">
@@ -395,7 +398,6 @@ function AddCompany(props) {
                         <div className="col-md-1"></div>
                     </div>
                 </div>
-                <div className="col-md"></div>
             </Form>
         </>
     );

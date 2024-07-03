@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Input, FormFeedback, InputGroup } from 'reactstrap';
-import { Button, Modal, Select } from "antd";
+import { Button, Modal, Pagination, Select } from "antd";
 import { Link, UNSAFE_LocationContext } from "react-router-dom";
 import { Field, FieldArray, Formik, useFormik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import CompanyVCard from '../Component/CompanyVCard';
 import config from '../../../config';
 import AddCompany from '../Modal/AddCompany';
+import { useSelector } from 'react-redux';
 
 const UserAdministration = (props) => {
 
@@ -25,32 +26,46 @@ const UserAdministration = (props) => {
     const [isOpenVCard, setIsOpenVCard] = useState(false);
     const [isOpenAddCompany, setIsOpenAddCompany] = useState(false);
     const [userForEdit, setUserForEdit] = useState(null);
+    const [currentPage,setCurrentPage] = useState(1);
+    const [totalItems, setTotalItems] = useState(0);
+
+    const userSettingActiveTab = useSelector(state => state.Layout.userSettingActiveTab);
 
     const admin = getLoggedInUser()[0];
 
-    const users = props.users;
+    // const users = props.users;
 
     useEffect(() => {
+        if (userSettingActiveTab == "tab2") {
+            let data = {page: currentPage};
+            new APIClient().create("alluser", data).then(res => {
+                if (res && res.data.length > 0) {
+                    let users = res.data;
+                    setTotalItems(res.total);
+                    if (users && users.length > 0) {
+                        let usersMap = [...users];
+                        // usersMap = usersMap.filter(user => user.firebase_token == null);
+                        usersMap.map((user) => {
+                            user.buy_credit = (user.buy_credit ? true : false);
+                            user.add_job = (user.add_job ? true : false);
+                            user.use_lead = (user.use_lead ? true : false);
+                            user.password = "";
+                            user.isReadonly = true;
+                            if (user.profilePicture) {
+                                user.profilePicture = config.API_BASE_URL + "/" + user.profilePicture;
+                            }
+                            else {
+                                user.profilePicture = process.env.PUBLIC_URL + "/img/avatar.png";
+                            }
+                        });
+                        setUserData(usersMap);
+                    }
+                }
+            })
 
-        if (users && users.length > 0) {
-            let usersMap = [...users];
-            usersMap = usersMap.filter(user => user.firebase_token == null);
-            usersMap.map((user) => {
-                user.buy_credit = (user.buy_credit ? true : false);
-                user.add_job = (user.add_job ? true : false);
-                user.use_lead = (user.use_lead ? true : false);
-                user.password = "";
-                user.isReadonly = true;
-                if (user.profilePicture) {
-                    user.profilePicture = config.API_BASE_URL + "/" + user.profilePicture;
-                }
-                else {
-                    user.profilePicture = process.env.PUBLIC_URL + "/img/avatar.png";
-                }
-            });
-            setUserData(usersMap);
         }
-    }, [users]);
+
+    }, [userSettingActiveTab,currentPage]);
 
     const handleEditUser = (index, edit) => {
         let usersUpd = [...userData];
@@ -82,15 +97,15 @@ const UserAdministration = (props) => {
         setUserData(usersUpd);
 
         //update localstore
-        let usersStoreUpd = [...users];
-        usersStoreUpd.map((user) => {
-            if (user.user_id == values.user_id) {
-                user.buy_credit = values.buy_credit;
-                user.add_job = values.add_job;
-                user.use_lead = values.use_lead;
-            }
-        });
-        setAllUser(usersStoreUpd);
+        // let usersStoreUpd = [...users];
+        // usersStoreUpd.map((user) => {
+        //     if (user.user_id == values.user_id) {
+        //         user.buy_credit = values.buy_credit;
+        //         user.add_job = values.add_job;
+        //         user.use_lead = values.use_lead;
+        //     }
+        // });
+        // setAllUser(usersStoreUpd);
     }
 
     const handleAddCompany = () => {
@@ -112,8 +127,8 @@ const UserAdministration = (props) => {
                 <div className="container-fluid px-0 main">
                     <div className="row useradmin">
                         <div className='row setting-title'>
-                            {t("t_user_administration").toUpperCase()}
-                            <button className='btn btn-sm' onClick={handleAddCompany}>{t("t_create_company").toUpperCase()}</button>
+                           <span className='col-md-10'> {t("t_user_administration").toUpperCase()}</span>
+                            <div className='col-md'><button className='btn btn-sm btn-primary' onClick={handleAddCompany}>{t("t_add_account").toUpperCase()}</button></div>
                         </div>
 
                         {userData.map((user, index) => (
@@ -217,13 +232,19 @@ const UserAdministration = (props) => {
                                 </Formik>
                             </div>
                         ))}
+                        <Pagination 
+                            current={currentPage}
+                            total={totalItems}
+                            pageSize={20}
+                            onChange={(page) => { setCurrentPage(page);}}
+                        />
                     </div>
                 </div>
                 <Modal open={isOpenVCard} width={1000} onOk={() => { setIsOpenVCard(false) }} onCancel={() => setIsOpenVCard(false)}>
                     {(userForEdit != null) && <CompanyVCard user={userForEdit} />}
                 </Modal>
-                <Modal open={isOpenAddCompany} width={1000} onOk={() => { setIsOpenAddCompany(false) }} onCancel={() => { setIsOpenAddCompany(false) }}>
-                    <AddCompany />
+                <Modal open={isOpenAddCompany} width={1000} okButtonProps={{ style: { display: 'none' } }} onCancel={() => { setIsOpenAddCompany(false) }}>
+                    <AddCompany onRegisterSuccess={() => {setIsOpenAddCompany(false)}} />
                 </Modal>
             </div>
         </React.Fragment>

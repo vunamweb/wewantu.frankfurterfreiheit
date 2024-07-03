@@ -166,7 +166,8 @@ function* register({ payload: { user } }) {
                     mobile_phone_number: user.mobile_phone_number,
                     mail: user.mail,
                     password: user.password,
-                    address_id: responseAddress.address_id
+                    address_id: responseAddress.address_id,
+                    parent_user_id: user.parent_user_id
                 }
                 const response = yield call(create, '/user', userData);
                 // response.success = true;
