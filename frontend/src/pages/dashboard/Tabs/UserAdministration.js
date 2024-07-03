@@ -128,7 +128,7 @@ const UserAdministration = (props) => {
                     <div className="row useradmin">
                         <div className='row setting-title'>
                            <span className='col-md-10'> {t("t_user_administration").toUpperCase()}</span>
-                            <div className='col-md'><button className='btn btn-sm btn-primary' onClick={handleAddCompany}>{t("t_add_account").toUpperCase()}</button></div>
+                            {(admin.userType==1 && admin.parent_user_id=="") && <div className='col-md'><button className='btn btn-sm btn-primary' onClick={handleAddCompany}>{t("t_add_account").toUpperCase()}</button></div>}
                         </div>
 
                         {userData.map((user, index) => (
