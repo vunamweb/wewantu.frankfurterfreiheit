@@ -68,7 +68,7 @@ class Searchcenter extends Component {
 
         let filterSearch, listUser = [];
 
-        let search = localStorage.getItem('search_job_profile');
+        let search = (localStorage.getItem('search_job_profile') != "null") ? localStorage.getItem('search_job_profile') : JSON.stringify(this.props.data);
 
         //if search
         if (this.state.search) {
@@ -114,6 +114,8 @@ class Searchcenter extends Component {
             }
 
             filterSearch = functions.getListUser(this.state.listJobProfileMobile, search);
+            listUser = filterSearch;
+            this.state.countSearch = filterSearch.length;
 
             localStorage.setItem('search_job_profile', null);
         }
