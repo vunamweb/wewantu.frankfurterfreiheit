@@ -167,7 +167,8 @@ function* register({ payload: { user } }) {
                     mail: user.mail,
                     password: user.password,
                     address_id: responseAddress.address_id,
-                    parent_user_id: user.parent_user_id
+                    parent_user_id: (user.parent_user_id ? user.parent_user_id : ""),
+                    userType: (user.userType ? user.userType : 3)
                 }
                 const response = yield call(create, '/user', userData);
                 // response.success = true;

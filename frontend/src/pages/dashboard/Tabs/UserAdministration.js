@@ -26,8 +26,9 @@ const UserAdministration = (props) => {
     const [isOpenVCard, setIsOpenVCard] = useState(false);
     const [isOpenAddCompany, setIsOpenAddCompany] = useState(false);
     const [userForEdit, setUserForEdit] = useState(null);
-    const [currentPage,setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
+    const [activeTab, setActiveTab] = useState("companyuser");
 
     const userSettingActiveTab = useSelector(state => state.Layout.userSettingActiveTab);
 
@@ -37,7 +38,12 @@ const UserAdministration = (props) => {
 
     useEffect(() => {
         if (userSettingActiveTab == "tab2") {
-            let data = {page: currentPage};
+            let userType = 1;
+            if (activeTab == "mobileuser") {
+                userType = 3;
+            }
+
+            let data = { page: currentPage, userType: userType };
             new APIClient().create("alluser", data).then(res => {
                 if (res && res.data.length > 0) {
                     let users = res.data;
@@ -49,6 +55,7 @@ const UserAdministration = (props) => {
                             user.buy_credit = (user.buy_credit ? true : false);
                             user.add_job = (user.add_job ? true : false);
                             user.use_lead = (user.use_lead ? true : false);
+                            user.is_active = (user.is_active ? true : false);
                             user.password = "";
                             user.isReadonly = true;
                             if (user.profilePicture) {
@@ -60,12 +67,14 @@ const UserAdministration = (props) => {
                         });
                         setUserData(usersMap);
                     }
+                } else {
+                    setUserData([]);
                 }
             })
 
         }
 
-    }, [userSettingActiveTab,currentPage]);
+    }, [userSettingActiveTab, currentPage, activeTab]);
 
     const handleEditUser = (index, edit) => {
         let usersUpd = [...userData];
@@ -86,7 +95,8 @@ const UserAdministration = (props) => {
             // admin: values.admin,
             buy_credit: values.buy_credit,
             add_job: values.add_job,
-            use_lead: values.use_lead
+            use_lead: values.use_lead,
+            is_active: values.is_active
         }
         new APIClient().put("user", dataPut).then((res) => {
             toast.success("Update successfully");
@@ -112,11 +122,13 @@ const UserAdministration = (props) => {
         setIsOpenAddCompany(true);
     }
 
+    const handleTabChange = (tabName) => {
+        setActiveTab(tabName);
+        setCurrentPage(1);
+    }
+
     const currentLang = i18n.language;
 
-    if (!userData.length || !userData) {
-        return null;
-    }
 
 
     document.title = "user administration | WEWANTU"
@@ -127,9 +139,24 @@ const UserAdministration = (props) => {
                 <div className="container-fluid px-0 main">
                     <div className="row useradmin">
                         <div className='row setting-title'>
-                           <span className='col-md-10'> {t("t_user_administration").toUpperCase()}</span>
-                            {(admin.userType==1 && admin.parent_user_id=="") && <div className='col-md'><button className='btn btn-sm btn-primary' onClick={handleAddCompany}>{t("t_add_account").toUpperCase()}</button></div>}
+                            <span className='col-md-10'> {t("t_user_administration").toUpperCase()}</span>
+                            {((admin.userType == 1 && admin.parent_user_id == "") || admin.userType == 0) && <div className='col-md'><button className='btn btn-sm btn-primary' onClick={handleAddCompany}>{t("t_add_account").toUpperCase()}</button></div>}
                         </div>
+                        <nav className="navbar navbar-expand-sm navbar-light">
+                            <div className="container-fluid title-useracc">
+
+                                <div className="collapse navbar-collapse " id="navbarSupportedContent">
+                                    <ul className="navbar-nav ms-auto">
+                                        <li className="nav-item" >
+                                            <Link className={`nav-link ${activeTab === 'companyuser' ? 'active' : ''}`} onClick={() => handleTabChange('companyuser')} href="#" alt="">{t("t_company").toUpperCase()}</Link>
+                                        </li>
+                                        <li className="nav-item" >
+                                            <Link className={`nav-link ${activeTab === 'mobileuser' ? 'active' : ''}`} onClick={() => handleTabChange('mobileuser')} href="#" alt="">{t("t_user").toUpperCase()}</Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
 
                         {userData.map((user, index) => (
                             <div >
@@ -177,53 +204,69 @@ const UserAdministration = (props) => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="col-md-4 useradmin-right">
-                                                <div className='row line1'>
-                                                    <div className="col-md-6">
-                                                        <div className="row">
-                                                            <div className="form-check">
-                                                                <Field
-                                                                    type="checkbox"
-                                                                    className="form-check-input"
-                                                                    name="buy_credit"
-                                                                    disabled={user.isReadonly}
-                                                                />
-                                                                <label className="form-check-label" for="night_shift">
-                                                                    {t("t_buy_credits")}
-                                                                </label>
-                                                            </div>
-                                                            <div className="form-check">
-                                                                <Field
-                                                                    type="checkbox"
-                                                                    className="form-check-input"
-                                                                    name="add_job"
-                                                                    disabled={user.isReadonly}
-                                                                />
-                                                                <label className="form-check-label" for="night_shift">
-                                                                    {t("t_add_new_job").toUpperCase()}
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-md-6">
-                                                        <div className="row">
-
-                                                            <div className="form-check">
-                                                                <Field
-                                                                    type="checkbox"
-                                                                    className="form-check-input"
-                                                                    name="use_lead"
-                                                                    disabled={user.isReadonly}
-                                                                />
-                                                                <label className="form-check-label" for="weekend_work">{t("t_user_lead").toUpperCase()}</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                            <div className='col-md-1'>
+                                                <div className="form-check">
+                                                    <Field
+                                                        type="checkbox"
+                                                        className="form-check-input"
+                                                        name="is_active"
+                                                        disabled={user.isReadonly}
+                                                    />
+                                                    <label className="form-check-label" for="night_shift">
+                                                        {t("t_active")}
+                                                    </label>
                                                 </div>
+                                            </div>
+                                            <div className="col-md-3 useradmin-right">
+                                                {(admin.userType == 1) &&
+
+                                                    <div className='row line1'>
+                                                        <div className="col-md-6">
+                                                            <div className="row">
+                                                                <div className="form-check">
+                                                                    <Field
+                                                                        type="checkbox"
+                                                                        className="form-check-input"
+                                                                        name="buy_credit"
+                                                                        disabled={user.isReadonly}
+                                                                    />
+                                                                    <label className="form-check-label" for="night_shift">
+                                                                        {t("t_buy_credits")}
+                                                                    </label>
+                                                                </div>
+                                                                <div className="form-check">
+                                                                    <Field
+                                                                        type="checkbox"
+                                                                        className="form-check-input"
+                                                                        name="add_job"
+                                                                        disabled={user.isReadonly}
+                                                                    />
+                                                                    <label className="form-check-label" for="night_shift">
+                                                                        {t("t_add_new_job").toUpperCase()}
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-md-6">
+                                                            <div className="row">
+
+                                                                <div className="form-check">
+                                                                    <Field
+                                                                        type="checkbox"
+                                                                        className="form-check-input"
+                                                                        name="use_lead"
+                                                                        disabled={user.isReadonly}
+                                                                    />
+                                                                    <label className="form-check-label" for="weekend_work">{t("t_user_lead").toUpperCase()}</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
                                             </div>
                                             <div className='col-md-2 useradmin-right'>
                                                 {(user.isReadonly) && <><button type='button' className='btn btn-sm btn-primary' onClick={() => { handleEditUser(index, true); }}><img src={`${process.env.PUBLIC_URL}/img/edit.svg`} alt="EDIT" /></button></>}
-                                                {(user.userType == 1) && <button type='button' className='btn-primary btn-sm btn ml-5' onClick={() => { handleOpenCompanyVCard(index, true); }}>Edit V-Card</button>}
+                                                {(user.userType == 1 && user.isReadonly) && <button type='button' className='btn-primary btn-sm btn ml-5' onClick={() => { handleOpenCompanyVCard(index, true); }}>Edit V-Card</button>}
                                                 {(!user.isReadonly) && <button type='submit' className='btn btn-primary btn-sm form-control'>{t("t_save").toUpperCase()}</button>}
                                                 {(!user.isReadonly) && <button type='button' onClick={() => { handleEditUser(index, false) }} className='btn btn-danger btn-sm form-control'>{t("t_cancel").toUpperCase()}</button>}
                                             </div>
@@ -232,19 +275,22 @@ const UserAdministration = (props) => {
                                 </Formik>
                             </div>
                         ))}
-                        <Pagination 
-                            current={currentPage}
-                            total={totalItems}
-                            pageSize={20}
-                            onChange={(page) => { setCurrentPage(page);}}
-                        />
+                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-end" }}>
+                            <Pagination
+                                current={currentPage}
+                                total={totalItems}
+                                pageSize={20}
+                                onChange={(page) => { setCurrentPage(page); }}
+                            />
+                        </div>
+
                     </div>
                 </div>
                 <Modal open={isOpenVCard} width={1000} onOk={() => { setIsOpenVCard(false) }} onCancel={() => setIsOpenVCard(false)}>
                     {(userForEdit != null) && <CompanyVCard user={userForEdit} />}
                 </Modal>
                 <Modal open={isOpenAddCompany} width={1000} okButtonProps={{ style: { display: 'none' } }} onCancel={() => { setIsOpenAddCompany(false) }}>
-                    <AddCompany onRegisterSuccess={() => {setIsOpenAddCompany(false)}} />
+                    <AddCompany onRegisterSuccess={() => { setIsOpenAddCompany(false) }} />
                 </Modal>
             </div>
         </React.Fragment>

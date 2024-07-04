@@ -28,6 +28,7 @@ class Index extends Component {
     };
 
     async componentDidMount() {
+
         const urlListApplicant = config.API_URL + "list_applicant";
         var getLayoutMode = localStorage.getItem("layoutMode");
         this.props.changeLayoutMode(getLayoutMode);

@@ -13,7 +13,7 @@ function AddCompany(props) {
     const language = useSelector(state => state.Layout.language);
     const [countries, setCountries] = useState([]);
     const admin = getLoggedInUser()[0];
-
+    
     // validation
     const formik = useFormik({
 
@@ -34,7 +34,8 @@ function AddCompany(props) {
             mobile_phone_number: '',
             mail: '',
             password: '',
-            parent_user_id: admin.user_id
+            userType: 1,
+            parent_user_id: (admin.userType == 1? admin.user_id:"")
         },
         validationSchema: Yup.object({
             company: Yup.string().required('Enter proper company'),
