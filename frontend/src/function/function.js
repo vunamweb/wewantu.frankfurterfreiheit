@@ -4,6 +4,24 @@ import Watchlist from '../pages/dashboard/Tabs/Watchlist';
 import { getLoggedInUser, getAllUser } from '../helpers/authUtils';
 
 class Functions {
+    getNameJobFromId = (jobID) => {
+        let listJOB = localStorage.getItem('job');
+        let nameJob = null;
+
+        try {
+            listJOB = JSON.parse(listJOB);
+
+            listJOB.map((item, index) => {
+                if (item.value == jobID)
+                nameJob = item.label;
+            })
+        } catch (error) {
+            console.log(error);
+        }
+
+        return nameJob;
+    }
+
     getListJobProfileCurrent = (category_id, list, callBack) => {
         let result = [];
 
@@ -18,7 +36,7 @@ class Functions {
 
         let body = result.map((item, index) => {
             return (
-                <tr class="mouse" onClick={() => callBack(item)}><th>{item.job_id}</th><th>{item.job_decription}</th> <th>{item.profession.profession}</th></tr>
+                <tr class="mouse" onClick={() => callBack(item)}><th>{this.getNameJobFromId(item.job_id)}</th><th>{item.job_decription}</th> <th>{item.profession.profession}</th></tr>
             )
         })
 
@@ -187,8 +205,8 @@ class Functions {
 
             watchlist.map((item, index) => {
                 if ((item.user_add_id == user_id && item.job_search_profile_id == job_search_profile_id) || (item.user.user_id == admin.user_id && item.job_search_profile_id == null))
-                //if ((item.user_add_id == user_id && item.job_search_profile_id == job_search_profile_id))
-                  into = true;
+                    //if ((item.user_add_id == user_id && item.job_search_profile_id == job_search_profile_id))
+                    into = true;
             })
         } catch (error) {
             console.log(error);

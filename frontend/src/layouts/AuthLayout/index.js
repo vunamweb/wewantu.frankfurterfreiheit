@@ -45,11 +45,31 @@ class Index extends Component {
 
         let companylist = await new APIClient().get('companylist');
         let addresslist = await new APIClient().get('addresslist');
-        new APIClient().create(urlListApplicant, data).then(searchJob => {
-            if (searchJob) {
-                this.renData(addresslist, searchJob, companylist);
+
+        // if not save list of applicant in local
+        if (localStorage.getItem('list_applicant') != 'null') {
+            new APIClient().create(urlListApplicant, data).then(list_applicant => {
+                if (list_applicant) {
+                    try {
+                        localStorage.setItem('list_applicant', JSON.stringify(list_applicant));
+                    } catch (error) {
+                        //list_applicant = [];
+                    }
+
+                    this.renData(addresslist, list_applicant, companylist);
+                }
+            })
+        } else {
+            let list_applicant = localStorage.getItem('list_applicant');
+
+            try {
+                list_applicant = JSON.parse(list_applicant);
+            } catch (error) {
+                list_applicant = [];
             }
-        })
+
+            this.renData(addresslist, list_applicant, companylist);
+        }
     }
 
     renData(addresslist, searchJob, companylist) {

@@ -54,6 +54,21 @@ class Searchcenter extends Component {
         this.setState({ search: true, loading: true, searchItem: item })
     }
 
+    getFirstListofApplicant = (listUser) => {
+        let listUserTemp = [];
+
+        try {
+            listUser.map((item, index) => {
+                if (index < 100)
+                    listUserTemp.push(item);
+            })
+        } catch (error) {
+            console.log(error);
+        }
+
+        return listUserTemp;
+    }
+
     render() {
         document.title = "SEARCH CENTER | WEWANTU"
         const professions = getProfessions();
@@ -121,6 +136,8 @@ class Searchcenter extends Component {
 
         const { loading, showListJob } = this.state;
 
+        let listUserTemp = this.getFirstListofApplicant(listUser);
+
         return (
             <>
                 <React.Fragment>
@@ -139,7 +156,7 @@ class Searchcenter extends Component {
                                 </div>
                             </div>
                             <div className="table-responsive" data-mdb-perfect-scrollbar="false">
-                                <SearchCenterTable searchData={listUser} component={this} />
+                                <SearchCenterTable searchData={listUserTemp} component={this} />
                             </div>
                         </div>
 
