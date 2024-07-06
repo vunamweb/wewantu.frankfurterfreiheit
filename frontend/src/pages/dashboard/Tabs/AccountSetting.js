@@ -232,7 +232,7 @@ const UserAccount = (props) => {
                                                 <Link className={`nav-link ${activeTab === 'tab1' ? 'active' : ''}`} onClick={() => handleTabChange('tab1')} href="#" alt="">{t("t_account_settings").toUpperCase()}</Link>
                                             </li>
                                             {
-                                                (admin.userType == 0 || admin.userType == 1) && <li className="nav-item">
+                                                (admin.userType == 0 || (admin.userType == 1 && admin.parent_user_id=='' )) && <li className="nav-item">
                                                     <Link className={`nav-link ${activeTab === 'tab2' ? 'active' : ''}`} onClick={() => handleTabChange('tab2')} href="#">{t("t_user_administration").toUpperCase()}</Link>
                                                 </li>
                                             }
@@ -417,7 +417,7 @@ const UserAccount = (props) => {
                             </div>
                         </div>
                         <div className={`tab-pane ${activeTab === 'tab2' ? 'active' : ''}`}>
-                            {(admin.userType == 0 || admin.userType == 1) && <UserAdministration />}
+                            {(admin.userType == 0 || (admin.userType == 1 && admin.parent_user_id=='' )) && <UserAdministration />}
                         </div>
                         <div className={`tab-pane ${activeTab === 'tab3' ? 'active' : ''}`}>
                             <CompanyVCard />

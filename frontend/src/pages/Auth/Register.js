@@ -29,7 +29,7 @@ const Register = (props) => {
     const [loadlang, setloadlang] = useState(true);
     const [countries, setCountries] = useState([]);
     const language = useSelector(state => state.Layout.language);
-    
+
 
     /* intilize t variable for multi language implementation */
     const { t } = useTranslation();
@@ -53,7 +53,10 @@ const Register = (props) => {
             username: '',
             mobile_phone_number: '',
             mail: '',
-            password: ''
+            password: '',
+            add_job: true,
+            buy_credit: true,
+            use_lead: true
         },
         validationSchema: Yup.object({
             company: Yup.string().required('Enter proper company'),
@@ -83,7 +86,7 @@ const Register = (props) => {
             name: '',
             phone: '',
             mail: '',
-            messages:''
+            messages: ''
         },
         validationSchema: Yup.object({
             company: Yup.string().required('Enter proper company'),
@@ -92,10 +95,10 @@ const Register = (props) => {
             mail: Yup.string().required('Enter proper mail'),
             messages: Yup.string().required("Enter proper messages")
         }),
-        onSubmit: (values,{ resetForm }) => { 
+        onSubmit: (values, { resetForm }) => {
             resetForm();
         },
-        
+
     });
 
 
@@ -109,7 +112,7 @@ const Register = (props) => {
         })
     );
 
-    const { user, success,error,loading } = useSelector(selectAccount);
+    const { user, success, error, loading } = useSelector(selectAccount);
 
     useEffect(() => {
         if (success) {
@@ -125,27 +128,27 @@ const Register = (props) => {
 
     useEffect(() => {
         // if (loadlang) {
-            new APIClient().get('countries').then(res => {
-                if (res.length>0) {
-                    let countryList = [];
-                    res.forEach(country => {
-                        if (country.language === language){
-                            countryList.push(country);
-                        }
-                    });
-                    setCountries(countryList);
-                }
+        new APIClient().get('countries').then(res => {
+            if (res.length > 0) {
+                let countryList = [];
+                res.forEach(country => {
+                    if (country.language === language) {
+                        countryList.push(country);
+                    }
+                });
+                setCountries(countryList);
+            }
 
-            });
-            setloadlang(false);
+        });
+        setloadlang(false);
         // }
-    }, [loadlang,language]);
+    }, [loadlang, language]);
 
     document.title = "Register | WEWANTU"
     return (
 
         <React.Fragment>
-            {loading && <div className="loader"></div> }
+            {loading && <div className="loader"></div>}
             <MainMenu />
             <section className="register">
                 <div className="container-fluid px-0 main">
@@ -277,9 +280,9 @@ const Register = (props) => {
                                                 >
                                                     <option selected disabled value="">{t('t_country').toUpperCase()}*</option>
                                                     {
-                                                    countries.length && countries.map((item) =>
-                                                        <option value={item.country_code}>{item.country}</option>
-                                                    )}
+                                                        countries.length && countries.map((item) =>
+                                                            <option value={item.country_code}>{item.country}</option>
+                                                        )}
 
                                                 </Input>
                                                 {formik.touched.country && formik.errors.country ? (
@@ -498,10 +501,10 @@ const Register = (props) => {
             <section className="getinfo">
                 <div className="container-fluid px-0 main">
                     <Form className="row g-0" onSubmit={(e) => {
-                            e.preventDefault();
-                            formContact.handleSubmit();
-                            // return false;
-                        }} id="getinfo-from">
+                        e.preventDefault();
+                        formContact.handleSubmit();
+                        // return false;
+                    }} id="getinfo-from">
                         <div className="col-md-1"></div>
                         <div className="col-md-5 content">
                             <div className="row">
@@ -515,10 +518,10 @@ const Register = (props) => {
                                         <div className="col-md"><input type="text" id="name" name="name" value={formContact.name} className="form-control" required placeholder={t("t_name").toUpperCase()} onInvalid="this.setCustomValidity('Please enter NAME')" oninput="setCustomValidity('')" /></div>
                                     </div>
                                     <div className="row">
-                                        <div className="col-md"><input type="email" id="email" name="email" value={formContact.mail} className="form-control" required placeholder={t("t_mail").toUpperCase()}onInvalid="this.setCustomValidity('Please enter E-MAIL')" oninput="setCustomValidity('')" /></div>
+                                        <div className="col-md"><input type="email" id="email" name="email" value={formContact.mail} className="form-control" required placeholder={t("t_mail").toUpperCase()} onInvalid="this.setCustomValidity('Please enter E-MAIL')" oninput="setCustomValidity('')" /></div>
                                     </div>
                                     <div className="row">
-                                        <div className="col-md"><input type="tel" id="phone" name="phone" value={formContact.phone} className="form-control" required  placeholder={t("t_phone").toUpperCase()} onInvalid="this.setCustomValidity('Please enter TELEPHONE')" oninput="setCustomValidity('')" /></div>
+                                        <div className="col-md"><input type="tel" id="phone" name="phone" value={formContact.phone} className="form-control" required placeholder={t("t_phone").toUpperCase()} onInvalid="this.setCustomValidity('Please enter TELEPHONE')" oninput="setCustomValidity('')" /></div>
                                     </div>
                                     <div className="d-grid gap-2">
                                         <button id="getinfo" className="btn btn-primary form-control" type="submit">{t("t_send").toUpperCase()}</button>
@@ -561,8 +564,8 @@ const Register = (props) => {
 const mapStateToProps = (state) => {
     // console.log(state.Auth);
     const { language } = state.Layout;
-    const { user, loading,success, error } = state.Auth;
-    return { user, loading,success, error, language };
+    const { user, loading, success, error } = state.Auth;
+    return { user, loading, success, error, language };
 };
 
 export default withRouter(connect(mapStateToProps, { registerUser, registerValidate, apiError })(Register));

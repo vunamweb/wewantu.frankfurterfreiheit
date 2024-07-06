@@ -35,7 +35,10 @@ function AddCompany(props) {
             mail: '',
             password: '',
             userType: 1,
-            parent_user_id: (admin.userType == 1? admin.user_id:"")
+            parent_user_id: (admin.userType == 1? admin.user_id:""),
+            add_job: (admin.userType == 0? true : false),
+            buy_credit: (admin.userType == 0? true : false),
+            use_lead: (admin.userType == 0? true : false)
         },
         validationSchema: Yup.object({
             company: Yup.string().required('Enter proper company'),

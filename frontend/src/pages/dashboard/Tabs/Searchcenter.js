@@ -88,7 +88,6 @@ class Searchcenter extends Component {
             // set count of search
             try {
                 filterSearch = functions.filterFromBlockList(filterSearch);
-
                 this.state.countSearch = filterSearch.length;
             } catch (error) {
                 console.log(error);
@@ -139,7 +138,7 @@ class Searchcenter extends Component {
 
                                 </div>
                             </div>
-                            <div className="table-responsive" data-mdb-perfect-scrollbar="false" style={{ position: 'relative', height: '600px' }}>
+                            <div className="table-responsive" data-mdb-perfect-scrollbar="false">
                                 <SearchCenterTable searchData={listUser} component={this} />
                             </div>
                         </div>
