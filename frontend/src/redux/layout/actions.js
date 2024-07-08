@@ -9,7 +9,8 @@ import {
 	SET_LIST_USER_PROFILE,
 	SET_USER_SETTING_ACTIVE_TAB,
 	SET_USER_PAYMENT,
-	SET_LIST_JOB_SEARCH_PROFILE
+	SET_LIST_JOB_SEARCH_PROFILE,
+	SET_USER_RATING
 } from "./constants";
 
 export const setActiveTab = (tabId) => ({
@@ -64,4 +65,9 @@ export const setUserSettingActiveTab = (tabId) => ({
 export const setUserPayments = (userPayments) => ({
 	type: SET_USER_PAYMENT,
 	payload: userPayments
+})
+
+export const setUserRating = (userRating) => ({
+	type: SET_USER_RATING,
+	payload: userRating
 })

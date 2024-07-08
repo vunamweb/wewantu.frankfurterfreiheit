@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getLoggedInUser } from '../../../helpers/authUtils';
 import { APIClient } from '../../../helpers/apiClient';
 import { FaRegStar } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 
 function RatingStar({ user_id, updateRating }) {
     const userId = user_id;
@@ -9,6 +10,7 @@ function RatingStar({ user_id, updateRating }) {
     const [userRate, setUserRate] = useState(null);
     const [rate, setRate] = useState(0);
     const [modified, setModified] = useState(false);
+    const userRating = useSelector(state => state.Layout.userRating);
 
     const handleRatingClick = (user_id, value) => {
         if (!userRate) {
@@ -38,18 +40,28 @@ function RatingStar({ user_id, updateRating }) {
 
     useEffect(() => {
         if (modified === false) {
-            new APIClient().get('user/' + admin.user_id + '/user_rating').then(res => {
-                if (res.length > 0) {
-                    const userRating = res.filter(x => (x.user_reference_id === userId));
-                    if (userRating.length > 0) {
-                        setUserRate(userRating[0]);
-                        setRate(userRating[0].rate);
-                        if (updateRating) {
-                            updateRating(userId, userRating[0].rate);
-                        }
+            if (userRating.length > 0) {
+                const userRatingFilter = userRating.filter(x => (x.user_reference_id === userId));
+                if (userRatingFilter.length > 0) {
+                    setUserRate(userRatingFilter[0]);
+                    setRate(userRatingFilter[0].rate);
+                    if (updateRating) {
+                        updateRating(userId, userRatingFilter[0].rate);
                     }
                 }
-            })
+            }
+            // new APIClient().get('user/' + admin.user_id + '/user_rating').then(res => {
+            //     if (res.length > 0) {
+            //         const userRating = res.filter(x => (x.user_reference_id === userId));
+            //         if (userRating.length > 0) {
+            //             setUserRate(userRating[0]);
+            //             setRate(userRating[0].rate);
+            //             if (updateRating) {
+            //                 updateRating(userId, userRating[0].rate);
+            //             }
+            //         }
+            //     }
+            // })
         }
 
     }, [userId, modified]);

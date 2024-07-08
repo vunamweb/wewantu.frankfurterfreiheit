@@ -10,7 +10,8 @@ import {
 	SET_LIST_USER_PROFILE,
 	SET_USER_SETTING_ACTIVE_TAB,
 	SET_USER_PAYMENT,
-	SET_LIST_JOB_SEARCH_PROFILE
+	SET_LIST_JOB_SEARCH_PROFILE,
+	SET_USER_RATING
 } from "./constants";
 
 const INIT_STATE = {
@@ -23,7 +24,8 @@ const INIT_STATE = {
 	listUserProfile: null,
 	listJobSearchProfile: null,
 	userSettingActiveTab: "tab1",
-	userPayments: []
+	userPayments: [],
+	userRating: []
 };
 
 const Layout = (state = INIT_STATE, action) => {
@@ -86,6 +88,11 @@ const Layout = (state = INIT_STATE, action) => {
 			return {
 				...state,
 				userPayments: action.payload
+			}
+		case SET_USER_RATING:
+			return {
+				...state,
+				userRating: action.payload
 			}
 		default:
 			return state;

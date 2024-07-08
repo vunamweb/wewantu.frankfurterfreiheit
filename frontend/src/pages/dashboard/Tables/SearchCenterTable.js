@@ -24,6 +24,7 @@ function SearchCenterDisplay(props) {
     const admin = getLoggedInUser()[0];
     const [isWatchlist, setIsWatchlist] = useState({});
     const { t } = useTranslation();
+    const [DisplayData, setDisplayData] = useState(null);
 
     const [userPayments, setUserPayments] = useState([]);
 
@@ -190,35 +191,47 @@ function SearchCenterDisplay(props) {
     const rows = [...Array(Math.ceil(JsonData.length / 4))];
 
     const productRows = rows.length > 0 && rows.map((row, idx) => JsonData.slice(idx * 4, idx * 4 + 4));
-    let DisplayData = productRows.length > 0 && productRows.map((row, idx) => (
-        <div className='row' key={idx}>
-            {
-                row.map((info, index) => {
-                    info.address = (info.address != undefined) ? info.address : [
-                        {
-                            street: null,
-                            city: null,
-                            country: null,
-                        }
-                    ];
+
+    useEffect(() => {
+        setloading(true);
+
+        let DisplayData = productRows.length > 0 && productRows.map((row, idx) =>
+        (
+            <div className='row' key={idx}>
+                {
+                    row.map((info, index) => {
+                        info.address = (info.address != undefined) ? info.address : [
+                            {
+                                street: null,
+                                city: null,
+                                country: null,
+                            }
+                        ];
 
 
-                    // 
-                    return (
-                        <>
-                            <UserItem info={info} index={idx * 4 + index} handleDTClick={handleDTClick} handleWLClick={handleWLClick} userPayments={userPayments} watchlisted={isWatchlist[info.user.user_id]} />
-                        </>
+                        // 
+                        return (
+                            <>
+                                <UserItem info={info} index={idx * 4 + index} handleDTClick={handleDTClick} handleWLClick={handleWLClick} userPayments={userPayments} watchlisted={isWatchlist[info.user.user_id]} />
+                            </>
+                        )
+                    }
                     )
-                }
-                )
 
-            }
-        </div>
-    )
-    );
+                }
+            </div>
+        )
+        );
+        setDisplayData(DisplayData);
+        setloading(false);
+
+    }, [JsonData]);
+
+
+
     return (
         <React.Fragment>
-            {loading === true ? (<div className="loader"></div>) : ""}
+            {loading == true && (<div className="loader"></div>)}
             <div className="table table-searchcenter">
                 <div>
                     {DisplayData}

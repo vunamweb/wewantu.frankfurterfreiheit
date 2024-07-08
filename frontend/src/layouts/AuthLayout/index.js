@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import withRouter from "../../components/withRouter";
 import { connect, useDispatch } from "react-redux"
 import PropTypes from "prop-types";
-import { changeLayoutMode, setListUserProfile } from '../../redux/actions';
+import { changeLayoutMode, setListUserProfile, setUserRating } from '../../redux/actions';
 
 //Import Components
 import LeftSidebarMenu from "./LeftSidebarMenu";
@@ -73,6 +73,10 @@ class Index extends Component {
 
             this.renData(addresslist, list_applicant, companylist);
         }
+
+        //get rating
+        let userRating = await new APIClient().get('user/' + admin.user_id + '/user_rating');
+        this.props.setUserRating(userRating);
     }
 
     renData(addresslist, searchJob, companylist) {
@@ -128,4 +132,4 @@ const mapStateToProps = state => {
 //     setListUserProfile: () => dispatch({ type: SET_LIST_USER_PROFILE }),
 // });
 
-export default withRouter(connect(mapStateToProps, { changeLayoutMode, setListUserProfile })(Index))
+export default withRouter(connect(mapStateToProps, { changeLayoutMode, setListUserProfile, setUserRating })(Index))
