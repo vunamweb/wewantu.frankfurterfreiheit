@@ -11,9 +11,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import functions from '../../function/function';
 import { APIClient } from '../../helpers/apiClient';
-import { getLoggedInUser } from '../../helpers/authUtils';
+import { getLoggedInUser, saveListApplicant, getListApplicant } from '../../helpers/authUtils';
 import { SET_LIST_USER_PROFILE } from '../../redux/layout/constants';
 import config from "../../config";
+import { get } from 'firebase/database';
 
 class Index extends Component {
     constructor(props) {
@@ -46,24 +47,26 @@ class Index extends Component {
         let companylist = await new APIClient().get('companylist');
         let addresslist = await new APIClient().get('addresslist');
 
+        let listAplicant = await getListApplicant();
+
         // if not save list of applicant in local
-        if (localStorage.getItem('list_applicant') != 'null') {
-            new APIClient().create(urlListApplicant, data).then(list_applicant => {
+        if (listAplicant == null || listAplicant == undefined || listAplicant == 'null') {
+            new APIClient().create(urlListApplicant, data).then(async list_applicant => {
                 if (list_applicant) {
                     try {
-                        localStorage.setItem('list_applicant', JSON.stringify(list_applicant));
+                        await saveListApplicant(JSON.stringify(list_applicant));
                     } catch (error) {
+                        console.log(error);
                         //list_applicant = [];
                     }
 
                     this.renData(addresslist, list_applicant, companylist);
                 }
             })
-        } else {
-            let list_applicant = localStorage.getItem('list_applicant');
-
+        } else {;
+            let list_applicant
             try {
-                list_applicant = JSON.parse(list_applicant);
+                list_applicant = JSON.parse(listAplicant);
             } catch (error) {
                 list_applicant = [];
             }

@@ -1,4 +1,7 @@
 import { jwtDecode } from "jwt-decode";
+import { openDB } from 'idb';
+
+const store_list_applicant = 'list_applicant_';
 
 /**
  * Checks if user is authenticated
@@ -8,7 +11,7 @@ const isUserAuthenticated = () => {
     if (!user) {
         return false;
     }
-    
+
     try {
         const decoded = jwtDecode(user.token);
         const currentTime = Date.now() / 1000;
@@ -19,7 +22,7 @@ const isUserAuthenticated = () => {
         else {
             return true;
         }
-    } catch(e) {
+    } catch (e) {
         console.warn('access token expired');
         return false;
     }
@@ -43,17 +46,76 @@ const getLoggedInUser = () => {
  * the professions
  */
 
+const saveListApplicant = async (listApplicant) => {
+    const admin = getLoggedInUser()[0];
+    const storeKey = store_list_applicant + admin.user_id;
 
-const setAllUser = (alluser) =>{
+    // Open a database
+    const db = await openDB('wewantu', 2, {
+        upgrade(db) {
+            // Create a store of objects
+            db.createObjectStore(store_list_applicant);
+        },
+    });
+
+    // Save data to IndexedDB
+    await db.put(store_list_applicant, listApplicant, storeKey);
+}
+
+const getListApplicant = async () => {
+    const admin = getLoggedInUser()[0];
+    const storeKey = store_list_applicant + admin.user_id;
+
+    // Open a database
+    const db = await openDB('wewantu', 2, {
+        upgrade(db) {
+            // Create a store of objects
+            db.createObjectStore(store_list_applicant);
+        },
+    });
+
+    // Retrieve data from IndexedDB
+    const data = await db.get(store_list_applicant, storeKey);
+
+    return data;
+}
+
+
+const setAllUser = (alluser) => {
     localStorage.setItem('alluser', JSON.stringify(alluser));
 }
 
-const getAllUser = () => {
-    const alluser = localStorage.getItem('alluser');
-    return alluser ? (typeof (alluser) == 'object' ? alluser : JSON.parse(alluser)) : null;
+const getAllUser = async () => {
+    const admin = getLoggedInUser()[0];
+    const storeKey = store_list_applicant + admin.user_id;
+
+    // Open a database
+    const db = await openDB('wewantu', 2, {
+        upgrade(db) {
+            // Create a store of objects
+            db.createObjectStore(store_list_applicant);
+        },
+    });
+
+    // Retrieve data from IndexedDB
+    const data = await db.get(store_list_applicant, storeKey);
+
+    let listUser = [];
+
+    try {
+        listUser = JSON.parse(data);
+        listUser = listUser.map((item) => item.user)
+    } catch (error) {
+        console.log(error);
+    }
+
+    return listUser;
+
+    //const alluser = localStorage.getItem('alluser');
+    //return alluser ? (typeof (alluser) == 'object' ? alluser : JSON.parse(alluser)) : null;
 }
 
-const setProfessions = (professions) =>{
+const setProfessions = (professions) => {
     localStorage.setItem('professions', JSON.stringify(professions));
 }
 
@@ -62,7 +124,7 @@ const getProfessions = () => {
     return professions ? (typeof (alluser) == 'object' ? professions : JSON.parse(professions)) : null;
 }
 
-const setjob_search_profiles =(job_search_profile) =>{
+const setjob_search_profiles = (job_search_profile) => {
     /*const dataBody=job_search_profile && job_search_profile.map(info=>{
         return {
             job_search_profile_id:info.job_search_profile_id,
@@ -76,16 +138,16 @@ const setjob_search_profiles =(job_search_profile) =>{
     localStorage.setItem('job_search_profile', JSON.stringify(job_search_profile));
 }
 
-const getjob_search_profiles =() =>{
+const getjob_search_profiles = () => {
     const job_search_profile = localStorage.getItem('job_search_profile');
     return job_search_profile ? (typeof (user) == 'object' ? job_search_profile : JSON.parse(job_search_profile)) : null;
 }
 
-const setdriver_licenses =(driver_licenses) =>{
+const setdriver_licenses = (driver_licenses) => {
     localStorage.setItem('driver_licenses', JSON.stringify(driver_licenses));
 }
 
-const setjob_search_profiles_all =(job_search_profiles_all) =>{
+const setjob_search_profiles_all = (job_search_profiles_all) => {
     localStorage.setItem('job_search_profiles_all', JSON.stringify(job_search_profiles_all));
 }
 
@@ -94,36 +156,36 @@ const getjob_search_profiles_all = () => {
     return job_search_profile ? (typeof (user) == 'object' ? job_search_profile : JSON.parse(job_search_profile)) : null;
 }
 
-const getdriver_licenses =() =>{
-    
+const getdriver_licenses = () => {
+
     const driver_licenses = localStorage.getItem('driver_licenses');
     return driver_licenses ? (typeof (user) == 'object' ? driver_licenses : JSON.parse(driver_licenses)) : null;
 }
 
-const setjob =(job) =>{
+const setjob = (job) => {
     localStorage.setItem('job', JSON.stringify(job));
 }
 
-const getjob =() =>{
+const getjob = () => {
     const job = localStorage.getItem('job');
     return job ? (typeof (user) == 'object' ? job : JSON.parse(job)) : null;
 }
 
 
 
-const setlanguages =(languages) =>{
+const setlanguages = (languages) => {
     localStorage.setItem('languages', JSON.stringify(languages));
     localStorage.setItem('foreign_language', JSON.stringify(languages));
 }
 
-const getlanguages =() =>{
+const getlanguages = () => {
     const languages = localStorage.getItem('languages');
     return languages ? (typeof (user) == 'object' ? languages : JSON.parse(languages)) : null;
 }
 
-const getforeign_language =() =>{
+const getforeign_language = () => {
     const foreign_language = localStorage.getItem('foreign_language');
     return foreign_language ? (typeof (user) == 'object' ? foreign_language : JSON.parse(foreign_language)) : null;
 }
 
-export { getAllUser,setAllUser,getjob,setjob,isUserAuthenticated, setLoggedInUser, getLoggedInUser,setProfessions,getProfessions,getjob_search_profiles,setjob_search_profiles,getdriver_licenses,setdriver_licenses,getlanguages,setlanguages,getforeign_language, setjob_search_profiles_all,getjob_search_profiles_all };
+export { getListApplicant, saveListApplicant, getAllUser, setAllUser, getjob, setjob, isUserAuthenticated, setLoggedInUser, getLoggedInUser, setProfessions, getProfessions, getjob_search_profiles, setjob_search_profiles, getdriver_licenses, setdriver_licenses, getlanguages, setlanguages, getforeign_language, setjob_search_profiles_all, getjob_search_profiles_all };

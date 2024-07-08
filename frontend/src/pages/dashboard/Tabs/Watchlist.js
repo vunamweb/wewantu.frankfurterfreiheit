@@ -20,6 +20,8 @@ import JobSearchProfile from '../Component/JobSearchProfile';
 import UserDetail from '../Component/UserDetail';
 import config from '../../../config';
 
+let allUser = [];
+
 function Watchlist(props) {
 
 	document.title = "Watchlist | WEWANTU"
@@ -27,7 +29,7 @@ function Watchlist(props) {
 	const listUserProfile = useSelector(state => state.Layout.listUserProfile);
 
 	const admin = getLoggedInUser()[0];
-	const allUser = getAllUser();
+	//const allUser = getAllUser();
 	const loadwatchlist = props.loadwatchlist;
 	const professions = getProfessions();
 	const [loadlang, setloadlang] = useState(true);
@@ -98,6 +100,13 @@ function Watchlist(props) {
 
 
 	useEffect(() => {
+		getAllUser().then(listUser => {
+			allUser = listUser
+		})
+			.catch(error => {
+				console.error(error.message);
+			});
+
 		if (props.activeTab === 'watchlist') {
 			new APIClient().get('user/' + admin.user_id + '/user_watchlist').then(res => {
 				res = res.filter(item => item.type == 1);
@@ -385,7 +394,14 @@ function Watchlist(props) {
 		let info = values;
 		let hasPayment = false;
 		const currentUser = allUser.filter(val => (val.user_id === values.user_add_id))[0];
-		let id = currentUser.user_id + "-" + index;
+		let id = null;
+
+		try {
+			id = currentUser.user_id + "-" + index;
+		} catch (error) {
+			console.log(error);
+		}
+
 		plainOptions.push(id);
 
 		let hobbiesList, hobbies = '';
@@ -401,11 +417,11 @@ function Watchlist(props) {
 					hobbies = hobbies + hobbiesList[i];
 			}
 		} catch (error) {
-			hobbies = currentUser.hobbies;
+			hobbies = null; //currentUser.hobbies;
 		}
 
 		if (admin.userType != 0) {
-			const user_payment_message = userPayments.filter((payment) => { return payment.user_id_payment == info.user_add_id  });
+			const user_payment_message = userPayments.filter((payment) => { return payment.user_id_payment == info.user_add_id });
 			if (user_payment_message.length > 0) {
 				hasPayment = true;
 			}
@@ -419,8 +435,8 @@ function Watchlist(props) {
 		let prename = (!hasPayment && fieldsHide.includes("prename")) ? "*****" : currentUser.prename;
 		let lastname = (!hasPayment && fieldsHide.includes("lastname")) ? "*****" : currentUser.lastname;
 
-		let showButton = ((admin.use_lead == 1 && admin.credits>0) || admin.userType == 0);
-	
+		let showButton = ((admin.use_lead == 1 && admin.credits > 0) || admin.userType == 0);
+
 		if (currentUser != undefined)
 			return (
 				<>

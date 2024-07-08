@@ -4,13 +4,16 @@ import AddJob from '../Tabs/AddJob';
 import TableBody from "./TableBody";
 import TableHead from "./TableHead";
 import { APIClient } from '../../../helpers/apiClient';
-import { getLoggedInUser, getProfessions } from '../../../helpers/authUtils';
+import { getLoggedInUser, getProfessions, saveListApplicant } from '../../../helpers/authUtils';
 import { useTranslation } from 'react-i18next';
 import { setSearchFilterData } from '../../../redux/search/actions';
 import { useDispatch } from 'react-redux';
+import { setListUserProfile } from '../../../redux/actions';
+import config from "../../../../src/config";
 function JobsTable(props) {
     const admin = getLoggedInUser()[0];
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [isModalOpenadd, setIsModalOpenadd] = useState(false);
     const [job_search_profile_id, setjob_search_profile_id] = useState('');
     const [curindex, setcurindex] = useState('');
@@ -186,13 +189,59 @@ function JobsTable(props) {
                     }) * (-1)
                 );
             });
-            settableData(dataBody);
-            setIsModalOpenadd(false);
-            toggleTab('searchcenter', row);
+            // get list applicant
+            let data = {};
+            data.user_id = admin.user_id;
+
+            const urlListApplicant = config.API_URL + "list_applicant";
+
+            setIsLoading(true);
+
+            new APIClient().create(urlListApplicant, data).then(async list_applicant => {
+                if (list_applicant) {
+                    try {
+                        await saveListApplicant(JSON.stringify(list_applicant));
+                    } catch (error) {
+                        console.log(error);
+                        //list_applicant = [];
+                    }
+
+                    let companylist = await new APIClient().get('companylist');
+                    let addresslist = await new APIClient().get('addresslist');
+
+                    setIsLoading(false);
+
+                    renData(addresslist, list_applicant, companylist);
+
+                    settableData(dataBody);
+                    setIsModalOpenadd(false);
+                    toggleTab('searchcenter', row);
+                }
+            })
+
+            // end
         })
         //window.location.reload();
     };
 
+    const renData = (addresslist, searchJob, companylist) => {
+
+        let newsearchJob = [...searchJob]
+
+        newsearchJob.map((serJob, index) => {
+            let addr = {};
+            let company = {};
+            addr = addresslist !== null && addresslist.filter(item => item.address_id !== null && item.address_id.includes(serJob.user.address_id));
+            if (addr.length > 0)
+                newsearchJob[index].address = addr;
+            //let addr = addresslist !==null && addresslist.filter(item => item.address_id === );  
+            company = companylist !== null && companylist.filter(item => item.company_id !== null && item.company_id.includes(serJob.user.company_id))
+            if (company.length > 0)
+                newsearchJob[index].company = company;
+        });
+
+        setListUserProfile(newsearchJob);
+    }
 
     const columns = [
         { label: t('t_job_id').toUpperCase(), accessor: "job_id", sortable: true },
@@ -248,7 +297,7 @@ function JobsTable(props) {
                         <AddJob action="edit" job_search_profile_id={job_search_profile_id} setIsModalOpen={setIsModalOpen} updateRowEdit={updateRowEdit} AddRow={AddRow} />
                     </Modal>
                     <Modal open={isModalOpenadd} onCancel={handleCanceladd} width={1000} footer=" ">
-                        <AddJob setIsModalOpen={setIsModalOpen} updateRowEdit={updateRowEdit} AddRow={AddRow} />
+                        <AddJob isLoading={isLoading} setIsModalOpen={setIsModalOpen} updateRowEdit={updateRowEdit} AddRow={AddRow} />
                     </Modal>
                 </div>
             </div>

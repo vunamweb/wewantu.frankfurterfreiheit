@@ -15,12 +15,13 @@ import JobSearchProfile from '../Component/JobSearchProfile';
 import functions from '../../../function/function';
 import config from '../../../config';
 
+let allUser = [];
 
 function Blocklist(props) {
 
 	document.title = "Blocklist | WEWANTU"
 	const admin = getLoggedInUser()[0];
-	const allUser = getAllUser();
+	//const allUser = getAllUser();
 	const loadwatchlist = props.loadwatchlist;
 	const professions = getProfessions();
 
@@ -45,6 +46,9 @@ function Blocklist(props) {
 	const listUserProfile = useSelector(state => state.Layout.listUserProfile);
 
 	useEffect(() => {
+		getAllUser().then(listUser => {
+			allUser = listUser;
+		})
 
 		if (props.activeTab === 'blocklist') {
 			let watchlistLocal = localStorage.getItem('watchlist');

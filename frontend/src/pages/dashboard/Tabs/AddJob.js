@@ -165,6 +165,7 @@ const AddJob = (props) => {
                     form={form}
                     onFinish={onFinish}
                 >
+                    {props.isLoading && (<div className="loader"></div>)}
                     <div className="row g-3">
                         <div className="col-md-5">
                             <Form.Item name="job_decription" rules={[{
