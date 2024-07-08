@@ -240,7 +240,7 @@ function JobsTable(props) {
                 newsearchJob[index].company = company;
         });
 
-        setListUserProfile(newsearchJob);
+        dispatch(setListUserProfile(newsearchJob));
     }
 
     const columns = [
@@ -294,7 +294,7 @@ function JobsTable(props) {
                     </table>
 
                     <Modal open={isModalOpen} onCancel={handleCancel} width={1000} footer=" ">
-                        <AddJob action="edit" job_search_profile_id={job_search_profile_id} setIsModalOpen={setIsModalOpen} updateRowEdit={updateRowEdit} AddRow={AddRow} />
+                        <AddJob isLoading={isLoading} action="edit" job_search_profile_id={job_search_profile_id} setIsModalOpen={setIsModalOpen} updateRowEdit={updateRowEdit} AddRow={AddRow} />
                     </Modal>
                     <Modal open={isModalOpenadd} onCancel={handleCanceladd} width={1000} footer=" ">
                         <AddJob isLoading={isLoading} setIsModalOpen={setIsModalOpen} updateRowEdit={updateRowEdit} AddRow={AddRow} />

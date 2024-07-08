@@ -59,7 +59,7 @@ const AddJob = (props) => {
                     });
                     let newRow = values;
                     props.AddRow(newRow)
-                    props.setIsModalOpen(false)
+                    //props.setIsModalOpen(false)
                     toast.success("Update successfully")
                     
                     
