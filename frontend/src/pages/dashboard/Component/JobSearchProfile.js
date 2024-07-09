@@ -22,7 +22,7 @@ function JobSearchProfile({ categoryID, onClickJobProfile, onSelect, listJobProf
         try {
             listJobProfileUser.map((item, index) => {
                 userList = functions.getListUser(listJobProfileMobile, item);
-                checkExist = false;
+                checkExist = true;
 
                 // if in watchlist
                 if (Array.isArray(userList) && userList.length > 0) {

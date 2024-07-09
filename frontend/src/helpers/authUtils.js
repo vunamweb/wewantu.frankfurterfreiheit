@@ -1,5 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import { openDB } from 'idb';
+import functions from "../function/function";
 
 const store_list_applicant = 'list_applicant_';
 
@@ -50,6 +51,24 @@ const saveListApplicant = async (listApplicant) => {
     const admin = getLoggedInUser()[0];
     const storeKey = store_list_applicant + admin.user_id;
 
+    let listLocalApplicant = await getListApplicant();
+
+    if (listLocalApplicant == 'null' || listLocalApplicant == null) {
+        listLocalApplicant = listApplicant;
+    } else {
+        try {
+            listLocalApplicant = JSON.parse(listLocalApplicant);
+
+            listApplicant.map((item, index) => {
+                if (!functions.checkInList(listLocalApplicant, item))
+                    listLocalApplicant.push(item);
+
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     // Open a database
     const db = await openDB('wewantu', 2, {
         upgrade(db) {
@@ -59,7 +78,7 @@ const saveListApplicant = async (listApplicant) => {
     });
 
     // Save data to IndexedDB
-    await db.put(store_list_applicant, listApplicant, storeKey);
+    await db.put(store_list_applicant, JSON.stringify(listLocalApplicant), storeKey);
 }
 
 const getListApplicant = async () => {

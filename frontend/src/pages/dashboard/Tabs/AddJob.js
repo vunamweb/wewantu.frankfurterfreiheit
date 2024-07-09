@@ -58,7 +58,9 @@ const AddJob = (props) => {
                         'profession': selectedOptionEdit.profession
                     });
                     let newRow = values;
-                    props.AddRow(newRow)
+                    newRow.job_search_profile_id = props.job_search_profile_id;
+
+                    props.AddRow(newRow);
                     //props.setIsModalOpen(false)
                     toast.success("Update successfully")
                     
@@ -94,7 +96,8 @@ const AddJob = (props) => {
             new APIClient().create('job_search_profile', datapost).then(val => {
                 if (val.job_search_profile_id) {
                     let selectedOptionEdit = professions !== null && professions.find((option) => option.profession_id === datapost.profession_id);
-                    let newRow = values
+                    let newRow = values;
+                    newRow.job_search_profile_id = val.job_search_profile_id;
                     props.AddRow(newRow)
                     toast.success("Created successfully")
                     form.resetFields();

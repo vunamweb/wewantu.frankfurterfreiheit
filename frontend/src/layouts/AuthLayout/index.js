@@ -44,11 +44,12 @@ class Index extends Component {
         let data = {};
         data.user_id = admin.user_id;
 
-        let companylist = await new APIClient().get('companylist');
-        let addresslist = await new APIClient().get('addresslist');
+        //let companylist = await new APIClient().get('companylist');
+        //let addresslist = await new APIClient().get('addresslist');
 
-        let listAplicant = await getListApplicant();
+        //let listAplicant = await getListApplicant();
 
+        /*
         // if not save list of applicant in local
         if (listAplicant == null || listAplicant == undefined || listAplicant == 'null') {
             new APIClient().create(urlListApplicant, data).then(async list_applicant => {
@@ -72,11 +73,13 @@ class Index extends Component {
             }
 
             this.renData(addresslist, list_applicant, companylist);
-        }
+        } */
 
         //get rating
         let userRating = await new APIClient().get('user/' + admin.user_id + '/user_rating');
         this.props.setUserRating(userRating);
+
+        this.props.setListUserProfile([]);
     }
 
     renData(addresslist, searchJob, companylist) {

@@ -2,6 +2,7 @@ import { Select } from 'antd';
 import { t } from 'i18next';
 import Watchlist from '../pages/dashboard/Tabs/Watchlist';
 import { getLoggedInUser, getAllUser } from '../helpers/authUtils';
+import { object } from 'yup';
 
 class Functions {
     getNameJobFromId = (jobID) => {
@@ -13,13 +14,65 @@ class Functions {
 
             listJOB.map((item, index) => {
                 if (item.value == jobID)
-                nameJob = item.label;
+                    nameJob = item.label;
             })
         } catch (error) {
             console.log(error);
         }
 
         return nameJob;
+    }
+
+    checkInList = (lists, item) => {
+        try {
+            lists.map((list, index) => {
+                if (list.user.user_id == item.user.user_id)
+                    return true;
+            })
+        } catch (error) {
+            return false;
+        }
+
+        return false;
+    }
+
+    addManyAttributeForListApplicant = (listApplicant) => {
+        let result = [];
+
+        listApplicant.map((item, index) => {
+            let obj = {};
+
+            obj.address = item.address;
+            obj.user = item.user;
+
+            obj.profiles = [];
+            obj.profiles[0] = item;
+            delete obj.profiles[0].user;
+            delete obj.profiles[0].address;
+
+            result.push(obj);
+        })
+
+        return result;
+    }
+
+    renData = (addresslist, searchJob, companylist) => {
+
+        let newsearchJob = [...searchJob]
+
+        newsearchJob.map((serJob, index) => {
+            let addr = {};
+            let company = {};
+            addr = addresslist !== null && addresslist.filter(item => item.address_id !== null && item.address_id.includes(serJob.user.address_id));
+            if (addr.length > 0)
+                newsearchJob[index].address = addr;
+            //let addr = addresslist !==null && addresslist.filter(item => item.address_id === );  
+            company = companylist !== null && companylist.filter(item => item.company_id !== null && item.company_id.includes(serJob.user.company_id))
+            if (company.length > 0)
+                newsearchJob[index].company = company;
+        });
+
+        return newsearchJob;
     }
 
     getListJobProfileCurrent = (category_id, list, callBack) => {

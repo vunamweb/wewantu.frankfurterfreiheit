@@ -2,17 +2,19 @@ import React, { Component } from 'react';
 import SearchCenterTable from '../Tables/SearchCenterTable';
 import { Select } from "antd";
 import { APIClient } from '../../../helpers/apiClient';
-import { getLoggedInUser, getProfessions } from '../../../helpers/authUtils';
+import { getLoggedInUser, getProfessions, saveListApplicant } from '../../../helpers/authUtils';
 import { t } from 'i18next';
 import functions from '../../../function/function';
-import { connect, useSelector } from 'react-redux';
+import { connect, useSelector, useDispatch } from 'react-redux';
 import JobSearchProfile from '../Component/JobSearchProfile';
+import config from "../../../config";
+import { setListUserProfile } from '../../../redux/actions';
 
 class Searchcenter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            //loading: false,
+            loading: false,
             showListJob: true,
             searchData: [],
             listuser: [],
@@ -25,7 +27,8 @@ class Searchcenter extends Component {
             watchlist: [],
             limit: 5,
             countSearch: 0,
-            callBack: false
+            callBack: false,
+            listJobProfileMobile: []
         };
     }
 
@@ -33,6 +36,12 @@ class Searchcenter extends Component {
         this.state.searchItem = this.props.data;
         this.state.search = true;
 
+        if (this.props.data != null) {
+            let data = {};
+            data.job_search_profile_id = this.props.data.job_search_profile_id;
+
+            this.startSearch(data, this.props.data);
+        }
     }
 
     async componentDidUpdate(prevProps, prevState) {
@@ -51,7 +60,39 @@ class Searchcenter extends Component {
     }
 
     onClickJobProfile = (item) => {
-        this.setState({ search: true, loading: true, searchItem: item })
+        let data = {};
+        data.job_search_profile_id = item.job_search_profile_id;
+
+        this.startSearch(data, item);
+        //this.setState({ search: true, loading: true, searchItem: item })
+    }
+
+    startSearch = (data, searchItem) => {
+        const urlListApplicant = config.API_URL + "list_applicant_test";
+
+        this.setState({ loading: true });
+
+        new APIClient().create(urlListApplicant, data).then(async list_applicant => {
+            if (list_applicant) {
+                try {
+                    console.log(list_applicant);
+                    let newListApplicant = functions.addManyAttributeForListApplicant(list_applicant);
+                    let companylist = await new APIClient().get('companylist');
+                    let addresslist = await new APIClient().get('addresslist');
+
+                    let render = functions.renData(addresslist, newListApplicant, companylist);
+
+                    this.setState({ listJobProfileMobile: render, searchItem: searchItem, loading: false });
+
+                    await saveListApplicant(render);
+                } catch (error) {
+                    console.log(error);
+                    //list_applicant = [];
+                }
+
+                //this.renData(addresslist, list_applicant, companylist);
+            }
+        })
     }
 
     getFirstListofApplicant = (listUser) => {
@@ -73,7 +114,8 @@ class Searchcenter extends Component {
         document.title = "SEARCH CENTER | WEWANTU"
         const professions = getProfessions();
 
-        this.state.listJobProfileMobile = this.props.listJobProfileMobile;
+        //this.state.listJobProfileMobile = this.props.listJobProfileMobile;
+        //this.state.listJobProfileMobile = this.props.listJobProfileMobile;
 
         const onChange = (categoryID) => {
             //let resultSearch = this.getJobProfile(values);
@@ -141,7 +183,7 @@ class Searchcenter extends Component {
         return (
             <>
                 <React.Fragment>
-                    {/* {loading && (<div className="loader"></div>)} */}
+                    {loading == true && (<div className="loader"></div>)}
                     {(showListJob) && <JobSearchProfile listJobProfileMobile={this.state.listJobProfileMobile} onSelect={onChange} categoryID={this.state.categoryID} onClickJobProfile={this.onClickJobProfile} />}
                     <div class="main-mes">
                         <div className="main_job">

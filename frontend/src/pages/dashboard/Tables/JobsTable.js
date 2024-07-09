@@ -189,37 +189,8 @@ function JobsTable(props) {
                     }) * (-1)
                 );
             });
-            // get list applicant
-            let data = {};
-            data.user_id = admin.user_id;
-
-            const urlListApplicant = config.API_URL + "list_applicant";
-
-            setIsLoading(true);
-
-            new APIClient().create(urlListApplicant, data).then(async list_applicant => {
-                if (list_applicant) {
-                    try {
-                        await saveListApplicant(JSON.stringify(list_applicant));
-                    } catch (error) {
-                        console.log(error);
-                        //list_applicant = [];
-                    }
-
-                    let companylist = await new APIClient().get('companylist');
-                    let addresslist = await new APIClient().get('addresslist');
-
-                    setIsLoading(false);
-
-                    renData(addresslist, list_applicant, companylist);
-
-                    settableData(dataBody);
-                    setIsModalOpenadd(false);
-                    toggleTab('searchcenter', row);
-                }
-            })
-
-            // end
+            dispatch(setSearchFilterData(row));
+            props.setActiveTab("searchcenter");
         })
         //window.location.reload();
     };
