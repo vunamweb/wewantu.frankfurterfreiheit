@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import config from '../../../config';
 
 
-function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClick, handleBlockClick, setActiveTab, isWatchlist }) {
+function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClick, handleBlockClick, setActiveTab, isWatchlist, onNext, onPrev }) {
     // const job_search_profile = job_search_profile
     const currentUser = user;
     const currentIndex = index;
@@ -59,6 +59,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
 
     useEffect(() => {
         if (currentUser && currentUser.user) {
+            // console.log(123);
             new APIClient().get('user/' + admin.user_id + '/user_template').then(res => {
                 if (res.length > 0) {
                     let tmp = currentUser.user.prename + ' ' + currentUser.user.lastname; //+ ',\r' + res[0].description;
@@ -73,7 +74,7 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
             if (admin.userType != 0)
                 new APIClient().get('user/' + admin.user_id + '/user_payment').then(res => {
                     if (res.length > 0) {
-                        let user_payment_list = res.filter((payment) => { return payment.user_id_payment == currentUser.user.user_id  });
+                        let user_payment_list = res.filter((payment) => { return payment.user_id_payment == currentUser.user.user_id });
                         if (user_payment_list.length > 0) {
                             setHasPayment(true);
                         }
@@ -186,153 +187,168 @@ function UserDetail({ isModalOpen, user, index, handleCancelDetail, handleWLClic
                         modules={[Scrollbar]}
                         className="mySwiper"
                     >
+                        <div className='row'>
+                            <div class="col-md-1">
+                                <a href='javascript:void(0)'>
+                                    PREV
+                                </a>
+                            </div>
+                            <div className='col-md-10'>
+                                {tableData && tableData.map((item, idx) => {
+                                    let hobbiesList, hobbies = '';
 
-                        {tableData && tableData.map((item, idx) => {
-                            let hobbiesList, hobbies = '';
+                                    let fieldsHide = config.USER_FIELD_HIDE;
 
-                            let fieldsHide = config.USER_FIELD_HIDE;
+                                    let prename = (!hasPayment && fieldsHide.includes("prename")) ? "*****" : item.user.prename;
+                                    let lastname = (!hasPayment && fieldsHide.includes("lastname")) ? "*****" : item.user.lastname;
+                                    let city = (!hasPayment && fieldsHide.includes("city")) ? "*****" : item.address[0].city;
+                                    let postal_code = (!hasPayment && fieldsHide.includes("postal_code")) ? "*****" : item.address[0].postal_code;
+                                    let country = (!hasPayment && fieldsHide.includes("country")) ? "*****" : item.address[0].country;
+                                    let year_birthday = (!hasPayment && fieldsHide.includes("year_birthday")) ? "*****" : item.address[0].year_birthday;
 
-                            let prename = (!hasPayment && fieldsHide.includes("prename")) ? "*****" : item.user.prename;
-                            let lastname = (!hasPayment && fieldsHide.includes("lastname")) ? "*****" : item.user.lastname;
-                            let city = (!hasPayment && fieldsHide.includes("city")) ? "*****" : item.address[0].city;
-                            let postal_code = (!hasPayment && fieldsHide.includes("postal_code")) ? "*****" : item.address[0].postal_code;
-                            let country = (!hasPayment && fieldsHide.includes("country")) ? "*****" : item.address[0].country;
-                            let year_birthday = (!hasPayment && fieldsHide.includes("year_birthday")) ? "*****" : item.address[0].year_birthday;
+                                    try {
+                                        hobbiesList = item.user.hobbies;
+                                        hobbiesList = JSON.parse(hobbiesList);
 
-                            try {
-                                hobbiesList = item.user.hobbies;
-                                hobbiesList = JSON.parse(hobbiesList);
+                                        for (let i = 0; i < hobbiesList.length; i++) {
+                                            if (i < hobbiesList.length - 1)
+                                                hobbies = hobbies + hobbiesList[i] + ', ';
+                                            else
+                                                hobbies = hobbies + hobbiesList[i];
+                                        }
+                                    } catch (error) {
+                                        hobbies = item.user.hobbies;
+                                    }
 
-                                for (let i = 0; i < hobbiesList.length; i++) {
-                                    if (i < hobbiesList.length - 1)
-                                        hobbies = hobbies + hobbiesList[i] + ', ';
-                                    else
-                                        hobbies = hobbies + hobbiesList[i];
-                                }
-                            } catch (error) {
-                                hobbies = item.user.hobbies;
-                            }
+                                    return (
+                                        <SwiperSlide>
+                                            <div className="row details">
+                                                <div className='col-md-1'><a href='#' onClick={() => onPrev()}>PREV</a></div>
+                                                <div className="col-md-3 pleft">
+                                                    <Avatar className='avatar' size={80}>{(item.user.prename.slice(0, 1)).toUpperCase()}{(item.user.lastname.slice(0, 1)).toUpperCase()}</Avatar>
+                                                    <div className="name">{prename} {lastname}</div>
+                                                    <div className='popup-infor' style={{ "paddingTop": "%5" }}><img src="assets/img/year.svg" alt='' /><span style={{ "paddingLeft": "10px" }}>{year_birthday}</span></div>
+                                                    <div className='popup-infor'><img src="assets/img/location.svg" alt='' /><span style={{ "paddingLeft": "10px" }}>{postal_code} {city} {country ? ',' + country : ''}</span></div>
 
-                            return (
-                                <SwiperSlide>
-                                    <div className="row details">
-                                        <div className="col-md-4 pleft">
-                                            <Avatar className='avatar' size={80}>{(item.user.prename.slice(0, 1)).toUpperCase()}{(item.user.lastname.slice(0, 1)).toUpperCase()}</Avatar>
-                                            <div className="name">{prename} {lastname}</div>
-                                            <div className='popup-infor' style={{ "paddingTop": "%5" }}><img src="assets/img/year.svg" alt='' /><span style={{ "paddingLeft": "10px" }}>{year_birthday}</span></div>
-                                            <div className='popup-infor'><img src="assets/img/location.svg" alt='' /><span style={{ "paddingLeft": "10px" }}>{postal_code} {city} {country ? ',' + country : ''}</span></div>
+                                                    <div class="rating"><RatingStar user_id={item.user.user_id} /></div>
 
-                                            <div class="rating"><RatingStar user_id={item.user.user_id} /></div>
+                                                    {(handleWLClick) &&  // chỉ hiển thị với detail từ search center
+                                                        <div className="modal-footer">
+                                                            <button disabled={isWatchlist} type="button" className="btn btn-primary btn-sm button-search" onClick={() => { blockwatclist() }}><span className='profile-search'>{t('t_dont_show_again').toUpperCase()}</span></button>
+                                                            <button disabled={isWatchlist} type="primary" className="btn btn-primary btn-sm button-search" onClick={() => { addwatclist() }}><span className='profile-search'>{t('t_add_to_watchlist').toUpperCase()}</span></button>
+                                                            <button type="button" className="btn btn-primary btn-sm button-search" onClick={() => { toggleTab('credits') }}><span className='profile-search'>send E-Mail ? check Credit?</span></button>
+                                                            <button type="button" className="hide btn btn-primary btn-sm button-search" onClick={() => { toggleTab('credits') }}><span className='profile-search'>{t('t_get_lead_for_x_credit').toUpperCase()}</span></button>
+                                                        </div>
+                                                    }
 
-                                            {(handleWLClick) &&  // chỉ hiển thị với detail từ search center
-                                                <div className="modal-footer">
-                                                    <button disabled={isWatchlist} type="button" className="btn btn-primary btn-sm button-search" onClick={() => { blockwatclist() }}><span className='profile-search'>{t('t_dont_show_again').toUpperCase()}</span></button>
-                                                    <button disabled={isWatchlist} type="primary" className="btn btn-primary btn-sm button-search" onClick={() => { addwatclist() }}><span className='profile-search'>{t('t_add_to_watchlist').toUpperCase()}</span></button>
-                                                    <button type="button" className="btn btn-primary btn-sm button-search" onClick={() => { toggleTab('credits') }}><span className='profile-search'>send E-Mail ? check Credit?</span></button>
-                                                    <button type="button" className="hide btn btn-primary btn-sm button-search" onClick={() => { toggleTab('credits') }}><span className='profile-search'>{t('t_get_lead_for_x_credit').toUpperCase()}</span></button>
                                                 </div>
-                                            }
-
-                                        </div>
-                                        <div className="col-md-8 about-1">
-                                            <div className="row" style={{ "paddingTop": "2%" }}>
-                                                {/* <div className='popup-infor-1'>
+                                                <div className="col-md-7 about-1">
+                                                    <div className="row" style={{ "paddingTop": "2%" }}>
+                                                        {/* <div className='popup-infor-1'>
                                                     <img src="assets/img/location.svg" alt='' /> {item.address[0].house_number} {item.address[0].street} {item.address[0].state} {item.address[0].city} {item.plz_at_job_location} {item.address[0].postal_code}
                                                     </div> */}
-                                                <span class="hide">{t('t_job_profile')}</span><br /><br />
-                                                {
-                                                    item.profiles.map((item, index) => {
-                                                        item.job_id = (item.job_id != undefined) ? item.job_id : 0;
+                                                        <span class="hide">{t('t_job_profile')}</span><br /><br />
+                                                        {
+                                                            item.profiles.map((item, index) => {
+                                                                item.job_id = (item.job_id != undefined) ? item.job_id : 0;
 
-                                                        let jobLabel = getNameJobFromId(item.job_id);
-                                                        let ambition = "";
-                                                        if (item.ambitions) {
-                                                            let ambitions = JSON.parse(item.ambitions.ambition);
-                                                            ambition = ambitions[language];
+                                                                let jobLabel = getNameJobFromId(item.job_id);
+                                                                let ambition = "";
+                                                                if (item.ambitions) {
+                                                                    let ambitions = JSON.parse(item.ambitions.ambition);
+                                                                    ambition = ambitions[language];
+                                                                }
+                                                                let salary = new Intl.NumberFormat('de-DE', {
+                                                                    style: 'currency',
+                                                                    currency: 'EUR'
+                                                                }).format(item.desired_salary * 500);
+
+                                                                return (
+                                                                    <div class="row">
+
+                                                                        <div className="col-md-4 gray">
+                                                                            <span>{t('t_job_desire')}</span><br />
+                                                                            <span>{t('t_location')}</span><br />
+                                                                            <span>{t('t_salary_request')}</span><br />
+                                                                            <span>{t('t_working_hours_week')}</span><br />
+                                                                            <span>{t('t_days_week')}</span><br />
+                                                                            <span>{t('t_holiday_days')}</span><br />
+                                                                            <span>{t('t_home_office')}</span><br />
+                                                                            <span>{t('t_working_on weekends')}</span><br />
+                                                                            <span>{t('t_night_work')}</span><br />
+                                                                            <span>{t('t_ambitions')}</span><br />
+                                                                        </div>
+                                                                        <div className="col-md-8 bold">
+                                                                            <span>{jobLabel}</span><br />
+                                                                            <span>{item.max_distance} km {t("t_distance_to")} {item.postalcode}</span><br />
+                                                                            <span>{salary}</span><br />
+                                                                            <span>{item.desired_weekly_hours} {t("t_hours")}</span><br />
+                                                                            <span>{item.desired_working_days_per_week} {t("t_days")}</span><br />
+                                                                            <span>{item.desired_holiday_days_per_year} {t("t_days")}</span><br />
+                                                                            <span>{t(item.desired_work_at_home.value.toLowerCase())}</span><br />
+                                                                            <span>{t(item.desired_work_at_weekend.value.toLowerCase())}</span><br />
+                                                                            <span>{t(item.desired_work_at_night.value.toLowerCase())}</span><br />
+                                                                            <span>{ambition}</span><br />
+
+                                                                        </div>
+
+                                                                        <hr />
+                                                                    </div>
+                                                                )
+                                                            })
                                                         }
-                                                        let salary = new Intl.NumberFormat('de-DE', {
-                                                            style: 'currency',
-                                                            currency: 'EUR'
-                                                        }).format(item.desired_salary * 500);
-
-                                                        return (
-                                                            <div class="row">
-
-                                                                <div className="col-md-4 gray">
-                                                                    <span>{t('t_job_desire')}</span><br />
-                                                                    <span>{t('t_location')}</span><br />
-                                                                    <span>{t('t_salary_request')}</span><br />
-                                                                    <span>{t('t_working_hours_week')}</span><br />
-                                                                    <span>{t('t_days_week')}</span><br />
-                                                                    <span>{t('t_holiday_days')}</span><br />
-                                                                    <span>{t('t_home_office')}</span><br />
-                                                                    <span>{t('t_working_on weekends')}</span><br />
-                                                                    <span>{t('t_night_work')}</span><br />
-                                                                    <span>{t('t_ambitions')}</span><br />
-                                                                </div>
-                                                                <div className="col-md-8 bold">
-                                                                    <span>{jobLabel}</span><br />
-                                                                    <span>{item.max_distance} km {t("t_distance_to")} {item.postalcode}</span><br />
-                                                                    <span>{salary}</span><br />
-                                                                    <span>{item.desired_weekly_hours} {t("t_hours")}</span><br />
-                                                                    <span>{item.desired_working_days_per_week} {t("t_days")}</span><br />
-                                                                    <span>{item.desired_holiday_days_per_year} {t("t_days")}</span><br />
-                                                                    <span>{t(item.desired_work_at_home.value.toLowerCase())}</span><br />
-                                                                    <span>{t(item.desired_work_at_weekend.value.toLowerCase())}</span><br />
-                                                                    <span>{t(item.desired_work_at_night.value.toLowerCase())}</span><br />
-                                                                    <span>{ambition}</span><br />
-
-                                                                </div>
-
-                                                                <hr />
-                                                            </div>
-                                                        )
-                                                    })
-                                                }
-                                            </div>
-                                            <div className="row" style={{ "paddingTop": "2%" }}>
-                                                <div className="row">
-                                                    <div className='row'>
-                                                        <div className='col-md-4 gray'><span>{t('t_place_of_residence')}</span></div>
-                                                        <div className="col-md-8 bold"><span>{item.address[0].house_number} {item.address[0].street} {item.address[0].state} {item.address[0].city}{item.address[0].country ? ', ' + item.address[0].country : ''}</span></div>
                                                     </div>
+                                                    <div className="row" style={{ "paddingTop": "2%" }}>
+                                                        <div className="row">
+                                                            <div className='row'>
+                                                                <div className='col-md-4 gray'><span>{t('t_place_of_residence')}</span></div>
+                                                                <div className="col-md-8 bold"><span>{item.address[0].house_number} {item.address[0].street} {item.address[0].state} {item.address[0].city}{item.address[0].country ? ', ' + item.address[0].country : ''}</span></div>
+                                                            </div>
 
 
-                                                    <div className='row'>
-                                                        <div className='col-md-4 gray'><span>{t('t_language_knowledge')}</span></div>
-                                                        <div className="col-md-8 bold">
-                                                            {
-                                                                item.languages !== null ? renderlang(item.languages) : ''
-                                                            }
-                                                            {
-                                                                item.languages !== null ? rendervalue(item.languages) : ''
-                                                            }
+                                                            <div className='row'>
+                                                                <div className='col-md-4 gray'><span>{t('t_language_knowledge')}</span></div>
+                                                                <div className="col-md-8 bold">
+                                                                    {
+                                                                        item.languages !== null ? renderlang(item.languages) : ''
+                                                                    }
+                                                                    {
+                                                                        item.languages !== null ? rendervalue(item.languages) : ''
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                            <div className='row'>
+                                                                <div className='col-md-4 gray'>{rendereducational_stageskey(item.educational_stages)}</div>
+                                                                <div className="col-md-8 bold">{rendereducational_stagesvalue(item.educational_stages)}</div>
+                                                            </div>
+                                                            <div className='row'>
+                                                                <div className='col-md-4 gray'><span>{t("t_driver_s_license")}</span></div>
+                                                                <div className="col-md-8 bold"><span>{renderdriver_licenses(item.driver_licenses)}</span></div>
+                                                            </div>
+                                                            <div className='row'>
+                                                                <div className='col-md-4 gray'><span>{t('t_passenger_transport')}</span></div>
+                                                                <div className="col-md-8 bold"><span>{item.user.passenger_transport === 0 ? t('that_s_obvious') : t('people_what')}</span></div>
+                                                            </div>
+                                                            <div className='row'>
+                                                                <div className='col-md-4 gray'><span>{t('t_hobbies')}</span></div>
+                                                                <div className="col-md-8 bold"> <span>{hobbies}</span></div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div className='row'>
-                                                        <div className='col-md-4 gray'>{rendereducational_stageskey(item.educational_stages)}</div>
-                                                        <div className="col-md-8 bold">{rendereducational_stagesvalue(item.educational_stages)}</div>
-                                                    </div>
-                                                    <div className='row'>
-                                                        <div className='col-md-4 gray'><span>{t("t_driver_s_license")}</span></div>
-                                                        <div className="col-md-8 bold"><span>{renderdriver_licenses(item.driver_licenses)}</span></div>
-                                                    </div>
-                                                    <div className='row'>
-                                                        <div className='col-md-4 gray'><span>{t('t_passenger_transport')}</span></div>
-                                                        <div className="col-md-8 bold"><span>{item.user.passenger_transport === 0 ? t('that_s_obvious') : t('people_what')}</span></div>
-                                                    </div>
-                                                    <div className='row'>
-                                                        <div className='col-md-4 gray'><span>{t('t_hobbies')}</span></div>
-                                                        <div className="col-md-8 bold"> <span>{hobbies}</span></div>
-                                                    </div>
                                                 </div>
+                                                <div className='col-md-1'><a href='#' onClick={() => onNext()} >NEXT</a></div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                            )
-                        }
-                        )}
+                                        </SwiperSlide>
+                                    )
+                                }
+                                )}
+                            </div>
+                            <div class="col-md-1">
+                                <a href='javascript:void(0)'>
+                                    NEXT
+                                </a>
+                            </div>
+                        </div>
                     </Swiper>
                 }
             </Modal>

@@ -227,6 +227,20 @@ function SearchCenterDisplay(props) {
 
     }, [JsonData]);
 
+    const onNextDetail = () => {
+        if (currentIndex < JsonData.length) {
+            setcurrentUser(JsonData[currentIndex + 1]);
+            setcurrentIndex(currentIndex + 1);
+        }
+    }
+
+    const onPrevDetail = () => {
+        if (currentIndex > 0) {
+
+            setcurrentUser(JsonData[currentIndex - 1]);
+            setcurrentIndex(currentIndex - 1);
+        }
+    }
 
 
     return (
@@ -238,7 +252,7 @@ function SearchCenterDisplay(props) {
 
                 </div>
             </div>
-            {Object.keys(currentUser).length > 0 && (<UserDetail isWatchlist={isWatchlist[currentUser.user.user_id]} user={currentUser} handleWLClick={handleWLClick} handleBlockClick={handleBlockClick} handleHiddenClick={handleHiddenClick} currentIndex={currentIndex} isModalOpen={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />)}
+            {Object.keys(currentUser).length > 0 && (<UserDetail onNext={onNextDetail} onPrev={onPrevDetail} isWatchlist={isWatchlist[currentUser.user.user_id]} user={currentUser} handleWLClick={handleWLClick} handleBlockClick={handleBlockClick} handleHiddenClick={handleHiddenClick} currentIndex={currentIndex} isModalOpen={isModalOpenDetail} handleCancelDetail={handleCancelDetail} />)}
             {Object.keys(currentUser).length > 0 && (<SerchCenterWachlistModal currentUser={currentUser} JsonData={JsonData ? JsonData : null} isModalOpen={isModalOpen} handleCancel={handleCancel} />)}
         </React.Fragment>
 
