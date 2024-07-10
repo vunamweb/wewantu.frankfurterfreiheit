@@ -21,12 +21,13 @@ import UserDetail from '../Component/UserDetail';
 import config from '../../../config';
 
 let allUser = [];
+let listUserProfile;
 
 function Watchlist(props) {
 
 	document.title = "Watchlist | WEWANTU"
 	const language = useSelector(state => state.Layout.language);
-	const listUserProfile = useSelector(state => state.Layout.listUserProfile);
+	//let listUserProfile; //= useSelector(state => state.Layout.listUserProfile);
 
 	const admin = getLoggedInUser()[0];
 	//const allUser = getAllUser();
@@ -100,16 +101,19 @@ function Watchlist(props) {
 
 
 	useEffect(() => {
-		getAllUser().then(listUser => {
+		/*getAllUser().then(listUser => {
 			allUser = listUser
 		})
 			.catch(error => {
 				console.error(error.message);
-			});
+			});*/
 
 		if (props.activeTab === 'watchlist') {
 			new APIClient().get('user/' + admin.user_id + '/user_watchlist').then(res => {
 				res = res.filter(item => item.type == 1);
+
+				allUser = res;
+				listUserProfile = functions.convertListOfWatchlist(res);
 
 				if (res.length > 0) {
 

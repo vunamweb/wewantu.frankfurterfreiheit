@@ -56,6 +56,31 @@ class Functions {
         return result;
     }
 
+    convertListOfWatchlist = (list) => {
+        let result = [];
+
+        list.map((item, index) => {
+            let obj = {};
+            obj.user = item;
+
+            item.desired_work_at_home = {};
+            item.desired_work_at_home.value = 'No';
+
+            item.desired_work_at_weekend = {};
+            item.desired_work_at_weekend.value = 'Yes';
+
+            item.desired_work_at_night = {};
+            item.desired_work_at_night.value = 'Maybe';
+
+            obj.profiles = [];
+            obj.profiles[0] = item;
+            
+            result.push(obj);
+        })
+
+        return result;
+    }
+
     renData = (addresslist, searchJob, companylist) => {
 
         let newsearchJob = [...searchJob]

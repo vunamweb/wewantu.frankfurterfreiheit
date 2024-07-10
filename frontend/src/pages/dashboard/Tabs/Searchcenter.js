@@ -84,7 +84,7 @@ class Searchcenter extends Component {
 
                     this.setState({ listJobProfileMobile: render, searchItem: searchItem, loading: false });
 
-                    await saveListApplicant(render);
+                    //await saveListApplicant(render);
                 } catch (error) {
                     console.log(error);
                     //list_applicant = [];
