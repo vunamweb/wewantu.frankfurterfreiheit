@@ -25,6 +25,13 @@
 
 Explore the live application here: [https://wewantu.frankfurterfreiheit.de/](https://wewantu.frankfurterfreiheit.de/)
 
+## Screenshot
+
+![App Screenshot](./screenshot1.png)
+![App Screenshot](./screenshot1.png)
+![App Screenshot](./screenshot1.png)
+
+
 ## Installation
 
 To set up the project locally, follow these steps:
