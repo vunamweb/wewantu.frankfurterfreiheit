@@ -1,7 +1,7 @@
 
 # WeWantu – Frankfurter Freiheit
 
-**WeWantu** is a React.js-based web application developed as part of the [Frankfurter Freiheit](https://frankfurterfreiheit.de/) initiative. The application aims to connect users with local events and activities in Frankfurt.
+**WeWantu** is a React.js-based web application developed as part of the [Frankfurter Freiheit](https://frankfurterfreiheit.de/) initiative. The application aims to connect job seekers with potential employers in the Frankfurt area.
 
 ## Table of Contents
 
@@ -15,10 +15,11 @@
 
 ## Features
 
-- User authentication and profile management
-- Event browsing and registration
-- Interactive map integration
-- Responsive design for mobile and desktop
+- User registration and login for job seekers and employers
+- Job listings and employer profiles
+- Search functionality to find job opportunities by category, keyword, or location
+- Real-time chat between job seekers and employers using Firebase
+- Responsive design optimized for both desktop and mobile devices
 
 ## Demo
 
@@ -60,13 +61,15 @@ To set up the project locally, follow these steps:
 After starting the development server:
 
 - Open your browser and navigate to `http://localhost:3000`.
-- Explore the application's features, such as browsing events, registering, and managing your profile.
+- Job seekers can register, browse job listings, and message employers.
+- Employers can post jobs and communicate with applicants in real-time.
 
 ## Technologies Used
 
 - **React.js** – Front-end library for building user interfaces
 - **React Router** – Routing library for React
 - **Axios** – Promise-based HTTP client for the browser
+- **Firebase** – Backend-as-a-Service for real-time chat and authentication
 - **SCSS** – CSS preprocessor for enhanced styling
 - **HTML5 & CSS3** – Markup and styling
 - **JavaScript (ES6+)** – Scripting language for dynamic functionality
