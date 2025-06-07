@@ -25,12 +25,13 @@
 
 Explore the live application here: [https://wewantu.frankfurterfreiheit.de/](https://wewantu.frankfurterfreiheit.de/)
 
-## Screenshot
-
-![App Screenshot](./screenshot1.png)
-![App Screenshot](./screenshot1.png)
-![App Screenshot](./screenshot1.png)
-
+📸 Screenshots
+| Page | Description |
+|------|-------------|
+| ![Homepage](1.png) | **Homepage**: Modern, responsive homepage showcasing featured categories, offers, and custom-designed wall decals. |
+| ![Search Page](2.png) | **Category Page**: Clean grid layout with filters for size, color, theme, and more. Users can easily find the right product. |
+| ![Detail employee Page](3.png) | **Product Page**: Detailed view with high-resolution images, live color preview, size options, and related products. |
+| ![Chat Page](4.png) | **Shopping Cart**: Simple and intuitive cart system with editable quantities, shipping estimator, and coupon support. |
 
 ## Installation
 
